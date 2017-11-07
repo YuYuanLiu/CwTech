@@ -16,7 +16,7 @@ namespace SensingNet.UnitTest
         {
 
 
-            //
+            //test
             var waves = new List<double[]>();
             double[] finalWave = null;
             {
