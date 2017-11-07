@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentAutomation", "IntelligentAutomation\IntelligentAutomation.csproj", "{B294F30D-1AD6-441B-A8C5-5517D66F12EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CToolkit", "..\ctoolkit.csharp\CToolkit\CToolkit\CToolkit.csproj", "{7D28AA10-20B5-444A-990D-EF664646B169}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CToolkit", "..\ctoolkit.csharp\CToolkit\CToolkit.csproj", "{7D28AA10-20B5-444A-990D-EF664646B169}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet", "SensingNet\SensingNet.csproj", "{5E17AB06-38F0-4F7D-92CC-AEBD354DED1E}"
 EndProject
