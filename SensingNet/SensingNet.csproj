@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5E17AB06-38F0-4F7D-92CC-AEBD354DED1E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SensingNet</RootNamespace>
+    <AssemblyName>SensingNet</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Cudafy.NET">
+      <HintPath>..\DLL\CudafyV1.29\bin\Cudafy.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Filtering, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\MathNet.Filtering.0.3.0\lib\net40\MathNet.Filtering.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Filtering.Kalman, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\MathNet.Filtering.Kalman.0.3.0\lib\net40\MathNet.Filtering.Kalman.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\DLL\MathNet.Numerics.3.12.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\DLL\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlarmMgr\AlarmCfg.cs" />
+    <Compile Include="AlarmMgr\AlarmMgrExecer.cs" />
+    <Compile Include="AlarmMgr\AlarmMgrCfg.cs" />
+    <Compile Include="AlarmMgr\AlarmHandler.cs" />
+    <Compile Include="AlarmMgr\AlarmEventArgs.cs" />
+    <Compile Include="EnumHandlerStatus.cs" />
+    <Compile Include="EnumPassFilter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecsMgr\EnumStatisticsMethod.cs" />
+    <Compile Include="SecsMgr\EventArgsSecsRcvData.cs" />
+    <Compile Include="SecsMgr\QSecsCfg.cs" />
+    <Compile Include="SecsMgr\QSecsHandler.cs" />
+    <Compile Include="SecsMgr\QSecsHandlerSvidData.cs" />
+    <Compile Include="SecsMgr\QSvidCfg.cs" />
+    <Compile Include="SecsMgr\SecsMgrExecer.cs" />
+    <Compile Include="SecsMgr\SecsMgrCfg.cs" />
+    <Compile Include="SignalEventArgs.cs" />
+    <Compile Include="SignalMgr\ProtoEthernetPhdData.cs" />
+    <Compile Include="SignalMgr\ProtoEthernetPhd.cs" />
+    <Compile Include="SignalMgr\SignalMgrCfg.cs" />
+    <Compile Include="SignalMgr\DeviceCfg.cs" />
+    <Compile Include="SignalMgr\SignalCfg.cs" />
+    <Compile Include="SensingNetException.cs" />
+    <Compile Include="SignalMgr\SignalMgrExecer.cs" />
+    <Compile Include="SignalMgr\EnumProtocol.cs" />
+    <Compile Include="SignalMgr\ProtoEthernet.cs" />
+    <Compile Include="SignalMgr\ProtoEthernetBase.cs" />
+    <Compile Include="SignalMgr\ProtoEthernetCmd.cs" />
+    <Compile Include="SignalMgr\ProtoEthernetSecs.cs" />
+    <Compile Include="SignalMgr\ProtoEventArgs.cs" />
+    <Compile Include="SignalMgr\ProtoHandler.cs" />
+    <Compile Include="SignalMgr\ProtoStorage.cs" />
+    <Compile Include="SignalMgr\ProtoStorageFile.cs" />
+    <Compile Include="SimulateCmdProto.cs" />
+    <Compile Include="Storage\Format_Csv_0.cs" />
+    <Compile Include="Storage\Format_Tsv_0.cs" />
+    <Compile Include="Storage\StorageInfo.cs" />
+    <Compile Include="Storage\StorageInfoHeader.cs" />
+    <Compile Include="Storage\SignalCollector.cs" />
+    <Compile Include="Storage\SignalPerSec.cs" />
+    <Compile Include="Util.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CToolkit\CToolkit\CToolkit.csproj">
+      <Project>{7d28aa10-20b5-444a-990d-ef664646b169}</Project>
+      <Name>CToolkit</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DLL\CudafyV1.29\lib.net40\Cudafy.NET.dll" />
+    <Content Include="DLL\CudafyV1.29\CUDA.NET.Readme.txt" />
+    <Content Include="DLL\CudafyV1.29\CUDAfy-License.txt" />
+    <Content Include="DLL\CudafyV1.29\Go to bin folder and run CudafyViewer.exe.txt" />
+    <Content Include="DLL\CudafyV1.29\ILSpy-license.txt" />
+    <Content Include="DLL\CudafyV1.29\README.txt" />
+    <Content Include="DLL\MathNet.Filtering.0.3.0\lib\net35\MathNet.Filtering.dll" />
+    <Content Include="DLL\MathNet.Filtering.0.3.0\lib\net35\MathNet.Filtering.xml" />
+    <Content Include="DLL\MathNet.Filtering.0.3.0\lib\net40\MathNet.Filtering.dll" />
+    <Content Include="DLL\MathNet.Filtering.0.3.0\lib\net40\MathNet.Filtering.xml" />
+    <Content Include="DLL\MathNet.Filtering.0.3.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\MathNet.Filtering.dll" />
+    <Content Include="DLL\MathNet.Filtering.0.3.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\MathNet.Filtering.XML" />
+    <Content Include="DLL\MathNet.Filtering.0.3.0\license.txt" />
+    <Content Include="DLL\MathNet.Filtering.0.3.0\readme.txt" />
+    <Content Include="DLL\MathNet.Filtering.Kalman.0.3.0\lib\net35\MathNet.Filtering.Kalman.dll" />
+    <Content Include="DLL\MathNet.Filtering.Kalman.0.3.0\lib\net35\MathNet.Filtering.Kalman.xml" />
+    <Content Include="DLL\MathNet.Filtering.Kalman.0.3.0\lib\net40\MathNet.Filtering.Kalman.dll" />
+    <Content Include="DLL\MathNet.Filtering.Kalman.0.3.0\lib\net40\MathNet.Filtering.Kalman.xml" />
+    <Content Include="DLL\MathNet.Filtering.Kalman.0.3.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\MathNet.Filtering.Kalman.dll" />
+    <Content Include="DLL\MathNet.Filtering.Kalman.0.3.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\MathNet.Filtering.Kalman.XML" />
+    <Content Include="DLL\MathNet.Filtering.Kalman.0.3.0\license.txt" />
+    <Content Include="DLL\MathNet.Filtering.Kalman.0.3.0\readme.txt" />
+    <Content Include="DLL\MathNet.Numerics.3.12.0\lib\net40\MathNet.Numerics.dll" />
+    <Content Include="DLL\MathNet.Numerics.3.12.0\lib\net40\MathNet.Numerics.xml" />
+    <Content Include="DLL\MathNet.Numerics.3.12.0\license.txt" />
+    <Content Include="DLL\MathNet.Numerics.3.12.0\readme.txt" />
+    <Content Include="DLL\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll" />
+    <Content Include="DLL\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Config\DeviceConfigRef\simulate.vibration.device.config" />
+    <None Include="DLL\CudafyV1.29\CUDAfy API Documentation.url" />
+    <None Include="DLL\MathNet.Filtering.0.3.0\MathNet.Filtering.0.3.0.nupkg" />
+    <None Include="DLL\MathNet.Filtering.Kalman.0.3.0\MathNet.Filtering.Kalman.0.3.0.nupkg" />
+    <None Include="DLL\Newtonsoft.Json.9.0.1\tools\install.ps1" />
+    <None Include="Config\AlarmConfigRef\simulate.alarm.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

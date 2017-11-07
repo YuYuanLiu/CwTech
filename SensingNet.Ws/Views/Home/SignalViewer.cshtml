@@ -1,0 +1,93 @@
+﻿@{
+    //ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<style>
+    .c3-area {
+        opacity: 1;
+    }
+</style>
+
+<script type='text/javascript'>
+    $(function () {
+        var chart = c3.generate({
+            data: {
+                columns: [
+                    ['Max', 300, 350, 300, 290, 225, 220],
+                    ['Avg', 250, 320, 280, 250, 170, 180],
+                    ['Min', 230, 300, 240, 200, 150, 150]
+                ],
+                types: {
+                    Max: 'area',
+                    Avg: 'line',
+                    Min: 'area'
+                },
+                colors: {
+                    Max: '#aaccdd',
+                    Avg: '#006699',
+                    Min: '#fff'
+                }
+
+            },
+            point: {
+                r: 3
+            }
+        });
+
+        $('[tagType=datetimepicker]').datetimepicker();
+
+    });
+</script>
+
+
+
+<div class="jumbotron">
+
+    <h4>Signal Query</h4>
+    <form class="form-inline">
+        <div class="form-group ">
+            <label class="control-label col-md-2">Start</label>
+            <div class='input-group date col-md-4' tagType='datetimepicker'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">End</label>
+            <div class='input-group date col-md-4' tagType='datetimepicker'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class='col-md-4'>
+                Form End
+            </div>
+            <div class='col-md-4'>
+                <button type="submit" class="btn btn-primary">Query</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div class="row">
+
+
+
+
+    <div class="col-md-12">
+
+        <div id="chart"></div>
+
+
+
+
+    </div>
+
+</div>
