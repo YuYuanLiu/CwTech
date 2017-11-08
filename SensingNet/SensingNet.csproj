@@ -32,15 +32,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cudafy.NET">
-      <HintPath>..\DLL\CudafyV1.29\bin\Cudafy.NET.dll</HintPath>
+      <HintPath>..\DLL\CudafyV1.29\lib.net40\Cudafy.NET.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Filtering, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLL\MathNet.Filtering.0.3.0\lib\net40\MathNet.Filtering.dll</HintPath>
+      <HintPath>..\DLL\MathNet.Filtering.0.3.0\lib\net40\MathNet.Filtering.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Filtering.Kalman, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLL\MathNet.Filtering.Kalman.0.3.0\lib\net40\MathNet.Filtering.Kalman.dll</HintPath>
+      <HintPath>..\DLL\MathNet.Filtering.Kalman.0.3.0\lib\net40\MathNet.Filtering.Kalman.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics">
       <HintPath>..\DLL\MathNet.Numerics.3.12.0\lib\net40\MathNet.Numerics.dll</HintPath>
@@ -101,7 +101,7 @@
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit\CToolkit\CToolkit.csproj">
+    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit\CToolkit.csproj">
       <Project>{7d28aa10-20b5-444a-990d-ef664646b169}</Project>
       <Name>CToolkit</Name>
     </ProjectReference>
