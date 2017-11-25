@@ -1,0 +1,109 @@
+#include <SPI.h>
+#include <Ethernet.h>
+#include "SEMI_HSMS.h"
+#include "SEMI_E37.h"
+
+// Enter a MAC address and IP address for your controller below.
+// The IP address will be dependent on your local network.
+// gateway and subnet are optional:
+byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
+IPAddress ip(192, 168, 1, 179);
+IPAddress myDns(192,168,1, 1);
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 0, 0);
+
+//port
+EthernetServer server(5000);
+boolean alreadyConnected = false; // whether or not the client was connected previously
+
+boolean DHCP_Flag = false;
+boolean Has_RecvData = false;
+
+byte recv_buff[RECV_BUFF_MAX] = {0};
+int recv_len=0;
+byte send_buff[SEND_BUFF_MAX] = {0};
+int send_len=0;
+
+SEMI_E37 SEMIe37;
+
+void setup() {
+  // put your setup code here, to run once:
+  if(DHCP_Flag)
+  {
+    // DHCP
+    // initialize the ethernet device
+    //if (Ethernet.begin(mac) == 0) {
+    //  Serial.println("無法取得 IP 位址");
+    //  // 無法取得 IP 位址，不做任何事情
+    //}
+  }
+  else
+  {
+    // 指定IP
+    Ethernet.begin(mac, ip, myDns, gateway, subnet);
+  }
+  // start listening for clients
+  server.begin();
+  // Open serial communications and wait for port to open:
+  Serial.begin(115200);
+  while (!Serial) 
+  {
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
+  Serial.print("Chat server address:");
+  Serial.println(Ethernet.localIP());
+
+  SEMIe37.INIT_SEMI_E37(&recv_buff[0], &recv_len, &send_buff[0], &send_len);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  // wait for a new client:
+  EthernetClient client = server.available();
+  if(client){
+    int ReadData;
+    if (client.available() > 0) {
+      Has_RecvData = true;
+      recv_len = client.available();
+      for(int i = 0 ; i < recv_len ; i++){
+        recv_buff[i] = client.read();
+
+        //for debug, need to delete
+        //====================================
+        Serial.print(recv_buff[i]);
+        Serial.print(",");
+        //====================================
+      }
+      Serial.println(" ");//for debug, need to delete
+    }
+  }
+
+  //Echo Test
+  if(Has_RecvData == true){
+    Has_RecvData = false;
+//    if(SEMIe37.MSG_Analyze(recv_buff, recv_len, &send_buff[0], &send_len)){
+    if(SEMIe37.MSG_Analyze()){
+      if(send_len > 0){
+        server.write(send_buff, send_len);
+
+        //for debug, need to delete
+        //====================================
+        for(int i = 0 ; i < send_len ; i++){
+          Serial.print(send_buff[i]);Serial.print(",");}Serial.println(" ");
+        //====================================
+        Clear_Buff();
+      }
+    }
+  }
+
+}
+
+void Clear_Buff(void)
+{
+  recv_len = 0;
+  send_len = 0;
+  for(int i =0 ; i < RECV_BUFF_MAX; i++)
+    recv_buff[i] = 0;
+  for(int i =0 ; i < SEND_BUFF_MAX; i++)
+    send_buff[i] = 0;   
+}
