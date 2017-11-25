@@ -9,7 +9,7 @@ namespace SensingNet
     public class Util
     {
 
-
+        //test
         
         public static int DoBgWorkerAsync(DoWorkEventHandler method)
         {
