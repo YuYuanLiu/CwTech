@@ -9,5 +9,7 @@ namespace SensingNet
     public class SensingNetException : Exception
     {
         public SensingNetException(string msg) : base(msg) { }
+
+
     }
 }
