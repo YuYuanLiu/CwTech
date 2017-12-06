@@ -1,4 +1,4 @@
-﻿using System;
+﻿\[;888using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MathNet.Numerics;
 using System.ComponentModel;
