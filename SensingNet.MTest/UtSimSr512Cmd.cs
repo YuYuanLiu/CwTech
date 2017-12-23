@@ -6,7 +6,7 @@ using CToolkit.Net;
 using SensingNet.SignalMgr;
 using System.Collections.Generic;
 
-namespace SensingNet.UnitTest
+namespace SensingNet.MyTest
 {
     [TestClass]
     public class UtSimSr512Cmd
@@ -15,8 +15,6 @@ namespace SensingNet.UnitTest
         public void TestMethod1()
         {
 
-
-            //test
             var waves = new List<double[]>();
             double[] finalWave = null;
             {
@@ -39,8 +37,6 @@ namespace SensingNet.UnitTest
 
 
 
-
-
             var scfglist = new List<SignalCfg>();
             scfglist.Add(new SignalCfg()
             {
@@ -60,7 +56,7 @@ namespace SensingNet.UnitTest
                 TxMode = EnumProtocol.Command,
                 IsActivelyConnect = false,
                 IsActivelyTx = false,
-                TxInterval = 1000,
+                TxInterval = 0,
                 TimeoutResponse = 2000,
 
                 SignalCfgList = scfglist,
@@ -97,6 +93,7 @@ namespace SensingNet.UnitTest
 
 
                 var rcvWave = new List<double>();
+                var sendIdx = 0;
 
                 Test_CtkTcpListener_Asyn.Test(
                       "127.0.0.1",
@@ -109,7 +106,9 @@ namespace SensingNet.UnitTest
                       delegate (Test_CtkTcpListener_Asyn obj, byte[] buffer, int length)
                       {
                           if (!obj.acceptClient.Connected) return 0;
-
+                          System.Threading.Thread.Sleep(1);
+                          sendIdx = (sendIdx + 1) % finalWave.Length;
+                          obj.WriteMsg("cmd -respData -svid 0 -data " + finalWave[sendIdx]);
 
                           return 0;
                       },
