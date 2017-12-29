@@ -88,7 +88,7 @@
     <Compile Include="Protocol\EnumProtocol.cs" />
     <Compile Include="SignalMgr\ProtoEthernet.cs" />
     <Compile Include="Protocol\ProtoEthernetBase.cs" />
-    <Compile Include="Protocol\ProtoEthernetCmd.cs" />
+    <Compile Include="Protocol\ProtoEthernetCwcCmd.cs" />
     <Compile Include="Protocol\ProtoEthernetSecs.cs" />
     <Compile Include="Protocol\ProtoEventArgs.cs" />
     <Compile Include="SignalMgr\ProtoHandler.cs" />

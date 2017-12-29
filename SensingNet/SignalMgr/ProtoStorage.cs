@@ -52,6 +52,9 @@ namespace SensingNet.SignalMgr
                     cd.stream.Write(",{0}", ea.calibrateData[idx]);
                 cd.stream.WriteLine();
 
+
+                DeleteOld(signalCfg, dir);
+
             }
             {//當前資料, 每秒
 
@@ -117,14 +120,35 @@ namespace SensingNet.SignalMgr
             }
         }
 
+        void DeleteOld(SignalCfg signalCfg, String dir)
+        {
+            var now = DateTime.Now;
+            var datetime = now.AddSeconds(-signalCfg.PurgeTimestamp);
+            var di = new DirectoryInfo(dir);
+
+            
+            var qf = (from d in di.GetDirectories()
+                      orderby d.Name
+                      select d).ToList();
+            for (int idx = 0; idx < qf.Count - 100; idx++)
+            {
+                qf[idx].Delete();
+            }
+
+            foreach(var d in di.GetDirectories())
+            {
+                if (string.Compare(d.Name, "dt" + datetime.ToString("yyyyMMdd"), true) < 0)
+                    d.Delete(true);
+            }
+
+
+        }
 
         void DeleteOldCurrent(String dir)
         {
-            var datetime = DateTime.Now.AddMinutes(-1);
-            var di = new DirectoryInfo(dir);
-
+            //var datetime = DateTime.Now.AddMinutes(-1);
             //var fn = string.Format("dt{0}.signal", datetime.ToString("yyyyMMddHHmmss"));
-
+            var di = new DirectoryInfo(dir);
             var qf = (from f in di.GetFiles()
                       orderby f.Name
                       select f).ToList();
@@ -132,9 +156,9 @@ namespace SensingNet.SignalMgr
             {
                 qf[idx].Delete();
             }
-
-
         }
+
+     
 
     }
 }

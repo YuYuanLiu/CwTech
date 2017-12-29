@@ -9,7 +9,7 @@ namespace SensingNet.Protocol
 {
     public class ProtoEthernetCwcCmd : ProtoEthernetBase
     {
-        public StringBuilder rcvSb = new StringBuilder();
+        StringBuilder rcvSb = new StringBuilder();
         List<UInt32> rcvBytes = new List<UInt32>();
         Queue<String> cmdQueue = new Queue<String>();
 

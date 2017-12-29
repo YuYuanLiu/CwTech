@@ -22,6 +22,7 @@ namespace SensingNet.SignalMgr
 
 
         public String StorageDirectory = "Signals/toolid/svid";
+        public long PurgeTimestamp = 180 * 24 * 60 * 60;//預設Purge Rule 
 
     }
 }
