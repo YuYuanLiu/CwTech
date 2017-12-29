@@ -1,4 +1,5 @@
 ﻿using CToolkit;
+using SensingNet.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Threading;

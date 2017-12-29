@@ -1,18 +1,20 @@
-﻿using System;
+﻿using SensingNet.SignalMgr;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 
-namespace SensingNet.SignalMgr
+namespace SensingNet.Protocol
 {
     public abstract class ProtoEthernetBase
     {
         public DeviceCfg dConfig;
 
-        public virtual void FirstConnect(NetworkStream stream)
+        public virtual void FirstConnect(Stream stream)
         {
-
+            throw new NotImplementedException();
         }
 
         public virtual void ReceiveBytes(byte[] buffer, int offset, int length)
@@ -29,19 +31,24 @@ namespace SensingNet.SignalMgr
         public virtual bool IsReceiving() { throw new NotImplementedException(); }
         public virtual bool hasMessage() { throw new NotImplementedException(); }
 
-        public virtual bool AnalysisData(NetworkStream stream)
+
+
+        public virtual bool AnalysisData(Stream stream)
         {
             throw new NotImplementedException();
         }
 
-        public virtual void WriteMsg(NetworkStream stream, String msg)
+
+
+
+        public virtual void WriteMsg(Stream stream, String msg)
         {
             if (!stream.CanWrite)
                 return;
             var buffer = Encoding.UTF8.GetBytes(msg);
             this.WriteMsg(stream, buffer);
         }
-        public virtual void WriteMsg(NetworkStream stream, byte[] buffer)
+        public virtual void WriteMsg(Stream stream, byte[] buffer)
         {
             if (!stream.CanWrite)
                 return;
@@ -51,15 +58,15 @@ namespace SensingNet.SignalMgr
         }
 
 
-        public virtual void WriteMsg_Tx(NetworkStream stream)
+        public virtual void WriteMsg_Tx(Stream stream)
         {
             throw new NotImplementedException();
         }
-        public virtual void WriteMsg_TxDataReq(NetworkStream stream)
+        public virtual void WriteMsg_TxDataReq(Stream stream)
         {
             throw new NotImplementedException();
         }
-        public virtual void WriteMsg_TxDataAck(NetworkStream stream)
+        public virtual void WriteMsg_TxDataAck(Stream stream)
         {
             throw new NotImplementedException();
         }

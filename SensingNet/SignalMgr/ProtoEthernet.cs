@@ -1,4 +1,5 @@
 ﻿using CToolkit.Logging;
+using SensingNet.Protocol;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -50,8 +51,8 @@ namespace SensingNet.SignalMgr
             this.remote = r;
 
             this.dConfig = dConfig;
-            if (this.dConfig.TxMode == EnumProtocol.Command)
-                this.protoEthComm = new ProtoEthernetCmd();
+            if (this.dConfig.TxMode == EnumProtocol.CwcCmd)
+                this.protoEthComm = new ProtoEthernetCwcCmd();
             else if (this.dConfig.TxMode == EnumProtocol.Phd)
                 this.protoEthComm = new ProtoEthernetPhd();
             else

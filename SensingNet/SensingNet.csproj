@@ -78,19 +78,19 @@
     <Compile Include="SecsMgr\SecsMgrExecer.cs" />
     <Compile Include="SecsMgr\SecsMgrCfg.cs" />
     <Compile Include="SignalEventArgs.cs" />
-    <Compile Include="SignalMgr\ProtoEthernetPhdData.cs" />
-    <Compile Include="SignalMgr\ProtoEthernetPhd.cs" />
+    <Compile Include="Protocol\ProtoEthernetPhdData.cs" />
+    <Compile Include="Protocol\ProtoEthernetPhd.cs" />
     <Compile Include="SignalMgr\SignalMgrCfg.cs" />
     <Compile Include="SignalMgr\DeviceCfg.cs" />
     <Compile Include="SignalMgr\SignalCfg.cs" />
     <Compile Include="SensingNetException.cs" />
     <Compile Include="SignalMgr\SignalMgrExecer.cs" />
-    <Compile Include="SignalMgr\EnumProtocol.cs" />
+    <Compile Include="Protocol\EnumProtocol.cs" />
     <Compile Include="SignalMgr\ProtoEthernet.cs" />
-    <Compile Include="SignalMgr\ProtoEthernetBase.cs" />
-    <Compile Include="SignalMgr\ProtoEthernetCmd.cs" />
-    <Compile Include="SignalMgr\ProtoEthernetSecs.cs" />
-    <Compile Include="SignalMgr\ProtoEventArgs.cs" />
+    <Compile Include="Protocol\ProtoEthernetBase.cs" />
+    <Compile Include="Protocol\ProtoEthernetCmd.cs" />
+    <Compile Include="Protocol\ProtoEthernetSecs.cs" />
+    <Compile Include="Protocol\ProtoEventArgs.cs" />
     <Compile Include="SignalMgr\ProtoHandler.cs" />
     <Compile Include="SignalMgr\ProtoStorage.cs" />
     <Compile Include="SignalMgr\ProtoStorageFile.cs" />
@@ -148,6 +148,9 @@
     <None Include="Config\AlarmConfigRef\simulate.alarm.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sensor\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

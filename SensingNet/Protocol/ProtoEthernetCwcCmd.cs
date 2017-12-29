@@ -5,16 +5,16 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 
-namespace SensingNet.SignalMgr
+namespace SensingNet.Protocol
 {
-    public class ProtoEthernetCmd : ProtoEthernetBase
+    public class ProtoEthernetCwcCmd : ProtoEthernetBase
     {
         public StringBuilder rcvSb = new StringBuilder();
         List<UInt32> rcvBytes = new List<UInt32>();
         Queue<String> cmdQueue = new Queue<String>();
 
 
-        public override void FirstConnect(NetworkStream stream)
+        public override void FirstConnect(Stream stream)
         {
             this.WriteMsg_Tx(stream);
         }
@@ -54,7 +54,7 @@ namespace SensingNet.SignalMgr
 
 
 
-        public override bool AnalysisData(NetworkStream stream)
+        public override bool AnalysisData(Stream stream)
         {
             var result = this.cmdQueue.Count > 0;
             var line = "";
@@ -109,18 +109,18 @@ namespace SensingNet.SignalMgr
 
 
 
-        public override void WriteMsg_Tx(NetworkStream stream)
+        public override void WriteMsg_Tx(Stream stream)
         {
             if (this.dConfig.IsActivelyTx)
                 this.WriteMsg_TxDataAck(stream);
             else
                 this.WriteMsg_TxDataReq(stream);
         }
-        public override void WriteMsg_TxDataReq(NetworkStream stream)
+        public override void WriteMsg_TxDataReq(Stream stream)
         {
             this.WriteMsg(stream, TxReqMsg);
         }
-        public override void WriteMsg_TxDataAck(NetworkStream stream)
+        public override void WriteMsg_TxDataAck(Stream stream)
         {
             this.WriteMsg(stream, TxReqAck);
         }
@@ -162,33 +162,7 @@ namespace SensingNet.SignalMgr
         public static byte[] TxReqMsg = Encoding.UTF8.GetBytes("cmd -reqData \n");
         public static byte[] TxReqAck = Encoding.UTF8.GetBytes("\n");//減少處理量, 只以換行作為Ack
 
-
-        [Obsolete("忘記幹嘛用的了")]
-        int ConvertReceiveDataToUIn32(ProtoEthernet state, int length)
-        {
-            byte[] tempBuffer = new byte[8];
-            int len = 0;
-
-            using (var bufferStream = new MemoryStream(state.Buffer, 0, length))
-            using (var br = new BinaryReader(bufferStream))
-            {
-                while (br.BaseStream.Length - br.BaseStream.Position >= 5)
-                {
-                    lock (this)
-                    {
-                        UInt32 intVal = br.ReadUInt32();
-                        if (intVal < (1 << 24))
-                            this.rcvBytes.Add(intVal);
-
-                    }
-                }
-                len = br.Read(tempBuffer, 0, tempBuffer.Length);
-            }
-            Array.Copy(tempBuffer, state.Buffer, len);
-
-            return len;
-
-        }
+        
 
 
     }

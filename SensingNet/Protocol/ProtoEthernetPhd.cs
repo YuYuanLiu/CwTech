@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 
-namespace SensingNet.SignalMgr
+namespace SensingNet.Protocol
 {
     public class ProtoEthernetPhd : ProtoEthernetBase
     {
@@ -14,7 +14,7 @@ namespace SensingNet.SignalMgr
         Queue<String> cmdQueue = new Queue<String>();
 
 
-        public override void FirstConnect(NetworkStream stream)
+        public override void FirstConnect(Stream stream)
         {
             //this.WriteMsg_Tx(stream);
         }
@@ -54,7 +54,7 @@ namespace SensingNet.SignalMgr
 
 
 
-        public override bool AnalysisData(NetworkStream stream)
+        public override bool AnalysisData(Stream stream)
         {
             var result = hasMessage();
             var line = "";
@@ -278,7 +278,7 @@ namespace SensingNet.SignalMgr
 
 
 
-        public override void WriteMsg_Tx(NetworkStream stream)
+        public override void WriteMsg_Tx(Stream stream)
         {
             /*
             if (this.dConfig.IsActivelyTx)
@@ -287,11 +287,11 @@ namespace SensingNet.SignalMgr
                 this.WriteMsg_TxDataReq(stream);*/
         }
 
-        public override void WriteMsg_TxDataReq(NetworkStream stream)
+        public override void WriteMsg_TxDataReq(Stream stream)
         {
             //this.WriteMsg(stream, TxReqMsg);
         }
-        public override void WriteMsg_TxDataAck(NetworkStream stream)
+        public override void WriteMsg_TxDataAck(Stream stream)
         {
             //this.WriteMsg(stream, TxReqAck);
         }

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using CToolkit.Net;
 using SensingNet.SignalMgr;
 using System.Collections.Generic;
+using SensingNet.Protocol;
 
 namespace SensingNet.MyTest
 {
@@ -53,7 +54,7 @@ namespace SensingNet.MyTest
             {
                 RemoteIp = "127.0.0.1",
                 RemotePort = 5000,
-                TxMode = EnumProtocol.Command,
+                TxMode = EnumProtocol.CwcCmd,
                 IsActivelyConnect = false,
                 IsActivelyTx = false,
                 TxInterval = 0,

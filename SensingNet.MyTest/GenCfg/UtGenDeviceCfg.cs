@@ -32,7 +32,7 @@ namespace SensingNet.MyTest.GenCfg
                 RemoteIp = "192.168.123.201",
                 RemotePort = 5000,
                 DeviceName = "test201.vibartion",
-                TxMode = SignalMgr.EnumProtocol.Command,
+                TxMode = Protocol.EnumProtocol.CwcCmd,
                 IsActivelyTx = true,
                 IsActivelyConnect = true,
                 TxInterval = 2000,

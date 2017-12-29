@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 
-namespace SensingNet.SignalMgr
+namespace SensingNet.Protocol
 {
     public class ProtoEthernetSecs : ProtoEthernetBase, IDisposable
     {
@@ -18,7 +18,7 @@ namespace SensingNet.SignalMgr
 
 
 
-        public override void FirstConnect(NetworkStream stream)
+        public override void FirstConnect(Stream stream)
         {
             var txMsg = HsmsMessage.CtrlMsg_SelectReq();
             this.WriteMsg(stream, txMsg.ToBytes());
@@ -43,7 +43,7 @@ namespace SensingNet.SignalMgr
             return this.hsmsMsgRcv.Count > 0;
         }
 
-        public override bool AnalysisData(NetworkStream stream)
+        public override bool AnalysisData(Stream stream)
         {
             var result = this.hsmsMsgRcv.Count > 0;
 
@@ -96,14 +96,14 @@ namespace SensingNet.SignalMgr
 
         }
 
-        public override void WriteMsg_Tx(NetworkStream stream)
+        public override void WriteMsg_Tx(Stream stream)
         {
             if (this.dConfig.IsActivelyTx)
                 this.WriteMsg_TxDataAck(stream);
             else
                 this.WriteMsg_TxDataReq(stream);
         }
-        public override void WriteMsg_TxDataReq(NetworkStream stream)
+        public override void WriteMsg_TxDataReq(Stream stream)
         {
 
             var txMsg = new CToolkit.Secs.HsmsMessage();
@@ -124,7 +124,7 @@ namespace SensingNet.SignalMgr
             this.WriteMsg(stream, txMsg.ToBytes());
 
         }
-        public override void WriteMsg_TxDataAck(NetworkStream stream)
+        public override void WriteMsg_TxDataAck(Stream stream)
         {
             throw new NotImplementedException("目前不存在主動SECS傳送的Device");
         }
