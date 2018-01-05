@@ -1,4 +1,4 @@
-﻿using CToolkit;
+using CToolkit;
 using CToolkit.Logging;
 using CToolkit.Secs;
 using System;
@@ -83,6 +83,8 @@ namespace SensingNet.SecsMgr
         {
             this.configs.UpdateIfOverTime();
 
+
+            //廣播
             foreach (var qsecscfg in this.configs)
             {
                 if (!handlers.ContainsKey(qsecscfg.Key))
@@ -90,6 +92,8 @@ namespace SensingNet.SecsMgr
 
                 var sh = handlers[qsecscfg.Key];
                 sh.cfg = qsecscfg.Value;
+
+                //執行, 有相關的Handler自己處理
                 sh.DoRcvSignalData(sea);
             }
 
