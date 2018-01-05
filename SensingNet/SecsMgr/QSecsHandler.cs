@@ -1,5 +1,6 @@
-﻿using CToolkit;
+using CToolkit;
 using CToolkit.Secs;
+using SensingNet.Storage;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,7 +40,7 @@ namespace SensingNet.SecsMgr
             var localIp = CtkUtil.GetLikelyFirstIp(this.cfg.RemoteIp, this.cfg.LocalIp);
             if (localIp == null) throw new Exception("無法取得在地IP");
             hsmsConnector.local = new IPEndPoint(localIp, this.cfg.LocalPort);
-            hsmsConnector.evtReceiveData += delegate (Object sen, HsmsConnector_EventArgsRcvData evt)
+            hsmsConnector.evtReceiveData += delegate(Object sen, HsmsConnector_EventArgsRcvData evt)
             {
 
                 var myMsg = evt.msg;
@@ -69,7 +70,7 @@ namespace SensingNet.SecsMgr
 
         public int CfLoad()
         {
-            CToolkit.CtkUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
+            CToolkit.CtkUtil.RunWorkerAsyn(delegate(object sender, DoWorkEventArgs e)
             {
                 for (int idx = 0; !this.disposed; idx++)
                 {
@@ -168,28 +169,32 @@ namespace SensingNet.SecsMgr
 
         }
 
-        public double StatisticsValue(UInt32 qsvid)
+
+
+        public bool StatisticsValue(UInt32 qsvid, SignalCollector signalCollector, out double val)
         {
+            val = 0;
             foreach (var qsvidcfg in this.cfg.QSvidCfgList)
             {
                 if (qsvidcfg.QSvid != qsvid) continue;
 
-                var qsvidData = this.GetSignalCollector(qsvidcfg.QSvid);
-                var collector = qsvidData.SignalCollector;
-                collector.RefreshTime();
-                if (collector.Count == 0) return 0;
+                signalCollector.RefreshTime();
+                if (signalCollector.Count == 0) return false;
                 switch (qsvidcfg.StatisticsMethod)
                 {
                     case EnumStatisticsMethod.Max:
-                        return collector.signals.Max();
+                        val = signalCollector.signals.Max();
+                        return true;
                     case EnumStatisticsMethod.Min:
-                        return collector.signals.Min();
+                        val = signalCollector.signals.Min();
+                        return true;
                     case EnumStatisticsMethod.Average:
-                        return collector.signals.Average();
+                        val = signalCollector.signals.Average();
+                        return true;
                 }
             }
 
-            return 0;
+            return false;
         }
 
         public bool StatisticsValue(UInt32 qsvid, out double val)
@@ -201,24 +206,20 @@ namespace SensingNet.SecsMgr
 
                 var qsvidData = this.GetSignalCollector(qsvidcfg.QSvid);
                 var collector = qsvidData.SignalCollector;
-                collector.RefreshTime();
-                if (collector.Count == 0) return false;
-                switch (qsvidcfg.StatisticsMethod)
-                {
-                    case EnumStatisticsMethod.Max:
-                        val = collector.signals.Max();
-                        return true;
-                    case EnumStatisticsMethod.Min:
-                        val = collector.signals.Min();
-                        return true;
-                    case EnumStatisticsMethod.Average:
-                        val = collector.signals.Average();
-                        return true;
-                }
+                return this.StatisticsValue(qsvid, collector, out val);
             }
-
             return false;
         }
+
+
+        public double StatisticsValue(UInt32 qsvid)
+        {
+            var val = 0.0;
+            this.StatisticsValue(qsvid, out val);
+            return val;
+        }
+
+     
 
 
 
