@@ -1,5 +1,6 @@
 ﻿using CToolkit;
 using SensingNet.Protocol;
+using SensingNet.Storage;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -12,7 +13,7 @@ namespace SensingNet.SignalMgr
         public SignalMgrCfg arConfig;
         public const String DEFAULT_DEVICE_CONFIGS_FOLDER = "Config/DeviceConfigs";
         public CToolkit.Config.ConfigCollector<DeviceCfg> configs = new CToolkit.Config.ConfigCollector<DeviceCfg>();
-        Dictionary<String, ProtoHandler> handlers = new Dictionary<String, ProtoHandler>();
+        Dictionary<String, SignalHandler> handlers = new Dictionary<String, SignalHandler>();
         public bool isExec = false;
 
 
@@ -88,10 +89,10 @@ namespace SensingNet.SignalMgr
             //有Config的會執行CfRun
             foreach (var cfg in this.configs)
             {
-                ProtoHandler hdl = null;
+                SignalHandler hdl = null;
                 if (!this.handlers.ContainsKey(cfg.Key))
                 {
-                    hdl = new ProtoHandler();
+                    hdl = new SignalHandler();
                     this.handlers.Add(cfg.Key, hdl);
                 }
                 else { hdl = this.handlers[cfg.Key]; }
@@ -103,16 +104,14 @@ namespace SensingNet.SignalMgr
                 if (hdl.status == EnumHandlerStatus.None)
                 {
                     hdl.CfInit();
-                    hdl.evtCapture += delegate (object sender, ProtoEventArgs e)
+                    hdl.evtSignalCapture += delegate (object sender, SignalEventArgs e)
                     {
-                        if (this.evtCapture == null) return;
-                        this.OnCapture(e as SignalEventArgs);
+                        //TODO: 應該再往外提, 由使用者決定是否要存成檔案
+                        hdl.storager.Write(e);
+                        this.OnSignalCapture(e);
                     };
+                    hdl.storager.evtCurrentFileChanged += delegate (object sender, FileStorageEventArgs e) { this.OnCurrentFileChanged(e); };
 
-                    hdl.storager.evtCurrentFileChanged += delegate (object sender, EventArgs e)
-                    {
-                        
-                    };
                     hdl.status = EnumHandlerStatus.Init;
                 }
                 if (hdl.status == EnumHandlerStatus.Init)
@@ -132,7 +131,7 @@ namespace SensingNet.SignalMgr
 
 
             //沒有Config的會關閉Device
-            var removeHandlers = new Dictionary<String, ProtoHandler>();
+            var removeHandlers = new Dictionary<String, SignalHandler>();
             foreach (var kvdh in this.handlers)
             {
                 var dh = kvdh.Value;
@@ -156,16 +155,23 @@ namespace SensingNet.SignalMgr
             }
         }
 
-        
+
 
 
 
         #region Event
-        public event EventHandler<SignalEventArgs> evtCapture;
-        void OnCapture(SignalEventArgs e)
+        public event EventHandler<SignalEventArgs> evtSignalCapture;
+        void OnSignalCapture(SignalEventArgs e)
         {
-            if (evtCapture == null) return;
-            this.evtCapture(this, e);
+            if (evtSignalCapture == null) return;
+            this.evtSignalCapture(this, e);
+        }
+
+        public event EventHandler<FileStorageEventArgs> evtCurrentFileChanged;
+        void OnCurrentFileChanged(FileStorageEventArgs e)
+        {
+            if (evtCurrentFileChanged == null) return;
+            this.evtCurrentFileChanged(this, e);
         }
 
         #endregion

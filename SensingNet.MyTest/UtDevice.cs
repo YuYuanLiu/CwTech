@@ -22,7 +22,7 @@ namespace SensingNet.MyTest
 
                 var bgWorker2 = new BackgroundWorker();
                 bgWorker2.WorkerSupportsCancellation = true;
-                execer.evtCapture += delegate (object sender, SignalEventArgs e)
+                execer.evtSignalCapture += delegate (object sender, SignalEventArgs e)
                 {
                     System.Diagnostics.Debug.WriteLine("{0}, {1}", e.ToolId,
                          String.Join(",", e.calibrateData));

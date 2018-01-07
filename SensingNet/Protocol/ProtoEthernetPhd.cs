@@ -153,70 +153,70 @@ namespace SensingNet.Protocol
 
 
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(1 + tool_idx * 65535);
                     ea.Data.Add(phd.CU);
                     ea.ToolId = phd.TOOL;
                     this.OnDataTrigger(ea);
                 }
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(2 + tool_idx * 65535);
                     ea.Data.Add(phd.SA);
                     ea.ToolId = phd.TOOL;
                     this.OnDataTrigger(ea);
                 }
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(3 + tool_idx * 65535);
                     ea.Data.Add(phd.AA);
                     ea.ToolId = phd.TOOL;
                     this.OnDataTrigger(ea);
                 }
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(4 + tool_idx * 65535);
                     ea.Data.Add(phd.BB);
                     ea.ToolId = phd.TOOL;
                     this.OnDataTrigger(ea);
                 }
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(5 + tool_idx * 65535);
                     ea.Data.Add(phd.CC);
                     ea.ToolId = phd.TOOL;
                     this.OnDataTrigger(ea);
                 }
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(6 + tool_idx * 65535);
                     ea.Data.Add(phd.DD);
                     ea.ToolId = phd.TOOL;
                     this.OnDataTrigger(ea);
                 }
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(7 + tool_idx * 65535);
                     ea.Data.Add(phd.P1);
                     ea.ToolId = phd.TOOL;
                     this.OnDataTrigger(ea);
                 }
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(8 + tool_idx * 65535);
                     ea.Data.Add(phd.P2);
                     ea.ToolId = phd.TOOL;
                     this.OnDataTrigger(ea);
                 }
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(9 + tool_idx * 65535);
                     ea.Data.Add(phd.P3);
                     ea.ToolId = phd.TOOL;
                     this.OnDataTrigger(ea);
                 }
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(10 + tool_idx * 65535);
                     ea.Data.Add(phd.TT);
                     ea.ToolId = phd.TOOL;
@@ -224,7 +224,7 @@ namespace SensingNet.Protocol
                 }
 
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(11 + tool_idx * 65535);
                     ea.Data.Add(phd.SCU);
                     ea.ToolId = phd.TOOL;
@@ -232,7 +232,7 @@ namespace SensingNet.Protocol
                 }
 
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(12 + tool_idx * 65535);
                     ea.Data.Add(phd.SSA);
                     ea.ToolId = phd.TOOL;
@@ -240,7 +240,7 @@ namespace SensingNet.Protocol
                 }
 
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(13 + tool_idx * 65535);
                     ea.Data.Add(phd.SSC);
                     ea.ToolId = phd.TOOL;
@@ -248,21 +248,21 @@ namespace SensingNet.Protocol
                 }
 
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(14 + tool_idx * 65535);
                     ea.Data.Add(phd.SBB);
                     ea.ToolId = phd.TOOL;
                     this.OnDataTrigger(ea);
                 }
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(15 + tool_idx * 65535);
                     ea.Data.Add(phd.SCC);
                     ea.ToolId = phd.TOOL;
                     this.OnDataTrigger(ea);
                 }
                 {
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     ea.DeviceSvid = (uint)(16 + tool_idx * 65535);
                     ea.Data.Add(phd.SDD);
                     ea.ToolId = phd.TOOL;

@@ -77,7 +77,7 @@ namespace SensingNet.Protocol
                     idx++)
                 {
 
-                    var ea = new ProtoEventArgs();
+                    var ea = new SignalEventArgs();
                     var scfg = this.dConfig.SignalCfgList[idx];
                     ea.DeviceSvid = scfg.DeviceSvid;
 

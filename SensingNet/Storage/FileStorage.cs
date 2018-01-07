@@ -33,7 +33,7 @@ namespace SensingNet.Storage
 
 
 
-        public void Write(ProtoEventArgs ea)
+        public void Write(SignalEventArgs ea)
         {
             if (ea.calibrateData.Count <= 0) return;
 
@@ -170,8 +170,8 @@ namespace SensingNet.Storage
 
         #region Event
 
-        public event EventHandler evtCurrentFileChanged;
-        public void OnCurrentFileChanged(EventArgs ea)
+        public event EventHandler<FileStorageEventArgs> evtCurrentFileChanged;
+        public void OnCurrentFileChanged(FileStorageEventArgs ea)
         {
             if (evtCurrentFileChanged == null) return;
             this.evtCurrentFileChanged(this, ea);

@@ -71,7 +71,7 @@ namespace SensingNet.MyTest
             using (var signalmgr = new SignalMgr.SignalMgrExecer())
             {
 
-                signalmgr.evtCapture += delegate (object sender, SignalEventArgs e)
+                signalmgr.evtSignalCapture += delegate (object sender, SignalEventArgs e)
                 {
 
                 };

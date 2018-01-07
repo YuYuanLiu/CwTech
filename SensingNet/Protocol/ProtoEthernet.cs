@@ -1,5 +1,6 @@
 ﻿using CToolkit.Logging;
 using SensingNet.Protocol;
+using SensingNet.SignalMgr;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace SensingNet.SignalMgr
+namespace SensingNet.Protocol
 {
     public class ProtoEthernet : IDisposable
     {    //Socket m_connSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

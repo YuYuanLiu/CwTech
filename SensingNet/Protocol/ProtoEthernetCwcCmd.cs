@@ -63,7 +63,7 @@ namespace SensingNet.Protocol
                 lock (this)
                     line = this.cmdQueue.Dequeue();
 
-                var ea = new ProtoEventArgs();
+                var ea = new SignalEventArgs();
                 var args = line.Split(new char[] { '\0', ' ' });
 
                 ea.Data = new List<double>();

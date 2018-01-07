@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SensingNet.SignalMgr
 {
-    public class ProtoHandler : CToolkit.IContextFlowRun
+    public class SignalHandler : CToolkit.IContextFlowRun
     {
         public DeviceCfg config;
         public ProtoEthernet etherneter;
@@ -18,18 +18,18 @@ namespace SensingNet.SignalMgr
 
 
         #region Event
-        public event EventHandler<ProtoEventArgs> evtCapture;
-        void OnCapture(ProtoEventArgs e)
+        public event EventHandler<SignalEventArgs> evtSignalCapture;
+        void OnSignalCapture(SignalEventArgs e)
         {
-            if (evtCapture == null) return;
-            this.evtCapture(this, e);
+            if (evtSignalCapture == null) return;
+            this.evtSignalCapture(this, e);
         }
         #endregion
 
 
         void capturer_evtDataRcv(object sender, EventArgs ea)
         {
-            var eaCapture = ea as ProtoEventArgs;
+            var eaCapture = ea as SignalEventArgs;
             eaCapture.calibrateData = new List<double>();
 
             var SignalCfg = this.config.SignalCfgList.FirstOrDefault(x => x.DeviceSvid == eaCapture.DeviceSvid);
@@ -42,14 +42,13 @@ namespace SensingNet.SignalMgr
                 signal = signal * SignalCfg.CalibrateSysScale + SignalCfg.CalibrateSysOffset;//轉成System值
                 eaCapture.calibrateData.Add(signal * SignalCfg.CalibrateUserScale + SignalCfg.CalibrateUserOffset);//轉入User Define
             }
-            this.storager.Write(eaCapture);
 
 
             eaCapture.DeviceName = this.config.DeviceName;
             eaCapture.DeviceIp = this.config.RemoteIp;
             eaCapture.DevicePort = this.config.RemotePort;
             eaCapture.RcvDateTime = DateTime.Now;
-            this.OnCapture(eaCapture);
+            this.OnSignalCapture(eaCapture);
         }
 
 
