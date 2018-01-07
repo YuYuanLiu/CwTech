@@ -40,14 +40,14 @@ namespace SensingNet.SignalMgr
         {
             this.isExec = false;
             this.configs.Clear();
-            this.RunHandlerStatus();
+            this.UpdateHandlerStatus();
             return 0;
         }
         public int CfFree()
         {
             this.isExec = false;
             this.configs.Clear();
-            this.RunHandlerStatus();
+            this.UpdateHandlerStatus();
             return 0;
         }
         public int CfRun()
@@ -67,13 +67,13 @@ namespace SensingNet.SignalMgr
         public int CfExec()
         {
             this.configs.UpdateIfOverTime();
-            this.RunHandlerStatus();
+            this.UpdateHandlerStatus();
             return 0;
         }
 
 
 
-        void RunHandlerStatus()
+        void UpdateHandlerStatus()
         {
 
             //先全部設定為: 等待Dispose
@@ -107,6 +107,11 @@ namespace SensingNet.SignalMgr
                     {
                         if (this.evtCapture == null) return;
                         this.OnCapture(e as SignalEventArgs);
+                    };
+
+                    hdl.storager.evtCurrentFileChanged += delegate (object sender, EventArgs e)
+                    {
+                        
                     };
                     hdl.status = EnumHandlerStatus.Init;
                 }
@@ -150,6 +155,8 @@ namespace SensingNet.SignalMgr
                 this.handlers.Remove(kvdh.Key);
             }
         }
+
+        
 
 
 

@@ -1,4 +1,5 @@
 ﻿using SensingNet.Protocol;
+using SensingNet.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace SensingNet.SignalMgr
     {
         public DeviceCfg config;
         public ProtoEthernet etherneter;
-        public ProtoStorage storager;
+        public FileStorage storager;
         public EnumHandlerStatus status = EnumHandlerStatus.None;
         public bool WaitDispose = false;
 
@@ -71,7 +72,7 @@ namespace SensingNet.SignalMgr
                 this.config);
             this.etherneter.evtCapture += capturer_evtDataRcv;
 
-            this.storager = new ProtoStorage();
+            this.storager = new FileStorage();
             this.storager.dCfg = this.config;
 
 

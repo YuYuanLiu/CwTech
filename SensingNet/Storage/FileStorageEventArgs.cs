@@ -2,9 +2,9 @@
 using System.IO;
 using System.Threading;
 
-namespace SensingNet.SignalMgr
+namespace SensingNet.Storage
 {
-    public class ProtoStorageFile
+    public class FileStorageEventArgs : EventArgs
     {
 
         public String pprevFile;
@@ -15,6 +15,7 @@ namespace SensingNet.SignalMgr
 
         public bool CreateStreamIfNewFile(String dirPath, String fn)
         {
+
 
             if (Monitor.TryEnter(this, new TimeSpan(0, 0, 10)))
             {

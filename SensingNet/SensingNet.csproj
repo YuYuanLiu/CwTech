@@ -92,8 +92,8 @@
     <Compile Include="Protocol\ProtoEthernetSecs.cs" />
     <Compile Include="Protocol\ProtoEventArgs.cs" />
     <Compile Include="SignalMgr\ProtoHandler.cs" />
-    <Compile Include="SignalMgr\ProtoStorage.cs" />
-    <Compile Include="SignalMgr\ProtoStorageFile.cs" />
+    <Compile Include="Storage\FileStorage.cs" />
+    <Compile Include="Storage\FileStorageEventArgs.cs" />
     <Compile Include="SimulateCmdProto.cs" />
     <Compile Include="Storage\Format_Csv_0.cs" />
     <Compile Include="Storage\Format_Tsv_0.cs" />

@@ -6,25 +6,28 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using SensingNet.Protocol;
+using SensingNet.SignalMgr;
 
-namespace SensingNet.SignalMgr
+namespace SensingNet.Storage
 {
-    public class ProtoStorage
+    public class FileStorage
     {
         public DeviceCfg dCfg;
-        Dictionary<Int64, ProtoStorageFile> svidData = new Dictionary<Int64, ProtoStorageFile>();
-        Dictionary<Int64, ProtoStorageFile> currSvidPerSecData = new Dictionary<Int64, ProtoStorageFile>();
+        Dictionary<Int64, FileStorageEventArgs> svidData = new Dictionary<Int64, FileStorageEventArgs>();
+        Dictionary<Int64, FileStorageEventArgs> currSvidPerSecData = new Dictionary<Int64, FileStorageEventArgs>();
 
-        ProtoStorageFile GetSvidData(Int64 svid)
+
+
+        FileStorageEventArgs GetSvidData(Int64 svid)
         {
             if (!svidData.ContainsKey(svid))
-                svidData[svid] = new ProtoStorageFile();
+                svidData[svid] = new FileStorageEventArgs();
             return svidData[svid];
         }
-        ProtoStorageFile GetCurrSvidPerSecData(Int64 svid)
+        FileStorageEventArgs GetCurrSvidPerSecData(Int64 svid)
         {
             if (!currSvidPerSecData.ContainsKey(svid))
-                currSvidPerSecData[svid] = new ProtoStorageFile();
+                currSvidPerSecData[svid] = new FileStorageEventArgs();
             return currSvidPerSecData[svid];
         }
 
@@ -40,7 +43,7 @@ namespace SensingNet.SignalMgr
 
 
             var now = DateTime.Now;
-            {
+            {//每分鐘 -> 實際儲存
                 var cd = this.GetSvidData(ea.DeviceSvid);
                 var fn = string.Format("dt{0}.signal", now.ToString("yyyyMMddHHmm"));
                 var dir = System.IO.Path.Combine(signalCfg.StorageDirectory, "dt" + now.ToString("yyyyMMdd"));
@@ -56,7 +59,7 @@ namespace SensingNet.SignalMgr
                 DeleteOld(signalCfg, dir);
 
             }
-            {//當前資料, 每秒
+            {//每秒鐘 -> 暫時儲存, 當前資料
 
                 var cd = this.GetCurrSvidPerSecData(ea.DeviceSvid);
                 var fn = string.Format("dt{0}.signal.temp", now.ToString("yyyyMMddHHmmss"));
@@ -64,6 +67,9 @@ namespace SensingNet.SignalMgr
 
                 if (cd.CreateStreamIfNewFile(dir, fn))
                 {
+
+                    this.OnCurrentFileChanged(cd);
+
                     var prevfi = cd.GetPrevFileInfo();
                     if (prevfi != null)
                     {
@@ -106,6 +112,8 @@ namespace SensingNet.SignalMgr
                     var dir = System.IO.Path.Combine(signalCfg.StorageDirectory, "current");
                     if (cd.CloseStreamIfNewFile(dir, fn))
                     {
+                        this.OnCurrentFileChanged(cd);
+
                         var currfi = val.GetCurrFileInfo();
                         var copyto = new FileInfo(currfi.FullName.Substring(0, currfi.FullName.Length - 5)); // Remove .temp
 
@@ -126,7 +134,7 @@ namespace SensingNet.SignalMgr
             var datetime = now.AddSeconds(-signalCfg.PurgeTimestamp);
             var di = new DirectoryInfo(dir);
 
-            
+
             var qf = (from d in di.GetDirectories()
                       orderby d.Name
                       select d).ToList();
@@ -135,7 +143,7 @@ namespace SensingNet.SignalMgr
                 qf[idx].Delete();
             }
 
-            foreach(var d in di.GetDirectories())
+            foreach (var d in di.GetDirectories())
             {
                 if (string.Compare(d.Name, "dt" + datetime.ToString("yyyyMMdd"), true) < 0)
                     d.Delete(true);
@@ -158,7 +166,21 @@ namespace SensingNet.SignalMgr
             }
         }
 
-     
+
+
+        #region Event
+
+        public event EventHandler evtCurrentFileChanged;
+        public void OnCurrentFileChanged(EventArgs ea)
+        {
+            if (evtCurrentFileChanged == null) return;
+            this.evtCurrentFileChanged(this, ea);
+        }
+
+
+        #endregion
+
+
 
     }
 }
