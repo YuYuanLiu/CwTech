@@ -1,4 +1,4 @@
-﻿using SensingNet.Storage;
+using SensingNet.Storage;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,22 +13,28 @@ namespace SensingNet.Storage
     public class FileStorage
     {
         public DeviceCfg dCfg;
-        Dictionary<Int64, FileStorageEventArgs> svidData = new Dictionary<Int64, FileStorageEventArgs>();
-        Dictionary<Int64, FileStorageEventArgs> currSvidPerSecData = new Dictionary<Int64, FileStorageEventArgs>();
+        Dictionary<UInt32, FileStorageEventArgs> svidData = new Dictionary<UInt32, FileStorageEventArgs>();
+        Dictionary<UInt32, FileStorageEventArgs> currSvidPerSecData = new Dictionary<UInt32, FileStorageEventArgs>();
 
 
 
-        FileStorageEventArgs GetSvidData(Int64 svid)
+        FileStorageEventArgs GetSvidData(UInt32 svid)
         {
             if (!svidData.ContainsKey(svid))
                 svidData[svid] = new FileStorageEventArgs();
-            return svidData[svid];
+
+            var data = svidData[svid];
+            data.svid = svid;
+            return data;
         }
-        FileStorageEventArgs GetCurrSvidPerSecData(Int64 svid)
+        FileStorageEventArgs GetCurrSvidPerSecData(UInt32 svid)
         {
             if (!currSvidPerSecData.ContainsKey(svid))
                 currSvidPerSecData[svid] = new FileStorageEventArgs();
-            return currSvidPerSecData[svid];
+
+            var data = currSvidPerSecData[svid];
+            data.svid = svid;
+            return data;
         }
 
 
