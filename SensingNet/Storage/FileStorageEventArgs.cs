@@ -13,6 +13,9 @@ namespace SensingNet.Storage
         public String directory;
         public System.IO.StreamWriter stream;
 
+        public UInt32 svid;
+
+
         public bool CreateStreamIfNewFile(String dirPath, String fn)
         {
 

@@ -80,6 +80,7 @@
     <Compile Include="SignalEventArgs.cs" />
     <Compile Include="Protocol\ProtoEthernetPhdData.cs" />
     <Compile Include="Protocol\ProtoEthernetPhd.cs" />
+    <Compile Include="SignalMgr\SignalMgrFileStorageEventArgs.cs" />
     <Compile Include="SignalMgr\SignalMgrCfg.cs" />
     <Compile Include="SignalMgr\DeviceCfg.cs" />
     <Compile Include="SignalMgr\SignalCfg.cs" />
