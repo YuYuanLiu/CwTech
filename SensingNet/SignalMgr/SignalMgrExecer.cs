@@ -1,4 +1,4 @@
-﻿using CToolkit;
+using CToolkit;
 using SensingNet.Protocol;
 using SensingNet.Storage;
 using System;
@@ -104,13 +104,20 @@ namespace SensingNet.SignalMgr
                 if (hdl.status == EnumHandlerStatus.None)
                 {
                     hdl.CfInit();
-                    hdl.evtSignalCapture += delegate (object sender, SignalEventArgs e)
+                    hdl.evtSignalCapture += delegate(object sender, SignalEventArgs e)
                     {
                         //TODO: 應該再往外提, 由使用者決定是否要存成檔案
                         hdl.storager.Write(e);
                         this.OnSignalCapture(e);
                     };
-                    hdl.storager.evtCurrentFileChanged += delegate (object sender, FileStorageEventArgs e) { this.OnCurrentFileChanged(e); };
+                    hdl.storager.evtCurrentFileChanged += delegate(object sender, FileStorageEventArgs e)
+                    {
+                        this.OnCurrentFileChanged(new SignalMgrFileStorageEventArgs()
+                        {
+                            handler = hdl,
+                            fileStorageEventArgs = e,
+                        });
+                    };
 
                     hdl.status = EnumHandlerStatus.Init;
                 }
@@ -167,8 +174,8 @@ namespace SensingNet.SignalMgr
             this.evtSignalCapture(this, e);
         }
 
-        public event EventHandler<FileStorageEventArgs> evtCurrentFileChanged;
-        void OnCurrentFileChanged(FileStorageEventArgs e)
+        public event EventHandler<SignalMgrFileStorageEventArgs> evtCurrentFileChanged;
+        void OnCurrentFileChanged(SignalMgrFileStorageEventArgs e)
         {
             if (evtCurrentFileChanged == null) return;
             this.evtCurrentFileChanged(this, e);
@@ -176,7 +183,7 @@ namespace SensingNet.SignalMgr
 
         #endregion
 
-        #region Event Handler 
+        #region Event Handler
 
 
 
