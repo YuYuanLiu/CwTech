@@ -19,7 +19,7 @@
 // WDT
 //====================================
 uint8_t wdtTimeout = WDTO_8S;
-const uint32_t wdtMaxCount = 360;
+const uint32_t wdtMaxCount = 1000;
 const uint32_t nothing_delay = 10;
 uint32_t wdtCount = 0;
 
