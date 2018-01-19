@@ -1,4 +1,4 @@
-﻿using CToolkit.Logging;
+using CToolkit.Logging;
 using SensingNet.Protocol;
 using SensingNet.SignalMgr;
 using System;
@@ -159,7 +159,7 @@ namespace SensingNet.Protocol
                     {
                         //等待下次要求資料的間隔
                         while ((timestampDiff = timestampEnd - timestampStart) < this.dConfig.TxInterval / 1000.0)
-                            timestampEnd = CToolkit.DateTimeStamp.ToTimeStamp();
+                            timestampEnd = CToolkit.DateTimeStamp.ToTimestamp();
                         timestampStart = timestampEnd;
 
                         this.protoEthComm.WriteMsg_TxDataReq(stream);
