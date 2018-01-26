@@ -27,6 +27,8 @@
 #define INTERLOCK  8
 #define RELAY_OUTPUT   9
 
+#define VR_INPUT A0
+
 //====================================
 // Timer
 //====================================
@@ -36,7 +38,7 @@
 // WDT
 //====================================
 uint8_t wdtTimeout = WDTO_8S;
-const uint32_t wdtMaxCount = 360;
+const uint32_t wdtMaxCount = 1000;
 const uint32_t nothing_delay = 10;
 uint32_t wdtCount = 0;
 
@@ -252,6 +254,9 @@ void setup() {
 	pinMode(SEL02, OUTPUT);
 	pinMode(SEL_EN, OUTPUT);
 
+  pinMode(INTERLOCK, OUTPUT);
+  pinMode(RELAY_OUTPUT, OUTPUT);
+
 	for (int idx = 0; idx < NumOfDhts; idx++) {
 		//DHT aDHT(dhtPins[idx], DHTTYPE); //define a new DHT at pin i with type 11;
 		dhtObj[idx] = new DHT(DHTPIN, DHTTYPE);
@@ -270,6 +275,24 @@ void loop() {
 
 	printToSerial();
 	procEth();
+
+  
+
+
+  float vrValue = analogRead(VR_INPUT) / 1023.0 * 100.0;
+  if(Serial){
+    Serial.print("VR: ");
+    Serial.println(vrValue);
+  }
+  
+  if(humidity[0] > vrValue){
+    digitalWrite(INTERLOCK,HIGH);
+    digitalWrite(RELAY_OUTPUT,HIGH);
+  }else{
+    digitalWrite(INTERLOCK,LOW);
+    digitalWrite(RELAY_OUTPUT,LOW);    
+  }
+  
 
 }
 
