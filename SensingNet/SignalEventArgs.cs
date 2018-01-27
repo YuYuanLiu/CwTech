@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +7,9 @@ namespace SensingNet
 {
     public class SignalEventArgs : EventArgs
     {
+
+        public SignalMgr.SignalHandler handler;
+
         public Int32 DeviceId;
         public String DeviceName;
         public String DeviceIp;
