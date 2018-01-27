@@ -164,13 +164,6 @@ namespace SensingNet.SignalMgr
             this.evtSignalCapture(this, e);
         }
 
-        public event EventHandler<SignalMgrFileStorageEventArgs> evtCurrentFileChanged;
-        void OnCurrentFileChanged(SignalMgrFileStorageEventArgs e)
-        {
-            if (evtCurrentFileChanged == null) return;
-            this.evtCurrentFileChanged(this, e);
-        }
-
         #endregion
 
         #region Event Handler
