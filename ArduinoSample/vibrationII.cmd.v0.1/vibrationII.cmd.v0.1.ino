@@ -186,21 +186,14 @@ void readVibration() {
 
 }
 
-void procReadVibration() {
-	readVibration();
-	printVibToEth();
-}
 
 //=======================
 // Basic Function
 //=======================
 void setup() {
 	//--- Serial --------------------------------------
-	Serial.begin(9600);
-  for(int i = 0 ; i < 5 && !Serial ; i++){
-    // wait for serial port to connect. Needed for native USB port only
-   delay(1000);
-  }
+	Serial.begin(9600);//可能沒有RS232的連線
+
 	//--- Ethernet --------------------------------------
 	//Ethernet.begin(mac); //DHCP
 	//Ethernet.begin(mac, ip, myDns, gateway, subnet); // Full setting
@@ -212,32 +205,28 @@ void setup() {
 	pinMode(ADS_DATA, INPUT);
 	reset_adc();
 	digitalWrite(ADS_SCLK, LOW);
+  
 	//--- WDT --------------------------------------
 	wdt_enable(wdtTimeout);
 	//--- Timer --------------------------------------
 }
 void loop() {
 
-	//--- Main --------------------------------------
-	//Serial.println("Wait for connecting...");
 	EthernetClient client = server.available();
 	wdt_reset();
 	wdtCount++;
 	if (wdtCount > wdtMaxCount)
-		delay(16 * 1000);
+		delay(10 * 1000);
 	if (client) {
-		wdtCount = 0;
-		{//無效工作, 但要留下來, compiler會把無用的code移除
-			int zeroCount = 0;
-			char readChar;
-			while (zeroCount < 1) {
-				readChar = client.read();
-				if (readChar < 0)
-					break;
-				zeroCount++;
-			}
-		}
-		procReadVibration();
+    //client.connected 也無法判斷是否連線
+    //即使連線了, 沒有資料過來也會是false
+    wdtCount = 0;
+    if(client.available()){
+    	while (client.available()) client.read();
+      readVibration();
+      printVibToEth();
+    }
+    
 
 	} else {
 		delay(nothing_delay);
