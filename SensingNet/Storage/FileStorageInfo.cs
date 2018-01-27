@@ -8,7 +8,7 @@ namespace SensingNet.Storage
 {
     public class FileStorageInfo
     {
-        public FileStorageHeader header = new FileStorageHeader();
+        public FileStorageFormat_Csv_0 header = new FileStorageFormat_Csv_0();
         public SignalCollector collector = new SignalCollector();
 
         
@@ -34,7 +34,7 @@ namespace SensingNet.Storage
                 var timestamp = 0.0;
                 if (!double.TryParse(vals[0], out timestamp)) continue;
                 //來源時間為Universal
-                var dt = CToolkit.DateTimeStamp.ToLocalDateTimeFromTimeStamp(timestamp);
+                var dt = CToolkit.DateTimeStamp.ToLocalDateTimeFromTimestamp(timestamp);
 
                 if (tfbps == null)
                 {
