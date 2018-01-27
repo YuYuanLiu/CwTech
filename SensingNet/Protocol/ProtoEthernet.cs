@@ -1,4 +1,4 @@
-﻿using CToolkit.Logging;
+using CToolkit.Logging;
 using SensingNet.Protocol;
 using SensingNet.SignalMgr;
 using System;

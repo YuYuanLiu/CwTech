@@ -1,4 +1,4 @@
-﻿using Cudafy.Types;
+using Cudafy.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +33,8 @@ namespace SensingNet.Storage
                 //第一筆為 timestamp
                 var timestamp = 0.0;
                 if (!double.TryParse(vals[0], out timestamp)) continue;
-                var dt = CToolkit.DateTimeStamp.ToDateTimeFromTimestamp(timestamp);
+                //來源時間為Universal
+                var dt = CToolkit.DateTimeStamp.ToLocalDateTimeFromTimeStamp(timestamp);
 
                 if (tfbps == null)
                 {

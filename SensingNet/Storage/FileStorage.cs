@@ -1,7 +1,11 @@
+using SensingNet.Storage;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using SensingNet.Protocol;
 using SensingNet.SignalMgr;
 
 namespace SensingNet.Storage
@@ -50,8 +54,11 @@ namespace SensingNet.Storage
                 var fn = string.Format("dt{0}.signal", now.ToString("yyyyMMddHHmm"));
                 var dir = System.IO.Path.Combine(signalCfg.StorageDirectory, "dt" + now.ToString("yyyyMMdd"));
 
+                //檔案是當前時區
                 cd.CreateStreamIfNewFile(dir, fn);
                 var timestamp = CToolkit.DateTimeStamp.ToUniversalTimestamp(now);
+
+                //Timestamp時實際時間
                 cd.stream.Write("{0}", timestamp);
                 for (int idx = 0; idx < ea.Data.Count; idx++)
                     cd.stream.Write(",{0}", ea.calibrateData[idx]);

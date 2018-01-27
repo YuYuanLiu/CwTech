@@ -27,6 +27,8 @@
 #define INTERLOCK  8
 #define RELAY_OUTPUT   9
 
+#define VR_INPUT A0
+
 //====================================
 // Timer
 //====================================
@@ -207,6 +209,9 @@ void setup() {
 	pinMode(SEL02, OUTPUT);
 	pinMode(SEL_EN, OUTPUT);
 
+  pinMode(INTERLOCK, OUTPUT);
+  pinMode(RELAY_OUTPUT, OUTPUT);
+
 	for (int idx = 0; idx < NumOfDhts; idx++) {
 		//DHT aDHT(dhtPins[idx], DHTTYPE); //define a new DHT at pin i with type 11;
 		dhtObj[idx] = new DHT(DHTPIN, DHTTYPE);
@@ -264,6 +269,24 @@ void loop() {
 
   Ethernet.maintain(); //必加
 
+
+  
+
+
+  float vrValue = analogRead(VR_INPUT) / 1023.0 * 100.0;
+  if(Serial){
+    Serial.print("VR: ");
+    Serial.println(vrValue);
+  }
+  
+  if(humidity[0] > vrValue){
+    digitalWrite(INTERLOCK,HIGH);
+    digitalWrite(RELAY_OUTPUT,HIGH);
+  }else{
+    digitalWrite(INTERLOCK,LOW);
+    digitalWrite(RELAY_OUTPUT,LOW);    
+  }
+  
 
 }
 
