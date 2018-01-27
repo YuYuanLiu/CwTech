@@ -154,6 +154,7 @@ namespace SensingNet.SecsMgr
                 if (qsvidcfg.PassFilter != EnumPassFilter.None)
                 {
                     qsvidData.InitFilterIfNull(qsvidcfg.PassFilter, qsvidcfg.PassFilter_SampleRate, qsvidcfg.PassFilter_CutoffLow, qsvidcfg.PassFilter_CutoffHigh);
+                    signalData = CToolkit.NumericProc.NpUtil.Interpolation(signalData, (int)qsvidcfg.PassFilter_SampleRate);
                     signalData = qsvidData.ProcessSamples(signalData);
                 }
                 sps.signals.AddRange(signalData);
@@ -219,7 +220,7 @@ namespace SensingNet.SecsMgr
             return val;
         }
 
-     
+
 
 
 
