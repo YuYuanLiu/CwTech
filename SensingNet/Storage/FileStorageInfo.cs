@@ -6,9 +6,9 @@ using System.Text;
 
 namespace SensingNet.Storage
 {
-    public class StorageInfo
+    public class FileStorageInfo
     {
-        public StorageInfoHeader header = new StorageInfoHeader();
+        public FileStorageHeader header = new FileStorageHeader();
         public SignalCollector collector = new SignalCollector();
 
         
@@ -20,7 +20,7 @@ namespace SensingNet.Storage
         {
             var headerStr = sr.ReadLine();
             if (String.IsNullOrEmpty(headerStr)) return;
-            var header = Newtonsoft.Json.JsonConvert.DeserializeObject<StorageInfo>(headerStr);
+            var header = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageInfo>(headerStr);
 
 
             SignalPerSec tfbps = null;
@@ -33,7 +33,7 @@ namespace SensingNet.Storage
                 //第一筆為 timestamp
                 var timestamp = 0.0;
                 if (!double.TryParse(vals[0], out timestamp)) continue;
-                var dt = CToolkit.DateTimeStamp.ToDateTimeFromTimeStamp(timestamp);
+                var dt = CToolkit.DateTimeStamp.ToDateTimeFromTimestamp(timestamp);
 
                 if (tfbps == null)
                 {

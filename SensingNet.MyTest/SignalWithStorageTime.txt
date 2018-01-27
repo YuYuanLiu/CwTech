@@ -1,0 +1,8 @@
+﻿
+
+訊號儲存建議使用 Universal Timestamp
+以確保 可以避免 時區 造成的問題
+Timestamp 可存在小數點, 以記錄 小於 1秒 的時間
+
+應用程式端應自行注意讀取時, 轉換為 Local Time
+

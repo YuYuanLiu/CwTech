@@ -12,7 +12,6 @@ namespace SensingNet.SignalMgr
     {
         public DeviceCfg config;
         public ProtoEthernet etherneter;
-        public FileStorage storager;
         public EnumHandlerStatus status = EnumHandlerStatus.None;
         public bool WaitDispose = false;
 
@@ -71,10 +70,6 @@ namespace SensingNet.SignalMgr
                 this.config);
             this.etherneter.evtCapture += capturer_evtDataRcv;
 
-            this.storager = new FileStorage();
-            this.storager.dCfg = this.config;
-
-
             return 0;
         }
         public int CfLoad()
@@ -99,8 +94,6 @@ namespace SensingNet.SignalMgr
         }
         public int CfExec()
         {
-
-            this.storager.UpdateCurrStorageFile();
 
             this.etherneter.ConnectIfNo();
 

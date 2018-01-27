@@ -106,17 +106,7 @@ namespace SensingNet.SignalMgr
                     hdl.CfInit();
                     hdl.evtSignalCapture += delegate(object sender, SignalEventArgs e)
                     {
-                        //TODO: 應該再往外提, 由使用者決定是否要存成檔案
-                        hdl.storager.Write(e);
                         this.OnSignalCapture(e);
-                    };
-                    hdl.storager.evtCurrentFileChanged += delegate(object sender, FileStorageEventArgs e)
-                    {
-                        this.OnCurrentFileChanged(new SignalMgrFileStorageEventArgs()
-                        {
-                            handler = hdl,
-                            fileStorageEventArgs = e,
-                        });
                     };
 
                     hdl.status = EnumHandlerStatus.Init;

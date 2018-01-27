@@ -19,7 +19,7 @@
 // WDT
 //====================================
 uint8_t wdtTimeout = WDTO_8S;
-const uint32_t wdtMaxCount = 360;
+const uint32_t wdtMaxCount = 1000;
 const uint32_t nothing_delay = 10;
 uint32_t wdtCount = 0;
 
@@ -224,8 +224,7 @@ void loop() {
 	wdt_reset();
 	wdtCount++;
 	if (wdtCount > wdtMaxCount)
-		while (1)
-			;
+		delay(16 * 1000);
 	if (client) {
 		wdtCount = 0;
 		{//無效工作, 但要留下來, compiler會把無用的code移除

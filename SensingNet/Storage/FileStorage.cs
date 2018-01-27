@@ -1,11 +1,7 @@
-using SensingNet.Storage;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using SensingNet.Protocol;
 using SensingNet.SignalMgr;
 
 namespace SensingNet.Storage
@@ -55,7 +51,7 @@ namespace SensingNet.Storage
                 var dir = System.IO.Path.Combine(signalCfg.StorageDirectory, "dt" + now.ToString("yyyyMMdd"));
 
                 cd.CreateStreamIfNewFile(dir, fn);
-                var timestamp = CToolkit.DateTimeStamp.ToTimeStamp(now);
+                var timestamp = CToolkit.DateTimeStamp.ToUniversalTimestamp(now);
                 cd.stream.Write("{0}", timestamp);
                 for (int idx = 0; idx < ea.Data.Count; idx++)
                     cd.stream.Write(",{0}", ea.calibrateData[idx]);
@@ -90,7 +86,7 @@ namespace SensingNet.Storage
                     DeleteOldCurrent(dir);
 
                 }
-                var timestamp = CToolkit.DateTimeStamp.ToTimeStamp(now);
+                var timestamp = CToolkit.DateTimeStamp.ToUniversalTimestamp(now);
                 cd.stream.Write("{0}", timestamp);
                 for (int idx = 0; idx < ea.Data.Count; idx++)
                     cd.stream.Write(",{0}", ea.calibrateData[idx]);

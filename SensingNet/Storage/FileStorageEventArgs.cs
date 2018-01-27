@@ -45,7 +45,7 @@ namespace SensingNet.Storage
                             fi.Directory.Create();
 
                         this.stream = new StreamWriter(fi.FullName);
-                        this.stream.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(new Storage.StorageInfoHeader()));
+                        this.stream.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(new Storage.FileStorageFormat_Csv_0()));
 
                         return true;
                     }

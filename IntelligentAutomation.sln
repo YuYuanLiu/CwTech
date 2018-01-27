@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.UnitTest", "Sens
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.WebMain", "SensingNet.WebMain\SensingNet.WebMain.csproj", "{2155979A-DDC0-460C-8410-4F417506A346}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.MTest", "SensingNet.MyTest\SensingNet.MTest.csproj", "{DE416666-10ED-4E47-BC94-DAD55A3F6D93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.MyTest", "SensingNet.MyTest\SensingNet.MyTest.csproj", "{DE416666-10ED-4E47-BC94-DAD55A3F6D93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

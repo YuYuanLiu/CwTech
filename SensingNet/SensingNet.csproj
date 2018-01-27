@@ -95,13 +95,13 @@
     <Compile Include="Storage\FileStorage.cs" />
     <Compile Include="Storage\FileStorageEventArgs.cs" />
     <Compile Include="SimulateCmdProto.cs" />
-    <Compile Include="Storage\Format_Csv_0.cs" />
-    <Compile Include="Storage\Format_Tsv_0.cs" />
-    <Compile Include="Storage\StorageInfo.cs" />
-    <Compile Include="Storage\StorageInfoHeader.cs" />
+    <Compile Include="Storage\FileStorageFormat_Csv_0.cs" />
+    <Compile Include="Storage\FileStorageFormat_Tsv_0.cs" />
+    <Compile Include="Storage\FileStorageInfo.cs" />
     <Compile Include="Storage\SignalCollector.cs" />
     <Compile Include="Storage\SignalPerSec.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="VData\TimeFreqImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit\CToolkit.csproj">
