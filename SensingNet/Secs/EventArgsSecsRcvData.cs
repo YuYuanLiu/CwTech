@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.SecsMgr
+namespace SensingNet.Secs
 {
   public  class EventArgsSecsRcvData:EventArgs
     {

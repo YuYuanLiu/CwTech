@@ -7,7 +7,7 @@ namespace SensingNet.Protocol
 {
 
 
-    public class ProtoEthernetPhdData
+    public class ProtoPhdData
     {
         public double CU;
         public double SA;

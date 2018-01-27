@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 using CToolkit.Secs;
 using System.Net;
-using SensingNet.SecsMgr;
+using SensingNet.Secs;
 using CToolkit.Net;
 using System.Text;
 
@@ -15,7 +15,7 @@ namespace SensingNet.MyTest.GenCfg
         [TestMethod]
         public void Test()
         {
-            new SensingNet.AlarmMgr.AlarmCfg()
+            new SensingNet.Alarm.AlarmCfg()
             {
                 DeviceName = "simulate",
                 DeviceSvid = 0,

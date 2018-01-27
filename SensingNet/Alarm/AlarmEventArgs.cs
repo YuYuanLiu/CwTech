@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.AlarmMgr
+namespace SensingNet.Alarm
 {
     public class AlarmEventArgs : EventArgs
     {

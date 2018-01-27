@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 using CToolkit.Net;
-using SensingNet.AlarmMgr;
+using SensingNet.Alarm;
 
 namespace SensingNet.MyTest
 {
@@ -15,10 +15,10 @@ namespace SensingNet.MyTest
 
 
 
-            using (var signalMgr = new SignalMgr.SignalMgrExecer())
+            using (var signalMgr = new Signal.SignalMgrExecer())
             {
 
-                CToolkit.Logging.LoggerDictionary.Singleton.Get().evtLogWrite += UtMainSignalMgr_evtLogWrite;
+                CToolkit.Logging.LoggerMapper.Singleton.Get().evtLogWrite += UtMainSignalMgr_evtLogWrite;
 
 
                 CToolkit.CtkUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)

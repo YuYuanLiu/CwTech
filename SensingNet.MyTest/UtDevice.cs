@@ -13,7 +13,7 @@ namespace SensingNet.MyTest
 
 
             using (var simCmd = new SimulateCmdProto("127.0.0.1", 5000))
-            using (var execer = new SignalMgr.SignalMgrExecer())
+            using (var execer = new Signal.SignalMgrExecer())
             {
                 simCmd.StartConnect();
 

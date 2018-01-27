@@ -7,7 +7,7 @@ namespace SensingNet.Protocol
 {
     public enum EnumProtocol
     {
-        CwcCmd,
+        SensingNetCmd,
         Secs,
         Phd
     }

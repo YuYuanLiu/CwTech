@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 using CToolkit.Net;
-using SensingNet.AlarmMgr;
+using SensingNet.Alarm;
 
 namespace SensingNet.MyTest
 {
@@ -15,8 +15,8 @@ namespace SensingNet.MyTest
 
 
 
-            using (var signalMgr = new SignalMgr.SignalMgrExecer())
-            using (var alarmMgr = new AlarmMgr.AlarmMgrExecer())
+            using (var signalMgr = new Signal.SignalMgrExecer())
+            using (var alarmMgr = new Alarm.AlarmMgrExecer())
             {
                 signalMgr.evtSignalCapture += delegate (object sender, SignalEventArgs e)
                 {

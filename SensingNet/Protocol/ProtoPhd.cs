@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SensingNet.Protocol
 {
-    public class ProtoEthernetPhd : ProtoEthernetBase
+    public class ProtoPhd : ProtoBase
     {
         public StringBuilder rcvSb = new StringBuilder();
         List<UInt32> rcvBytes = new List<UInt32>();
@@ -63,7 +63,7 @@ namespace SensingNet.Protocol
                 lock (this)
                     line = this.cmdQueue.Dequeue();
 
-                var phd = new ProtoEthernetPhdData();
+                var phd = new ProtoPhdData();
 
                 var args = line.Split(new char[] { '\0', ' ' });
 

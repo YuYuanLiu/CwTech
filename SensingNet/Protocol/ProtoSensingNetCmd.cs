@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SensingNet.Protocol
 {
-    public class ProtoEthernetCwcCmd : ProtoEthernetBase
+    public class ProtoSensingNetCmd : ProtoBase
     {
         StringBuilder rcvSb = new StringBuilder();
         List<UInt32> rcvBytes = new List<UInt32>();

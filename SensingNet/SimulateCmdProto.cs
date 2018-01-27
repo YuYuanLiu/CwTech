@@ -112,7 +112,7 @@ namespace SensingNet
                         this.m_AcceptTcpClient.Close();
 
                     }
-                    catch (Exception ex) { CToolkit.Logging.LoggerDictionary.Singleton.WriteAsyn(ex); }
+                    catch (Exception ex) { CToolkit.Logging.LoggerMapper.Singleton.WriteAsyn(ex); }
                 }
             }));
             this.bgWorkerTxReq.Start();

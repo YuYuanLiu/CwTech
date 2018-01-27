@@ -8,7 +8,7 @@ namespace SensingNet
     public class SignalEventArgs : EventArgs
     {
 
-        public SignalMgr.SignalHandler handler;
+        public Signal.SignalHandler handler;
 
         public Int32 DeviceId;
         public String DeviceName;

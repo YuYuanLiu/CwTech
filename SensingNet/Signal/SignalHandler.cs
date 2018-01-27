@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace SensingNet.SignalMgr
+namespace SensingNet.Signal
 {
     public class SignalHandler : CToolkit.IContextFlowRun
     {

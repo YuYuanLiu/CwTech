@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace SensingNet.SecsMgr
+namespace SensingNet.Secs
 {
     public class SecsMgrExecer : IContextFlowRun, IDisposable
     {
@@ -61,7 +61,7 @@ namespace SensingNet.SecsMgr
                     this.CfExec();
                     System.Threading.Thread.Sleep(1000);
                 }
-                catch (Exception ex) { LoggerDictionary.Singleton.WriteAsyn(ex); }
+                catch (Exception ex) { LoggerMapper.Singleton.WriteAsyn(ex); }
             }
 
             return 0;

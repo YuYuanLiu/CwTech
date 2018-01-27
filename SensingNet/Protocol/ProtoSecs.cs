@@ -8,13 +8,13 @@ using System.Text;
 
 namespace SensingNet.Protocol
 {
-    public class ProtoEthernetSecs : ProtoEthernetBase, IDisposable
+    public class ProtoSecs : ProtoBase, IDisposable
     {
 
         CToolkit.Secs.HsmsMessageReceiver hsmsMsgRcv = new CToolkit.Secs.HsmsMessageReceiver();
 
 
-        ~ProtoEthernetSecs() { this.Dispose(false); }
+        ~ProtoSecs() { this.Dispose(false); }
 
 
 

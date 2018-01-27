@@ -6,13 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using SensingNet.Protocol;
-using SensingNet.SignalMgr;
+using SensingNet.Signal;
 
 namespace SensingNet.Storage
 {
     public class FileStorage
     {
-        public DeviceCfg dCfg;
+        public DeviceCfg dConfig;
         Dictionary<UInt32, FileStorageEventArgs> svidData = new Dictionary<UInt32, FileStorageEventArgs>();
         Dictionary<UInt32, FileStorageEventArgs> currSvidPerSecData = new Dictionary<UInt32, FileStorageEventArgs>();
 
@@ -43,7 +43,7 @@ namespace SensingNet.Storage
         {
             if (ea.calibrateData.Count <= 0) return;
 
-            var signalCfg = this.dCfg.SignalCfgList.FirstOrDefault(x => x.DeviceSvid == ea.DeviceSvid);
+            var signalCfg = this.dConfig.SignalCfgList.FirstOrDefault(x => x.DeviceSvid == ea.DeviceSvid);
             if (signalCfg == null) return;
             if (String.IsNullOrEmpty(signalCfg.StorageDirectory)) return;
 
@@ -114,7 +114,7 @@ namespace SensingNet.Storage
                 try
                 {
                     var val = kv.Value;
-                    var signalCfg = this.dCfg.SignalCfgList.FirstOrDefault(x => x.DeviceSvid == kv.Key);
+                    var signalCfg = this.dConfig.SignalCfgList.FirstOrDefault(x => x.DeviceSvid == kv.Key);
                     if (signalCfg == null) continue;
 
                     var cd = this.GetCurrSvidPerSecData(signalCfg.DeviceSvid);
@@ -133,7 +133,7 @@ namespace SensingNet.Storage
                             currfi.CopyTo(copyto.FullName);
                     }
                 }
-                catch (Exception ex) { CToolkit.Logging.LoggerDictionary.Singleton.WriteAsyn(ex); }
+                catch (Exception ex) { CToolkit.Logging.LoggerMapper.Singleton.WriteAsyn(ex); }
             }
         }
 

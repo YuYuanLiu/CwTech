@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.SecsMgr
+namespace SensingNet.Secs
 {
     /// <summary>
     /// 提供 QSecsHandler 簡易資料處理

@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SensingNet.SignalMgr
+namespace SensingNet.Signal
 {
 
     [Serializable]

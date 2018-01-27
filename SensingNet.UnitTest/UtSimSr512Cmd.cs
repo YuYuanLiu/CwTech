@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MathNet.Numerics;
 using System.ComponentModel;
 using CToolkit.Net;
-using SensingNet.SignalMgr;
+using SensingNet.Signal;
 using System.Collections.Generic;
 using SensingNet.Protocol;
 
@@ -58,7 +58,7 @@ namespace SensingNet.UnitTest
             {
                 RemoteIp = "127.0.0.1",
                 RemotePort = 5000,
-                TxMode = EnumProtocol.CwcCmd,
+                TxMode = EnumProtocol.SensingNetCmd,
                 IsActivelyConnect = false,
                 IsActivelyTx = false,
                 TxInterval = 1000,
@@ -72,7 +72,7 @@ namespace SensingNet.UnitTest
 
 
 
-            using (var signalmgr = new SignalMgr.SignalMgrExecer())
+            using (var signalmgr = new Signal.SignalMgrExecer())
             {
 
                 signalmgr.evtSignalCapture += delegate (object sender, SignalEventArgs e)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.AlarmMgr
+namespace SensingNet.Alarm
 {
     public class AlarmMgrExecer : IDisposable, CToolkit.IContextFlow
     {
@@ -58,7 +58,7 @@ namespace SensingNet.AlarmMgr
                     if (diff.TotalSeconds > cfg.AlarmIntervalSec)
                     {
                         hdl.Value.lastAlarmTime = now;
-                        this.DoAlarm(new AlarmMgr.AlarmEventArgs() { handler = hdl.Value, signalEventArgs = ea });
+                        this.DoAlarm(new Alarm.AlarmEventArgs() { handler = hdl.Value, signalEventArgs = ea });
                     }
                     else { }
                 }

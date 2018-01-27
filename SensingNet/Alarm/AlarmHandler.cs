@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace SensingNet.AlarmMgr
+namespace SensingNet.Alarm
 {
     public class AlarmHandler : IContextFlow, IDisposable
     {

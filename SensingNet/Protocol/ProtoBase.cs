@@ -1,4 +1,4 @@
-﻿using SensingNet.SignalMgr;
+﻿using SensingNet.Signal;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SensingNet.Protocol
 {
-    public abstract class ProtoEthernetBase
+    public abstract class ProtoBase
     {
         public DeviceCfg dConfig;
 

@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 using CToolkit.Secs;
 using System.Net;
-using SensingNet.SecsMgr;
+using SensingNet.Secs;
 using CToolkit.Net;
 using System.Text;
 using System.Collections.Generic;
@@ -16,8 +16,8 @@ namespace SensingNet.MyTest.GenCfg
         [TestMethod]
         public void Test()
         {
-            var list = new List<SignalMgr.SignalCfg>();
-            list.Add(new SignalMgr.SignalCfg()
+            var list = new List<Signal.SignalCfg>();
+            list.Add(new Signal.SignalCfg()
             {
                 DeviceSvid = 0,
                 CalibrateSysScale = 1.4305115598745083734100087529426e-6,
@@ -27,12 +27,12 @@ namespace SensingNet.MyTest.GenCfg
                 StorageDirectory = "signals/toolid/svid",
             });
 
-            new SensingNet.SignalMgr.DeviceCfg()
+            new SensingNet.Signal.DeviceCfg()
             {
                 RemoteIp = "192.168.123.201",
                 RemotePort = 5000,
                 DeviceName = "test201.vibartion",
-                TxMode = Protocol.EnumProtocol.CwcCmd,
+                TxMode = Protocol.EnumProtocol.SensingNetCmd,
                 IsActivelyTx = true,
                 IsActivelyConnect = true,
                 TxInterval = 2000,

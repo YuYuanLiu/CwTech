@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace SensingNet.SecsMgr
+namespace SensingNet.Secs
 {
     /// <summary>
     /// 提供一個IP/Port的處理機制
@@ -81,7 +81,7 @@ namespace SensingNet.SecsMgr
                     }
                     catch (Exception ex)
                     {
-                        CToolkit.Logging.LoggerDictionary.Singleton.WriteAsyn(ex);
+                        CToolkit.Logging.LoggerMapper.Singleton.WriteAsyn(ex);
                     }
                     finally { System.Threading.Thread.Sleep(1000); }
                 }

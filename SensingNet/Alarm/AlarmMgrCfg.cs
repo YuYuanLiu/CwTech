@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SensingNet.SecsMgr
+namespace SensingNet.Secs
 {
     [Serializable]
     public class AlarmMgrCfg

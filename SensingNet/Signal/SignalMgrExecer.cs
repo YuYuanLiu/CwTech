@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace SensingNet.SignalMgr
+namespace SensingNet.Signal
 {
     public class SignalMgrExecer : IDisposable, IContextFlowRun
     {
@@ -60,7 +60,7 @@ namespace SensingNet.SignalMgr
                     this.CfExec();
                     System.Threading.Thread.Sleep(1000);
                 }
-                catch (Exception ex) { CToolkit.Logging.LoggerDictionary.Singleton.WriteAsyn(ex); }
+                catch (Exception ex) { CToolkit.Logging.LoggerMapper.Singleton.WriteAsyn(ex); }
             }
 
             return 0;
