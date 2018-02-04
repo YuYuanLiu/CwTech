@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.Secs
+namespace SensingNet.SecsMgr
 {
     /// <summary>
     /// 提供 QSecsHandler 簡易資料處理
@@ -14,26 +14,47 @@ namespace SensingNet.Secs
         public Storage.SignalCollector SignalCollector = new Storage.SignalCollector();
         public MathNet.Filtering.FIR.OnlineFirFilter filter;
 
+        int sampleRate;
+        int cutoffLow;
+        int cutoffHigh;
 
 
         public void InitFilterIfNull(EnumPassFilter passFilter, int sampleRate, int cutoffLow, int cutoffHigh)
         {
+
+            var flag = this.filter != null;
+            flag &= this.sampleRate == sampleRate;
+            flag &= this.cutoffLow == cutoffLow;
+            flag &= this.cutoffHigh == cutoffHigh;
+            if (flag) return;
+
+
+            this.sampleRate = sampleRate;
+            this.cutoffLow = cutoffLow;
+            this.cutoffHigh = cutoffHigh;
+
+
+
+            var coff = new double[0];
             switch (passFilter)
             {
                 case EnumPassFilter.BandPass:
-                    var coff = MathNet.Filtering.FIR.FirCoefficients.BandPass(
-                        sampleRate,
-                        cutoffLow,
-                        cutoffHigh
+                    coff = MathNet.Filtering.FIR.FirCoefficients.BandPass(
+                       sampleRate,
+                       cutoffLow,
+                       cutoffHigh
                     );
 
-                    filter = new MathNet.Filtering.FIR.OnlineFirFilter(coff);
                     break;
 
                 default:
                     filter = null;
                     break;
             }
+
+            filter = new MathNet.Filtering.FIR.OnlineFirFilter(coff);
+
+
 
         }
 
