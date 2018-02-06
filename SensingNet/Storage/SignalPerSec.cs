@@ -16,7 +16,6 @@ namespace SensingNet.Storage
     public class SignalPerSec
     {
         public DateTime dt;
-        public string fileName;
         public List<double> signals = new List<double>();
         public ComplexD[] fft { get; private set; }
         public ComplexD[] spectrum { get; private set; }

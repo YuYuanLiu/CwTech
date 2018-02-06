@@ -15,7 +15,7 @@ namespace SensingNet.Secs
         public bool isExec = false;
 
 
-        public const String DEFAULT_CONFIGS_FOLDER = "Config/QSecsConfigs/";
+        public String DefaultConfigsFolder = "Config/QSecsConfigs/";
         public CToolkit.Config.ConfigCollector<QSecsCfg> configs = new CToolkit.Config.ConfigCollector<QSecsCfg>();
         public Dictionary<String, QSecsHandler> handlers = new Dictionary<String, QSecsHandler>();
 
@@ -29,7 +29,7 @@ namespace SensingNet.Secs
             this.config = SecsMgrCfg.LoadFromFile();
             this.config.SaveToFile();
 
-            this.configs.Load(DEFAULT_CONFIGS_FOLDER);
+            this.configs.Load(DefaultConfigsFolder);
 
 
             return 0;

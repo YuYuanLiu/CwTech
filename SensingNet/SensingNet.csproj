@@ -94,8 +94,10 @@
     <Compile Include="Storage\FileStorage.cs" />
     <Compile Include="Storage\FileStorageEventArgs.cs" />
     <Compile Include="SimulateCmdProto.cs" />
+    <Compile Include="Storage\FileStorageFormat.cs" />
+    <Compile Include="Storage\FileStorageFormat_Csv0_1.cs" />
+    <Compile Include="Storage\FileStorageFormat_Csv0_0.cs" />
     <Compile Include="Storage\FileStorageFormat_Csv_0.cs" />
-    <Compile Include="Storage\FileStorageFormat_Tsv_0.cs" />
     <Compile Include="Storage\FileStorageInfo.cs" />
     <Compile Include="Storage\SignalCollector.cs" />
     <Compile Include="Storage\SignalPerSec.cs" />

@@ -12,6 +12,7 @@ namespace SensingNet.Storage
         public String currFile;
         public String directory;
         public System.IO.StreamWriter stream;
+        public FileStorageInfo fsInfo;
 
         public UInt32 svid;
 
@@ -45,7 +46,7 @@ namespace SensingNet.Storage
                             fi.Directory.Create();
 
                         this.stream = new StreamWriter(fi.FullName);
-                        this.stream.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(new Storage.FileStorageFormat_Csv_0()));
+                        this.fsInfo.WriteHeader(this.stream);
 
                         return true;
                     }

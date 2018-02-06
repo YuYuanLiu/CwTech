@@ -49,6 +49,7 @@ namespace SensingNet.Storage
 
 
             var now = DateTime.Now;
+            var nowUtc = now.ToUniversalTime();
             {//每分鐘 -> 實際儲存
                 var cd = this.GetSvidData(ea.DeviceSvid);
                 var fn = string.Format("dt{0}.signal", now.ToString("yyyyMMddHHmm"));
@@ -56,14 +57,8 @@ namespace SensingNet.Storage
 
                 //檔案是當前時區
                 cd.CreateStreamIfNewFile(dir, fn);
-                var timestamp = CToolkit.DateTimeStamp.ToUniversalTimestamp(now);
-
-                //Timestamp時實際時間
-                cd.stream.Write("{0}", timestamp);
-                for (int idx = 0; idx < ea.Data.Count; idx++)
-                    cd.stream.Write(",{0}", ea.calibrateData[idx]);
-                cd.stream.WriteLine();
-
+                cd.fsInfo.WriteValues(cd.stream, nowUtc, ea.calibrateData);
+                
 
                 DeleteOld(signalCfg, dir);
 
@@ -93,11 +88,7 @@ namespace SensingNet.Storage
                     DeleteOldCurrent(dir);
 
                 }
-                var timestamp = CToolkit.DateTimeStamp.ToUniversalTimestamp(now);
-                cd.stream.Write("{0}", timestamp);
-                for (int idx = 0; idx < ea.Data.Count; idx++)
-                    cd.stream.Write(",{0}", ea.calibrateData[idx]);
-                cd.stream.WriteLine();
+                cd.fsInfo.WriteValues(cd.stream, nowUtc, ea.calibrateData);
             }
 
         }

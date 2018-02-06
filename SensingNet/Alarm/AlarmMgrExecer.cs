@@ -7,7 +7,7 @@ namespace SensingNet.Alarm
 {
     public class AlarmMgrExecer : IDisposable, CToolkit.IContextFlow
     {
-        public const String DEFAULT_CONFIGS_FOLDER = "Config/AlarmConfigs/";
+        public String DefaultConfigsFolder = "Config/AlarmConfigs/";
         public CToolkit.Config.ConfigCollector<AlarmCfg> configs = new CToolkit.Config.ConfigCollector<AlarmCfg>();
         public Dictionary<String, AlarmHandler> handlers = new Dictionary<String, AlarmHandler>();
 
@@ -72,7 +72,7 @@ namespace SensingNet.Alarm
 
         public int CfInit()
         {
-            configs.Load(DEFAULT_CONFIGS_FOLDER);
+            configs.Load(DefaultConfigsFolder);
             return 0;
         }
 

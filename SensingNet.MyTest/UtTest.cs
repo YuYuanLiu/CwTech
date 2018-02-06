@@ -6,6 +6,7 @@ using System.Net;
 using SensingNet.Secs;
 using CToolkit.Net;
 using System.Text;
+using System.Globalization;
 
 namespace SensingNet.MyTest
 {
@@ -16,10 +17,11 @@ namespace SensingNet.MyTest
         public void Test()
         {
 
-            var a = CToolkit.CtkUtil.TryCatch(() =>
-            {
-                Console.WriteLine("AAA");
-            });
+
+            var dt = DateTime.ParseExact("2018/01/14","yyyy/MM/dd", CultureInfo.InvariantCulture);
+           var dd=  dt.ToLocalTime();
+            var dd2 = dt.ToUniversalTime();
+            var dd3 = dd2.ToUniversalTime();
             Console.WriteLine("B");
         }
 

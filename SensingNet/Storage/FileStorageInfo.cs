@@ -1,22 +1,47 @@
-using Cudafy.Types;
+using CToolkit.NumericProc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace SensingNet.Storage
 {
     public class FileStorageInfo
     {
-        public FileStorageFormat_Csv_0 header = new FileStorageFormat_Csv_0();
+        public FileStorageFormat header = new FileStorageFormat_Csv0_0();
         public SignalCollector collector = new SignalCollector();
 
-        
 
 
+        public void WriteHeader(StreamWriter sw)
+        {
+            sw.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(this.header));
+        }
+
+        /// <summary>
+        /// if utc.Kind is Unspecified then as UTC
+        /// </summary>
+        /// <param name="utc"></param>
+        /// <param name="values"></param>
+        public void WriteValues(StreamWriter sw, DateTime utc, IEnumerable<double> values)
+        {
+            //if utc.Kind is Unspecified then as UTC
+            if (utc.Kind == DateTimeKind.Unspecified)
+                utc = DateTime.SpecifyKind(utc, DateTimeKind.Utc);
+
+            //Loca / Utc ToUtcTimestamp 皆會轉成 UTC
+            var utcTimestamp = CToolkit.DateTimeStamp.ToUtcTimestamp(utc);
+            var localDt = utc.ToLocalTime();
+
+            sw.Write("{0}", utcTimestamp);
+            foreach (var val in values)
+                sw.Write(",{0}", val);
+            sw.WriteLine();
+
+        }
 
 
-        public void ReadStream(System.IO.StreamReader sr)
+        public void ReadStream(StreamReader sr)
         {
             var headerStr = sr.ReadLine();
             if (String.IsNullOrEmpty(headerStr)) return;
@@ -33,7 +58,8 @@ namespace SensingNet.Storage
                 //第一筆為 timestamp
                 var timestamp = 0.0;
                 if (!double.TryParse(vals[0], out timestamp)) continue;
-                //來源時間為Universal
+
+                //來源時間為Universal (檔案儲存時間)
                 var dt = CToolkit.DateTimeStamp.ToLocalDateTimeFromTimestamp(timestamp);
 
                 if (tfbps == null)
@@ -67,10 +93,18 @@ namespace SensingNet.Storage
         }
 
 
-        public void WriteStream()
+
+
+        public void ReadStream(StreamReader sr, CToolkit.NumericProc.EnumPassFilter passFilter, int sampleRate, int cutoffLow, int cutoffHigh)
         {
+            var filter = new FftOnlineFilter();
+            filter.SetFilter(passFilter, sampleRate, cutoffLow, cutoffHigh);
+
+
+
 
         }
+
 
 
 

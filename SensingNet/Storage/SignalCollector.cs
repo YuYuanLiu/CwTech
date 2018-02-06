@@ -20,7 +20,7 @@ namespace SensingNet.Storage
         public List<double> signals = new List<double>();
 
 
-        public ComplexD[] fft { get; private set; }
+        public ComplexD[] fft { get; private set; }//避免大量計算, 以RefreshTime作為重整
         public ComplexD[] spectrum { get; private set; }
 
         public double Max { get; private set; }
@@ -99,6 +99,11 @@ namespace SensingNet.Storage
         }
 
 
+        /// <summary>
+        /// just process each item (of list)
+        /// if needed, refresh data or time
+        /// </summary>
+        /// <param name="dataSize"></param>
         public void Interpolation(int dataSize)
         {
             foreach (var tfbps in this)
@@ -111,5 +116,15 @@ namespace SensingNet.Storage
         {
             base.GetObjectData(info, context);
         }
+
+
+
+
+        
+
+
+
+
+
     }
 }

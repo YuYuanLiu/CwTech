@@ -11,7 +11,7 @@ namespace SensingNet.Signal
     {
 
         public SignalMgrCfg arConfig;
-        public const String DEFAULT_DEVICE_CONFIGS_FOLDER = "Config/DeviceConfigs";
+        public String DefaultConfigsFilder = "Config/DeviceConfigs";
         public CToolkit.Config.ConfigCollector<DeviceCfg> configs = new CToolkit.Config.ConfigCollector<DeviceCfg>();
         Dictionary<String, SignalHandler> handlers = new Dictionary<String, SignalHandler>();
         public bool isExec = false;
@@ -33,7 +33,7 @@ namespace SensingNet.Signal
         public int CfLoad()
         {
             this.isExec = true;
-            this.configs.Load(DEFAULT_DEVICE_CONFIGS_FOLDER);
+            this.configs.Load(DefaultConfigsFilder);
 
             return 0;
         }

@@ -9,10 +9,10 @@ namespace SensingNet.Storage
     /// TC timestamp, data1, data2, ...
     /// </summary>
 
-    public class FileStorageFormat_Csv_0:FileStorageFormat
+    public class FileStorageFormat_Csv0_0 : FileStorageFormat
     {
-        
-        public FileStorageFormat_Csv_0()
+
+        public FileStorageFormat_Csv0_0()
         {
             this.FormatName = this.GetType().Name;
         }
