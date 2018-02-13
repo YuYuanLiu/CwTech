@@ -60,7 +60,7 @@ namespace SensingNet.Protocol
                 this.protoEthComm = new ProtoSecs();
 
             this.protoEthComm.dConfig = this.dConfig;
-            this.protoEthComm.evtDataTrigger += delegate (object sender, EventArgs e) { this.OnDataRcv(e); };
+            this.protoEthComm.evtDataTrigger += delegate(object sender, EventArgs e) { this.OnDataRcv(e); };
 
         }
 
@@ -191,7 +191,7 @@ namespace SensingNet.Protocol
                     this.m_ConnectTcpClient.Close();
                 });
             }
-                      
+
             if (this.local.Address == IPAddress.None)
                 this.m_TcpClient = new TcpClient();
             else
@@ -248,9 +248,11 @@ namespace SensingNet.Protocol
         {
             ProtoEthernet state = (ProtoEthernet)ar.AsyncState;
             TcpClient client = state.m_TcpClient;
-            if (client.Client == null || !client.Connected) return;
+
             try
             {
+                if (client.Client == null) return;
+                if (!client.Connected) return;
                 client.EndConnect(ar);
                 NetworkStream stream = client.GetStream();
 
@@ -269,6 +271,10 @@ namespace SensingNet.Protocol
             catch (SensingNetException ex)
             {
                 LoggerMapper.Singleton.WriteAsyn(ex);
+            }
+            catch (NullReferenceException ex)
+            {
+                LoggerMapper.Singleton.Write(ex);
             }
         }
 
