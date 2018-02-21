@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading;
 
@@ -46,6 +46,7 @@ namespace SensingNet.Storage
                             fi.Directory.Create();
 
                         this.stream = new StreamWriter(fi.FullName);
+                        this.fsInfo = new FileStorageInfo();
                         this.fsInfo.WriteHeader(this.stream);
 
                         return true;
