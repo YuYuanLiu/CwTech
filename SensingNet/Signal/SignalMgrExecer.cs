@@ -106,6 +106,7 @@ namespace SensingNet.Signal
                     hdl.CfInit();
                     hdl.evtSignalCapture += delegate(object sender, SignalEventArgs e)
                     {
+                        e.handler = hdl;
                         this.OnSignalCapture(e);
                     };
 
