@@ -89,45 +89,47 @@ float temperatureC[NumOfDhts];
 float temperatureF[NumOfDhts];
 float heatIndex[NumOfDhts];
 
+
+
 //=======================
 // Ethernet Function
 //=======================
 void printVibToEth() {
-	//Serial.println("printToEth...");
-	String respData = "cmd -respData";
-	respData += " -svid " + String(0);
-	respData += " -data ";
-	for (int idx = 0; idx < sizeAdsSignals; idx++)
-		respData += String(adsSignals[idx]) + " ";
+  //Serial.println("printToEth...");
+  String respData = "cmd -respData";
+  respData += " -svid " + String(0);
+  respData += " -data ";
+  for (int idx = 0; idx < sizeAdsSignals; idx++)
+    respData += String(adsSignals[idx]) + " ";
 
-	respData += "    \r\n";
+  respData += "    \r\n";
 
-	server.println(respData);
-	//printToSerial();
+  server.println(respData);
+  //printToSerial();
 }
 
 void printHumidityToEth() {
-	//Serial.println("printHumidityToEth...");
-	String respData = "cmd -respData";
-	respData += " -svid " + String(1);
-	respData += " -data ";
-	respData += String(1.0) + " ";
+  //Serial.println("printHumidityToEth...");
+  String respData = "cmd -respData";
+  respData += " -svid " + String(1);
+  respData += " -data ";
+  respData += String(1.0) + " ";
 
-	respData += "    \r\n";
-	//Serial.println(respData);
-	server.println(respData);
+  respData += "    \r\n";
+  //Serial.println(respData);
+  server.println(respData);
 }
 
 void printTemperatureToEth() {
-	//Serial.println("printHumidityToEth...");
-	String respData = "cmd -respData";
-	respData += " -svid " + String(2);
-	respData += " -data ";
-	respData += String(temperatureC[0]) + " ";
+  //Serial.println("printHumidityToEth...");
+  String respData = "cmd -respData";
+  respData += " -svid " + String(2);
+  respData += " -data ";
+  respData += String(temperatureC[0]) + " ";
 
-	respData += "    \r\n";
+  respData += "    \r\n";
 
-	server.println(respData);
+  server.println(respData);
 }
 
 //=======================
@@ -135,19 +137,19 @@ void printTemperatureToEth() {
 //=======================
 
 void readHumidity() {
-	for (int idx = 0; idx < NumOfDhts; idx++) {
-		humidity[idx] = dhtObj[idx]->readHumidity();
-		temperatureC[idx] = dhtObj[idx]->readTemperature(); // Read temperature as Celsius
-		temperatureF[idx] = dhtObj[idx]->readTemperature(true); // Read temperature as Fahrenheit
-		heatIndex[idx] = dhtObj[idx]->computeHeatIndex(temperatureF[idx],
-				humidity[idx]);
-	}
+  for (int idx = 0; idx < NumOfDhts; idx++) {
+    humidity[idx] = dhtObj[idx]->readHumidity();
+    temperatureC[idx] = dhtObj[idx]->readTemperature(); // Read temperature as Celsius
+    temperatureF[idx] = dhtObj[idx]->readTemperature(true); // Read temperature as Fahrenheit
+    heatIndex[idx] = dhtObj[idx]->computeHeatIndex(temperatureF[idx],
+        humidity[idx]);
+  }
 }
 
 void procReadHumidity() {
-	readHumidity();
-	printHumidityToEth();
-	printTemperatureToEth();
+  readHumidity();
+  printHumidityToEth();
+  printTemperatureToEth();
 }
 
 //=======================
@@ -155,70 +157,63 @@ void procReadHumidity() {
 //=======================
 
 byte Read_ADS1252() {
-	byte j = 0;
-	for (byte i = 0; i < 8; i++) {
-		j = j << 1;
-		//digitalWrite(ADS_SCLK, HIGH);
-		PORTD |= B00000100;
-		//if(digitalRead(ADS_DATA) == HIGH) j= j + 1;
-		if ((PIND & B00001000) > 0)
-			j = j + 1;
-		//digitalWrite(ADS_SCLK, LOW);
-		PORTD &= B11111011;
-	}
-	return j;
+  byte j = 0;
+  for (byte i = 0; i < 8; i++) {
+    j = j << 1;
+    //digitalWrite(ADS_SCLK, HIGH);
+    PORTD |= B00000100;
+    //if(digitalRead(ADS_DATA) == HIGH) j= j + 1;
+    if ((PIND & B00001000) > 0)
+      j = j + 1;
+    //digitalWrite(ADS_SCLK, LOW);
+    PORTD &= B11111011;
+  }
+  return j;
 }
 
 void reset_adc() {
-	digitalWrite(ADS_SCLK, HIGH); //Liu+20160510
-	delayMicroseconds(ADS1252_reset);
+  digitalWrite(ADS_SCLK, HIGH); //Liu+20160510
+  delayMicroseconds(ADS1252_reset);
 }
 void drdy_wait() {
-	delayMicroseconds(ADS1252_Drdy);
+  delayMicroseconds(ADS1252_Drdy);
 }
 
 void readVibrationSingle() {
-	drdy_wait();
-	ads_b1 = Read_ADS1252();
-	ads_b2 = Read_ADS1252();
-	ads_b3 = Read_ADS1252();
+  drdy_wait();
+  ads_b1 = Read_ADS1252();
+  ads_b2 = Read_ADS1252();
+  ads_b3 = Read_ADS1252();
 
-	ads_signal = ads_b1;
-	ads_signal <<= 8;
-	ads_signal += ads_b2;
-	ads_signal <<= 8;
-	ads_signal += ads_b3;
+  ads_signal = ads_b1;
+  ads_signal <<= 8;
+  ads_signal += ads_b2;
+  ads_signal <<= 8;
+  ads_signal += ads_b3;
 }
 
 void readVibration() {
-	for (int idx = 0; idx < sizeAdsSignals; idx++) {
-		long time = millis();
-		while (digitalRead(ADS_DATA) != HIGH) {
-			if (millis() - time > 5)
-				break;
-		}
-		readVibrationSingle();
-		adsSignals[idx] = ads_signal;
-		delayMicroseconds(100);
-	}
+  for (int idx = 0; idx < sizeAdsSignals; idx++) {
+    long time = millis();
+    while (digitalRead(ADS_DATA) != HIGH) {
+      if (millis() - time > 5)
+        break;
+    }
+    readVibrationSingle();
+    adsSignals[idx] = ads_signal;
+    delayMicroseconds(100);
+  }
 
 }
 
-void procReadVibration() {
-	readVibration();
-	printVibToEth();
-}
 
 //=======================
 // Basic Function
 //=======================
 void setup() {
 	//--- Serial --------------------------------------
-	Serial.begin(9600);
-  for(int i = 0 ; i < 5 && !Serial ; i++){
-    // wait for serial port to connect. Needed for native USB port only
-   delay(1000);
-  }
+  Serial.begin(9600);//可能沒有RS232的連線
+  
   //--- EEPROM --------------------------------------
   g_eeprom.IP[0]=1;
   g_eeprom.IP[1]=1;
@@ -226,54 +221,45 @@ void setup() {
   g_eeprom.IP[3]=1;
   CheckEEPROM_READ(&g_eeprom.IP[0],  sizeof(g_eeprom));
   
-	//--- Ethernet --------------------------------------
-	//Ethernet.begin(mac); //DHCP
-	//Ethernet.begin(mac, ip, myDns, gateway, subnet); // Full setting
-	Ethernet.begin(mac, ip);
-	server.begin();
-  if(Serial){
-    Serial.print("Server address:");
-    Serial.println(Ethernet.localIP());
-  }
+  //--- Ethernet --------------------------------------
+  //Ethernet.begin(mac); //DHCP
+  //Ethernet.begin(mac, ip, myDns, gateway, subnet); // Full setting
+  Ethernet.begin(mac, ip);
+  server.begin();
 
-	//--- ADS1252 --------------------------------------
-	pinMode(ADS_SCLK, OUTPUT);
-	pinMode(ADS_DATA, INPUT);
-	reset_adc();
-	digitalWrite(ADS_SCLK, LOW);
+  //--- ADS1252 --------------------------------------
+  pinMode(ADS_SCLK, OUTPUT);
+  pinMode(ADS_DATA, INPUT);
+  reset_adc();
+  digitalWrite(ADS_SCLK, LOW);
+  
 	//--- WDT --------------------------------------
 	wdt_enable(wdtTimeout);
 	//--- Timer --------------------------------------
 }
 void loop() {
 
-	//--- Main --------------------------------------
-	//Serial.println("Wait for connecting...");
-	EthernetClient client = server.available();
-	wdt_reset();
-	wdtCount++;
-	if (wdtCount > wdtMaxCount)
-		while (1)
-			;
-	if (client) {
-		wdtCount = 0;
-		{//無效工作, 但要留下來, compiler會把無用的code移除
-			int zeroCount = 0;
-			char readChar;
-			while (zeroCount < 1) {
-				readChar = client.read();
-				if (readChar < 0)
-					break;
-				zeroCount++;
-			}
-		}
-		procReadVibration();
+  EthernetClient client = server.available();
+  wdt_reset();
+  wdtCount++;
+  if (wdtCount > wdtMaxCount)
+    delay(10 * 1000);
+  if (client) {
+    //client.connected 也無法判斷是否連線
+    //即使連線了, 沒有資料過來也會是false
+    wdtCount = 0;
+    if(client.available()){
+      while (client.available()) client.read();
+      readVibration();
+      printVibToEth();
+    }
+    
 
-	} else {
-		delay(nothing_delay);
-	}
+  } else {
+    delay(nothing_delay);
+  }
 
-	Ethernet.maintain();
+  Ethernet.maintain();
 
   CheckSerialCMD();
 }
@@ -366,7 +352,7 @@ void serialEvent() {
 /*
  * CheckSerialCMD
  */
-void CheckSerialCMD()
+void rt()
 {
   if (stringComplete) {
     //Serial.println(recv_len); //For Test
