@@ -1,4 +1,4 @@
-﻿using CToolkit.NumericProc;
+using CToolkit.NumericProc;
 using Cudafy.Types;
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace SensingNet.Storage
 
 
         public ComplexD[] fft { get; private set; }//避免大量計算, 以RefreshTime作為重整
-        public ComplexD[] spectrum { get; private set; }
+        public ComplexD[] spectrum { get; private set; }//一半的FFT
 
         public double Max { get; private set; }
         public double Min { get; private set; }
@@ -110,6 +110,11 @@ namespace SensingNet.Storage
                 tfbps.Interpolation(dataSize);
         }
 
+        public double GetMagSpectrum(int idx)
+        {
+            var d = spectrum[idx];
+            return Math.Sqrt(d.x * d.x + d.y * d.y);
+        }
 
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -120,7 +125,7 @@ namespace SensingNet.Storage
 
 
 
-        
+
 
 
 
