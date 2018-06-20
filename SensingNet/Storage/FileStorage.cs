@@ -124,7 +124,7 @@ namespace SensingNet.Storage
                             currfi.CopyTo(copyto.FullName);
                     }
                 }
-                catch (Exception ex) { CToolkit.Logging.LoggerMapper.Singleton.WriteAsyn(ex); }
+                catch (Exception ex) { CToolkit.Logging.Logger.Singleton.WriteAsyn(ex); }
             }
         }
 

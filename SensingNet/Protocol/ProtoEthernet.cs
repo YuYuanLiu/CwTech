@@ -168,7 +168,7 @@ namespace SensingNet.Protocol
 
 
                 }
-                catch (Exception ex) { LoggerMapper.Singleton.WriteAsyn(ex); }
+                catch (Exception ex) { Logger.Singleton.WriteAsyn(ex); }
             }
         }
 
@@ -265,16 +265,16 @@ namespace SensingNet.Protocol
                 }
                 else
                 {
-                    LoggerMapper.Singleton.WriteAsyn(string.Format("Ready (last error: {0})", "Connect Failed!"));
+                    Logger.Singleton.WriteAsyn(string.Format("Ready (last error: {0})", "Connect Failed!"));
                 }
             }
             catch (SensingNetException ex)
             {
-                LoggerMapper.Singleton.WriteAsyn(ex);
+                Logger.Singleton.WriteAsyn(ex);
             }
             catch (NullReferenceException ex)
             {
-                LoggerMapper.Singleton.Write(ex);
+                Logger.Singleton.Write(ex);
             }
         }
 
@@ -300,10 +300,10 @@ namespace SensingNet.Protocol
                 }
                 else
                 {
-                    LoggerMapper.Singleton.WriteAsyn("Connect Failed!");
+                    Logger.Singleton.WriteAsyn("Connect Failed!");
                 }
             }
-            catch (Exception ex) { LoggerMapper.Singleton.WriteAsyn(ex); }
+            catch (Exception ex) { Logger.Singleton.WriteAsyn(ex); }
 
         }
 
@@ -330,7 +330,7 @@ namespace SensingNet.Protocol
                 stream.BeginRead(state.Buffer, 0, state.Buffer.Length, new AsyncCallback(EndReadCallback), state);
 
             }
-            catch (Exception ex) { CToolkit.Logging.LoggerMapper.Singleton.WriteAsyn(ex); }
+            catch (Exception ex) { CToolkit.Logging.Logger.Singleton.WriteAsyn(ex); }
         }
 
 

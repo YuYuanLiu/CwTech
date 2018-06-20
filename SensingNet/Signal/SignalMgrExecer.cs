@@ -60,7 +60,7 @@ namespace SensingNet.Signal
                     this.CfExec();
                     System.Threading.Thread.Sleep(1000);
                 }
-                catch (Exception ex) { CToolkit.Logging.LoggerMapper.Singleton.WriteAsyn(ex); }
+                catch (Exception ex) { CToolkit.Logging.Logger.Singleton.WriteAsyn(ex); }
             }
 
             return 0;

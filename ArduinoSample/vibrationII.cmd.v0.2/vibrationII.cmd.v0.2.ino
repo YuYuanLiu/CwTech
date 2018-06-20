@@ -352,7 +352,7 @@ void serialEvent() {
 /*
  * CheckSerialCMD
  */
-void rt()
+void CheckSerialCMD()
 {
   if (stringComplete) {
     //Serial.println(recv_len); //For Test

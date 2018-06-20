@@ -81,7 +81,7 @@ namespace SensingNet.Secs
                     }
                     catch (Exception ex)
                     {
-                        CToolkit.Logging.LoggerMapper.Singleton.WriteAsyn(ex);
+                        CToolkit.Logging.Logger.Singleton.WriteAsyn(ex);
                     }
                     finally { System.Threading.Thread.Sleep(1000); }
                 }

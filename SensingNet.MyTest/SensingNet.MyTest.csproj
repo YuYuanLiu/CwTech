@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CToolkit">
+      <HintPath>..\DLL\CToolkit.v0.0.1\CToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Cudafy.NET">
       <HintPath>..\DLL\CudafyV1.29\lib.net40\Cudafy.NET.dll</HintPath>
     </Reference>
@@ -82,10 +85,6 @@
     <Compile Include="UtTimeFreq.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit\CToolkit.csproj">
-      <Project>{7d28aa10-20b5-444a-990d-ef664646b169}</Project>
-      <Name>CToolkit</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SensingNet\SensingNet.csproj">
       <Project>{5e17ab06-38f0-4f7d-92cc-aebd354ded1e}</Project>
       <Name>SensingNet</Name>

@@ -61,7 +61,7 @@ namespace SensingNet.Secs
                     this.CfExec();
                     System.Threading.Thread.Sleep(1000);
                 }
-                catch (Exception ex) { LoggerMapper.Singleton.WriteAsyn(ex); }
+                catch (Exception ex) { Logger.Singleton.WriteAsyn(ex); }
             }
 
             return 0;
