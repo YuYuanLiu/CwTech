@@ -56,11 +56,13 @@ namespace SensingNet.Protocol
                 this.protoEthComm = new ProtoSensingNetCmd();
             else if (this.dConfig.TxMode == EnumProtocol.Phd)
                 this.protoEthComm = new ProtoPhd();
+            else if (this.dConfig.TxMode == EnumProtocol.Modbus)
+                this.protoEthComm = new ProtoModbus();
             else
                 this.protoEthComm = new ProtoSecs();
 
             this.protoEthComm.dConfig = this.dConfig;
-            this.protoEthComm.evtDataTrigger += delegate(object sender, EventArgs e) { this.OnDataRcv(e); };
+            this.protoEthComm.evtDataTrigger += delegate (object sender, EventArgs e) { this.OnDataRcv(e); };
 
         }
 

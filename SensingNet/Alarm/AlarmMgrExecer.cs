@@ -21,8 +21,7 @@ namespace SensingNet.Alarm
 
         public void DoAlarmCheck(SignalEventArgs ea)
         {
-            var tick = DateTime.Now - configs.LastUpdate;
-            if (tick.Seconds > 10) { configs.Update(); }//每10秒更新一次Config
+            this.configs.UpdateIfOverTime();
 
 
             this.RunHandlerStatus();
@@ -72,7 +71,7 @@ namespace SensingNet.Alarm
 
         public int CfInit()
         {
-            configs.Load(DefaultConfigsFolder);
+            configs.LoadFromFolder(DefaultConfigsFolder);
             return 0;
         }
 
@@ -109,41 +108,42 @@ namespace SensingNet.Alarm
             //Run過所有Config
             //有Config的會解除等待Dispoe
             //有Config的會執行CfRun
-            foreach (var cfg in this.configs)
-            {
-                AlarmHandler ah = null;
-                if (!this.handlers.ContainsKey(cfg.Key))
+            foreach (var dict in this.configs)
+                foreach (var cfg in dict.Value)
                 {
-                    ah = new AlarmHandler();
-                    this.handlers.Add(cfg.Key, ah);
+                    AlarmHandler ah = null;
+                    if (!this.handlers.ContainsKey(cfg.Key))
+                    {
+                        ah = new AlarmHandler();
+                        this.handlers.Add(cfg.Key, ah);
+                    }
+                    else { ah = this.handlers[cfg.Key]; }
+                    ah.config = cfg.Value;
+
+
+                    //解除等待Dispoe
+                    ah.WaitDispose = false;
+
+                    if (ah.status == EnumHandlerStatus.None)
+                    {
+                        ah.CfInit();
+                        ah.status = EnumHandlerStatus.Init;
+                    }
+
+
+                    if (ah.status == EnumHandlerStatus.Init)
+                    {
+                        ah.CfLoad();
+                        ah.status = EnumHandlerStatus.Load;
+                    }
+
+                    //有Config的持續作業
+                    if (ah.status == EnumHandlerStatus.Load || ah.status == EnumHandlerStatus.Run)
+                    {
+                        ah.status = EnumHandlerStatus.Run;
+                    }
+
                 }
-                else { ah = this.handlers[cfg.Key]; }
-                ah.config = cfg.Value;
-
-
-                //解除等待Dispoe
-                ah.WaitDispose = false;
-
-                if (ah.status == EnumHandlerStatus.None)
-                {
-                    ah.CfInit();
-                    ah.status = EnumHandlerStatus.Init;
-                }
-
-
-                if (ah.status == EnumHandlerStatus.Init)
-                {
-                    ah.CfLoad();
-                    ah.status = EnumHandlerStatus.Load;
-                }
-
-                //有Config的持續作業
-                if (ah.status == EnumHandlerStatus.Load || ah.status == EnumHandlerStatus.Run)
-                {
-                    ah.status = EnumHandlerStatus.Run;
-                }
-
-            }
 
 
             //沒有Config的會關閉

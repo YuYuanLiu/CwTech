@@ -29,7 +29,7 @@ namespace SensingNet.Secs
             this.config = SecsMgrCfg.LoadFromFile();
             this.config.SaveToFile();
 
-            this.configs.Load(DefaultConfigsFolder);
+            this.configs.LoadFromFolder(DefaultConfigsFolder);
 
 
             return 0;
@@ -40,13 +40,13 @@ namespace SensingNet.Secs
         }
         public int CfUnload()
         {
-            this.configs.Clear();
+            this.configs.ClearAll();
             this.RunHandlerStatus();
             return 0;
         }
         public int CfFree()
         {
-            this.configs.Clear();
+            this.configs.ClearAll();
             this.RunHandlerStatus();
             this.Dispose(false);
             return 0;
@@ -85,17 +85,18 @@ namespace SensingNet.Secs
 
 
             //廣播
-            foreach (var qsecscfg in this.configs)
-            {
-                if (!handlers.ContainsKey(qsecscfg.Key))
-                    handlers[qsecscfg.Key] = new QSecsHandler();
+            foreach (var dict in this.configs)
+                foreach (var qsecscfg in dict.Value)
+                {
+                    if (!handlers.ContainsKey(qsecscfg.Key))
+                        handlers[qsecscfg.Key] = new QSecsHandler();
 
-                var sh = handlers[qsecscfg.Key];
-                sh.cfg = qsecscfg.Value;
+                    var sh = handlers[qsecscfg.Key];
+                    sh.cfg = qsecscfg.Value;
 
-                //執行, 有相關的Handler自己處理
-                sh.DoRcvSignalData(sea);
-            }
+                    //執行, 有相關的Handler自己處理
+                    sh.DoRcvSignalData(sea);
+                }
 
 
         }
@@ -116,50 +117,51 @@ namespace SensingNet.Secs
             //Run過所有Config
             //有Config的會解除等待Dispoe
             //有Config的會執行CfRun
-            foreach (var cfg in this.configs)
-            {
-                QSecsHandler hdl = null;
-                if (!this.handlers.ContainsKey(cfg.Key))
+            foreach (var dict in this.configs)
+                foreach (var cfg in dict.Value)
                 {
-                    hdl = new QSecsHandler();
-                    this.handlers.Add(cfg.Key, hdl);
-                }
-                else { hdl = this.handlers[cfg.Key]; }
-                hdl.cfg = cfg.Value;
-
-                //解除等待Dispoe
-                hdl.WaitDispose = false;
-
-                if (hdl.status == EnumHandlerStatus.None)
-                {
-                    hdl.CfInit();
-                    hdl.evtReceiveData += delegate (object ss, HsmsConnector_EventArgsRcvData ea)
+                    QSecsHandler hdl = null;
+                    if (!this.handlers.ContainsKey(cfg.Key))
                     {
-                        this.OnReceiveData(new EventArgsSecsRcvData()
+                        hdl = new QSecsHandler();
+                        this.handlers.Add(cfg.Key, hdl);
+                    }
+                    else { hdl = this.handlers[cfg.Key]; }
+                    hdl.cfg = cfg.Value;
+
+                    //解除等待Dispoe
+                    hdl.WaitDispose = false;
+
+                    if (hdl.status == EnumHandlerStatus.None)
+                    {
+                        hdl.CfInit();
+                        hdl.evtReceiveData += delegate (object ss, HsmsConnector_EventArgsRcvData ea)
                         {
-                            handler = ss as QSecsHandler,
-                            message = ea.msg
-                        });
-                    };
-                    hdl.status = EnumHandlerStatus.Init;
+                            this.OnReceiveData(new EventArgsSecsRcvData()
+                            {
+                                handler = ss as QSecsHandler,
+                                message = ea.msg
+                            });
+                        };
+                        hdl.status = EnumHandlerStatus.Init;
+                    }
+
+
+                    if (hdl.status == EnumHandlerStatus.Init)
+                    {
+                        hdl.CfLoad();
+                        hdl.status = EnumHandlerStatus.Load;
+                    }
+
+                    //有Config的持續作業
+                    if (hdl.status == EnumHandlerStatus.Load || hdl.status == EnumHandlerStatus.Run)
+                    {
+
+                        hdl.status = EnumHandlerStatus.Run;
+                        hdl.CfRun();
+                    }
+
                 }
-
-
-                if (hdl.status == EnumHandlerStatus.Init)
-                {
-                    hdl.CfLoad();
-                    hdl.status = EnumHandlerStatus.Load;
-                }
-
-                //有Config的持續作業
-                if (hdl.status == EnumHandlerStatus.Load || hdl.status == EnumHandlerStatus.Run)
-                {
-
-                    hdl.status = EnumHandlerStatus.Run;
-                    hdl.CfRun();
-                }
-
-            }
 
 
             //沒有Config的會關閉

@@ -9,6 +9,7 @@ namespace SensingNet.Protocol
     {
         SensingNetCmd,
         Secs,
-        Phd
+        Phd,
+        Modbus,
     }
 }

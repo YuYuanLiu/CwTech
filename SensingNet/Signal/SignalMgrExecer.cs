@@ -33,21 +33,21 @@ namespace SensingNet.Signal
         public int CfLoad()
         {
             this.isExec = true;
-            this.configs.Load(DefaultConfigsFilder);
+            this.configs.LoadFromFolder(DefaultConfigsFilder);
 
             return 0;
         }
         public int CfUnload()
         {
             this.isExec = false;
-            this.configs.Clear();
+            this.configs.ClearAll();
             this.UpdateHandlerStatus();
             return 0;
         }
         public int CfFree()
         {
             this.isExec = false;
-            this.configs.Clear();
+            this.configs.ClearAll();
             this.UpdateHandlerStatus();
             return 0;
         }
@@ -87,8 +87,9 @@ namespace SensingNet.Signal
             //Run過所有Config
             //有Config的會解除等待Dispoe
             //有Config的會執行CfRun
-            foreach (var cfg in this.configs)
-            {
+            foreach (var dict in this.configs)
+                foreach (var cfg in dict.Value)
+                {
                 SignalHandler hdl = null;
                 if (!this.handlers.ContainsKey(cfg.Key))
                 {
