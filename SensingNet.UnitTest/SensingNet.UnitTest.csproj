@@ -37,10 +37,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CToolkit, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\CToolkit.v0.0.1\CToolkit.dll</HintPath>
-    </Reference>
     <Reference Include="Cudafy.NET, Version=1.29.5576.13786, Culture=neutral, PublicKeyToken=63a4c9931616906b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLL\CudafyV1.29\lib.net40\Cudafy.NET.dll</HintPath>
@@ -79,6 +75,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit\CToolkit.csproj">
+      <Project>{7d28aa10-20b5-444a-990d-ef664646b169}</Project>
+      <Name>CToolkit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SensingNet\SensingNet.csproj">
       <Project>{5e17ab06-38f0-4f7d-92cc-aebd354ded1e}</Project>
       <Name>SensingNet</Name>
