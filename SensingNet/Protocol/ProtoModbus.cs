@@ -1,4 +1,4 @@
-﻿using CToolkit.Secs;
+﻿using CToolkit.Modbus;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +11,7 @@ namespace SensingNet.Protocol
     public class ProtoModbus : ProtoBase, IDisposable
     {
 
-        CToolkit.Secs.HsmsMessageReceiver hsmsMsgRcv = new CToolkit.Secs.HsmsMessageReceiver();
+        ModbusMessageReceiver msgReceiver = new ModbusMessageReceiver();
 
 
         ~ProtoModbus() { this.Dispose(false); }
@@ -20,57 +20,37 @@ namespace SensingNet.Protocol
 
         public override void FirstConnect(Stream stream)
         {
-            var txMsg = HsmsMessage.CtrlMsg_SelectReq();
-            this.WriteMsg(stream, txMsg.ToBytes());
-            txMsg = HsmsMessage.CtrlMsg_LinktestReq();
-            this.WriteMsg(stream, txMsg.ToBytes());
-
+     
 
         }
 
 
         public override void ReceiveBytes(byte[] buffer, int offset, int length)
         {
-            this.hsmsMsgRcv.Receive(buffer, offset, length);
+            this.msgReceiver.Receive(buffer, offset, length);
         }
 
         public override bool IsReceiving()
         {
-            return this.hsmsMsgRcv.GetMsgBufferLength() > 0;
+            return this.msgReceiver.GetMsgBufferLength() > 0;
         }
         public override bool hasMessage()
         {
-            return this.hsmsMsgRcv.Count > 0;
+            return this.msgReceiver.Count > 0;
         }
 
         public override bool AnalysisData(Stream stream)
         {
-            var result = this.hsmsMsgRcv.Count > 0;
+            var result = this.msgReceiver.Count > 0;
 
-            while (hsmsMsgRcv.Count > 0)
+            while (msgReceiver.Count > 0)
             {
-                var msg = hsmsMsgRcv.Dequeue();
+                var msg = msgReceiver.Dequeue();
 
+                //TODO: Data Receive
 
-                switch (msg.header.SType)
-                {
-                    case 1:
-                        this.WriteMsg(stream, HsmsMessage.CtrlMsg_SelectRsp(0).ToBytes());
-                        continue;
-                    case 2:
-                        continue;
-                    case 5:
-                        this.WriteMsg(stream, HsmsMessage.CtrlMsg_LinktestRsp().ToBytes());
-                        continue;
-                    case 6:
-                        continue;
-                }
-
-
-
-
-
-                var list = msg.rootNode as CToolkit.Secs.SecsIINodeList;
+                /*
+                var list = msg;
 
                 for (int idx = 0;
                     idx < list.Data.Count && idx < this.dConfig.SignalCfgList.Count;
@@ -88,7 +68,7 @@ namespace SensingNet.Protocol
                     ea.Data.Add(double.Parse(data.GetString()));
 
                     this.OnDataTrigger(ea);
-                }
+                }*/
 
             }
 
@@ -106,21 +86,10 @@ namespace SensingNet.Protocol
         public override void WriteMsg_TxDataReq(Stream stream)
         {
 
-            var txMsg = new CToolkit.Secs.HsmsMessage();
-            txMsg.header.StreamId = 1;
-            txMsg.header.FunctionId = 3;
-            txMsg.header.WBit = true;
-            var sList = new CToolkit.Secs.SecsIINodeList();
-            //var sSvid = new CToolkit.Secs.SecsIINodeInt64();
+            var txMsg = new ModbusMessage();
 
-            foreach (var scfg in this.dConfig.SignalCfgList)
-            {
-                var sSvid = new CToolkit.Secs.SecsIINodeUInt32();
-                sSvid.Data.Add(scfg.DeviceSvid);
-                sList.Data.Add(sSvid);
-            }
+            //TODO: Data request
 
-            txMsg.rootNode = sList;
             this.WriteMsg(stream, txMsg.ToBytes());
 
         }

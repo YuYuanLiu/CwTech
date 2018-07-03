@@ -96,15 +96,15 @@ namespace SensingNet.MyTest
                 var rcvWave = new List<double>();
                 var sendIdx = 0;
 
-                Test_CtkTcpListener_Asyn.Test(
+                EqTest_CtkTcpListener_Asyn.Test(
                       "127.0.0.1",
                       5000,
-                      delegate (Test_CtkTcpListener_Asyn obj)
+                      delegate (EqTest_CtkTcpListener_Asyn obj)
                       {
 
                           return 0;
                       },
-                      delegate (Test_CtkTcpListener_Asyn obj, byte[] buffer, int length)
+                      delegate (EqTest_CtkTcpListener_Asyn obj, byte[] buffer, int length)
                       {
                           if (!obj.acceptClient.Connected) return 0;
                           System.Threading.Thread.Sleep(1);
@@ -113,7 +113,7 @@ namespace SensingNet.MyTest
 
                           return 0;
                       },
-                      delegate (Test_CtkTcpListener_Asyn obj)
+                      delegate (EqTest_CtkTcpListener_Asyn obj)
                       {
                           return 0;
                       }

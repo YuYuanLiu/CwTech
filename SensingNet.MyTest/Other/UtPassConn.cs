@@ -37,21 +37,21 @@ namespace SensingNet.MyTest
 
 
 
-                CToolkit.Net.Test_CtkTcpClient_Asyn.Test(
+                CToolkit.Net.EqTest_CtkTcpClient_Asyn.Test(
                     "127.0.0.1",
                     5001,
-                    delegate (Test_CtkTcpClient_Asyn obj)
+                    delegate (EqTest_CtkTcpClient_Asyn obj)
                     {
                         return 0;
                     },
-                    delegate (Test_CtkTcpClient_Asyn obj, byte[] buffer, int length)
+                    delegate (EqTest_CtkTcpClient_Asyn obj, byte[] buffer, int length)
                     {
                         var cmd = Encoding.UTF8.GetString(buffer, 0 , length);
                         System.Diagnostics.Debug.WriteLine(cmd);
 
                         return 0;
                     },
-                    delegate (Test_CtkTcpClient_Asyn obj)
+                    delegate (EqTest_CtkTcpClient_Asyn obj)
                     {
                         if (obj.client == null || !obj.client.Connected) return 0;
                         var stream = obj.client.GetStream();

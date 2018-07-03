@@ -62,7 +62,7 @@ namespace SensingNet.Protocol
                 this.protoEthComm = new ProtoSecs();
 
             this.protoEthComm.dConfig = this.dConfig;
-            this.protoEthComm.evtDataTrigger += delegate (object sender, EventArgs e) { this.OnDataRcv(e); };
+            this.protoEthComm.evtDataTrigger += delegate (object sender, EventArgs e) { this.OnDataReceive(e); };
 
         }
 
@@ -341,20 +341,20 @@ namespace SensingNet.Protocol
 
         public void CleanEvent()
         {
-            foreach (Delegate d in this.evtCapture.GetInvocationList())
+            foreach (Delegate d in this.evtDataReceive.GetInvocationList())
             {
-                this.evtCapture -= (EventHandler<EventArgs>)d;
+                this.evtDataReceive -= (EventHandler<EventArgs>)d;
             }
         }
 
 
 
-        public event EventHandler<EventArgs> evtCapture;
-        public void OnDataRcv(EventArgs ea)
+        public event EventHandler<EventArgs> evtDataReceive;
+        public void OnDataReceive(EventArgs ea)
         {
-            if (this.evtCapture == null)
+            if (this.evtDataReceive == null)
                 return;
-            this.evtCapture(this, ea);
+            this.evtDataReceive(this, ea);
         }
 
 

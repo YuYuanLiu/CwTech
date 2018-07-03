@@ -80,6 +80,7 @@
     <Compile Include="Other\UtSocket.cs" />
     <Compile Include="Other\UtTest.cs" />
     <Compile Include="Other\UtTimeFreq.cs" />
+    <Compile Include="UtModbus.cs" />
     <Compile Include="UtSampleCaptureSignal.cs" />
   </ItemGroup>
   <ItemGroup>

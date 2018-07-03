@@ -49,11 +49,11 @@ namespace SensingNet.MyTest
                 });
 
 
-                CToolkit.Net.Test_CtkTcpListener_Asyn.Test(
+                CToolkit.Net.EqTest_CtkTcpListener_Asyn.Test(
                     "127.0.0.1",
                      5000,
-                     delegate (Test_CtkTcpListener_Asyn obj) { return 0; },
-                     delegate (Test_CtkTcpListener_Asyn obj, byte[] buffer, int length)
+                     delegate (EqTest_CtkTcpListener_Asyn obj) { return 0; },
+                     delegate (EqTest_CtkTcpListener_Asyn obj, byte[] buffer, int length)
                      {
 
                          var rnd = new Random(DateTime.Now.Second);
@@ -61,7 +61,7 @@ namespace SensingNet.MyTest
                          obj.WriteMsg(String.Format("cmd -respData -data {0}    \r\n", val));
                          return 0;
                      },
-                     delegate (Test_CtkTcpListener_Asyn obj) { return 0; }
+                     delegate (EqTest_CtkTcpListener_Asyn obj) { return 0; }
                 );
 
 

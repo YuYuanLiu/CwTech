@@ -68,7 +68,7 @@ namespace SensingNet.Signal
                 localEndPoint,
                 remoteEndPoint,
                 this.config);
-            this.etherneter.evtCapture += capturer_evtDataRcv;
+            this.etherneter.evtDataReceive += capturer_evtDataRcv;
 
             return 0;
         }
