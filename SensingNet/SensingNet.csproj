@@ -34,6 +34,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CToolkit, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\CToolkit.v0.0\CToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Cudafy.NET">
       <HintPath>..\DLL\CudafyV1.29\lib.net40\Cudafy.NET.dll</HintPath>
     </Reference>
@@ -145,12 +149,6 @@
     <None Include="Config\AlarmConfigRef\simulate.alarm.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit\CToolkit.csproj">
-      <Project>{7d28aa10-20b5-444a-990d-ef664646b169}</Project>
-      <Name>CToolkit</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
