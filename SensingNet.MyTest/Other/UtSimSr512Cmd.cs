@@ -82,7 +82,7 @@ namespace SensingNet.MyTest
                         signalmgr.CfInit();
                         signalmgr.CfLoad();
                         signalmgr.CfRun();
-                        signalmgr.CfUnload();
+                        signalmgr.CfUnLoad();
                         signalmgr.CfFree();
                     }
                     catch (Exception ex)

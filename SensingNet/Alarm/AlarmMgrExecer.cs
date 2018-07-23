@@ -80,7 +80,7 @@ namespace SensingNet.Alarm
             return 0;
         }
 
-        public int CfUnload()
+        public int CfUnLoad()
         {
             return 0;
         }
@@ -152,7 +152,7 @@ namespace SensingNet.Alarm
             {
                 if (!ah.Value.WaitDispose) continue;
 
-                ah.Value.CfUnload();
+                ah.Value.CfUnLoad();
                 ah.Value.status = EnumHandlerStatus.Unload;
 
 

@@ -35,7 +35,7 @@ namespace SensingNet.MyTest
                     alarmMgr.CfLoad();
                     for (int idx = 0; idx < 10 && !signalMgr.isExec; idx++) { System.Threading.Thread.Sleep(1000); }
                     while (signalMgr.isExec) { System.Threading.Thread.Sleep(1000); }
-                    alarmMgr.CfUnload();
+                    alarmMgr.CfUnLoad();
                     alarmMgr.CfFree();
                 });
 
@@ -44,7 +44,7 @@ namespace SensingNet.MyTest
                     signalMgr.CfInit();
                     signalMgr.CfLoad();
                     signalMgr.CfRun();
-                    signalMgr.CfUnload();
+                    signalMgr.CfUnLoad();
                     signalMgr.CfFree();
                 });
 

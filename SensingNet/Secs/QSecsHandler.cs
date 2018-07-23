@@ -81,7 +81,7 @@ namespace SensingNet.Secs
                     }
                     catch (Exception ex)
                     {
-                        CToolkit.Logging.Logger.Singleton.WriteAsyn(ex);
+                        LoggerAssembly.Write(ex);
                     }
                     finally { System.Threading.Thread.Sleep(1000); }
                 }
@@ -89,7 +89,7 @@ namespace SensingNet.Secs
             return 0;
         }
 
-        public int CfUnload()
+        public int CfUnLoad()
         {
             return 0;
         }

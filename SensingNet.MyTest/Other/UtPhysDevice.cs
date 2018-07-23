@@ -28,7 +28,7 @@ namespace SensingNet.MyTest
                     signalmgr.CfInit();
                     signalmgr.CfLoad();
                     signalmgr.CfRun();
-                    signalmgr.CfUnload();
+                    signalmgr.CfUnLoad();
                     signalmgr.CfFree();
                 });
 
@@ -63,7 +63,7 @@ namespace SensingNet.MyTest
                 secsmgr.CfInit();
                 secsmgr.CfLoad();
                 secsmgr.CfRun();
-                secsmgr.CfUnload();
+                secsmgr.CfUnLoad();
                 secsmgr.CfFree();
 
 

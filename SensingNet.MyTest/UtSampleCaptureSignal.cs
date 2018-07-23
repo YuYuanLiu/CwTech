@@ -37,7 +37,7 @@ namespace SensingNet.MyTest
             }
             finally
             {
-                signalHandler.CfUnload();
+                signalHandler.CfUnLoad();
                 signalHandler.CfFree();
             }
 

@@ -32,7 +32,7 @@ namespace SensingNet.MyTest
                     execer.CfInit();
                     execer.CfLoad();
                     execer.CfRun();
-                    execer.CfUnload();
+                    execer.CfUnLoad();
                     execer.CfFree();
                 };
                 bgWorker2.RunWorkerAsync();

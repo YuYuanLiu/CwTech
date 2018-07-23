@@ -38,7 +38,7 @@ namespace SensingNet.Secs
         {
             return 0;
         }
-        public int CfUnload()
+        public int CfUnLoad()
         {
             this.configs.ClearAll();
             this.RunHandlerStatus();
@@ -61,7 +61,7 @@ namespace SensingNet.Secs
                     this.CfExec();
                     System.Threading.Thread.Sleep(1000);
                 }
-                catch (Exception ex) { Logger.Singleton.WriteAsyn(ex); }
+                catch (Exception ex) { LoggerAssembly.Write(ex); }
             }
 
             return 0;
@@ -170,7 +170,7 @@ namespace SensingNet.Secs
             {
                 if (!qsh.Value.WaitDispose) continue;
 
-                qsh.Value.CfUnload();
+                qsh.Value.CfUnLoad();
                 qsh.Value.status = EnumHandlerStatus.Unload;
 
 

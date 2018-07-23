@@ -77,7 +77,7 @@ namespace SensingNet.Signal
 
             return 0;
         }
-        public int CfUnload()
+        public int CfUnLoad()
         {
             this.etherneter.Disconnect();
             //this.evtCapture = null;

@@ -37,7 +37,7 @@ namespace SensingNet.Signal
 
             return 0;
         }
-        public int CfUnload()
+        public int CfUnLoad()
         {
             this.isExec = false;
             this.configs.ClearAll();
@@ -60,7 +60,7 @@ namespace SensingNet.Signal
                     this.CfExec();
                     System.Threading.Thread.Sleep(1000);
                 }
-                catch (Exception ex) { CToolkit.Logging.Logger.Singleton.WriteAsyn(ex); }
+                catch (Exception ex) { LoggerAssembly.Write(ex); }
             }
 
             return 0;
@@ -138,7 +138,7 @@ namespace SensingNet.Signal
 
                 if (dh.status == EnumHandlerStatus.Run)
                 {
-                    dh.CfUnload();
+                    dh.CfUnLoad();
                     dh.status = EnumHandlerStatus.Unload;
                 }
                 if (dh.status == EnumHandlerStatus.Unload)

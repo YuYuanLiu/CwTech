@@ -52,7 +52,7 @@ namespace SensingNet.Alarm
             return 0;
         }
 
-        public int CfUnload()
+        public int CfUnLoad()
         {
             return 0;
         }
