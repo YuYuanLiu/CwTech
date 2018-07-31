@@ -24,7 +24,7 @@ namespace SensingNet.Secs
         /// 一個Secs Handler需要一組IP/Port
         /// 對一個 IP/Port 而言, Svid 不應該重複, 因此用 Query SVID 作為Key
         /// </summary>
-        public Dictionary<UInt32, QSecsHandlerSvidData> qsvidDataDict = new Dictionary<UInt32, QSecsHandlerSvidData>();
+        public Dictionary<UInt32, QSecsHandlerSvidData> qsvidSignalDataDict = new Dictionary<UInt32, QSecsHandlerSvidData>();
 
 
 
@@ -134,6 +134,7 @@ namespace SensingNet.Secs
                 if (!flag && qsvidcfg.DeviceName == sea.DeviceName)
                     flag = true;
 
+                //需要對應SVID
                 flag &= qsvidcfg.DeviceSvid == sea.DeviceSvid;
 
                 if (!flag) continue;
@@ -163,7 +164,7 @@ namespace SensingNet.Secs
                 while (qsvidData.SignalCollector.Count > qsvidcfg.StatisticsSecond)
                 {
                     qsvidData.SignalCollector.RemoveFirst();
-                    if (this.qsvidDataDict.Count <= 0) break;
+                    if (this.qsvidSignalDataDict.Count <= 0) break;
                 }
             }
 
@@ -226,9 +227,9 @@ namespace SensingNet.Secs
 
         public QSecsHandlerSvidData GetSignalCollector(UInt32 qsvid)
         {
-            if (!this.qsvidDataDict.ContainsKey(qsvid))
-                this.qsvidDataDict[qsvid] = new QSecsHandlerSvidData();
-            return this.qsvidDataDict[qsvid];
+            if (!this.qsvidSignalDataDict.ContainsKey(qsvid))
+                this.qsvidSignalDataDict[qsvid] = new QSecsHandlerSvidData();
+            return this.qsvidSignalDataDict[qsvid];
         }
         public QSvidCfg GetQSvidCfg(UInt32 qsvid)
         {

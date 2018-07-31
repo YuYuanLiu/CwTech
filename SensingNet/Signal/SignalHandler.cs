@@ -16,15 +16,6 @@ namespace SensingNet.Signal
         public bool WaitDispose = false;
 
 
-        #region Event
-        public event EventHandler<SignalEventArgs> evtSignalCapture;
-        void OnSignalCapture(SignalEventArgs e)
-        {
-            if (evtSignalCapture == null) return;
-            this.evtSignalCapture(this, e);
-        }
-        #endregion
-
 
         void capturer_evtDataRcv(object sender, EventArgs ea)
         {
@@ -134,6 +125,18 @@ namespace SensingNet.Signal
 
             return localIp;
         }
+
+
+
+
+        #region Event
+        public event EventHandler<SignalEventArgs> evtSignalCapture;
+        void OnSignalCapture(SignalEventArgs e)
+        {
+            if (evtSignalCapture == null) return;
+            this.evtSignalCapture(this, e);
+        }
+        #endregion
 
     }
 }

@@ -80,9 +80,9 @@ namespace SensingNet.Protocol
             if (!this.IsConnected)
             {
                 if (this.dConfig.IsActivelyConnect)
-                    this.DeviceIsActiveConnect();
+                    this.EndServerConnect_DeviceIsActive();
                 else
-                    this.DeviceIsPassiveConnect();
+                    this.EndClientConnect_DeviceIsPassive();
             }
 
             //通訊活的話, 不用重啟
@@ -132,23 +132,11 @@ namespace SensingNet.Protocol
                     if (this.m_ConnectTcpClient == null || !this.m_ConnectTcpClient.Connected) { System.Threading.Thread.Sleep(1000); continue; }
 
 
-                    //若5秒內無法結束接收, 先往下走
-                    /*
-                    var timeoutRecord = DateTime.Now;
-                    while (DateTime.Now - timeoutRecord < TimeSpan.FromSeconds(5))
-                    {
-                        //沒資料可以接收也往下走
-                        if (!this.protoEthComm.IsReceiving()) break;
-                    }
-                    //等待資料接收處理序通知, 太久沒通知就往下走
-                    */
-
-
                     this.mreHasMsg.WaitOne(this.dConfig.TimeoutResponse);
                     NetworkStream stream = this.m_ConnectTcpClient.GetStream();
                     this.protoEthComm.AnalysisData(stream);
                     if (this.protoEthComm.hasMessage())
-                        this.mreHasMsg.Set();
+                        this.mreHasMsg.Set();//有訊息, 下一次也不用等
                     else
                         this.mreHasMsg.Reset();
 
@@ -175,7 +163,7 @@ namespace SensingNet.Protocol
         }
 
 
-        void DeviceIsPassiveConnect()
+        void EndClientConnect_DeviceIsPassive()
         {
             if (this.m_TcpClient != null)
             {
@@ -205,7 +193,7 @@ namespace SensingNet.Protocol
                 this.remote.Port,
                 new AsyncCallback(ClientEndConnectCallback), this);
         }
-        void DeviceIsActiveConnect()
+        void EndServerConnect_DeviceIsActive()
         {
             if (this.m_TcpListener != null)
             {
@@ -325,7 +313,7 @@ namespace SensingNet.Protocol
 
                 protoEthComm.ReceiveBytes(state.Buffer, 0, bytesRead);
                 if (this.protoEthComm.hasMessage())
-                    this.mreHasMsg.Set();
+                    this.mreHasMsg.Set();//己完成一個訊息以上, 就不用等了
                 else
                     this.mreHasMsg.Reset();
 

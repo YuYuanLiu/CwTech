@@ -69,27 +69,30 @@ namespace SensingNet.Protocol
 
 
 
-
-                var list = msg.rootNode as CToolkit.Secs.SecsIINodeList;
-
-                for (int idx = 0;
-                    idx < list.Data.Count && idx < this.dConfig.SignalCfgList.Count;
-                    idx++)
+                try
                 {
+                    var list = msg.rootNode as CToolkit.Secs.SecsIINodeList;
 
-                    var ea = new SignalEventArgs();
-                    var scfg = this.dConfig.SignalCfgList[idx];
-                    ea.DeviceSvid = scfg.DeviceSvid;
+                    for (int idx = 0;
+                        idx < list.Data.Count && idx < this.dConfig.SignalCfgList.Count;
+                        idx++)
+                    {
 
-                    var data = list.Data[idx] as CToolkit.Secs.SecsIINodeASCII;
-                    if (data.Data.Count <= 0) continue;
+                        var ea = new SignalEventArgs();
+                        var scfg = this.dConfig.SignalCfgList[idx];
+                        ea.DeviceSvid = scfg.DeviceSvid;
 
-                    ea.Data = new List<double>();
-                    ea.Data.Add(double.Parse(data.GetString()));
+                        var data = list.Data[idx] as CToolkit.Secs.SecsIINodeASCII;
+                        if (data.Data.Count <= 0) continue;
 
-                    this.OnDataTrigger(ea);
+                        ea.Data = new List<double>();
+                        ea.Data.Add(double.Parse(data.GetString()));
+
+                        this.OnDataTrigger(ea);
+                    }
+
                 }
-
+                catch (Exception ex) { LoggerAssembly.Write(ex); }
             }
 
             return result;

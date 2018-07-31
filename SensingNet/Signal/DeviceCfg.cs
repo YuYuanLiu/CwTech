@@ -36,6 +36,6 @@ namespace SensingNet.Signal
 
 
 
-        public void SaveToXmlFile(string fn) { CToolkit.CtkUtil.SaveToXmlFile(this, fn); }
+        public void SaveToXmlFile(string fn) { CToolkit.CtkUtil.SaveToXmlFileT(this, fn); }
     }
 }

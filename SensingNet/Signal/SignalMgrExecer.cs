@@ -10,7 +10,7 @@ namespace SensingNet.Signal
     public class SignalMgrExecer : IDisposable, IContextFlowRun
     {
 
-        public SignalMgrCfg arConfig;
+        public SignalMgrCfg mgrConfig;
         public String DefaultConfigsFilder = "Config/DeviceConfigs";
         public CToolkit.Config.ConfigCollector<DeviceCfg> configs = new CToolkit.Config.ConfigCollector<DeviceCfg>();
         Dictionary<String, SignalHandler> handlers = new Dictionary<String, SignalHandler>();
@@ -25,15 +25,15 @@ namespace SensingNet.Signal
 
         public int CfInit()
         {
-            this.arConfig = SignalMgrCfg.LoadFromFile();
-            this.arConfig.SaveToFile();
+            this.mgrConfig = SignalMgrCfg.LoadFromFile();
+            this.mgrConfig.SaveToFile();
 
             return 0;
         }
         public int CfLoad()
         {
             this.isExec = true;
-            this.configs.LoadFromFolder(DefaultConfigsFilder);
+            this.configs.UpdateFromFolder(DefaultConfigsFilder);
 
             return 0;
         }

@@ -71,7 +71,7 @@ namespace SensingNet.Alarm
 
         public int CfInit()
         {
-            configs.LoadFromFolder(DefaultConfigsFolder);
+            configs.UpdateFromFolder(DefaultConfigsFolder);
             return 0;
         }
 

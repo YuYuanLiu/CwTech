@@ -29,7 +29,7 @@ namespace SensingNet.Secs
             this.config = SecsMgrCfg.LoadFromFile();
             this.config.SaveToFile();
 
-            this.configs.LoadFromFolder(DefaultConfigsFolder);
+            this.configs.UpdateFromFolder(DefaultConfigsFolder);
 
 
             return 0;

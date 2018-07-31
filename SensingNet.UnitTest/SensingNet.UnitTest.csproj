@@ -37,10 +37,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CToolkit, Version=0.0.2.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\CToolkit.v0.0\CToolkit.dll</HintPath>
-    </Reference>
     <Reference Include="Cudafy.NET, Version=1.29.5576.13786, Culture=neutral, PublicKeyToken=63a4c9931616906b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLL\CudafyV1.29\lib.net40\Cudafy.NET.dll</HintPath>
@@ -60,6 +56,7 @@
       <HintPath>..\DLL\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <Choose>
@@ -77,25 +74,24 @@
   <ItemGroup>
     <Compile Include="GenCfg\UtGenAlarmCfg.cs" />
     <Compile Include="GenCfg\UtGenDeviceCfg.cs" />
-    <Compile Include="Other\UtAlarm.cs" />
     <Compile Include="Other\UtBaseSignal.cs" />
     <Compile Include="Other\UtDevice.cs" />
     <Compile Include="Other\UtDspHighPass.cs" />
     <Compile Include="Other\UtFft.cs" />
     <Compile Include="Other\UtMainSignalMgr.cs" />
     <Compile Include="Other\UtMemStreamTest.cs" />
-    <Compile Include="Other\UtPassConn.cs" />
     <Compile Include="Other\UtPhysDevice.cs" />
-    <Compile Include="Other\UtSimSr512Cmd.cs" />
-    <Compile Include="Other\UtSocket.cs" />
     <Compile Include="Other\UtTest.cs" />
     <Compile Include="Other\UtTimeFreq.cs" />
     <Compile Include="UtModbus.cs" />
     <Compile Include="UtSampleCaptureSignal.cs" />
-    <Compile Include="UtSimSr512Cmd.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit\CToolkit.csproj">
+      <Project>{7d28aa10-20b5-444a-990d-ef664646b169}</Project>
+      <Name>CToolkit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SensingNet\SensingNet.csproj">
       <Project>{5e17ab06-38f0-4f7d-92cc-aebd354ded1e}</Project>
       <Name>SensingNet</Name>

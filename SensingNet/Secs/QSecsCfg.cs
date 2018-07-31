@@ -18,7 +18,7 @@ namespace SensingNet.Secs
         public List<QSvidCfg> QSvidCfgList = new List<QSvidCfg>();
 
 
-        public void SaveToXmlFile(string fn) { CToolkit.CtkUtil.SaveToXmlFile(this, fn); }
+        public void SaveToXmlFile(string fn) { CToolkit.CtkUtil.SaveToXmlFileT(this, fn); }
 
     }
 
