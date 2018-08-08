@@ -16,5 +16,10 @@ namespace SensingNet
         {
             Logger.Write(ea);
         }
+
+        public static void Write(String format, params object[] args)
+        {
+            Logger.Write(string.Format(format, args));
+        }
     }
 }
