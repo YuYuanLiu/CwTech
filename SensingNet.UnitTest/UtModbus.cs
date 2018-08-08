@@ -17,7 +17,7 @@ namespace SensingNet.MyTest
         public void TestMethod()
         {
             var remoteEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502);
-            var nonStopTcpClient = new CToolkit.Net.CtkNonStopTcpClient(null, remoteEp);
+            var nonStopTcpClient = new CToolkit.Net.CtkNonStopTcpClient( remoteEp);
             nonStopTcpClient.evtDataReceive += delegate (object sender, CToolkit.Net.CtkNonStopTcpStateEventArgs e)
             {
                 System.Diagnostics.Debug.WriteLine(e.length);
