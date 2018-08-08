@@ -90,7 +90,7 @@ namespace SensingNet.Protocol
 
             //TODO: Data request
 
-            this.WriteMsg(stream, txMsg.ToBytes());
+            this.WriteMsg(stream, txMsg.ToRequestBytes());
 
         }
         public override void WriteMsg_TxDataAck(Stream stream)
