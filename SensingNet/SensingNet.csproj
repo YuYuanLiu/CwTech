@@ -61,11 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Alarm\AlarmCfg.cs" />
-    <Compile Include="Alarm\AlarmMgrExecer.cs" />
-    <Compile Include="Alarm\AlarmMgrCfg.cs" />
-    <Compile Include="Alarm\AlarmHandler.cs" />
-    <Compile Include="Alarm\AlarmEventArgs.cs" />
     <Compile Include="EnumHandlerStatus.cs" />
     <Compile Include="EnumPassFilter.cs" />
     <Compile Include="LoggerAssembly.cs" />
@@ -104,19 +99,18 @@
     <Compile Include="Storage\SignalCollector.cs" />
     <Compile Include="Storage\SignalPerSec.cs" />
     <Compile Include="Util.cs" />
-    <Compile Include="VData\TimeFreqImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\DeviceConfigRef\simulate.vibration.device.config" />
-    <None Include="Config\AlarmConfigRef\simulate.alarm.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit\CToolkit.csproj">
       <Project>{7d28aa10-20b5-444a-990d-ef664646b169}</Project>
       <Name>CToolkit</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Management\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
