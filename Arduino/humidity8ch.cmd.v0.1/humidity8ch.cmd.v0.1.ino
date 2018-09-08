@@ -145,6 +145,51 @@ void printToEth() {
 
 }
 
+//====================================
+// Ethernet
+//====================================
+
+void procEth() {
+  if(Serial)
+	  Serial.println("Wait for connecting...");
+  
+	EthernetClient client = server.available();
+	wdt_reset();
+	wdtCount++;
+	if (wdtCount > wdtMaxCount)
+		while (1)
+			;
+	if (client) {
+		wdtCount = 0;
+		ethReadBuffer = "";
+		int zeroCount = 0;
+		char readChar = 0;
+		while (client.available()) {
+			readChar = client.read();
+			if (readChar < 0)
+				continue;
+			if (readChar == '\n')
+				break;
+			ethReadBuffer += readChar;
+
+			if (ethReadBuffer.length() > 8) {
+				if (ethReadBuffer.indexOf("cmd") < 0)
+					ethReadBuffer = ethReadBuffer.substring(4);
+			}
+
+			zeroCount++;
+		}
+
+		if (ethReadBuffer.indexOf("-reqData") >= 0) {
+			printToEth();
+			wdt_reset();
+		}
+
+	}
+
+  Ethernet.maintain(); //必加
+
+}
 
 //====================================
 // DHT
@@ -229,46 +274,7 @@ void loop() {
 	Get_DHT22_Data();
 
 	printToSerial();
-	
-
-
-  EthernetClient client = server.available();
-  wdt_reset();
-  wdtCount++;
-  if (wdtCount > wdtMaxCount)
-    delay(16 * 1000);
-  if (client) {
-    wdtCount = 0;
-    ethReadBuffer = "";
-    int zeroCount = 0;
-    char readChar = 0;
-    while (client.available()) {
-      readChar = client.read();
-      if (readChar < 0)
-        continue;
-      if (readChar == '\n')
-        break;
-      ethReadBuffer += readChar;
-
-      if (ethReadBuffer.length() > 8) {
-        if (ethReadBuffer.indexOf("cmd") < 0)
-          ethReadBuffer = ethReadBuffer.substring(4);
-      }
-
-      zeroCount++;
-    }
-
-    if (ethReadBuffer.indexOf("-reqData") >= 0) {
-      printToEth();
-      wdt_reset();
-    }
-
-  } else {
-    delay(nothing_delay);
-  }
-
-  Ethernet.maintain(); //必加
-
+	procEth();
 
   
 
