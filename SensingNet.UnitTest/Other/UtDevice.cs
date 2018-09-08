@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
+using SensingNet.v0_0;
 
 namespace SensingNet.MyTest
 {
@@ -13,7 +14,7 @@ namespace SensingNet.MyTest
 
 
             using (var simCmd = new SimulateCmdProto("127.0.0.1", 5000))
-            using (var execer = new Signal.SignalMgrExecer())
+            using (var execer = new v0_0.Signal.SignalMgrExecer())
             {
                 simCmd.StartConnect();
 

@@ -2,8 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 using CToolkit.Secs;
-using System.Net;
-using SensingNet.Secs;
 using CToolkit.Net;
 using System.Text;
 using System.Globalization;

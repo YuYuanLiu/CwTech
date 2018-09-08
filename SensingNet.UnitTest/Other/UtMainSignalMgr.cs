@@ -14,7 +14,7 @@ namespace SensingNet.MyTest
 
 
 
-            using (var signalMgr = new Signal.SignalMgrExecer())
+            using (var signalMgr = new v0_0.Signal.SignalMgrExecer())
             {
 
                 CToolkit.Logging.LoggerMapper.Singleton.Get().evtLogWrite += UtMainSignalMgr_evtLogWrite;

@@ -3,7 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 using CToolkit.Secs;
 using System.Net;
-using SensingNet.Secs;
+using SensingNet.v0_0;
+using SensingNet.v0_0.Secs;
 
 namespace SensingNet.MyTest
 {
@@ -14,8 +15,8 @@ namespace SensingNet.MyTest
         public void SecsTest()
         {
 
-            using (var signalmgr = new Signal.SignalMgrExecer())
-            using (var secsmgr = new Secs.SecsMgrExecer())
+            using (var signalmgr = new v0_0. Signal.SignalMgrExecer())
+            using (var secsmgr = new v0_0.Secs.SecsMgrExecer())
             {
 
 

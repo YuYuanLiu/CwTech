@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 using CToolkit.Secs;
 using System.Net;
-using SensingNet.Secs;
 using CToolkit.Net;
 using System.Text;
 using System.Collections.Generic;
@@ -33,8 +32,8 @@ namespace SensingNet.MyTest.GenCfg
         void Vibration(DirectoryInfo dirInfo)
         {
 
-            var list = new List<Signal.SignalCfg>();
-            list.Add(new Signal.SignalCfg()
+            var list = new List<v0_0.Signal.SignalCfg>();
+            list.Add(new v0_0.Signal.SignalCfg()
             {
                 DeviceSvid = 0,
                 CalibrateSysScale = 1.4305115598745083734100087529426e-6,
@@ -46,12 +45,12 @@ namespace SensingNet.MyTest.GenCfg
 
 
 
-            new SensingNet.Signal.DeviceCfg()
+            new v0_0.Signal.DeviceCfg()
             {
                 RemoteIp = "192.168.123.201",
                 RemotePort = 5000,
                 DeviceName = "test201.vibartion",
-                TxMode = Protocol.EnumProtocol.SensingNetCmd,
+                TxMode =v0_0. Protocol.EnumProtocol.SensingNetCmd,
                 IsActivelyTx = true,
                 IsActivelyConnect = true,
                 TxInterval = 2000,
@@ -64,8 +63,8 @@ namespace SensingNet.MyTest.GenCfg
         void Modbus(DirectoryInfo dirInfo)
         {
 
-            var list = new List<Signal.SignalCfg>();
-            list.Add(new Signal.SignalCfg()
+            var list = new List<v0_0.Signal.SignalCfg>();
+            list.Add(new v0_0.Signal.SignalCfg()
             {
                 DeviceSvid = 0,
                 CalibrateSysScale = 1,
@@ -77,12 +76,12 @@ namespace SensingNet.MyTest.GenCfg
 
 
 
-            new SensingNet.Signal.DeviceCfg()
+            new v0_0.Signal.DeviceCfg()
             {
                 RemoteIp = "192.168.123.201",
                 RemotePort = 5000,
                 DeviceName = "test201.vibartion",
-                TxMode = Protocol.EnumProtocol.SensingNetCmd,
+                TxMode = v0_0.Protocol.EnumProtocol.SensingNetCmd,
                 IsActivelyTx = true,
                 IsActivelyConnect = true,
                 TxInterval = 2000,

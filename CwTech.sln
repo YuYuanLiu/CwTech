@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet", "SensingNet\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.UnitTest", "SensingNet.UnitTest\SensingNet.UnitTest.csproj", "{86C649CC-824E-4DBB-8161-82DC67268E84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.WebMain", "SensingNet.WebMain\SensingNet.WebMain.csproj", "{2155979A-DDC0-460C-8410-4F417506A346}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CToolkit", "..\ctoolkit.csharp\CToolkit\CToolkit.csproj", "{7D28AA10-20B5-444A-990D-EF664646B169}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,14 +21,6 @@ Global
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2155979A-DDC0-460C-8410-4F417506A346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2155979A-DDC0-460C-8410-4F417506A346}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2155979A-DDC0-460C-8410-4F417506A346}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2155979A-DDC0-460C-8410-4F417506A346}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D28AA10-20B5-444A-990D-EF664646B169}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D28AA10-20B5-444A-990D-EF664646B169}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D28AA10-20B5-444A-990D-EF664646B169}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D28AA10-20B5-444A-990D-EF664646B169}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
