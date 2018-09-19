@@ -106,13 +106,12 @@
     <Compile Include="Util.cs" />
     <Content Include="v0_0\SignalWithStorageTime.txt" />
     <Content Include="v0_0\SignalWithTimeTag.txt" />
+    <Content Include="v0_1\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="v0_0\Config\DeviceConfigRef\simulate.vibration.device.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="v0_1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
