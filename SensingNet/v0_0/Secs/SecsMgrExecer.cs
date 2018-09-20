@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 
 namespace SensingNet.v0_0.Secs
 {
@@ -69,8 +70,17 @@ namespace SensingNet.v0_0.Secs
         }
         public int CfExec()
         {
-            this.configs.UpdateIfOverTime();
-            this.RunHandlerStatus();
+            try
+            {
+                if (!Monitor.TryEnter(this, 5 * 1000)) return -1;
+
+                this.configs.UpdateIfOverTime();
+                this.RunHandlerStatus();
+            }
+            finally
+            {
+                Monitor.Exit(this);
+            }
             return 0;
         }
 
@@ -82,23 +92,30 @@ namespace SensingNet.v0_0.Secs
         /// </summary>
         public void DoSecsDataUpdate(SignalEventArgs sea)
         {
-            this.configs.UpdateIfOverTime();
+            try
+            {
+                if (!Monitor.TryEnter(this, 5 * 1000)) return;
+                this.configs.UpdateIfOverTime();
 
 
-            //廣播
-            foreach (var dict in this.configs)
-                foreach (var qsecscfg in dict.Value)
-                {
-                    if (!handlers.ContainsKey(qsecscfg.Key))
-                        handlers[qsecscfg.Key] = new QSecsHandler();
+                //廣播
+                foreach (var dict in this.configs)
+                    foreach (var qsecscfg in dict.Value)
+                    {
+                        if (!handlers.ContainsKey(qsecscfg.Key))
+                            handlers[qsecscfg.Key] = new QSecsHandler();
 
-                    var sh = handlers[qsecscfg.Key];
-                    sh.cfg = qsecscfg.Value;
+                        var sh = handlers[qsecscfg.Key];
+                        sh.cfg = qsecscfg.Value;
 
-                    //執行, 有相關的Handler自己處理
-                    sh.DoRcvSignalData(sea);
-                }
-
+                        //執行, 有相關的Handler自己處理
+                        sh.DoRcvSignalData(sea);
+                    }
+            }
+            finally
+            {
+                Monitor.Exit(this);
+            }
 
         }
 
