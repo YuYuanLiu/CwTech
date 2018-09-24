@@ -8,7 +8,7 @@ namespace SensingNet.v0_0.Storage
 {
     public class FileStorageInfo
     {
-        public FileStorageFormat header = new FileStorageFormat_Csv0_0();
+        public FileStorageFormat header = new FileStorageFormat_Csv0_1();
         public SignalCollector collector = new SignalCollector();
 
 
@@ -21,23 +21,11 @@ namespace SensingNet.v0_0.Storage
         /// <summary>
         /// if utc.Kind is Unspecified then as UTC
         /// </summary>
-        /// <param name="utc"></param>
+        /// <param name="datetime"></param>
         /// <param name="values"></param>
-        public void WriteValues(StreamWriter sw, DateTime utc, IEnumerable<double> values)
+        public void WriteValues(StreamWriter sw, DateTime datetime, IEnumerable<double> values)
         {
-            //if utc.Kind is Unspecified then as UTC
-            if (utc.Kind == DateTimeKind.Unspecified)
-                utc = DateTime.SpecifyKind(utc, DateTimeKind.Utc);
-
-            //Loca / Utc ToUtcTimestamp 皆會轉成 UTC
-            var utcTimestamp = CToolkit.DateTimeStamp.ToUtcTimestamp(utc);
-            var localDt = utc.ToLocalTime();
-
-            sw.Write("{0}", utcTimestamp);
-            foreach (var val in values)
-                sw.Write(",{0}", val);
-            sw.WriteLine();
-
+            this.header.WriteValues(sw, datetime, values);
         }
 
 
@@ -45,50 +33,17 @@ namespace SensingNet.v0_0.Storage
         {
             var headerStr = sr.ReadLine();
             if (String.IsNullOrEmpty(headerStr)) return;
-            var header = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageInfo>(headerStr);
+            var header = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageFormat>(headerStr);
+
+            if (header.FormatName == typeof(FileStorageFormat_Csv_0).Name) 
+                    this.header = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageFormat_Csv_0>(headerStr);
+            else if (header.FormatName == typeof(FileStorageFormat_Csv0_0).Name)
+                this.header = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageFormat_Csv0_0>(headerStr);
+            else if (header.FormatName == typeof(FileStorageFormat_Csv0_1).Name)
+                this.header = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageFormat_Csv0_1>(headerStr);
 
 
-            SignalPerSec tfbps = null;
-            for (var line = sr.ReadLine(); line != null; line = sr.ReadLine())
-            {
-                //切割資料
-                var vals = line.Split(',');
-                if (vals.Length < 2) continue;
-
-                //第一筆為 timestamp
-                var timestamp = 0.0;
-                if (!double.TryParse(vals[0], out timestamp)) continue;
-
-                //來源時間為Universal (檔案儲存時間)
-                var dt = CToolkit.DateTimeStamp.ToLocalDateTimeFromTimestamp(timestamp);
-
-                if (tfbps == null)
-                {
-                    tfbps = new SignalPerSec();
-                    tfbps.dt = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
-                }
-                else if ((dt - tfbps.dt).TotalSeconds >= 1.0)
-                {//若時間變更超過一秒, 就加一個物件來儲存
-
-                    this.collector.AddLast(tfbps);
-                    tfbps = new SignalPerSec();
-                    tfbps.dt = dt;
-                }
-
-                for (int idx = 1; idx < vals.Length; idx++)
-                {
-                    var data = 0.0;
-                    if (!double.TryParse(vals[idx], out data)) continue;
-                    tfbps.signals.Add(data);
-                }
-
-            }
-            if (tfbps.signals.Count > 0 && this.collector.LastOrDefault() != tfbps)
-                this.collector.AddLast(tfbps);
-
-
-
-
+            this.header.ReadStream(sr, this.collector);
 
         }
 

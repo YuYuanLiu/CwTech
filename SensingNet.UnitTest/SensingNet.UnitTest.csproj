@@ -83,8 +83,8 @@
     <Compile Include="Other\UtMainSignalMgr.cs" />
     <Compile Include="Other\UtMemStreamTest.cs" />
     <Compile Include="Other\UtPhysDevice.cs" />
-    <Compile Include="Other\UtTest.cs" />
     <Compile Include="Other\UtTimeFreq.cs" />
+    <Compile Include="UtTest.cs" />
     <Compile Include="UtModbus.cs" />
     <Compile Include="UtSampleCaptureSignal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
