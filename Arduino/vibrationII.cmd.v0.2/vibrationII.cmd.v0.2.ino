@@ -215,10 +215,6 @@ void setup() {
   Serial.begin(9600);//可能沒有RS232的連線
   
   //--- EEPROM --------------------------------------
-  g_eeprom.IP[0]=1;
-  g_eeprom.IP[1]=1;
-  g_eeprom.IP[2]=1;
-  g_eeprom.IP[3]=1;
   CheckEEPROM_READ(&g_eeprom.IP[0],  sizeof(g_eeprom));
   
   //--- Ethernet --------------------------------------
@@ -260,7 +256,6 @@ void loop() {
   }
 
   Ethernet.maintain();
-
   CheckSerialCMD();
 }
 
@@ -346,12 +341,10 @@ void serialEvent() {
     if (inChar == '\n') {
       stringComplete = true;
     }
+    Serial.println("serial event");
   }
 }
 
-/*
- * CheckSerialCMD
- */
 void CheckSerialCMD()
 {
   if (stringComplete) {
@@ -389,10 +382,6 @@ void GetIPAddress()
   Serial.println(g_eeprom.IP[3]);
 }
 
-/*
- * SetIPAddress
- * Setting IP Address via Serial Port
- */
 void SetIPAddress()
 {
   //搜尋"." , 而且一定要有4個 , 從IP開始會有4個點, 之間有4組數字, 就是IP Address
