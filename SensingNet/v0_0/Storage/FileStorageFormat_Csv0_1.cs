@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -23,7 +23,9 @@ namespace SensingNet.v0_0.Storage
 
         public override void WriteValues(StreamWriter sw, DateTime datetime, IEnumerable<double> values)
         {
-            sw.Write(datetime.ToString(format));
+            var dt = datetime.ToLocalTime();
+            var dtformat = dt.ToString(format);
+            sw.Write(dtformat);
             foreach (var val in values)
                 sw.Write(",{0}", val);
             sw.WriteLine();
