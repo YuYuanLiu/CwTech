@@ -1,6 +1,6 @@
 ﻿using SensingNet.v0_0.Protocol;
 using SensingNet.v0_0.Storage;
-using SSensingNet.v0_0ensingNet;
+using SensingNet.v0_0ensingNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -7,8 +7,8 @@
     <ProjectGuid>{5E17AB06-38F0-4F7D-92CC-AEBD354DED1E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SensingNet</RootNamespace>
-    <AssemblyName>SensingNet</AssemblyName>
+    <RootNamespace>SensingNet.v0_0</RootNamespace>
+    <AssemblyName>SensingNet.v0_0</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -65,51 +65,50 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="v0_0\EnumHandlerStatus.cs" />
-    <Compile Include="v0_0\EnumPassFilter.cs" />
-    <Content Include="v0_0\HammingFunc.cs.txt" />
-    <Compile Include="v0_0\LoggerAssembly.cs" />
+    <Compile Include="EnumHandlerStatus.cs" />
+    <Compile Include="EnumPassFilter.cs" />
+    <Content Include="HammingFunc.cs.txt" />
+    <Compile Include="LoggerAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="v0_0\Protocol\ProtoModbus.cs" />
-    <Compile Include="v0_0\Secs\EnumStatisticsMethod.cs" />
-    <Compile Include="v0_0\Secs\EventArgsSecsRcvData.cs" />
-    <Compile Include="v0_0\Secs\QSecsCfg.cs" />
-    <Compile Include="v0_0\Secs\QSecsHandler.cs" />
-    <Compile Include="v0_0\Secs\QSecsHandlerSvidData.cs" />
-    <Compile Include="v0_0\Secs\QSvidCfg.cs" />
-    <Compile Include="v0_0\Secs\SecsMgrExecer.cs" />
-    <Compile Include="v0_0\Secs\SecsMgrCfg.cs" />
-    <Compile Include="v0_0\SignalEventArgs.cs" />
-    <Compile Include="v0_0\Protocol\ProtoPhdData.cs" />
-    <Compile Include="v0_0\Protocol\ProtoPhd.cs" />
-    <Compile Include="v0_0\Signal\SignalMgrCfg.cs" />
-    <Compile Include="v0_0\Signal\DeviceCfg.cs" />
-    <Compile Include="v0_0\Signal\SignalCfg.cs" />
-    <Compile Include="v0_0\SensingNetException.cs" />
-    <Compile Include="v0_0\Signal\SignalMgrExecer.cs" />
-    <Compile Include="v0_0\Protocol\EnumProtocol.cs" />
-    <Compile Include="v0_0\Protocol\ProtoEthernet.cs" />
-    <Compile Include="v0_0\Protocol\ProtoBase.cs" />
-    <Compile Include="v0_0\Protocol\ProtoSensingNetCmd.cs" />
-    <Compile Include="v0_0\Protocol\ProtoSecs.cs" />
-    <Compile Include="v0_0\Signal\SignalHandler.cs" />
-    <Compile Include="v0_0\Storage\FileStorage.cs" />
-    <Compile Include="v0_0\Storage\FileStorageEventArgs.cs" />
-    <Compile Include="v0_0\SimulateCmdProto.cs" />
-    <Compile Include="v0_0\Storage\FileStorageFormat.cs" />
-    <Compile Include="v0_0\Storage\FileStorageFormat_Csv0_1.cs" />
-    <Compile Include="v0_0\Storage\FileStorageFormat_Csv0_0.cs" />
-    <Compile Include="v0_0\Storage\FileStorageFormat_Csv_0.cs" />
-    <Compile Include="v0_0\Storage\FileStorageInfo.cs" />
-    <Compile Include="v0_0\Storage\SignalCollector.cs" />
-    <Compile Include="v0_0\Storage\SignalPerSec.cs" />
+    <Compile Include="Protocol\ProtoModbus.cs" />
+    <Compile Include="Secs\EnumStatisticsMethod.cs" />
+    <Compile Include="Secs\EventArgsSecsRcvData.cs" />
+    <Compile Include="Secs\QSecsCfg.cs" />
+    <Compile Include="Secs\QSecsHandler.cs" />
+    <Compile Include="Secs\QSecsHandlerSvidData.cs" />
+    <Compile Include="Secs\QSvidCfg.cs" />
+    <Compile Include="Secs\SecsMgrExecer.cs" />
+    <Compile Include="Secs\SecsMgrCfg.cs" />
+    <Compile Include="SignalEventArgs.cs" />
+    <Compile Include="Protocol\ProtoPhdData.cs" />
+    <Compile Include="Protocol\ProtoPhd.cs" />
+    <Compile Include="Signal\SignalMgrCfg.cs" />
+    <Compile Include="Signal\DeviceCfg.cs" />
+    <Compile Include="Signal\SignalCfg.cs" />
+    <Compile Include="SensingNetException.cs" />
+    <Compile Include="Signal\SignalMgrExecer.cs" />
+    <Compile Include="Protocol\EnumProtocol.cs" />
+    <Compile Include="Protocol\ProtoEthernet.cs" />
+    <Compile Include="Protocol\ProtoBase.cs" />
+    <Compile Include="Protocol\ProtoSensingNetCmd.cs" />
+    <Compile Include="Protocol\ProtoSecs.cs" />
+    <Compile Include="Signal\SignalHandler.cs" />
+    <Compile Include="Storage\FileStorage.cs" />
+    <Compile Include="Storage\FileStorageEventArgs.cs" />
+    <Compile Include="SimulateCmdProto.cs" />
+    <Compile Include="Storage\FileStorageFormat.cs" />
+    <Compile Include="Storage\FileStorageFormat_Csv0_1.cs" />
+    <Compile Include="Storage\FileStorageFormat_Csv0_0.cs" />
+    <Compile Include="Storage\FileStorageFormat_Csv_0.cs" />
+    <Compile Include="Storage\FileStorageInfo.cs" />
+    <Compile Include="Storage\SignalCollector.cs" />
+    <Compile Include="Storage\SignalPerSec.cs" />
     <Compile Include="Util.cs" />
-    <Content Include="v0_0\SignalWithStorageTime.txt" />
-    <Content Include="v0_0\SignalWithTimeTag.txt" />
-    <Content Include="v0_1\ReadMe.txt" />
+    <Content Include="SignalWithStorageTime.txt" />
+    <Content Include="SignalWithTimeTag.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="v0_0\Config\DeviceConfigRef\simulate.vibration.device.config" />
+    <None Include="Config\DeviceConfigRef\simulate.vibration.device.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

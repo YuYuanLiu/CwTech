@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SSensingNet.v0_0ensingNet
+namespace SensingNet.v0_0.SensingNet
 {
     public enum EnumHandlerStatus
     {

@@ -7,24 +7,17 @@ using System.Collections.Generic;
 using System.Net;
 using System.Globalization;
 
-namespace SensingNet.UnitTest
+namespace SensingNet.MyTest
 {
     [TestClass]
-    public class UtTest
+    public class UtTest_V0_1
     {
 
 
         [TestMethod]
         public void TestMethod()
         {
-            var format = "yyyy/MM/dd HH:mm:ss zzz";
-
-            var now = DateTime.Now;
-            var str = now.ToString(format);
-            var normal = now.ToString();
-
-
-            var dt = DateTime.ParseExact(str, format, CultureInfo.InvariantCulture);
+       
 
 
         }

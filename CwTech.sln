@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet", "SensingNet\SensingNet.csproj", "{5E17AB06-38F0-4F7D-92CC-AEBD354DED1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.v0_0", "SensingNet\SensingNet.v0_0.csproj", "{5E17AB06-38F0-4F7D-92CC-AEBD354DED1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.UnitTest", "SensingNet.UnitTest\SensingNet.UnitTest.csproj", "{86C649CC-824E-4DBB-8161-82DC67268E84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.MyTest", "SensingNet.MyTest\SensingNet.MyTest.csproj", "{86C649CC-824E-4DBB-8161-82DC67268E84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.v0_1", "SensingNet.v0_1\SensingNet.v0_1.csproj", "{C54643AA-065E-410D-BA32-318A7141C999}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C54643AA-065E-410D-BA32-318A7141C999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C54643AA-065E-410D-BA32-318A7141C999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C54643AA-065E-410D-BA32-318A7141C999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C54643AA-065E-410D-BA32-318A7141C999}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AEEDAA90-55AE-4984-8A59-8B6C0BA38F03}
 	EndGlobalSection
 EndGlobal

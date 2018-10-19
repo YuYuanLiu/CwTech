@@ -1,32 +1,34 @@
 using CToolkit;
-using SensingNet.v0_0.Protocol;
-using SensingNet.v0_0.Storage;
-using SSensingNet.v0_0ensingNet;
+using SensingNet.v0_1.Device;
+using SensingNet.v0_1.Signal;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace SensingNet.v0_0.Signal
+namespace SensingNet.v0_1.Framework
 {
-    public class SignalMgrExecer : IDisposable, IContextFlowRun
+    public class DeviceMgrContext : IDisposable, IContextFlowRun
     {
 
-        public SignalMgrCfg mgrConfig;
+        public DeviceMgrCfg mgrConfig;
         public String DefaultConfigsFilder = "Config/DeviceConfigs";
-        public CToolkit.Config.ConfigCollector<DeviceCfg> configs = new CToolkit.Config.ConfigCollector<DeviceCfg>();
-        Dictionary<String, SignalHandler> handlers = new Dictionary<String, SignalHandler>();
+        Dictionary<String, DeviceHandler> handlers = new Dictionary<String, DeviceHandler>();
         public bool isExec = false;
 
 
+        public DeviceMgrContext()
+        {
 
-        ~SignalMgrExecer() { this.Dispose(false); }
+        }
+
+        ~DeviceMgrContext() { this.Dispose(false); }
 
 
 
 
         public int CfInit()
         {
-            this.mgrConfig = SignalMgrCfg.LoadFromFile();
+            this.mgrConfig = DeviceMgrCfg.LoadFromFile();
             this.mgrConfig.SaveToFile();
 
             return 0;
@@ -91,10 +93,10 @@ namespace SensingNet.v0_0.Signal
             foreach (var dict in this.configs)
                 foreach (var cfg in dict.Value)
                 {
-                SignalHandler hdl = null;
+                DeviceHandler hdl = null;
                 if (!this.handlers.ContainsKey(cfg.Key))
                 {
-                    hdl = new SignalHandler();
+                    hdl = new DeviceHandler();
                     this.handlers.Add(cfg.Key, hdl);
                 }
                 else { hdl = this.handlers[cfg.Key]; }
@@ -131,7 +133,7 @@ namespace SensingNet.v0_0.Signal
 
 
             //沒有Config的會關閉Device
-            var removeHandlers = new Dictionary<String, SignalHandler>();
+            var removeHandlers = new Dictionary<String, DeviceHandler>();
             foreach (var kvdh in this.handlers)
             {
                 var dh = kvdh.Value;
