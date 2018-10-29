@@ -1,7 +1,6 @@
 using CToolkit;
 using CToolkit.Logging;
 using CToolkit.Secs;
-using SensingNet.v0_0ensingNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;

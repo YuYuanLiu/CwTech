@@ -95,10 +95,6 @@
       <Project>{c54643aa-065e-410d-ba32-318a7141c999}</Project>
       <Name>SensingNet.v0_1</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SensingNet\SensingNet.v0_0.csproj">
-      <Project>{5e17ab06-38f0-4f7d-92cc-aebd354ded1e}</Project>
-      <Name>SensingNet.v0_0</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

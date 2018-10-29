@@ -18,7 +18,7 @@ namespace SensingNet.v0_1.Protocol
         CToolkit.Net.CtkNonStopTcpListener listener;
 
         public bool IsConnected { get { return this.client != null ? this.client.isConnected : this.listener != null ? this.listener.isConnected : false; } }
-        public bool isActivelyConnect = true;
+        public bool isListener = true;
 
         public DateTime timeOfBeginConnect;
 
@@ -38,12 +38,12 @@ namespace SensingNet.v0_1.Protocol
         //AutoResetEvent are_ConnectDone = new AutoResetEvent(false);
         ManualResetEvent mreHasMsg = new ManualResetEvent(false);
 
-        public ProtoConnTcp(IPEndPoint l, IPEndPoint r, bool isActivelyConnect, IProtoBase proto)
+        public ProtoConnTcp(IPEndPoint l, IPEndPoint r, bool isListener, IProtoBase proto)
         {
             this.local = l;
             this.remote = r;
 
-            this.isActivelyConnect = isActivelyConnect;
+            this.isListener = isListener;
             this.protoEthernet = proto;
             this.protoEthernet.evtDataTrigger += delegate (object sender, EventArgs e) { this.OnDataReceive(e); };
         }
@@ -60,16 +60,17 @@ namespace SensingNet.v0_1.Protocol
         {
             if (!this.IsConnected)
             {
-                if (this.isActivelyConnect)
+                if (this.isListener)
                 {
-                    if (this.client != null) this.client.Disconnect();
-                    this.client = new CToolkit.Net.CtkNonStopTcpClient();
+                    if (this.listener != null) this.listener.Disconnect();
+                    this.listener = new CToolkit.Net.CtkNonStopTcpListener();
+                    this.listener.evt
                     this.client.ConnectIfNo();
                 }
                 else
                 {
-                    if (this.listener != null) this.listener.Disconnect();
-                    this.listener = new CToolkit.Net.CtkNonStopTcpListener();
+                    if (this.client != null) this.client.Disconnect();
+                    this.client = new CToolkit.Net.CtkNonStopTcpClient();
                     this.client.ConnectIfNo();
                 }
 
@@ -318,14 +319,7 @@ namespace SensingNet.v0_1.Protocol
 
         #region Event
 
-        public void CleanEvent()
-        {
 
-            foreach (Delegate d in this.evtDataReceive.GetInvocationList())
-            {
-                this.evtDataReceive -= (EventHandler<EventArgs>)d;
-            }
-        }
 
 
 

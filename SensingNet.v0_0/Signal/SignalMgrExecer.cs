@@ -1,7 +1,6 @@
 using CToolkit;
 using SensingNet.v0_0.Protocol;
 using SensingNet.v0_0.Storage;
-using SensingNet.v0_0ensingNet;
 using System;
 using System.Collections.Generic;
 using System.Threading;

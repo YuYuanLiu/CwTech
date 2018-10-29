@@ -1,7 +1,6 @@
 using CToolkit;
 using CToolkit.Secs;
 using SensingNet.v0_0.Storage;
-using SensingNet.v0_0.SensingNet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
