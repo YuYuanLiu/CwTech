@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,180 +8,124 @@ using System.Text;
 
 namespace SensingNet.v0_1.Protocol
 {
-    public class ProtoSensingNetCmd : IProtoBase
+    public class ProtoSensingNetCmd : ConcurrentQueue<string>, IProtoBase, IDisposable
     {
-        public static byte[] TxReqMsg = Encoding.UTF8.GetBytes("cmd -reqData \n");
-        public static byte[] TxReqAck = Encoding.UTF8.GetBytes("\n");//減少處理量, 只以換行作為Ack
+        public static byte[] TxDataReq = Encoding.UTF8.GetBytes("cmd -reqData \n");
+        public static byte[] TxDataAck = Encoding.UTF8.GetBytes("\n");//減少處理量, 只以換行作為Ack
 
         StringBuilder rcvSb = new StringBuilder();
-        List<UInt32> rcvBytes = new List<UInt32>();
-        Queue<String> cmdQueue = new Queue<String>();
 
-        event EventHandler<EventArgs> IProtoBase.evtDataTrigger
+
+
+        #region IProtoBase
+
+        public void FirstConnect(Stream stream)
         {
-            add
-            {
-                throw new NotImplementedException();
-            }
 
-            remove
-            {
-                throw new NotImplementedException();
-            }
         }
-
-
-
-
-
-
-
-
-        int ReadData(String[] args, int start, List<double> data)
-        {
-            //讀取資料, 皆為double, 否則視為結束
-            //return 最後一筆資料的索引
-
-            var d = 0.0;
-            //第一筆為 -reqData
-            int idx = 0;
-            for (idx = start + 1; idx < args.Length; idx++)
-            {
-                if (Double.TryParse(args[idx], out d))
-                    data.Add(d);
-                else
-                    break;
-            }
-
-            return idx - 1;
-        }
-
-        void IProtoBase.FirstConnect(Stream stream)
-        {
-            this.WriteMsg_Tx(stream);
-        }
-
-        void IProtoBase.ReceiveBytes(byte[] buffer, int offset, int length)
+        public void ReceiveBytes(byte[] buffer, int offset, int length)
         {
             lock (this)
-                this.rcvSb.Append(Encoding.UTF8.GetString(buffer, offset, length));
-
-            var line = "";
-            using (var sr = new StringReader(rcvSb.ToString()))
             {
-                for (line = sr.ReadLine(); line != null; line = sr.ReadLine())
+                this.rcvSb.Append(Encoding.UTF8.GetString(buffer, offset, length));
+                var content = this.rcvSb.ToString();
+                for (var idx = content.IndexOf('\n'); idx >= 0; idx = content.IndexOf('\n'))
                 {
-                    //if (line.IndexOf("\n") < 0) break;
-
+                    var line = content.Substring(0, idx);
                     line = line.Replace("\r", "");
                     line = line.Replace("\n", "");
                     line = line.Trim();
-                    lock (this)
-                        this.cmdQueue.Enqueue(line);
-                    line = "";
+                    this.Enqueue(line);
+                    content = content.Remove(0, idx);
                 }
+                this.rcvSb.Clear();
+                this.rcvSb.Append(content);
             }
-            this.rcvSb.Clear();
-            lock (this)
-                this.rcvSb.Append(line);
+        }
+        public bool IsReceiving()
+        {
+            return this.rcvSb.Length > 0;
+        }
+        public bool HasMessage()
+        {
+            return this.Count > 0;
+        }
+        public bool TryDequeueMsg(out object msg)
+        {
+            string line = null;
+            var flag = this.TryDequeue(out line);
+            msg = line;
+            return flag;
         }
 
-        bool IProtoBase.IsReceiving()
+        public void WriteMsg(Stream stream, string msg) { this.WriteMsg(stream, Encoding.UTF8.GetBytes(msg)); }
+        public void WriteMsg(Stream stream, byte[] buffer) { stream.Write(buffer, 0, buffer.Length); }
+        public void WriteMsgDataReq(Stream stream)
         {
-            return this.rcvSb.Length > 0; throw new NotImplementedException();
+            this.WriteMsg(stream, TxDataReq);
+        }
+        public void WriteMsgDataAck(Stream stream)
+        {
+            this.WriteMsg(stream, TxDataAck);
         }
 
-        bool IProtoBase.hasMessage()
+
+
+
+        #endregion
+
+
+        #region IDisposable
+        // Flag: Has Dispose already been called?
+        bool disposed = false;
+
+        // Public implementation of Dispose pattern callable by consumers.
+        public void Dispose()
         {
-            return this.cmdQueue.Count > 0;
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        bool IProtoBase.AnalysisData(Stream stream)
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
         {
-            var result = this.cmdQueue.Count > 0;
-            var line = "";
-            while (this.cmdQueue.Count > 0)
+            if (disposed)
+                return;
+
+            if (disposing)
             {
-                lock (this)
-                    line = this.cmdQueue.Dequeue();
-
-                var ea = new SignalEventArgs();
-                var args = line.Split(new char[] { '\0', ' ' });
-
-                ea.Data = new List<double>();
-
-                for (int idx = 0; idx < args.Length; idx++)
-                {
-                    var arg = args[idx];
-
-
-                    if (args[idx] == "-respData")
-                    {
-                        continue;
-                    }
-                    else if (args[idx] == "-svid")
-                    {
-                        idx++;
-                        if (args.Length <= idx) continue;
-                        UInt32.TryParse(args[idx], out ea.DeviceSvid);
-                        continue;
-                    }
-                    else if (args[idx] == "-channel")
-                    {
-                        idx++;
-                        if (args.Length <= idx) continue;
-                        UInt32.TryParse(args[idx], out ea.DeviceSvid);
-                        continue;
-                    }
-                    else if (args[idx] == "-data")
-                    {
-                        idx = ReadData(args, idx, ea.Data);
-                        continue;
-                    }
-                }
-
-                if (ea.Data.Count > 0)
-                {
-                    this.OnDataTrigger(ea);
-                }
+                // Free any other managed objects here.
+                //
+                this.DisposeManaged();
             }
 
-            return result;
+            // Free any unmanaged objects here.
+            //
+            this.DisposeUnmanaged();
+            this.DisposeSelf();
+            disposed = true;
         }
 
-        void IProtoBase.WriteMsg(Stream stream, string msg)
+
+
+        void DisposeManaged()
         {
-            throw new NotImplementedException();
+
         }
 
-        void IProtoBase.WriteMsg(Stream stream, byte[] buffer)
+        void DisposeUnmanaged()
         {
-            throw new NotImplementedException();
+
         }
 
-        void IProtoBase.WriteMsg_Tx(Stream stream)
+        void DisposeSelf()
         {
-            if (this.dConfig.IsActivelyTx)
-                this.WriteMsg_TxDataAck(stream);
-            else
-                this.WriteMsg_TxDataReq(stream);
         }
 
-        
 
-        void IProtoBase.WriteMsg_TxDataReq(Stream stream)
-        {
-            this.WriteMsg(stream, TxReqMsg);
-        }
 
-        void IProtoBase.WriteMsg_TxDataAck(Stream stream)
-        {
-            throw new NotImplementedException();
-        }
 
-        void IProtoBase.OnDataTrigger(EventArgs ea)
-        {
-            this.WriteMsg(stream, TxReqAck);
-        }
+        #endregion
+
     }
 }

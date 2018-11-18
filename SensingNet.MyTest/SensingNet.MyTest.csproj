@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SensingNet.MyTest</RootNamespace>
     <AssemblyName>SensingNet.MyTest</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -84,16 +84,16 @@
     <Compile Include="Other\UtMemStreamTest.cs" />
     <Compile Include="Other\UtPhysDevice.cs" />
     <Compile Include="Other\UtTimeFreq.cs" />
-    <Compile Include="UtTest_V0_1.cs" />
+    <Compile Include="SampleV0_1\UtVibration.cs" />
     <Compile Include="UtTest.cs" />
     <Compile Include="UtModbus.cs" />
     <Compile Include="UtSampleCaptureSignal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SensingNet.v0_1\SensingNet.v0_1.csproj">
-      <Project>{c54643aa-065e-410d-ba32-318a7141c999}</Project>
-      <Name>SensingNet.v0_1</Name>
+    <ProjectReference Include="..\SensingNet.v0_0\SensingNet.v0_0.csproj">
+      <Project>{5e17ab06-38f0-4f7d-92cc-aebd354ded1e}</Project>
+      <Name>SensingNet.v0_0</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

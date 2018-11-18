@@ -37,7 +37,7 @@ namespace SensingNet.v0_0.Secs
         {
             hsmsConnector = new HsmsConnector();
             //hsmsConnector.ctkConnSocket.isActively = true;
-            var localIp = CtkUtil.GetLikelyFirstIp(this.cfg.RemoteIp, this.cfg.LocalIp);
+            var localIp = CtkUtil.GetLikelyFirst127Ip(this.cfg.RemoteIp, this.cfg.LocalIp);
             if (localIp == null) throw new Exception("無法取得在地IP");
             hsmsConnector.local = new IPEndPoint(localIp, this.cfg.LocalPort);
             hsmsConnector.evtReceiveData += delegate(Object sen, HsmsConnector_EventArgsRcvData evt)

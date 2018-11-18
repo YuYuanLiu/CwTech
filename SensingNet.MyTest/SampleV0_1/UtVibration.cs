@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Globalization;
 
-namespace SensingNet.MyTest
+namespace SensingNet.MyTest.SampleV0_1
 {
     [TestClass]
-    public class UtTest_V0_1
+    public class UtVibration
     {
 
 

@@ -49,8 +49,7 @@ namespace SensingNet.v0_0.Signal
 
 
 
-            var localIpAddr = String.IsNullOrEmpty(this.config.LocalIp) ? GetLikelyLocalIp() : IPAddress.Parse(this.config.LocalIp);
-            localIpAddr = localIpAddr == null ? IPAddress.Parse("127.0.0.1") : localIpAddr;
+            var localIpAddr = CToolkit.CtkUtil.GetLikelyFirst127Ip(this.config.LocalIp, this.config.RemoteIp);
             var localEndPoint = new IPEndPoint(localIpAddr, this.config.LocalPort);
             var remoteEndPoint = new IPEndPoint(IPAddress.Parse(this.config.RemoteIp), this.config.RemotePort);
 
@@ -96,35 +95,7 @@ namespace SensingNet.v0_0.Signal
 
 
 
-        IPAddress GetLikelyLocalIp()
-        {
-            IPAddress localIp = null;
-            var remoteEndPoint = new IPEndPoint(IPAddress.Parse(this.config.RemoteIp), this.config.RemotePort);
 
-            if (String.IsNullOrEmpty(this.config.LocalIp))
-            {
-                string strHostName = Dns.GetHostName();
-                var iphostentry = Dns.GetHostEntry(strHostName);
-                var likelyCount = 0;
-                foreach (IPAddress ipaddress in iphostentry.AddressList)
-                {
-                    var localIpBytes = ipaddress.GetAddressBytes();
-                    var remoteIpBytes = remoteEndPoint.Address.GetAddressBytes();
-                    int idx = 0;
-                    for (idx = 0; idx < localIpBytes.Length; idx++)
-                        if (localIpBytes[idx] != remoteIpBytes[idx])
-                            break;
-
-                    if (idx > likelyCount)
-                    {
-                        likelyCount = idx;
-                        localIp = ipaddress;
-                    }
-                }
-            }
-
-            return localIp;
-        }
 
 
 

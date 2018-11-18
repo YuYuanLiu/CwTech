@@ -52,11 +52,15 @@
     <Compile Include="Protocol\ProtoSensingNetCmd.cs" />
     <Compile Include="SensingNetException.cs" />
     <Compile Include="Device\DeviceCfg.cs" />
+    <Compile Include="Signal\ISignalBase.cs" />
     <Compile Include="Signal\SignalCfg.cs" />
     <Compile Include="Device\DeviceHandler.cs" />
-    <Compile Include="Framework\DeviceMgrCfg.cs" />
-    <Compile Include="Framework\DeviceMgrContext.cs" />
+    <Compile Include="Signal\SignalEventArgs.cs" />
+    <Compile Include="Signal\SignalSensingNet.cs" />
     <Compile Include="Util.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Framework\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

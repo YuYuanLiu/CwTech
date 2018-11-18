@@ -80,9 +80,9 @@ namespace SensingNet.v0_0.Protocol
             if (!this.IsConnected)
             {
                 if (this.dConfig.IsActivelyConnect)
-                    this.EndServerConnect_DeviceIsActive();
+                    this.RestartServerConnect_DeviceIsActive();
                 else
-                    this.EndClientConnect_DeviceIsPassive();
+                    this.RestartClientConnect_DeviceIsPassive();
             }
 
             //通訊活的話, 不用重啟
@@ -163,7 +163,7 @@ namespace SensingNet.v0_0.Protocol
         }
 
 
-        void EndClientConnect_DeviceIsPassive()
+        void RestartClientConnect_DeviceIsPassive()
         {
             if (this.m_TcpClient != null)
             {
@@ -193,7 +193,7 @@ namespace SensingNet.v0_0.Protocol
                 this.remote.Port,
                 new AsyncCallback(ClientEndConnectCallback), this);
         }
-        void EndServerConnect_DeviceIsActive()
+        void RestartServerConnect_DeviceIsActive()
         {
             if (this.m_TcpListener != null)
             {

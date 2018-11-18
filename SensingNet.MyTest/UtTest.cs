@@ -6,6 +6,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Net;
 using System.Globalization;
+using System.Text;
 
 namespace SensingNet.MyTest
 {
@@ -17,14 +18,33 @@ namespace SensingNet.MyTest
         [TestMethod]
         public void TestMethod()
         {
-            var format = "yyyy/MM/dd HH:mm:ss zzz";
+            var sb = new StringBuilder();
 
-            var now = DateTime.Now;
-            var str = now.ToString(format);
-            var normal = now.ToString();
+            sb.AppendLine("aaaaaaa");
+            sb.Append("bbbb");
 
+            var line = "";
+            var queue = new Queue<string>();
+            using (var sr = new StringReader(sb.ToString()))
+            {
+                for (line = sr.ReadLine(); line != null; line = sr.ReadLine())
+                {
+                    if (line.IndexOf("\n") < 0) break;
 
-            var dt = DateTime.ParseExact(str, format, CultureInfo.InvariantCulture);
+                    line = line.Replace("\r", "");
+                    line = line.Replace("\n", "");
+                    line = line.Trim();
+                    lock (this)
+                        queue.Enqueue(line);
+                    line = "";
+                }
+            }
+
+            lock (this)
+            {
+                sb.Clear();
+                sb.Append(line);
+            }
 
 
         }

@@ -7,34 +7,27 @@ using System.Text;
 
 namespace SensingNet.v0_1.Protocol
 {
+    /// <summary>
+    /// 處理Protocol Format相關功能
+    /// </summary>
     public interface IProtoBase
     {
 
         void FirstConnect(Stream stream);
         void ReceiveBytes(byte[] buffer, int offset, int length);
         bool IsReceiving();
-        bool hasMessage();
-        bool AnalysisData(Stream stream);
+        bool HasMessage();
+        bool TryDequeueMsg(out object msg);
+
+        //Protocol應具有能反譯通訊的能力
         void WriteMsg(Stream stream, String msg);
         void WriteMsg(Stream stream, byte[] buffer);
-        void WriteMsg_Tx(Stream stream);
-        void WriteMsg_TxDataReq(Stream stream);
-        void WriteMsg_TxDataAck(Stream stream);
+        void WriteMsgDataReq(Stream stream);
+        void WriteMsgDataAck(Stream stream);
 
 
 
-        #region Event
 
-        public event EventHandler<EventArgs> evtDataTrigger;
-        public void OnDataTrigger(EventArgs ea)
-        {
-            if (this.evtDataTrigger == null)
-                return;
-            this.evtDataTrigger(this, ea);
-        }
-
-
-        #endregion
 
     }
 }
