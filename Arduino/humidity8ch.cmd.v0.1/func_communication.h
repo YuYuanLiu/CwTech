@@ -89,6 +89,7 @@ bool ethComm()
 {
     Ethernet.maintain(); //必加
     EthernetClient client = server.available();
+    
     if (client)
         return false;
 

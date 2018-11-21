@@ -18,34 +18,11 @@ namespace SensingNet.MyTest
         [TestMethod]
         public void TestMethod()
         {
-            var sb = new StringBuilder();
 
-            sb.AppendLine("aaaaaaa");
-            sb.Append("bbbb");
+            var dict = new Dictionary<string, object>();
+            dict["A"] = 1;
 
-            var line = "";
-            var queue = new Queue<string>();
-            using (var sr = new StringReader(sb.ToString()))
-            {
-                for (line = sr.ReadLine(); line != null; line = sr.ReadLine())
-                {
-                    if (line.IndexOf("\n") < 0) break;
-
-                    line = line.Replace("\r", "");
-                    line = line.Replace("\n", "");
-                    line = line.Trim();
-                    lock (this)
-                        queue.Enqueue(line);
-                    line = "";
-                }
-            }
-
-            lock (this)
-            {
-                sb.Clear();
-                sb.Append(line);
-            }
-
+            dict["A"] = null;
 
         }
 
