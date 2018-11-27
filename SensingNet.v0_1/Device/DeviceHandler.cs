@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Device
 {
-    public class DeviceHandler : CToolkit.IContextFlowRun, IDisposable
+    public class DeviceHandler : IContextFlowRun, IDisposable
     {
         public DeviceCfg config;
         public ProtoConnTcp protoConn;//連線方式
@@ -57,7 +57,9 @@ namespace SensingNet.v0_1.Device
         }
         public int CfRun()
         {
-            throw new NotImplementedException("此方法不實作重複執行, 請使用CfExec");
+            this.protoConn.NonStopConnect();
+            this.CommunicationProcess();
+            return 0;
         }
         public int CfUnLoad()
         {
@@ -85,10 +87,6 @@ namespace SensingNet.v0_1.Device
 
         void CommunicationProcess()
         {
-            var timestampStart = 0.0;
-            var timestampEnd = 0.0;
-            var timestampDiff = 0.0;
-
             var prevAckTime = DateTime.Now;
 
 
@@ -97,14 +95,11 @@ namespace SensingNet.v0_1.Device
 
                 try
                 {
-
                     if (!this.protoConn.IsConnected) { Thread.Sleep(1000); continue; }
                     if (!this.protoConn.IsTcpClientConnected) { Thread.Sleep(1000); continue; }
 
-                    if (this.protoBase.HasMessage())
-                        SignalHandle();
 
-                    //收到資料就往下走
+                    //收到資料 或 Timeout 就往下走
                     this.areMsg.WaitOne(this.config.TimeoutResponse);
 
                     NetworkStream stream = this.protoConn.tcpClient.GetStream();
@@ -116,7 +111,8 @@ namespace SensingNet.v0_1.Device
                     {
                         //等待下次要求資料的間隔
                         var now = DateTime.Now;
-                        while ((now - prevAckTime).TotalMilliseconds < this.config.TxInterval) now = DateTime.Now;
+                        if (this.config.TxInterval > 0)
+                            while ((now - prevAckTime).TotalMilliseconds < this.config.TxInterval) now = DateTime.Now;
                         prevAckTime = now;
 
                         this.protoBase.WriteMsgDataReq(stream);
@@ -125,7 +121,7 @@ namespace SensingNet.v0_1.Device
 
 
                 }
-                catch (Exception ex) { LoggerAssembly.Write(ex); }
+                catch (Exception ex) { CtkLog.Write(ex); }
             }
         }
 
@@ -161,6 +157,9 @@ namespace SensingNet.v0_1.Device
             var ea = e as CtkNonStopTcpStateEventArgs;
             this.protoBase.ReceiveBytes(e.buffer, e.offset, e.length);
             this.areMsg.Set();
+
+            if (this.protoBase.HasMessage())
+                SignalHandle();
         }
 
         private void ProtoConn_evtDisconnect(object sender, CtkNonStopTcpStateEventArgs e)

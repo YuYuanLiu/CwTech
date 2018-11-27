@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CToolkit">
-      <HintPath>..\DLL\CToolkit.v0.0\CToolkit.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -61,6 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Framework\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit\CToolkit.csproj">
+      <Project>{7d28aa10-20b5-444a-990d-ef664646b169}</Project>
+      <Name>CToolkit</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
