@@ -7,11 +7,12 @@ using System.Collections.Generic;
 using System.Net;
 using System.Globalization;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace SensingNet.MyTest.UnitTest
+namespace SensingNet.MyTest
 {
     [TestClass]
-    public class UtVibration
+    public class UtVibrationPhys
     {
 
 
@@ -26,7 +27,7 @@ namespace SensingNet.MyTest.UnitTest
                 IsActivelyTx = true,
                 TxInterval = 0,
                 TimeoutResponse = 5000,
-                TxMode = v0_1.Device.EnumDeviceProtocol.SensingNetCmd,
+                ProtoFormat = v0_1.Device.EnumDeviceProtoFormat.SensingNetCmd,
                 IsActivelyConnect = false,
             };
             deviceHdl.config.SignalCfgList.Add(new v0_1.Signal.SignalCfg()
@@ -36,22 +37,15 @@ namespace SensingNet.MyTest.UnitTest
 
             deviceHdl.evtSignalCapture += DeviceHdl_evtSignalCapture;
 
-
-            deviceHdl.CfInit();
-            deviceHdl.CfLoad();
-            deviceHdl.CfExec();
-            deviceHdl.CfUnLoad();
-            deviceHdl.CfFree();
-
-
-            while (true)
+            using (deviceHdl)
             {
-
-
-
+                deviceHdl.CfInit();
+                deviceHdl.CfLoad();
+                deviceHdl.CfRun();
+                deviceHdl.CfUnLoad();
+                deviceHdl.CfFree();
                 System.Threading.Thread.Sleep(100);
             }
-
 
         }
 

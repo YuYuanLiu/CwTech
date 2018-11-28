@@ -78,10 +78,6 @@ namespace SensingNet.v0_0.Signal
             return 0;
 
         }
-        public int CfRun()
-        {
-            throw new NotImplementedException("此方法不實作重複執行, 請使用CfExec");
-        }
         public int CfExec()
         {
 
@@ -89,7 +85,8 @@ namespace SensingNet.v0_0.Signal
 
             return 0;
         }
-
+        public int CfRun() { throw new NotImplementedException("此方法不實作重複執行, 請使用CfExec"); }
+        public int CfRunAsyn() { throw new NotImplementedException("此方法不實作重複執行, 請使用CfExec"); }
 
 
 

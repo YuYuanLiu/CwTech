@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SensingNet.v0_1.Protocol
 {
-    public class ProtoSensingNetCmd : ConcurrentQueue<string>, IProtoBase, IDisposable
+    public class ProtoFormatSensingNetCmd : ConcurrentQueue<string>, IProtoFormatBase, IDisposable
     {
         public static byte[] TxDataReq = Encoding.UTF8.GetBytes("cmd -reqData \n");
         public static byte[] TxDataAck = Encoding.UTF8.GetBytes("\n");//減少處理量, 只以換行作為Ack
@@ -31,12 +31,13 @@ namespace SensingNet.v0_1.Protocol
                 var content = this.rcvSb.ToString();
                 for (var idx = content.IndexOf('\n'); idx >= 0; idx = content.IndexOf('\n'))
                 {
-                    var line = content.Substring(0, idx);
+                    var line = content.Substring(0, idx+1);
                     line = line.Replace("\r", "");
                     line = line.Replace("\n", "");
                     line = line.Trim();
-                    this.Enqueue(line);
-                    content = content.Remove(0, idx);
+                    if (line.Contains("cmd"))
+                        this.Enqueue(line);
+                    content = content.Remove(0, idx + 1);
                 }
                 this.rcvSb.Clear();
                 this.rcvSb.Append(content);

@@ -22,7 +22,8 @@ namespace SensingNet.v0_1.Device
         public int DeviceId = 0;
         public String DeviceName = null;
 
-        public EnumDeviceProtocol TxMode = EnumDeviceProtocol.Secs;
+        public EnumDeviceProtoConnect ProtoConnect = EnumDeviceProtoConnect.Tcp;
+        public EnumDeviceProtoFormat ProtoFormat = EnumDeviceProtoFormat.Secs;
         public bool IsActivelyConnect = false;//Device是否為主動連線
         public bool IsActivelyTx = false;//Device是否會主動發訊息
         public int TxInterval = 0; // ms, 0=即時

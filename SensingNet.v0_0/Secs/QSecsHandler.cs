@@ -40,7 +40,7 @@ namespace SensingNet.v0_0.Secs
             var localIp = CtkUtil.GetLikelyFirst127Ip(this.cfg.RemoteIp, this.cfg.LocalIp);
             if (localIp == null) throw new Exception("無法取得在地IP");
             hsmsConnector.local = new IPEndPoint(localIp, this.cfg.LocalPort);
-            hsmsConnector.evtReceiveData += delegate(Object sen, HsmsConnector_EventArgsRcvData evt)
+            hsmsConnector.evtReceiveData += delegate (Object sen, HsmsConnector_EventArgsRcvData evt)
             {
 
                 var myMsg = evt.msg;
@@ -70,7 +70,7 @@ namespace SensingNet.v0_0.Secs
 
         public int CfLoad()
         {
-            CToolkit.CtkUtil.RunWorkerAsyn(delegate(object sender, DoWorkEventArgs e)
+            CToolkit.CtkUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
             {
                 for (int idx = 0; !this.disposed; idx++)
                 {
@@ -100,16 +100,13 @@ namespace SensingNet.v0_0.Secs
             return 0;
         }
 
-        public int CfRun()
-        {
-            return 0;
-        }
 
         public int CfExec()
         {
             return 0;
         }
-
+        public int CfRun() { return 0; }
+        public int CfRunAsyn() { return 0; }
 
 
 

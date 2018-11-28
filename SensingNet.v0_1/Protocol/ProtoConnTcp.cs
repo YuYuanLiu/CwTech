@@ -11,7 +11,7 @@ namespace SensingNet.v0_1.Protocol
     /// <summary>
     /// 僅進行連線通訊, 不處理Protocol Format
     /// </summary>
-    public class ProtoConnTcp : IDisposable
+    public class ProtoConnTcp : IProtoConnectBase, IDisposable
     {    //Socket m_connSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
         CtkNonStopTcpClient client;
@@ -20,8 +20,10 @@ namespace SensingNet.v0_1.Protocol
 
 
 
-        public bool IsConnected { get { return this.client != null ? this.client.isConnected : this.listener != null ? this.listener.isConnected : false; } }
+        public bool IsConnected { get { return this.client != null ? this.client.isConnected : this.listener != null ? this.listener.IsConnected : false; } }
+        public bool IsConnecting { get { return this.client != null ? this.client.IsConnecting : this.listener != null ? this.listener.IsConnecting : false; } }
         public bool IsTcpClientConnected { get { return this.tcpClient != null ? this.tcpClient.Connected : false; } }
+
         public bool isListener = true;
 
         public DateTime? timeOfBeginConnect;
@@ -50,37 +52,38 @@ namespace SensingNet.v0_1.Protocol
 
         public void ConnectIfNo()
         {
-            if (!this.IsConnected)
-            {
-                this.timeOfBeginConnect = DateTime.Now;
-                if (this.isListener)
-                {
-                    this.ReloadListener();
-                    this.client.ConnectIfNo();
-                }
-                else
-                {
-                    this.ReloadClient();
-                    this.client.ConnectIfNo();
-                }
+            if (this.IsConnected || this.IsConnecting) return;
 
+            var now = DateTime.Now;
+            if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
+            this.timeOfBeginConnect = DateTime.Now;
+
+            if (this.isListener)
+            {
+                this.ReloadListener();
+                this.listener.ConnectIfNo();
             }
+            else
+            {
+                this.ReloadClient();
+                this.client.ConnectIfNo();
+            }
+
 
         }
 
         public void NonStopConnect()
         {
+            if (this.IsConnected || this.IsConnecting) return;
+
             var now = DateTime.Now;
-
-            if (this.IsConnected) return;
             if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
-
-
             this.timeOfBeginConnect = now;
+
             if (this.isListener)
             {
                 this.ReloadListener();
-                this.client.NonStopConnect();
+                this.listener.NonStopConnect();
             }
             else
             {
@@ -91,8 +94,8 @@ namespace SensingNet.v0_1.Protocol
 
         public void Disconnect()
         {
-            if (this.client != null) { this.client.Disconnect(); this.client.Dispose(); }
-            if (this.listener != null) { this.listener.Disconnect(); this.listener.Dispose(); }
+            if (this.client != null) { this.client.Disconnect(); this.client.Dispose(); this.client = null; }
+            if (this.listener != null) { this.listener.Disconnect(); this.listener.Dispose(); this.listener = null; }
             if (this.mreHasMsg != null) this.mreHasMsg.Dispose();
 
         }

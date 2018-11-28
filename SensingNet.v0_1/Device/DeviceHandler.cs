@@ -17,11 +17,12 @@ namespace SensingNet.v0_1.Device
     {
         public DeviceCfg config;
         public ProtoConnTcp protoConn;//連線方式
-        public IProtoBase protoBase;//Protocol
+        public IProtoFormatBase protoBase;//Protocol
         public ISignalBase signalBase;//解譯
         public EnumHandlerStatus status = EnumHandlerStatus.None;
-        public Thread threadCommProc;
+        Task<int> runTask;
         AutoResetEvent areMsg = new AutoResetEvent(false);
+        DateTime prevAckTime = DateTime.Now;
 
         ~DeviceHandler() { this.Dispose(false); }
 
@@ -34,11 +35,22 @@ namespace SensingNet.v0_1.Device
             var localEndPoint = new IPEndPoint(localIpAddr, this.config.LocalPort);
             var remoteEndPoint = new IPEndPoint(IPAddress.Parse(this.config.RemoteIp), this.config.RemotePort);
 
+
             this.protoConn = new ProtoConnTcp(localEndPoint, remoteEndPoint, this.config.IsActivelyConnect);
             this.protoConn.evtFirstConnect += ProtoConn_evtFirstConnect;
             this.protoConn.evtFailConnect += ProtoConn_evtFailConnect;
             this.protoConn.evtDisconnect += ProtoConn_evtDisconnect;
             this.protoConn.evtDataReceive += ProtoConn_evtDataReceive;
+
+            switch (this.config.ProtoFormat)
+            {
+                case EnumDeviceProtoFormat.SensingNetCmd:
+                    this.protoBase = new ProtoFormatSensingNetCmd();
+                    this.signalBase = new SignalSensingNet();
+                    break;
+            }
+
+
 
             return 0;
         }
@@ -46,25 +58,40 @@ namespace SensingNet.v0_1.Device
 
         public int CfLoad()
         {
+            if (this.protoBase == null) throw new ArgumentException("必須指定Protocol");
 
             return 0;
         }
         public int CfExec()
         {
-            this.protoConn.ConnectIfNo();
-
+            this.protoConn.ConnectIfNo();//內部會處理重複要求連線
+            RealExec();
             return 0;
         }
         public int CfRun()
         {
             this.protoConn.NonStopConnect();
-            this.CommunicationProcess();
+
+            while (!disposed)
+            {
+                this.RealExec();
+            }
             return 0;
         }
+        public int CfRunAsyn()
+        {
+            if (this.runTask != null)
+                if (!this.runTask.Wait(1000)) return 0;//正在工作
+
+            this.runTask = Task.Run<int>(() => this.CfRun());
+            return 0;
+        }
+
         public int CfUnLoad()
         {
+
+
             this.protoConn.Disconnect();
-            //this.evtCapture = null;
             return 0;
         }
         public int CfFree()
@@ -75,54 +102,37 @@ namespace SensingNet.v0_1.Device
 
 
 
-
-        void RestartCommunicationProcess()
+        int RealExec()
         {
-            if (this.threadCommProc != null)
-                this.threadCommProc.Abort();
-
-            this.threadCommProc = new Thread(new ThreadStart(CommunicationProcess));
-            this.threadCommProc.Start();
-        }
-
-        void CommunicationProcess()
-        {
-            var prevAckTime = DateTime.Now;
-
-
-            while (!disposed)
+            try
             {
+                if (!this.protoConn.IsConnected) { Thread.Sleep(1000); return 0; }
+                if (!this.protoConn.IsTcpClientConnected) { Thread.Sleep(1000); return 0; }
 
-                try
+                NetworkStream stream = this.protoConn.tcpClient.GetStream();
+                if (this.config.IsActivelyTx)
                 {
-                    if (!this.protoConn.IsConnected) { Thread.Sleep(1000); continue; }
-                    if (!this.protoConn.IsTcpClientConnected) { Thread.Sleep(1000); continue; }
-
-
-                    //收到資料 或 Timeout 就往下走
-                    this.areMsg.WaitOne(this.config.TimeoutResponse);
-
-                    NetworkStream stream = this.protoConn.tcpClient.GetStream();
-                    if (this.config.IsActivelyTx)
-                    {
-                        this.protoBase.WriteMsgDataAck(stream);
-                    }
-                    else
-                    {
-                        //等待下次要求資料的間隔
-                        var now = DateTime.Now;
-                        if (this.config.TxInterval > 0)
-                            while ((now - prevAckTime).TotalMilliseconds < this.config.TxInterval) now = DateTime.Now;
-                        prevAckTime = now;
-
-                        this.protoBase.WriteMsgDataReq(stream);
-                    }
-
-
-
+                    this.protoBase.WriteMsgDataAck(stream);
                 }
-                catch (Exception ex) { CtkLog.Write(ex); }
+                else
+                {
+                    //等待下次要求資料的間隔
+                    var now = DateTime.Now;
+                    if (this.config.TxInterval > 0)
+                        while ((now - prevAckTime).TotalMilliseconds < this.config.TxInterval) now = DateTime.Now;
+                    prevAckTime = now;
+
+                    this.protoBase.WriteMsgDataReq(stream);
+                }
+
+
+                //收到資料 或 Timeout 就往下走
+                this.areMsg.WaitOne(this.config.TimeoutResponse);
+
+
             }
+            catch (Exception ex) { CtkLog.Write(ex); }
+            return 0;
         }
 
 
@@ -223,7 +233,6 @@ namespace SensingNet.v0_1.Device
 
         void DisposeManaged()
         {
-            this.threadCommProc.Abort();
         }
 
         void DisposeUnmanaged()
@@ -233,6 +242,11 @@ namespace SensingNet.v0_1.Device
 
         void DisposeSelf()
         {
+            if (this.runTask != null)
+                this.runTask.Dispose();
+            if (this.protoConn != null)
+                this.protoConn.Dispose();
+
             EventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
         }
 

@@ -51,6 +51,12 @@ namespace SensingNet.v0_0.Signal
             this.UpdateHandlerStatus();
             return 0;
         }
+        public int CfExec()
+        {
+            this.configs.UpdateIfOverTime();
+            this.UpdateHandlerStatus();
+            return 0;
+        }
         public int CfRun()
         {
             while (this.isExec)
@@ -65,12 +71,7 @@ namespace SensingNet.v0_0.Signal
 
             return 0;
         }
-        public int CfExec()
-        {
-            this.configs.UpdateIfOverTime();
-            this.UpdateHandlerStatus();
-            return 0;
-        }
+        public int CfRunAsyn() { throw new NotImplementedException("此方法不實作重複執行, 請使用CfExec"); }
 
 
 

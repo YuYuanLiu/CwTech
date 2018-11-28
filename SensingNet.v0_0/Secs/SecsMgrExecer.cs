@@ -52,21 +52,7 @@ namespace SensingNet.v0_0.Secs
             this.Dispose(false);
             return 0;
         }
-        public int CfRun()
-        {
-            this.isExec = true;
-            while (this.isExec)
-            {
-                try
-                {
-                    this.CfExec();
-                    System.Threading.Thread.Sleep(1000);
-                }
-                catch (Exception ex) { LoggerAssembly.Write(ex); }
-            }
-
-            return 0;
-        }
+      
         public int CfExec()
         {
             try
@@ -82,6 +68,22 @@ namespace SensingNet.v0_0.Secs
             }
             return 0;
         }
+        public int CfRun()
+        {
+            this.isExec = true;
+            while (this.isExec)
+            {
+                try
+                {
+                    this.CfExec();
+                    System.Threading.Thread.Sleep(1000);
+                }
+                catch (Exception ex) { LoggerAssembly.Write(ex); }
+            }
+
+            return 0;
+        }
+        public int CfRunAsyn() { throw new NotImplementedException("此方法不實作重複執行, 請使用CfExec"); }
 
 
         /// <summary>

@@ -84,7 +84,7 @@
     <Compile Include="Other\UtMemStreamTest.cs" />
     <Compile Include="Other\UtPhysDevice.cs" />
     <Compile Include="Other\UtTimeFreq.cs" />
-    <Compile Include="UnitTest\UtVibration.cs" />
+    <Compile Include="UtVibrationPhys.cs" />
     <Compile Include="UtTest.cs" />
     <Compile Include="UtModbus.cs" />
     <Compile Include="UtSampleCaptureSignal.cs" />
@@ -99,6 +99,9 @@
       <Project>{c54643aa-065e-410d-ba32-318a7141c999}</Project>
       <Name>SensingNet.v0_1</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UnitTest\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -41,12 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Device\EnumDeviceProtocol.cs" />
+    <Compile Include="Device\EnumDeviceProtoConnect.cs" />
+    <Compile Include="Device\EnumDeviceProtoFormat.cs" />
     <Compile Include="EnumHandlerStatus.cs" />
+    <Compile Include="Framework\DeviceMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Protocol\IProtoBase.cs" />
+    <Compile Include="Protocol\IProtoConnectBase.cs" />
+    <Compile Include="Protocol\IProtoFormatBase.cs" />
+    <Compile Include="Protocol\ProtoConnRs232.cs" />
     <Compile Include="Protocol\ProtoConnTcp.cs" />
-    <Compile Include="Protocol\ProtoSensingNetCmd.cs" />
+    <Compile Include="Protocol\ProtoFormatSensingNetCmd.cs" />
     <Compile Include="SensingNetException.cs" />
     <Compile Include="Device\DeviceCfg.cs" />
     <Compile Include="Signal\ISignalBase.cs" />
@@ -56,9 +60,7 @@
     <Compile Include="Signal\SignalSensingNet.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit\CToolkit.csproj">
       <Project>{7d28aa10-20b5-444a-990d-ef664646b169}</Project>

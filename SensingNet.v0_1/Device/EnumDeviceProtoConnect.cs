@@ -5,12 +5,9 @@ using System.Text;
 
 namespace SensingNet.v0_1.Device
 {
-    public enum EnumDeviceProtocol
+    public enum EnumDeviceProtoConnect
     {
-        SensingNetCmd,
-        Secs,
-        Modbus,
-
-        Other,
+        Tcp,
+        Rs232,
     }
 }

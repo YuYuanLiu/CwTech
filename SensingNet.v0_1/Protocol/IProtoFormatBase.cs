@@ -10,7 +10,7 @@ namespace SensingNet.v0_1.Protocol
     /// <summary>
     /// 處理Protocol Format相關功能
     /// </summary>
-    public interface IProtoBase
+    public interface IProtoFormatBase
     {
 
         void FirstConnect(Stream stream);
