@@ -24,7 +24,7 @@ namespace SensingNet.v0_0.Secs
 
 
 
-
+        public bool CfIsRunning { get; set; }
         public int CfInit()
         {
             this.config = SecsMgrCfg.LoadFromFile();

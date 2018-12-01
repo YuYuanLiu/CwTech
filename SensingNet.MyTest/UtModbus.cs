@@ -23,7 +23,7 @@ namespace SensingNet.MyTest
             {
                 System.Diagnostics.Debug.WriteLine(e.length);
             };
-            nonStopTcpClient.NonStopConnect();
+            nonStopTcpClient.NonStopConnectAsyn();
 
 
             System.Threading.Thread.Sleep(1000);

@@ -81,10 +81,10 @@ namespace SensingNet.v0_1.Protocol
 
         #region IProtoConnectBase
 
-        public bool IsLocalReadyConnect { get => this.ctkProtoConnect.IsLocalReadyConnect; }//Local連線成功=遠端連線成功
-        public bool IsRemoteConnected { get => this.ctkProtoConnect.IsRemoteConnected; }
-        public bool IsOpenRequesting { get => this.ctkProtoConnect.IsOpenRequesting; }//用途是避免重複要求連線
-        public bool IsNonStopRunning { get => this.ctkProtoConnect.IsNonStopRunning; }
+        public bool IsLocalReadyConnect { get => this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsLocalReadyConnect; }//Local連線成功=遠端連線成功
+        public bool IsRemoteConnected { get => this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsRemoteConnected; }
+        public bool IsOpenRequesting { get => this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsOpenRequesting; }//用途是避免重複要求連線
+        public bool IsNonStopRunning { get => this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsNonStopRunning; }
 
 
         public void ConnectIfNo()
@@ -109,7 +109,7 @@ namespace SensingNet.v0_1.Protocol
 
 
         }
-        public void NonStopConnect()
+        public void NonStopConnectAsyn()
         {
             if (this.IsRemoteConnected || this.IsOpenRequesting) return;
 
@@ -120,12 +120,12 @@ namespace SensingNet.v0_1.Protocol
             if (this.isListener)
             {
                 this.ReloadListener();
-                this.listener.NonStopConnect();
+                this.listener.NonStopConnectAsyn();
             }
             else
             {
                 this.ReloadClient();
-                this.client.NonStopConnect();
+                this.client.NonStopConnectAsyn();
             }
         }
         public void AbortNonStopConnect() { this.ctkProtoConnect.AbortNonStopConnect(); }

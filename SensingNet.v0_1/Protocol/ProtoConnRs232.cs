@@ -84,7 +84,7 @@ namespace SensingNet.v0_1.Protocol
             this.ReloadComPort();
             this.nonStopSerialPort.ConnectIfNo();
         }
-        public void NonStopConnect()
+        public void NonStopConnectAsyn()
         {
             if (this.IsRemoteConnected || this.IsOpenRequesting) return;
 
@@ -93,7 +93,7 @@ namespace SensingNet.v0_1.Protocol
             this.timeOfBeginConnect = now;
 
             this.ReloadComPort();
-            this.nonStopSerialPort.NonStopConnect();
+            this.nonStopSerialPort.NonStopConnectAsyn();
         }
         public void AbortNonStopConnect() { this.nonStopSerialPort.AbortNonStopConnect(); }
         public void Disconnect()
@@ -189,6 +189,7 @@ namespace SensingNet.v0_1.Protocol
             this.Disconnect();
             EventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
         }
+
 
         #endregion
 

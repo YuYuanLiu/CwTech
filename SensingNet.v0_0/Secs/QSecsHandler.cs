@@ -1,5 +1,6 @@
 using CToolkit;
 using CToolkit.Secs;
+using CToolkit.v0_1;
 using SensingNet.v0_0.Storage;
 using System;
 using System.Collections.Generic;
@@ -33,11 +34,13 @@ namespace SensingNet.v0_0.Secs
         public bool WaitDispose;
 
 
+
+        public bool CfIsRunning { get; set; }
         public int CfInit()
         {
             hsmsConnector = new HsmsConnector();
             //hsmsConnector.ctkConnSocket.isActively = true;
-            var localIp = CtkUtil.GetLikelyFirst127Ip(this.cfg.RemoteIp, this.cfg.LocalIp);
+            var localIp = NetUtil.GetLikelyFirst127Ip(this.cfg.LocalIp, this.cfg.RemoteIp);
             if (localIp == null) throw new Exception("無法取得在地IP");
             hsmsConnector.local = new IPEndPoint(localIp, this.cfg.LocalPort);
             hsmsConnector.evtReceiveData += delegate (Object sen, HsmsConnector_EventArgsRcvData evt)

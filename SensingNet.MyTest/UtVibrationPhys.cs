@@ -8,13 +8,14 @@ using System.Net;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
+using SensingNet.v0_1.Storage;
 
 namespace SensingNet.MyTest
 {
     [TestClass]
     public class UtVibrationPhys
     {
-
+        FileStorage fs = new FileStorage(@"signals/vibration");
 
         [TestMethod]
         public void TestMethod()
@@ -34,8 +35,14 @@ namespace SensingNet.MyTest
             {
                 Svid = 0,
             });
+            deviceHdl.evtSignalCapture += (sender, ea) =>
+            {
+                fs.Write(ea);
+            };
 
-            deviceHdl.evtSignalCapture += DeviceHdl_evtSignalCapture;
+
+
+
 
             using (deviceHdl)
             {
@@ -49,13 +56,6 @@ namespace SensingNet.MyTest
 
         }
 
-        private void DeviceHdl_evtSignalCapture(object sender, v0_1.Signal.SignalEventArgs e)
-        {
-            foreach (var val in e.CalibrateData)
-                System.Diagnostics.Debug.Write(val + ",");
-            System.Diagnostics.Debug.WriteLine("");
 
-
-        }
     }
 }

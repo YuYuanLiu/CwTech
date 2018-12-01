@@ -1,15 +1,11 @@
 #ifndef __header_h__
 #define __header_h__
 
-
-
+//3th Library
 #include "DHT.h"
 #include <SPI.h>
 #include <Ethernet.h>
 #include <avr/wdt.h>
-
-
-
 
 #define DHTPIN 2     // what pin we're connected to
 #define DHTTYPE DHT22   // DHT 22  (AM2302)
@@ -28,6 +24,15 @@
 #define RELAY_OUTPUT   9
 
 #define VR_INPUT A0
+
+
+
+//Project Library
+#include "header_var.h"
+#include "func_communication.h"
+#include "func_humidity.h"
+
+
 
 
 #endif

@@ -1,6 +1,7 @@
 ﻿using CToolkit;
 using CToolkit.Net;
 using CToolkit.Protocol;
+using CToolkit.v0_1;
 using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Signal;
 using System;
@@ -25,82 +26,8 @@ namespace SensingNet.v0_1.Device
         AutoResetEvent areMsg = new AutoResetEvent(false);
         DateTime prevAckTime = DateTime.Now;
 
+        public DeviceSensorHandler() { }
         ~DeviceSensorHandler() { this.Dispose(false); }
-
-
-        public int CfInit()
-        {
-            if (this.Config == null) throw new SensingNetException("沒有設定參數");
-
-            var localIpAddr = CToolkit.CtkUtil.GetLikelyFirst127Ip(this.Config.LocalIp, this.Config.RemoteIp);
-            var localEndPoint = new IPEndPoint(localIpAddr, this.Config.LocalPort);
-            var remoteEndPoint = new IPEndPoint(IPAddress.Parse(this.Config.RemoteIp), this.Config.RemotePort);
-
-
-            this.ProtoConn = new ProtoConnTcp(localEndPoint, remoteEndPoint, this.Config.IsActivelyConnect);
-            this.ProtoConn.evtFirstConnect += ProtoConn_evtFirstConnect;
-            this.ProtoConn.evtFailConnect += ProtoConn_evtFailConnect;
-            this.ProtoConn.evtDisconnect += ProtoConn_evtDisconnect;
-            this.ProtoConn.evtDataReceive += ProtoConn_evtDataReceive;
-
-
-
-            switch (this.Config.ProtoFormat)
-            {
-                case EnumDeviceProtoFormat.SensingNetCmd:
-                    this.ProtoFormat = new ProtoFormatSensingNetCmd();
-                    this.SignalTran = new SignalTranSensingNet();
-                    break;
-            }
-
-
-
-            return 0;
-        }
-
-
-        public int CfLoad()
-        {
-            if (this.ProtoFormat == null) throw new ArgumentException("必須指定Protocol");
-
-            return 0;
-        }
-        public int CfExec()
-        {
-            this.ProtoConn.ConnectIfNo();//內部會處理重複要求連線
-            RealExec();
-            return 0;
-        }
-        public int CfRun()
-        {
-            this.ProtoConn.NonStopConnect();
-
-            while (!disposed)
-            {
-                this.RealExec();
-            }
-            return 0;
-        }
-        public int CfRunAsyn()
-        {
-            if (this.runTask != null)
-                if (!this.runTask.Wait(1000)) return 0;//正在工作
-
-            this.runTask = Task.Factory.StartNew<int>(() => this.CfRun());
-            return 0;
-        }
-
-        public int CfUnLoad()
-        {
-            this.ProtoConn.Disconnect();
-            return 0;
-        }
-        public int CfFree()
-        {
-            return 0;
-
-        }
-
 
 
         int RealExec()
@@ -133,8 +60,6 @@ namespace SensingNet.v0_1.Device
             catch (Exception ex) { CtkLog.Write(ex); }
             return 0;
         }
-
-
         void SignalHandle()
         {
             while (this.ProtoFormat.HasMessage())
@@ -159,31 +84,7 @@ namespace SensingNet.v0_1.Device
             }
         }
 
-        #region Event Implement
 
-        private void ProtoConn_evtDataReceive(object sender, CtkProtocolBufferEventArgs e)
-        {
-            var ea = e as CtkNonStopTcpStateEventArgs;
-            this.ProtoFormat.ReceiveBytes(e.buffer, e.offset, e.length);
-            this.areMsg.Set();
-
-            if (this.ProtoFormat.HasMessage())
-                SignalHandle();
-        }
-
-        private void ProtoConn_evtDisconnect(object sender, CtkProtocolBufferEventArgs e)
-        {
-        }
-
-        private void ProtoConn_evtFailConnect(object sender, CtkProtocolBufferEventArgs e)
-        {
-        }
-
-        private void ProtoConn_evtFirstConnect(object sender, CtkProtocolBufferEventArgs e)
-        {
-        }
-
-        #endregion
 
         #region Event
         public event EventHandler<SignalEventArgs> evtSignalCapture;
@@ -194,6 +95,96 @@ namespace SensingNet.v0_1.Device
         }
         #endregion
 
+
+
+        #region IContextFlowRun
+
+        public bool CfIsRunning { get; set; }
+
+        public int CfInit()
+        {
+            if (this.Config == null) throw new SensingNetException("沒有設定參數");
+
+            var localIpAddr = NetUtil.GetSuitableIp(this.Config.LocalIp, this.Config.RemoteIp);
+            var localEndPoint = new IPEndPoint(localIpAddr, this.Config.LocalPort);
+            var remoteEndPoint = new IPEndPoint(IPAddress.Parse(this.Config.RemoteIp), this.Config.RemotePort);
+
+
+            this.ProtoConn = new ProtoConnTcp(localEndPoint, remoteEndPoint, this.Config.IsActivelyConnect);
+            this.ProtoConn.evtDataReceive += (sender, e) =>
+            {
+                var ea = e as CtkNonStopTcpStateEventArgs;
+                this.ProtoFormat.ReceiveBytes(ea.buffer, ea.offset, ea.length);
+                this.areMsg.Set();
+
+                if (this.ProtoFormat.HasMessage())
+                    SignalHandle();
+            };
+
+
+
+            switch (this.Config.ProtoFormat)
+            {
+                case EnumDeviceProtoFormat.SensingNetCmd:
+                    this.ProtoFormat = new ProtoFormatSensingNetCmd();
+                    this.SignalTran = new SignalTranSensingNet();
+                    break;
+            }
+
+
+
+            return 0;
+        }
+
+
+        public int CfLoad()
+        {
+            if (this.ProtoFormat == null) throw new ArgumentException("必須指定Protocol");
+
+            return 0;
+        }
+        public int CfExec()
+        {
+            this.ProtoConn.ConnectIfNo();//內部會處理重複要求連線
+            RealExec();
+            return 0;
+        }
+        public int CfRun()
+        {
+            this.ProtoConn.NonStopConnectAsyn();
+
+            this.CfIsRunning = true;
+            while (!disposed && this.CfIsRunning)
+            {
+                this.RealExec();
+            }
+            return 0;
+        }
+        public int CfRunAsyn()
+        {
+            if (this.runTask != null)
+                if (!this.runTask.Wait(1000)) return 0;//正在工作
+
+            this.runTask = Task.Factory.StartNew<int>(() => this.CfRun());
+            return 0;
+        }
+
+        public int CfUnLoad()
+        {
+            if (this.ProtoConn != null)
+            {
+                this.ProtoConn.Disconnect();
+                this.ProtoConn = null;
+            }
+            return 0;
+        }
+        public int CfFree()
+        {
+            this.Dispose(false);
+            return 0;
+        }
+
+        #endregion 
 
 
 

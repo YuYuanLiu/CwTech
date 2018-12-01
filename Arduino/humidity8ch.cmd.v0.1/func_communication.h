@@ -2,7 +2,6 @@
 #define __func_communication_h__
 
 #include "header.h"
-#include "variables.h"
 
 void respToSerial()
 {

@@ -2,9 +2,10 @@
 
 #ifndef HUMIDITY8CH_CMD_V0_1_H_
 #define HUMIDITY8CH_CMD_V0_1_H_
+
 #include "header.h"
-#include "variables.h"
-#include "func.h"
+
+
 
 
 void setup() {

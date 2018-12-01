@@ -22,7 +22,7 @@ namespace SensingNet.v0_0.Signal
 
 
 
-
+        public bool CfIsRunning { get; set; }
         public int CfInit()
         {
             this.mgrConfig = SignalMgrCfg.LoadFromFile();
@@ -35,20 +35,6 @@ namespace SensingNet.v0_0.Signal
             this.isExec = true;
             this.configs.UpdateFromFolder(DefaultConfigsFilder);
 
-            return 0;
-        }
-        public int CfUnLoad()
-        {
-            this.isExec = false;
-            this.configs.ClearAll();
-            this.UpdateHandlerStatus();
-            return 0;
-        }
-        public int CfFree()
-        {
-            this.isExec = false;
-            this.configs.ClearAll();
-            this.UpdateHandlerStatus();
             return 0;
         }
         public int CfExec()
@@ -72,6 +58,20 @@ namespace SensingNet.v0_0.Signal
             return 0;
         }
         public int CfRunAsyn() { throw new NotImplementedException("此方法不實作重複執行, 請使用CfExec"); }
+        public int CfUnLoad()
+        {
+            this.isExec = false;
+            this.configs.ClearAll();
+            this.UpdateHandlerStatus();
+            return 0;
+        }
+        public int CfFree()
+        {
+            this.isExec = false;
+            this.configs.ClearAll();
+            this.UpdateHandlerStatus();
+            return 0;
+        }
 
 
 

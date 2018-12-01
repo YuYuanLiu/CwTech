@@ -41,7 +41,7 @@ namespace SensingNet.v0_1.Signal
                 var arg = args[idx];
 
 
-                if (args[idx] == "-respData")
+                if (args[idx] == "-respData" || args[idx] == "-resp_data")
                 {
                     continue;
                 }

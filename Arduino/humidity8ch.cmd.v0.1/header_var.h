@@ -1,8 +1,8 @@
 
-#ifndef __variables_h__
-#define __variables_h__
+#ifndef __header_var_h__
+#define __header_var_h__
 
-
+#include "header.h"
 
 //====================================
 // WDT

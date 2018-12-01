@@ -4,21 +4,29 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Storage
 {
+
+    /// <summary>
+    /// 提供簡易的儲存機制
+    /// </summary>
     public class FileStorage : IDisposable
     {
         public FileStorageCfg Config = new FileStorageCfg();
 
         FileInfo fi;
+        //不採用SQLite/EntityFramework, 避免User還要安裝 SQLite.net provider
         StreamWriter fwriter;
         FileStorageInfo fsInfo = new FileStorageInfo();
 
         public FileStorage(string dir) { this.Config.DirectoryPath = dir; }
+        ~FileStorage() { this.Dispose(false); }
+
 
         public void Write(SignalEventArgs ea)
         {
@@ -44,14 +52,16 @@ namespace SensingNet.v0_1.Storage
                 //檔名是否需要置換了
                 if (this.fwriter == null || this.fi.FullName != currfi.FullName)
                 {
-                    var lockFp = this.fi.FullName;
-                    var nonLockFp = Regex.Replace(lockFp, @"\.lcok$", "");
-                    if (this.fwriter != null)
-                    {
-                        this.CloseStream(ref this.fwriter);
-                        File.Move(lockFp, nonLockFp);
-                    }
+                    var lockFp = this.fi == null ? null : this.fi.FullName;
+                    var nonLockFp = lockFp == null ? null : Regex.Replace(lockFp, @"\.lock$", "");
 
+                    //先關掉舊檔
+                    if (this.fwriter != null)
+                        this.CloseStream(ref this.fwriter);
+
+                    //再Reanme, 將檔案的.lock移除
+                    if (lockFp != nonLockFp)
+                        File.Move(lockFp, nonLockFp);
 
                     //不等待Event的工作, 避免來不及寫入
                     Task.Factory.StartNew(() =>
@@ -64,11 +74,14 @@ namespace SensingNet.v0_1.Storage
                     });
 
                     this.fi = currfi;
-                    this.fwriter = new StreamWriter(currfi.FullName);//操作用 lock 檔
+                    if (!this.fi.Directory.Exists) this.fi.Directory.Create();
+                    this.fwriter = new StreamWriter(currfi.FullName, false, Encoding.UTF8);//操作用 lock 檔
                     this.fsInfo.WriteHeader(this.fwriter);
                 }
                 //檔案是當前時區
                 this.fsInfo.WriteValues(this.fwriter, nowUtc, ea.CalibrateData);
+
+                this.fwriter.Flush();
             }
             finally { Monitor.Exit(this); }
 

@@ -1,4 +1,5 @@
-﻿using SensingNet.v0_0.Protocol;
+﻿using CToolkit.v0_1;
+using SensingNet.v0_0.Protocol;
 using SensingNet.v0_0.Storage;
 using System;
 using System.Collections.Generic;
@@ -42,14 +43,14 @@ namespace SensingNet.v0_0.Signal
         }
 
 
-
+        public bool CfIsRunning { get; set; }
         public int CfInit()
         {
             if (this.config == null) throw new SensingNetException("沒有設定參數");
 
 
 
-            var localIpAddr = CToolkit.CtkUtil.GetLikelyFirst127Ip(this.config.LocalIp, this.config.RemoteIp);
+            var localIpAddr = NetUtil.GetSuitableIp(this.config.LocalIp, this.config.RemoteIp);
             var localEndPoint = new IPEndPoint(localIpAddr, this.config.LocalPort);
             var remoteEndPoint = new IPEndPoint(IPAddress.Parse(this.config.RemoteIp), this.config.RemotePort);
 

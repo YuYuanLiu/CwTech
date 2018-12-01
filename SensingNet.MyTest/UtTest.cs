@@ -25,7 +25,7 @@ namespace SensingNet.MyTest
             var listener = new CToolkit.Net.CtkNonStopTcpListener("127.0.0.1", 5003);
             tasks.Add(Task.Run(() =>
             {
-                listener.NonStopConnect();
+                listener.NonStopConnectAsyn();
             }));
 
             var client = new CToolkit.Net.CtkNonStopTcpClient("127.0.0.1", 5003);
