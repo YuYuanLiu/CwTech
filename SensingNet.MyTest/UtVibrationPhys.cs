@@ -19,8 +19,8 @@ namespace SensingNet.MyTest
         [TestMethod]
         public void TestMethod()
         {
-            var deviceHdl = new v0_1.Device.DeviceHandler();
-            deviceHdl.config = new v0_1.Device.DeviceCfg()
+            var deviceHdl = new v0_1.Device.DeviceSensorHandler();
+            deviceHdl.Config = new v0_1.Device.DeviceSensorCfg()
             {
                 RemoteIp = "192.168.123.201",
                 RemotePort = 5000,
@@ -30,9 +30,9 @@ namespace SensingNet.MyTest
                 ProtoFormat = v0_1.Device.EnumDeviceProtoFormat.SensingNetCmd,
                 IsActivelyConnect = false,
             };
-            deviceHdl.config.SignalCfgList.Add(new v0_1.Signal.SignalCfg()
+            deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SignalCfg()
             {
-                DeviceSvid = 0,
+                Svid = 0,
             });
 
             deviceHdl.evtSignalCapture += DeviceHdl_evtSignalCapture;

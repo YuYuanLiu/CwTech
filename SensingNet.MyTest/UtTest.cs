@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Globalization;
 using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace SensingNet.MyTest
 {
@@ -18,11 +20,33 @@ namespace SensingNet.MyTest
         [TestMethod]
         public void TestMethod()
         {
+            var tasks = new List<Task>();
 
-            var dict = new Dictionary<string, object>();
-            dict["A"] = 1;
+            var listener = new CToolkit.Net.CtkNonStopTcpListener("127.0.0.1", 5003);
+            tasks.Add(Task.Run(() =>
+            {
+                listener.NonStopConnect();
+            }));
 
-            dict["A"] = null;
+            var client = new CToolkit.Net.CtkNonStopTcpClient("127.0.0.1", 5003);
+            var flagClient = false;
+            tasks.Add(Task.Run(() =>
+            {
+                client.ConnectIfNo();
+
+                SpinWait.SpinUntil(() => client.IsRemoteConnected);
+
+                SpinWait.SpinUntil(() => flagClient);
+
+                client.Disconnect();
+
+
+            }));
+
+            var flag = false;
+            SpinWait.SpinUntil(() => flag);
+
+
 
         }
 

@@ -8,8 +8,8 @@ namespace SensingNet.v0_1.Signal
     public class SignalCfg
     {
 
-        public UInt32 DeviceSvid = 0;
-        public String SignalName;
+        public UInt32 Svid = 0;
+        public String Name;
 
 
         public double CalibrateSysScale = 1.0;

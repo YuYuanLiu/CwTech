@@ -31,7 +31,7 @@ namespace SensingNet.v0_1.Protocol
                 var content = this.rcvSb.ToString();
                 for (var idx = content.IndexOf('\n'); idx >= 0; idx = content.IndexOf('\n'))
                 {
-                    var line = content.Substring(0, idx+1);
+                    var line = content.Substring(0, idx + 1);
                     line = line.Replace("\r", "");
                     line = line.Replace("\n", "");
                     line = line.Trim();
@@ -59,16 +59,10 @@ namespace SensingNet.v0_1.Protocol
             return flag;
         }
 
-        public void WriteMsg(Stream stream, string msg) { this.WriteMsg(stream, Encoding.UTF8.GetBytes(msg)); }
-        public void WriteMsg(Stream stream, byte[] buffer) { stream.Write(buffer, 0, buffer.Length); }
-        public void WriteMsgDataReq(Stream stream)
-        {
-            this.WriteMsg(stream, TxDataReq);
-        }
-        public void WriteMsgDataAck(Stream stream)
-        {
-            this.WriteMsg(stream, TxDataAck);
-        }
+        public void WriteMsg(IProtoConnectBase stream, string msg) { this.WriteMsg(stream, Encoding.UTF8.GetBytes(msg)); }
+        public void WriteMsg(IProtoConnectBase stream, byte[] buffer) { stream.WriteMsg(buffer, 0, buffer.Length); }
+        public void WriteMsgDataReq(IProtoConnectBase stream) { this.WriteMsg(stream, TxDataReq); }
+        public void WriteMsgDataAck(IProtoConnectBase stream) { this.WriteMsg(stream, TxDataAck); }
 
 
 

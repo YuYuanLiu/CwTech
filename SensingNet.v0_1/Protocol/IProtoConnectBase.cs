@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CToolkit.Net;
+using CToolkit.Protocol;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,15 +10,12 @@ using System.Text;
 namespace SensingNet.v0_1.Protocol
 {
 
-    public interface IProtoConnectBase
+    public interface IProtoConnectBase : ICtkProtocolNonStopConnect, IDisposable
     {
 
+        
 
-        bool IsConnected { get; }
-        bool IsConnecting { get; }
 
-        void ConnectIfNo();
-        void NonStopConnect();
 
 
     }

@@ -5,6 +5,7 @@ using MathNet.Numerics;
 using System.IO;
 using System.Collections.Generic;
 using System.Net;
+using CToolkit.Protocol;
 
 namespace SensingNet.MyTest
 {
@@ -18,7 +19,7 @@ namespace SensingNet.MyTest
         {
             var remoteEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502);
             var nonStopTcpClient = new CToolkit.Net.CtkNonStopTcpClient( remoteEp);
-            nonStopTcpClient.evtDataReceive += delegate (object sender, CToolkit.Net.CtkNonStopTcpStateEventArgs e)
+            nonStopTcpClient.evtDataReceive += delegate (object sender, CtkProtocolBufferEventArgs e)
             {
                 System.Diagnostics.Debug.WriteLine(e.length);
             };

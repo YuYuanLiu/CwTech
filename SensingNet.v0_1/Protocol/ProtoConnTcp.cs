@@ -1,8 +1,10 @@
 using CToolkit;
 using CToolkit.Net;
+using CToolkit.Protocol;
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
 namespace SensingNet.v0_1.Protocol
@@ -16,23 +18,16 @@ namespace SensingNet.v0_1.Protocol
 
         CtkNonStopTcpClient client;
         CtkNonStopTcpListener listener;
-        public TcpClient tcpClient;//一次只有一個可以被使用
-
-
-
-        public bool IsConnected { get { return this.client != null ? this.client.isConnected : this.listener != null ? this.listener.IsConnected : false; } }
-        public bool IsConnecting { get { return this.client != null ? this.client.IsConnecting : this.listener != null ? this.listener.IsConnecting : false; } }
-        public bool IsTcpClientConnected { get { return this.tcpClient != null ? this.tcpClient.Connected : false; } }
-
+        TcpClient activeWorkTcpClient { get => this.client.ActiveWorkClient as TcpClient; }
+        public NetworkStream ActiveWorkStream { get => this.activeWorkTcpClient == null ? null : this.activeWorkTcpClient.GetStream(); }
+        ICtkProtocolNonStopConnect ctkProtoConnect { get => this.client == null ? this.listener : this.client as ICtkProtocolNonStopConnect; }
         public bool isListener = true;
-
         public DateTime? timeOfBeginConnect;
-
         public IPEndPoint local;
         public IPEndPoint remote;
-
-        //AutoResetEvent are_ConnectDone = new AutoResetEvent(false);
         ManualResetEvent mreHasMsg = new ManualResetEvent(false);
+
+
 
         public ProtoConnTcp(IPEndPoint l, IPEndPoint r, bool isListener)
         {
@@ -41,8 +36,6 @@ namespace SensingNet.v0_1.Protocol
 
             this.isListener = isListener;
         }
-
-
         ~ProtoConnTcp()
         {
             this.Dispose(false);
@@ -50,9 +43,54 @@ namespace SensingNet.v0_1.Protocol
 
 
 
+
+        public void ReloadClient()
+        {
+            if (this.client != null) this.client.Disconnect();
+            this.client = new CtkNonStopTcpClient();
+            this.client.localEP = this.local;
+            this.client.remoteEP = this.remote;
+            this.client.evtFirstConnect += (sender, e) =>
+            {
+                var ea = e as CtkNonStopTcpStateEventArgs;
+                this.ActiveWorkClient = ea.workClient;
+                this.OnFirstConnect(e);
+            };
+            this.client.evtFailConnect += (sender, e) => this.OnFailConnect(e);
+            this.client.evtDisconnect += (sender, e) => this.OnDisconnect(e);
+            this.client.evtDataReceive += (sender, e) => this.OnDataReceive(e);
+        }
+        public void ReloadListener()
+        {
+            if (this.listener != null) this.listener.Disconnect();
+            this.listener = new CToolkit.Net.CtkNonStopTcpListener();
+            this.listener.localEP = this.local;
+            this.listener.evtFirstConnect += (sender, e) =>
+            {
+                var ea = e as CtkNonStopTcpStateEventArgs;
+                this.ActiveWorkClient = ea.workClient;
+                this.OnFirstConnect(e);
+            };
+            this.listener.evtFailConnect += (sender, e) => this.OnFailConnect(e);
+            this.listener.evtDisconnect += (sender, e) => this.OnDisconnect(e);
+            this.listener.evtDataReceive += (sender, e) => this.OnDataReceive(e);
+        }
+
+
+
+
+        #region IProtoConnectBase
+
+        public bool IsLocalReadyConnect { get => this.ctkProtoConnect.IsLocalReadyConnect; }//Local連線成功=遠端連線成功
+        public bool IsRemoteConnected { get => this.ctkProtoConnect.IsRemoteConnected; }
+        public bool IsOpenRequesting { get => this.ctkProtoConnect.IsOpenRequesting; }//用途是避免重複要求連線
+        public bool IsNonStopRunning { get => this.ctkProtoConnect.IsNonStopRunning; }
+
+
         public void ConnectIfNo()
         {
-            if (this.IsConnected || this.IsConnecting) return;
+            if (this.IsNonStopRunning) return;//NonStopConnect 己在進行中的話, 不需再用ConnectIfNo
+            if (this.IsRemoteConnected || this.IsOpenRequesting) return;
 
             var now = DateTime.Now;
             if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
@@ -71,10 +109,9 @@ namespace SensingNet.v0_1.Protocol
 
 
         }
-
         public void NonStopConnect()
         {
-            if (this.IsConnected || this.IsConnecting) return;
+            if (this.IsRemoteConnected || this.IsOpenRequesting) return;
 
             var now = DateTime.Now;
             if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
@@ -91,7 +128,7 @@ namespace SensingNet.v0_1.Protocol
                 this.client.NonStopConnect();
             }
         }
-
+        public void AbortNonStopConnect() { this.ctkProtoConnect.AbortNonStopConnect(); }
         public void Disconnect()
         {
             if (this.client != null) { this.client.Disconnect(); this.client.Dispose(); this.client = null; }
@@ -100,74 +137,55 @@ namespace SensingNet.v0_1.Protocol
 
         }
 
-        public void ReloadClient()
-        {
-            if (this.client != null) this.client.Disconnect();
-            this.client = new CtkNonStopTcpClient();
-            this.client.localEP = this.local;
-            this.client.remoteEP = this.remote;
-            this.client.evtFirstConnect += (sender, e) =>
-            {
-                this.tcpClient = e.tcpClient;
-                this.OnFirstConnect(e);
-            };
-            this.client.evtFailConnect += (sender, e) => this.OnFailConnect(e);
-            this.client.evtDisconnect += (sender, e) => this.OnDisconnect(e);
-            this.client.evtDataReceive += (sender, e) => this.OnDataReceive(e);
-        }
-        public void ReloadListener()
-        {
-            if (this.listener != null) this.listener.Disconnect();
-            this.listener = new CToolkit.Net.CtkNonStopTcpListener();
-            this.listener.localEP = this.local;
-            this.listener.evtFirstConnect += (sender, e) =>
-            {
-                this.tcpClient = e.tcpClient;
-                this.OnFirstConnect(e);
-            };
-            this.listener.evtFailConnect += (sender, e) => this.OnFailConnect(e);
-            this.listener.evtDisconnect += (sender, e) => this.OnDisconnect(e);
-            this.listener.evtDataReceive += (sender, e) => this.OnDataReceive(e);
-        }
+
+
+        public object ActiveWorkClient { get => this.client == null ? this.listener.ActiveWorkClient : this.client.ActiveWorkClient; set => this.client.ActiveWorkClient = value; }//一次只有一個可以被使用
+        public void WriteMsg(byte[] buff, int offset, int length) { this.ActiveWorkStream.Write(buff, offset, length); }
+        public void WriteMsg(byte[] buff, int length) { this.WriteMsg(buff, 0, length); }
+        public void WriteMsg(byte[] buff) { this.WriteMsg(buff, 0, buff.Length); }
+        public void WriteMsg(String msg) { this.WriteMsg(Encoding.UTF8.GetBytes(msg)); }
 
 
 
 
-        #region Event Handler
-
-        #endregion 
 
 
-        #region Event
-
-
-        public event EventHandler<CtkNonStopTcpStateEventArgs> evtFirstConnect;
-        void OnFirstConnect(CtkNonStopTcpStateEventArgs ea)
+        public event EventHandler<CtkProtocolBufferEventArgs> evtFirstConnect;
+        void OnFirstConnect(CtkProtocolBufferEventArgs ea)
         {
             if (this.evtFirstConnect == null) return;
             this.evtFirstConnect(this, ea);
         }
-        public event EventHandler<CtkNonStopTcpStateEventArgs> evtFailConnect;
-        void OnFailConnect(CtkNonStopTcpStateEventArgs ea)
+        public event EventHandler<CtkProtocolBufferEventArgs> evtFailConnect;
+        void OnFailConnect(CtkProtocolBufferEventArgs ea)
         {
             if (this.evtFailConnect == null) return;
             this.evtFailConnect(this, ea);
         }
-        public event EventHandler<CtkNonStopTcpStateEventArgs> evtDisconnect;
-        void OnDisconnect(CtkNonStopTcpStateEventArgs ea)
+        public event EventHandler<CtkProtocolBufferEventArgs> evtDisconnect;
+        void OnDisconnect(CtkProtocolBufferEventArgs ea)
         {
             if (this.evtDisconnect == null) return;
             this.evtDisconnect(this, ea);
         }
-        public event EventHandler<CtkNonStopTcpStateEventArgs> evtDataReceive;
-        void OnDataReceive(CtkNonStopTcpStateEventArgs ea)
+        public event EventHandler<CtkProtocolBufferEventArgs> evtDataReceive;
+        void OnDataReceive(CtkProtocolBufferEventArgs ea)
         {
             if (this.evtDataReceive == null) return;
             this.evtDataReceive(this, ea);
         }
+        public event EventHandler<CtkProtocolBufferEventArgs> evtErrorReceive;
+        void OnErrorReceive(CtkProtocolBufferEventArgs ea)
+        {
+            if (this.evtErrorReceive == null) return;
+            this.evtErrorReceive(this, ea);
+        }
 
 
-        #endregion
+        #endregion 
+
+
+
 
         #region IDisposable
         // Flag: Has Dispose already been called?

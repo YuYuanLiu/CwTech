@@ -10,7 +10,6 @@ namespace SensingNet.v0_1.Device
         SensingNetCmd,
         Secs,
         Modbus,
-
         Other,
     }
 }

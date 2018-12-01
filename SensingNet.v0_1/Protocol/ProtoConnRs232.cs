@@ -1,9 +1,11 @@
 using CToolkit;
 using CToolkit.Net;
+using CToolkit.Protocol;
 using System;
 using System.IO.Ports;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
 namespace SensingNet.v0_1.Protocol
@@ -17,8 +19,8 @@ namespace SensingNet.v0_1.Protocol
         CtkNonStopSerialPort nonStopSerialPort;
         public string ComPort;
 
-        public bool IsConnected { get { return this.nonStopSerialPort.IsConnected; } }
-        public bool IsConnecting { get { return this.nonStopSerialPort.IsConnecting; } }
+
+
 
         public DateTime? timeOfBeginConnect;
 
@@ -38,38 +40,7 @@ namespace SensingNet.v0_1.Protocol
 
 
 
-        public void ConnectIfNo()
-        {
-            if (this.IsConnected || this.IsConnecting) return;
 
-            var now = DateTime.Now;
-            if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
-            this.timeOfBeginConnect = DateTime.Now;
-
-            this.ReloadComPort();
-            this.nonStopSerialPort.ConnectIfNo();
-        }
-
-        public void NonStopConnect()
-        {
-            if (this.IsConnected || this.IsConnecting) return;
-
-            var now = DateTime.Now;
-            if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
-            this.timeOfBeginConnect = now;
-
-            this.ReloadComPort();
-            this.nonStopSerialPort.NonStopConnect();
-        }
-
-
-
-
-        public void Disconnect()
-        {
-            if (this.nonStopSerialPort != null) { this.nonStopSerialPort.Disconnect(); this.nonStopSerialPort.Dispose(); this.nonStopSerialPort = null; }
-            if (this.mreHasMsg != null) this.mreHasMsg.Dispose();
-        }
 
 
         public void ReloadComPort()
@@ -92,46 +63,90 @@ namespace SensingNet.v0_1.Protocol
 
 
 
-        #region Event Handler
+        #region IProtoConnectBase
 
-        #endregion
+        public bool IsLocalReadyConnect { get => this.nonStopSerialPort.IsLocalReadyConnect; }//Local連線成功=遠端連線成功
+        public bool IsRemoteConnected { get => this.nonStopSerialPort.IsRemoteConnected; }
+        public bool IsOpenRequesting { get => this.nonStopSerialPort.IsOpenRequesting; }//用途是避免重複要求連線
+        public bool IsNonStopRunning { get => this.nonStopSerialPort.IsNonStopRunning; }
 
 
-        #region Event
+
+        public void ConnectIfNo()
+        {
+            if (this.IsNonStopRunning) return;//NonStopConnect 己在進行中的話, 不需再用ConnectIfNo
+            if (this.IsRemoteConnected || this.IsOpenRequesting) return;
+
+            var now = DateTime.Now;
+            if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
+            this.timeOfBeginConnect = DateTime.Now;
+
+            this.ReloadComPort();
+            this.nonStopSerialPort.ConnectIfNo();
+        }
+        public void NonStopConnect()
+        {
+            if (this.IsRemoteConnected || this.IsOpenRequesting) return;
+
+            var now = DateTime.Now;
+            if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
+            this.timeOfBeginConnect = now;
+
+            this.ReloadComPort();
+            this.nonStopSerialPort.NonStopConnect();
+        }
+        public void AbortNonStopConnect() { this.nonStopSerialPort.AbortNonStopConnect(); }
+        public void Disconnect()
+        {
+            if (this.nonStopSerialPort != null) { this.nonStopSerialPort.Disconnect(); this.nonStopSerialPort.Dispose(); this.nonStopSerialPort = null; }
+            if (this.mreHasMsg != null) this.mreHasMsg.Dispose();
+        }
+
+        public object ActiveWorkClient { get => this.nonStopSerialPort.ActiveWorkClient; set => this.nonStopSerialPort.ActiveWorkClient = value; }
+        public void WriteMsg(byte[] buff, int offset, int length) { this.nonStopSerialPort.WriteMsg(buff, offset, length); }
+        public void WriteMsg(byte[] buff, int length) { this.WriteMsg(buff, 0, length); }
+        public void WriteMsg(byte[] buff) { this.WriteMsg(buff, 0, buff.Length); }
+        public void WriteMsg(String msg) { this.WriteMsg(Encoding.UTF8.GetBytes(msg)); }
 
 
-        public event EventHandler<CtkNonStopSerialPortEventArgs> evtFirstConnect;
-        void OnFirstConnect(CtkNonStopSerialPortEventArgs ea)
+
+        public event EventHandler<CtkProtocolBufferEventArgs> evtFirstConnect;
+        void OnFirstConnect(CtkProtocolBufferEventArgs ea)
         {
             if (this.evtFirstConnect == null) return;
             this.evtFirstConnect(this, ea);
         }
-        public event EventHandler<CtkNonStopSerialPortEventArgs> evtFailConnect;
-        void OnFailConnect(CtkNonStopSerialPortEventArgs ea)
+        public event EventHandler<CtkProtocolBufferEventArgs> evtFailConnect;
+        void OnFailConnect(CtkProtocolBufferEventArgs ea)
         {
             if (this.evtFailConnect == null) return;
             this.evtFailConnect(this, ea);
         }
-        public event EventHandler<CtkNonStopSerialPortEventArgs> evtDisconnect;
-        void OnDisconnect(CtkNonStopSerialPortEventArgs ea)
+        public event EventHandler<CtkProtocolBufferEventArgs> evtDisconnect;
+        void OnDisconnect(CtkProtocolBufferEventArgs ea)
         {
             if (this.evtDisconnect == null) return;
             this.evtDisconnect(this, ea);
         }
-        public event EventHandler<CtkNonStopSerialPortEventArgs> evtDataReceive;
-        void OnDataReceive(CtkNonStopSerialPortEventArgs ea)
+        public event EventHandler<CtkProtocolBufferEventArgs> evtDataReceive;
+        void OnDataReceive(CtkProtocolBufferEventArgs ea)
         {
             if (this.evtDataReceive == null) return;
             this.evtDataReceive(this, ea);
         }
-        public event EventHandler<CtkNonStopSerialPortEventArgs> evtErrorReceive;
-        void OnErrorReceive(CtkNonStopSerialPortEventArgs ea)
+        public event EventHandler<CtkProtocolBufferEventArgs> evtErrorReceive;
+        void OnErrorReceive(CtkProtocolBufferEventArgs ea)
         {
             if (this.evtErrorReceive == null) return;
             this.evtErrorReceive(this, ea);
         }
 
         #endregion
+
+
+
+
+
 
         #region IDisposable
         // Flag: Has Dispose already been called?

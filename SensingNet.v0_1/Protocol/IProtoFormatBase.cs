@@ -20,10 +20,10 @@ namespace SensingNet.v0_1.Protocol
         bool TryDequeueMsg(out object msg);
 
         //Protocol應具有能反譯通訊的能力
-        void WriteMsg(Stream stream, String msg);
-        void WriteMsg(Stream stream, byte[] buffer);
-        void WriteMsgDataReq(Stream stream);
-        void WriteMsgDataAck(Stream stream);
+        void WriteMsg(IProtoConnectBase stream, String msg);
+        void WriteMsg(IProtoConnectBase stream, byte[] buffer);
+        void WriteMsgDataReq(IProtoConnectBase stream);
+        void WriteMsgDataAck(IProtoConnectBase stream);
 
 
 
