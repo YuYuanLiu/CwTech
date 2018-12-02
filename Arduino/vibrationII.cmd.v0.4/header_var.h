@@ -13,13 +13,7 @@ struct dataType{
 };
 dataType g_eeprom;
 
-//=======================
-// Serial Port Variable
-//=======================
-String inputString = "";         // a string to hold incoming data
-boolean stringComplete = false;  // whether the string is complete
-byte recv_buff[128] = {0};
-int recv_len=0;
+
 
 //====================================
 // WDT
@@ -39,7 +33,18 @@ IPAddress gateway(192, 168, 123, 1);
 IPAddress subnet(255, 255, 255, 0);
 EthernetServer server(5000);
 
-String ethReadString;
+String ethReadBuffer = String(256);
+
+//=======================
+// Serial Port Variable
+//=======================
+String inputString = "";         // a string to hold incoming data
+boolean stringComplete = false;  // whether the string is complete
+byte recv_buff[128] = {0};
+int recv_len=0;
+
+String serialReadBuffer = String(256);
+
 
 //=======================
 // ADS1252 Vibration
@@ -68,7 +73,7 @@ long adsSignals[sizeAdsSignals];
 //char Temp_Char[34 + 8*sizeAdsSignals] ={0}; //長度計算公式28 + 6 + 8*sizeAdsSignals
 
 //=======================
-// Humidity
+// Humidity - DHT
 //=======================
 
 

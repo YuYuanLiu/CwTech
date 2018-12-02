@@ -73,4 +73,46 @@ void respVibToSerial() {
 
 
 
+bool ethComm()
+{
+    Ethernet.maintain(); //必加
+    EthernetClient client = server.available();
+    
+    if (client)
+        return false;
+
+    ethReadBuffer = "";
+    int zeroCount = 0;
+    char readChar = 0;
+    while (client.available())
+    {
+        readChar = client.read();
+        if (readChar < 0)
+            continue;
+        if (readChar == '\n')
+            break;//結束字元
+        ethReadBuffer += readChar;
+
+        if (ethReadBuffer.length() > 8)
+        {
+            //長度超過8, 卻找不到cmd, 就把字串截掉
+            if (ethReadBuffer.indexOf("cmd") < 0)
+                ethReadBuffer = ethReadBuffer.substring(4);
+        }
+
+        zeroCount++;
+    }
+
+    if (ethReadBuffer.indexOf("-reqData") >= 0
+      || ethReadBuffer.indexOf("-req_data") >= 0)
+    {
+        respVibToEth();
+    }
+
+    return true;
+}
+
+
+
+
 #endif

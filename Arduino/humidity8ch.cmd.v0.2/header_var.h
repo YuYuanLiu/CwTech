@@ -27,15 +27,13 @@ EthernetServer server = EthernetServer(5000);
 
 String ethReadBuffer = String(256);
 
-
-
 //====================================
 // Serial
 //====================================
 String serialReadBuffer = String(256);
 
 //====================================
-// DHT
+// Humidity - DHT
 //====================================
 
 #define DHTTYPE DHT22   // DHT 22  (AM2302)
