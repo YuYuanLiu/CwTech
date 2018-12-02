@@ -110,7 +110,20 @@ namespace SensingNet.v0_1.Device
             var remoteEndPoint = new IPEndPoint(IPAddress.Parse(this.Config.RemoteIp), this.Config.RemotePort);
 
 
-            this.ProtoConn = new ProtoConnTcp(localEndPoint, remoteEndPoint, this.Config.IsActivelyConnect);
+
+            switch (this.Config.ProtoConnect)
+            {
+                case EnumDeviceProtoConnect.Tcp:
+                    this.ProtoConn = new ProtoConnTcp(localEndPoint, remoteEndPoint, this.Config.IsActivelyConnect);
+                    break;
+                case EnumDeviceProtoConnect.Rs232:
+                    this.ProtoConn = new ProtoConnRs232(this.Config.ComPort);
+                    break;
+                default:
+                    //由使用者自己實作
+                    break;
+            }
+
             this.ProtoConn.evtDataReceive += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
@@ -128,6 +141,9 @@ namespace SensingNet.v0_1.Device
                 case EnumDeviceProtoFormat.SensingNetCmd:
                     this.ProtoFormat = new ProtoFormatSensingNetCmd();
                     this.SignalTran = new SignalTranSensingNet();
+                    break;
+                default:
+                    //由使用者自己實作
                     break;
             }
 

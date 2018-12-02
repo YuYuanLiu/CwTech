@@ -184,9 +184,8 @@ void SetIPAddress()
 
 
 
-/*
- * CheckSerialCMD
- */
+
+
 void CheckSerialCMD()
 {
   if (stringComplete)

@@ -83,7 +83,7 @@ void readVibration() {
 
 void procReadVibration() {
 	readVibration();
-	printVibToEth();
+	respVibToEth();
 }
 
 

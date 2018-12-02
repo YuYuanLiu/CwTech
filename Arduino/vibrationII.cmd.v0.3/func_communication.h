@@ -8,7 +8,7 @@
 //=======================
 // Ethernet Function
 //=======================
-void printVibToEth() {
+void respVibToEth() {
 	//Serial.println("printToEth...");
 	String respData = "cmd -respData";
   
@@ -47,6 +47,27 @@ void printTemperatureToEth() {
 	respData += "    \r\n";
 
 	server.print(respData);
+}
+
+
+
+void respVibToSerial() {
+  
+    if (!Serial)
+        return;
+    else
+        Serial.println("printToEth...");
+
+    String respData = "cmd -respData";
+    
+    respData += " -svid " + String(0);
+    respData += " -data ";
+    for (int idx = 0; idx < sizeAdsSignals; idx++)
+      respData += String(adsSignals[idx]) + " ";
+  
+    respData += "    \r\n";
+    Serial.print(respData);
+
 }
 
 

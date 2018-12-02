@@ -18,6 +18,7 @@ namespace SensingNet.v0_1.Device
         public int LocalPort;
         public String RemoteIp = "192.168.123.101";
         public int RemotePort = 5000;
+        public string ComPort = "COM1";
 
         public int DeviceId = 0;
         public String DeviceName = null;

@@ -18,7 +18,7 @@ dataType g_eeprom;
 //=======================
 String inputString = "";         // a string to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
-byte recv_buff[25] = {0};
+byte recv_buff[128] = {0};
 int recv_len=0;
 
 //====================================

@@ -9,5 +9,6 @@ namespace SensingNet.v0_1.Device
     {
         Tcp,
         Rs232,
+        Other,
     }
 }
