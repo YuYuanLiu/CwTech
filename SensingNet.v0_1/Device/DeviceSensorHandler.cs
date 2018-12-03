@@ -99,8 +99,10 @@ namespace SensingNet.v0_1.Device
 
         #region IContextFlowRun
 
+        /// <summary>
+        /// 取得是否正在執行, 可由User設定為false
+        /// </summary>
         public bool CfIsRunning { get; set; }
-
         public int CfInit()
         {
             if (this.Config == null) throw new SensingNetException("沒有設定參數");
@@ -124,6 +126,7 @@ namespace SensingNet.v0_1.Device
                     break;
             }
 
+            if (this.ProtoConn == null) throw new ArgumentException("ProtoConn");
             this.ProtoConn.evtDataReceive += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
@@ -133,6 +136,7 @@ namespace SensingNet.v0_1.Device
                 if (this.ProtoFormat.HasMessage())
                     SignalHandle();
             };
+
 
 
 
@@ -146,6 +150,8 @@ namespace SensingNet.v0_1.Device
                     //由使用者自己實作
                     break;
             }
+            if (this.ProtoFormat == null) throw new ArgumentException("必須指定ProtoFormat");
+
 
 
 
@@ -155,7 +161,8 @@ namespace SensingNet.v0_1.Device
 
         public int CfLoad()
         {
-            if (this.ProtoFormat == null) throw new ArgumentException("必須指定Protocol");
+      
+     
 
             return 0;
         }
@@ -179,14 +186,14 @@ namespace SensingNet.v0_1.Device
         public int CfRunAsyn()
         {
             if (this.runTask != null)
-                if (!this.runTask.Wait(1000)) return 0;//正在工作
+                if (!this.runTask.Wait(100)) return 0;//正在工作
 
             this.runTask = Task.Factory.StartNew<int>(() => this.CfRun());
             return 0;
         }
-
         public int CfUnLoad()
         {
+            this.CfIsRunning = false;
             if (this.ProtoConn != null)
             {
                 this.ProtoConn.Disconnect();

@@ -65,10 +65,10 @@ namespace SensingNet.v0_1.Protocol
 
         #region IProtoConnectBase
 
-        public bool IsLocalReadyConnect { get => this.nonStopSerialPort.IsLocalReadyConnect; }//Local連線成功=遠端連線成功
-        public bool IsRemoteConnected { get => this.nonStopSerialPort.IsRemoteConnected; }
-        public bool IsOpenRequesting { get => this.nonStopSerialPort.IsOpenRequesting; }//用途是避免重複要求連線
-        public bool IsNonStopRunning { get => this.nonStopSerialPort.IsNonStopRunning; }
+        public bool IsLocalReadyConnect { get { return this.nonStopSerialPort.IsLocalReadyConnect; } }//Local連線成功=遠端連線成功
+        public bool IsRemoteConnected { get { return this.nonStopSerialPort.IsRemoteConnected; } }
+        public bool IsOpenRequesting { get { return this.nonStopSerialPort.IsOpenRequesting; } }//用途是避免重複要求連線
+        public bool IsNonStopRunning { get { return this.nonStopSerialPort.IsNonStopRunning; } }
 
 
 
@@ -102,7 +102,7 @@ namespace SensingNet.v0_1.Protocol
             if (this.mreHasMsg != null) this.mreHasMsg.Dispose();
         }
 
-        public object ActiveWorkClient { get => this.nonStopSerialPort.ActiveWorkClient; set => this.nonStopSerialPort.ActiveWorkClient = value; }
+        public object ActiveWorkClient { get { return this.nonStopSerialPort.ActiveWorkClient; } set { this.nonStopSerialPort.ActiveWorkClient = value; } }
         public void WriteMsg(byte[] buff, int offset, int length) { this.nonStopSerialPort.WriteMsg(buff, offset, length); }
         public void WriteMsg(byte[] buff, int length) { this.WriteMsg(buff, 0, length); }
         public void WriteMsg(byte[] buff) { this.WriteMsg(buff, 0, buff.Length); }

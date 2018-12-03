@@ -18,9 +18,9 @@ namespace SensingNet.v0_1.Protocol
 
         CtkNonStopTcpClient client;
         CtkNonStopTcpListener listener;
-        TcpClient activeWorkTcpClient { get => this.client.ActiveWorkClient as TcpClient; }
-        public NetworkStream ActiveWorkStream { get => this.activeWorkTcpClient == null ? null : this.activeWorkTcpClient.GetStream(); }
-        ICtkProtocolNonStopConnect ctkProtoConnect { get => this.client == null ? this.listener : this.client as ICtkProtocolNonStopConnect; }
+        TcpClient activeWorkTcpClient { get { return this.client.ActiveWorkClient as TcpClient; } }
+        public NetworkStream ActiveWorkStream { get { return this.activeWorkTcpClient == null ? null : this.activeWorkTcpClient.GetStream(); } }
+        ICtkProtocolNonStopConnect ctkProtoConnect { get { return this.client == null ? this.listener : this.client as ICtkProtocolNonStopConnect; } }
         public bool isListener = true;
         public DateTime? timeOfBeginConnect;
         public IPEndPoint local;
@@ -81,10 +81,10 @@ namespace SensingNet.v0_1.Protocol
 
         #region IProtoConnectBase
 
-        public bool IsLocalReadyConnect { get => this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsLocalReadyConnect; }//Local連線成功=遠端連線成功
-        public bool IsRemoteConnected { get => this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsRemoteConnected; }
-        public bool IsOpenRequesting { get => this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsOpenRequesting; }//用途是避免重複要求連線
-        public bool IsNonStopRunning { get => this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsNonStopRunning; }
+        public bool IsLocalReadyConnect { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsLocalReadyConnect; } }//Local連線成功=遠端連線成功
+        public bool IsRemoteConnected { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsRemoteConnected; } }
+        public bool IsOpenRequesting { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsOpenRequesting; } }//用途是避免重複要求連線
+        public bool IsNonStopRunning { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsNonStopRunning; } }
 
 
         public void ConnectIfNo()
@@ -139,8 +139,9 @@ namespace SensingNet.v0_1.Protocol
 
 
 
-        public object ActiveWorkClient { get => this.client == null ? this.listener.ActiveWorkClient : this.client.ActiveWorkClient; set => this.client.ActiveWorkClient = value; }//一次只有一個可以被使用
+        public object ActiveWorkClient { get { return this.client == null ? this.listener.ActiveWorkClient : this.client.ActiveWorkClient; } set { this.client.ActiveWorkClient = value; } }//一次只有一個可以被使用
         public void WriteMsg(byte[] buff, int offset, int length) { this.ActiveWorkStream.Write(buff, offset, length); }
+
         public void WriteMsg(byte[] buff, int length) { this.WriteMsg(buff, 0, length); }
         public void WriteMsg(byte[] buff) { this.WriteMsg(buff, 0, buff.Length); }
         public void WriteMsg(String msg) { this.WriteMsg(Encoding.UTF8.GetBytes(msg)); }
@@ -182,7 +183,7 @@ namespace SensingNet.v0_1.Protocol
         }
 
 
-        #endregion 
+        #endregion
 
 
 

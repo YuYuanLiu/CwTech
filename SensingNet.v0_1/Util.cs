@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet
+namespace SensingNet.v0_1
 {
     public class Util
     {
