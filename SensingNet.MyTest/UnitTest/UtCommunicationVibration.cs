@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using SensingNet.v0_1.Storage;
 using CToolkit.Net;
 using System.Threading;
+using SensingNet.v0_1.Protocol;
+using SensingNet.v0_1.Device;
 
 namespace SensingNet.MyTest.UnitTest
 {
@@ -30,15 +32,15 @@ namespace SensingNet.MyTest.UnitTest
 
 
 
-            var deviceHdl = new v0_1.Device.DeviceSensorHandler();
-            deviceHdl.Config = new v0_1.Device.DeviceSensorCfg()
+            var deviceHdl = new SensorDeviceHandler();
+            deviceHdl.Config = new SensorDeviceCfg()
             {
                 RemoteIp = "127.0.0.1",
                 RemotePort = 5003,
                 IsActivelyTx = true,
                 TxInterval = 0,
                 TimeoutResponse = 5000,
-                ProtoFormat = v0_1.Device.EnumDeviceProtoFormat.SensingNetCmd,
+                ProtoFormat = EnumProtoFormat.SensingNetCmd,
                 IsActivelyConnect = false,
             };
             deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SignalCfg()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CToolkit.Secs;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -8,56 +9,38 @@ using System.Text;
 
 namespace SensingNet.v0_1.Protocol
 {
-    public class ProtoFormatSensingNetCmd : ConcurrentQueue<string>, IProtoFormatBase, IDisposable
+
+    /// <summary>
+    /// 客戶要求的Secs Format
+    /// </summary>
+    public class ProtoFormatSecs : ConcurrentQueue<HsmsMessage>, IProtoFormatBase
     {
-   
-        StringBuilder rcvSb = new StringBuilder();
+
+        HsmsMessageReceiver hsmsMsgRcv = new HsmsMessageReceiver();
+
+        ~ProtoFormatSecs() { this.Dispose(false); }
 
 
-
-        #region IProtoBase
 
 
         public void ReceiveBytes(byte[] buffer, int offset, int length)
         {
-            lock (this)
-            {
-                this.rcvSb.Append(Encoding.UTF8.GetString(buffer, offset, length));
-                var content = this.rcvSb.ToString();
-                for (var idx = content.IndexOf('\n'); idx >= 0; idx = content.IndexOf('\n'))
-                {
-                    var line = content.Substring(0, idx + 1);
-                    line = line.Replace("\r", "");
-                    line = line.Replace("\n", "");
-                    line = line.Trim();
-                    if (line.Contains("cmd"))
-                        this.Enqueue(line);
-                    content = content.Remove(0, idx + 1);
-                }
-                this.rcvSb.Clear();
-                this.rcvSb.Append(content);
-            }
+            this.hsmsMsgRcv.Receive(buffer, offset, length);
         }
         public bool IsReceiving()
         {
-            return this.rcvSb.Length > 0;
+            return this.hsmsMsgRcv.GetMsgBufferLength() > 0;
         }
-        public bool HasMessage()
-        {
-            return this.Count > 0;
-        }
+        public bool HasMessage() { return this.Count > 0; }
         public bool TryDequeueMsg(out object msg)
         {
-            string line = null;
-            var flag = this.TryDequeue(out line);
-            msg = line;
+            HsmsMessage mymsg = null;
+            var flag = this.TryDequeue(out mymsg);
+            msg = mymsg;
             return flag;
         }
 
-
-
-
-        #endregion
+    
 
 
         #region IDisposable
@@ -105,10 +88,8 @@ namespace SensingNet.v0_1.Protocol
 
         void DisposeSelf()
         {
+
         }
-
-
-
 
         #endregion
 

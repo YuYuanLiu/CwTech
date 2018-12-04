@@ -1,4 +1,5 @@
-﻿using SensingNet.v0_1.Signal;
+﻿using SensingNet.v0_1.Protocol;
+using SensingNet.v0_1.Signal;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,7 @@ namespace SensingNet.v0_1.Device
 {
 
     [Serializable]
-    public class DeviceSensorCfg
+    public class SensorDeviceCfg
     {
         public String LocalIp;
         public int LocalPort;
@@ -23,8 +24,8 @@ namespace SensingNet.v0_1.Device
         public int DeviceId = 0;
         public String DeviceName = null;
 
-        public EnumDeviceProtoConnect ProtoConnect = EnumDeviceProtoConnect.Tcp;
-        public EnumDeviceProtoFormat ProtoFormat = EnumDeviceProtoFormat.Secs;
+        public EnumProtoConnect ProtoConnect = EnumProtoConnect.Tcp;
+        public EnumProtoFormat ProtoFormat = EnumProtoFormat.Secs;
         public bool IsActivelyConnect = false;//Device是否為主動連線
         public bool IsActivelyTx = false;//Device是否會主動發訊息
         public int TxInterval = 0; // ms, 0=即時

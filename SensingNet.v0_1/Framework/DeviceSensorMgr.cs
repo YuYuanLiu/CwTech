@@ -11,8 +11,8 @@ namespace SensingNet.v0_1.Framework
     {
 
         public String DefaultConfigsFilder = "Config/DeviceConfigs";
-        public CToolkit.Config.ConfigCollector<DeviceSensorCfg> configs = new CToolkit.Config.ConfigCollector<DeviceSensorCfg>();
-        Dictionary<String, DeviceSensorHandler> handlers = new Dictionary<String, DeviceSensorHandler>();
+        public CToolkit.Config.ConfigCollector<SensorDeviceCfg> configs = new CToolkit.Config.ConfigCollector<SensorDeviceCfg>();
+        Dictionary<String, SensorDeviceHandler> handlers = new Dictionary<String, SensorDeviceHandler>();
         Task<int> runTask;
 
 
@@ -29,7 +29,7 @@ namespace SensingNet.v0_1.Framework
         }
         public int CfLoad()
         {
-            this.isExec = true;
+            this.CfIsRunning = true;
             this.configs.UpdateFromFolder(DefaultConfigsFilder);
 
             return 0;
@@ -64,14 +64,14 @@ namespace SensingNet.v0_1.Framework
         }
         public int CfUnLoad()
         {
-            this.isExec = false;
+            this.CfIsRunning = false;
             this.configs.ClearAll();
             this.UpdateHandlerStatus();
             return 0;
         }
         public int CfFree()
         {
-            this.isExec = false;
+            this.CfIsRunning = false;
             this.configs.ClearAll();
             this.UpdateHandlerStatus();
             return 0;
@@ -95,10 +95,10 @@ namespace SensingNet.v0_1.Framework
             foreach (var dictcfg in this.configs)
                 foreach (var kvcfg in dictcfg.Value)
                 {
-                    DeviceSensorHandler hdl = null;
+                    SensorDeviceHandler hdl = null;
                     if (!this.handlers.ContainsKey(kvcfg.Key))
                     {
-                        hdl = new DeviceSensorHandler();
+                        hdl = new SensorDeviceHandler();
                         this.handlers.Add(kvcfg.Key, hdl);
                     }
                     else { hdl = this.handlers[kvcfg.Key]; }
@@ -217,7 +217,6 @@ namespace SensingNet.v0_1.Framework
 
         void DisposeManaged()
         {
-            this.isExec = false;
         }
 
         void DisposeUnmanaged()
@@ -227,7 +226,7 @@ namespace SensingNet.v0_1.Framework
 
         void DisposeSelf()
         {
-
+            this.CfIsRunning = false;
         }
 
         #endregion

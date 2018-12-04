@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Device
+namespace SensingNet.v0_1.Protocol
 {
-    public enum EnumDeviceProtoFormat
+    public enum EnumProtoFormat
     {
         SensingNetCmd,
         Secs,
         Modbus,
-        Other,
+        Custom,
     }
 }

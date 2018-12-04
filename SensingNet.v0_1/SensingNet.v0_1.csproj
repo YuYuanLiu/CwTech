@@ -58,16 +58,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Device\EnumDeviceProtoConnect.cs" />
-    <Compile Include="Device\EnumDeviceProtoFormat.cs" />
+    <Compile Include="Protocol\EnumProtoConnect.cs" />
+    <Compile Include="Protocol\EnumProtoSession.cs" />
+    <Compile Include="Protocol\EnumProtoFormat.cs" />
     <Compile Include="EnumHandlerStatus.cs" />
     <Compile Include="Framework\DeviceSensorMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\IProtoConnectBase.cs" />
+    <Compile Include="Protocol\IProtoSessionBase.cs" />
     <Compile Include="Protocol\IProtoFormatBase.cs" />
     <Compile Include="Protocol\ProtoConnRs232.cs" />
     <Compile Include="Protocol\ProtoConnTcp.cs" />
     <Compile Include="Protocol\ProtoFormatSensingNetCmd.cs" />
+    <Compile Include="Protocol\ProtoFormatSecs.cs" />
+    <Compile Include="Protocol\ProtoSessionSensingNetCmd.cs" />
+    <Compile Include="Protocol\ProtoSessionSecs.cs" />
     <Compile Include="QSecs\EnumStatisticsMethod.cs" />
     <Compile Include="QSecs\QSecsRcvDataEventArgs.cs" />
     <Compile Include="QSecs\QSecsCfg.cs" />
@@ -76,10 +81,12 @@
     <Compile Include="QSecs\QSvidCfg.cs" />
     <Compile Include="Framework\QSecsMgr.cs" />
     <Compile Include="SensingNetException.cs" />
-    <Compile Include="Device\DeviceSensorCfg.cs" />
+    <Compile Include="Device\SensorDeviceCfg.cs" />
+    <Compile Include="Signal\EnumSignalTran.cs" />
     <Compile Include="Signal\ISignalTranBase.cs" />
     <Compile Include="Signal\SignalCfg.cs" />
-    <Compile Include="Device\DeviceSensorHandler.cs" />
+    <Compile Include="Device\SensorDeviceHandler.cs" />
+    <Compile Include="Signal\SignalTranSecs001.cs" />
     <Compile Include="Storage\FileStorage.cs" />
     <Compile Include="Storage\FileStorageCfg.cs" />
     <Compile Include="Storage\FileStorageEventArgs.cs" />

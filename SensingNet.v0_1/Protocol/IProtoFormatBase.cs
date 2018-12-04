@@ -13,17 +13,12 @@ namespace SensingNet.v0_1.Protocol
     public interface IProtoFormatBase
     {
 
-        void FirstConnect(Stream stream);
         void ReceiveBytes(byte[] buffer, int offset, int length);
         bool IsReceiving();
         bool HasMessage();
         bool TryDequeueMsg(out object msg);
 
-        //Protocol應具有能反譯通訊的能力
-        void WriteMsg(IProtoConnectBase stream, String msg);
-        void WriteMsg(IProtoConnectBase stream, byte[] buffer);
-        void WriteMsgDataReq(IProtoConnectBase stream);
-        void WriteMsgDataAck(IProtoConnectBase stream);
+
 
 
 

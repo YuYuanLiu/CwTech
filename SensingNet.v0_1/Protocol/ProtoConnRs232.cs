@@ -1,6 +1,7 @@
 using CToolkit;
 using CToolkit.Net;
 using CToolkit.Protocol;
+using CToolkit.Secs;
 using System;
 using System.IO.Ports;
 using System.Net;
@@ -103,10 +104,26 @@ namespace SensingNet.v0_1.Protocol
         }
 
         public object ActiveWorkClient { get { return this.nonStopSerialPort.ActiveWorkClient; } set { this.nonStopSerialPort.ActiveWorkClient = value; } }
-        public void WriteMsg(byte[] buff, int offset, int length) { this.nonStopSerialPort.WriteMsg(buff, offset, length); }
-        public void WriteMsg(byte[] buff, int length) { this.WriteMsg(buff, 0, length); }
-        public void WriteMsg(byte[] buff) { this.WriteMsg(buff, 0, buff.Length); }
-        public void WriteMsg(String msg) { this.WriteMsg(Encoding.UTF8.GetBytes(msg)); }
+        public void WriteBytes(byte[] buff, int offset, int length) { this.nonStopSerialPort.WriteBytes(buff, offset, length); }
+        public void WriteBytes(byte[] buff, int length) { this.WriteBytes(buff, 0, length); }
+        public void WriteBytes(byte[] buff) { this.WriteBytes(buff, 0, buff.Length); }
+        public void WriteMsg(object msg)
+        {
+            if (msg.GetType() == typeof(string))
+            {
+                var buff = Encoding.UTF8.GetBytes(msg as string);
+                this.WriteBytes(buff, 0, buff.Length);
+            }
+            else if (msg.GetType() == typeof(HsmsMessage))
+            {
+                var secsMsg = msg as HsmsMessage;
+                this.WriteBytes(secsMsg.ToBytes());
+            }
+            else
+            {
+                throw new ArgumentException("未定義該型別的寫入操作");
+            }
+        }
 
 
 

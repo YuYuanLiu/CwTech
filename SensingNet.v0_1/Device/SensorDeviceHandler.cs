@@ -15,22 +15,23 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Device
 {
-    public class DeviceSensorHandler : IContextFlowRun, IDisposable
+    public class SensorDeviceHandler : IContextFlowRun, IDisposable
     {
-        public DeviceSensorCfg Config;
+        public SensorDeviceCfg Config;
         public IProtoConnectBase ProtoConn;//連線方式
         public IProtoFormatBase ProtoFormat;//Protocol
+        public IProtoSessionBase ProtoSession;
         public ISignalTranBase SignalTran;//解譯
         public EnumHandlerStatus status = EnumHandlerStatus.None;
         Task<int> runTask;
         AutoResetEvent areMsg = new AutoResetEvent(false);
         DateTime prevAckTime = DateTime.Now;
 
-        public DeviceSensorHandler() { }
-        ~DeviceSensorHandler() { this.Dispose(false); }
+        public SensorDeviceHandler() { }
+        ~SensorDeviceHandler() { this.Dispose(false); }
 
 
-        int RealExec()
+        protected virtual int RealExec()
         {
             try
             {
@@ -38,7 +39,9 @@ namespace SensingNet.v0_1.Device
 
                 if (this.Config.IsActivelyTx)
                 {
-                    this.ProtoFormat.WriteMsgDataAck(this.ProtoConn);
+                    var ackDataMsg = this.SignalTran.CreateMsgDataAck(this.Config.SignalCfgList);
+                    if(ackDataMsg !=null)
+                    this.ProtoConn.WriteMsg(ackDataMsg);
                 }
                 else
                 {
@@ -48,7 +51,8 @@ namespace SensingNet.v0_1.Device
                         while ((now - prevAckTime).TotalMilliseconds < this.Config.TxInterval) now = DateTime.Now;
                     prevAckTime = now;
 
-                    this.ProtoFormat.WriteMsgDataReq(this.ProtoConn);
+                    var reqDataMsg = this.SignalTran.CreateMsgDataReq(this.Config.SignalCfgList);
+                    this.ProtoConn.WriteMsg(reqDataMsg);
                 }
 
 
@@ -60,27 +64,33 @@ namespace SensingNet.v0_1.Device
             catch (Exception ex) { CtkLog.Write(ex); }
             return 0;
         }
-        void SignalHandle()
+        protected virtual void SignalHandle()
         {
             while (this.ProtoFormat.HasMessage())
             {
                 object msg = null;
                 if (!this.ProtoFormat.TryDequeueMsg(out msg)) return;
 
-                var eaSignal = this.SignalTran.AnalysisSignal(msg);
-                eaSignal.CalibrateData = new List<double>();
-                var SignalCfg = this.Config.SignalCfgList.FirstOrDefault(x => x.Svid == eaSignal.Svid);
-                if (SignalCfg == null) continue;
-                for (int idx = 0; idx < eaSignal.Data.Count; idx++)
-                {
-                    var signal = eaSignal.Data[idx];
-                    //var signal = d / (Math.Pow(2, 23) - 1) * 5; //轉回電壓
-                    signal = signal * SignalCfg.CalibrateSysScale + SignalCfg.CalibrateSysOffset;//轉成System值
-                    eaSignal.CalibrateData.Add(signal * SignalCfg.CalibrateUserScale + SignalCfg.CalibrateUserOffset);//轉入User Define
-                }
+                if (this.ProtoSession.ProcessSession(this.ProtoConn, msg)) continue;
 
-                eaSignal.RcvDateTime = DateTime.Now;
-                this.OnSignalCapture(eaSignal);
+
+                var eaSignals = this.SignalTran.AnalysisSignal(this, msg);
+                foreach (var eaSignal in eaSignals)
+                {
+                    eaSignal.CalibrateData = new List<double>();
+                    var SignalCfg = this.Config.SignalCfgList.FirstOrDefault(x => x.Svid == eaSignal.Svid);
+                    if (SignalCfg == null) continue;
+                    for (int idx = 0; idx < eaSignal.Data.Count; idx++)
+                    {
+                        var signal = eaSignal.Data[idx];
+                        //var signal = d / (Math.Pow(2, 23) - 1) * 5; //轉回電壓
+                        signal = signal * SignalCfg.CalibrateSysScale + SignalCfg.CalibrateSysOffset;//轉成System值
+                        eaSignal.CalibrateData.Add(signal * SignalCfg.CalibrateUserScale + SignalCfg.CalibrateUserOffset);//轉入User Define
+                    }
+
+                    eaSignal.RcvDateTime = DateTime.Now;
+                    this.OnSignalCapture(eaSignal);
+                }
             }
         }
 
@@ -103,7 +113,8 @@ namespace SensingNet.v0_1.Device
         /// 取得是否正在執行, 可由User設定為false
         /// </summary>
         public bool CfIsRunning { get; set; }
-        public int CfInit()
+
+        public virtual int CfInit()
         {
             if (this.Config == null) throw new SensingNetException("沒有設定參數");
 
@@ -115,10 +126,10 @@ namespace SensingNet.v0_1.Device
 
             switch (this.Config.ProtoConnect)
             {
-                case EnumDeviceProtoConnect.Tcp:
+                case EnumProtoConnect.Tcp:
                     this.ProtoConn = new ProtoConnTcp(localEndPoint, remoteEndPoint, this.Config.IsActivelyConnect);
                     break;
-                case EnumDeviceProtoConnect.Rs232:
+                case EnumProtoConnect.Rs232:
                     this.ProtoConn = new ProtoConnRs232(this.Config.ComPort);
                     break;
                 default:
@@ -142,7 +153,7 @@ namespace SensingNet.v0_1.Device
 
             switch (this.Config.ProtoFormat)
             {
-                case EnumDeviceProtoFormat.SensingNetCmd:
+                case EnumProtoFormat.SensingNetCmd:
                     this.ProtoFormat = new ProtoFormatSensingNetCmd();
                     this.SignalTran = new SignalTranSensingNet();
                     break;
@@ -157,22 +168,20 @@ namespace SensingNet.v0_1.Device
 
             return 0;
         }
-
-
-        public int CfLoad()
+        public virtual int CfLoad()
         {
-      
-     
+
+
 
             return 0;
         }
-        public int CfExec()
+        public virtual int CfExec()
         {
             this.ProtoConn.ConnectIfNo();//內部會處理重複要求連線
             RealExec();
             return 0;
         }
-        public int CfRun()
+        public virtual int CfRun()
         {
             this.ProtoConn.NonStopConnectAsyn();
 
@@ -183,7 +192,7 @@ namespace SensingNet.v0_1.Device
             }
             return 0;
         }
-        public int CfRunAsyn()
+        public virtual int CfRunAsyn()
         {
             if (this.runTask != null)
                 if (!this.runTask.Wait(100)) return 0;//正在工作
@@ -191,7 +200,7 @@ namespace SensingNet.v0_1.Device
             this.runTask = Task.Factory.StartNew<int>(() => this.CfRun());
             return 0;
         }
-        public int CfUnLoad()
+        public virtual int CfUnLoad()
         {
             this.CfIsRunning = false;
             if (this.ProtoConn != null)
@@ -201,13 +210,13 @@ namespace SensingNet.v0_1.Device
             }
             return 0;
         }
-        public int CfFree()
+        public virtual int CfFree()
         {
             this.Dispose(false);
             return 0;
         }
 
-        #endregion 
+        #endregion
 
 
 

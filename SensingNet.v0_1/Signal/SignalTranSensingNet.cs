@@ -9,7 +9,12 @@ namespace SensingNet.v0_1.Signal
 {
     public class SignalTranSensingNet : ISignalTranBase
     {
-        static int ReadData(String[] args, int start, List<double> data)
+
+
+
+
+
+        int ReadData(String[] args, int start, List<double> data)
         {
             //讀取資料, 皆為double, 否則視為結束
             //return 最後一筆資料的索引
@@ -27,11 +32,14 @@ namespace SensingNet.v0_1.Signal
 
             return idx - 1;
         }
-        public SignalEventArgs AnalysisSignal(object msg)
+        public List<SignalEventArgs> AnalysisSignal(object sender, object msg)
         {
+            var result = new List<SignalEventArgs>();
+
             var line = msg as string;
 
             var ea = new SignalEventArgs();
+            ea.Sender = sender;
             var args = line.Split(new char[] { '\0', ' ' });
 
             ea.Data = new List<double>();
@@ -65,7 +73,38 @@ namespace SensingNet.v0_1.Signal
                     continue;
                 }
             }
-            return ea;
+
+            result.Add(ea);
+            return result;
+        }
+
+        public object CreateMsgDataReq<T>(IList<T> reqInfos)
+        {
+            var listInfo = reqInfos as IList<SignalCfg>;
+            if (listInfo == null) throw new ArgumentException("未定義此型別的操作方式");
+            //public static byte[] TxDataAck { get { return Encoding.UTF8.GetBytes("\n"); } }//減少處理量, 只以換行作為Ack
+
+            var result = new StringBuilder();
+            result.Append("cmd -reqData -svid ");
+
+            foreach (var cfg in listInfo)
+                result.AppendFormat(" {0} ", cfg.Svid);
+
+
+            result.AppendLine();
+
+            return result.ToString();
+        }
+
+        public object CreateMsgDataAck<T>(IList<T> reqInfos)
+        {
+            var listInfo = reqInfos as IList<SignalCfg>;
+            if (listInfo == null) throw new ArgumentException("未定義此型別的操作方式");
+
+            var result = new StringBuilder();
+            result.Append("cmd  \n");
+
+            return result.ToString();
         }
     }
 }

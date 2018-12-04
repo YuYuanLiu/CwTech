@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using SensingNet.v0_1.Storage;
+using SensingNet.v0_1.Protocol;
 
 namespace SensingNet.MyTest
 {
@@ -20,8 +21,8 @@ namespace SensingNet.MyTest
         [TestMethod]
         public void TestMethod()
         {
-            var deviceHdl = new v0_1.Device.DeviceSensorHandler();
-            deviceHdl.Config = new v0_1.Device.DeviceSensorCfg()
+            var deviceHdl = new v0_1.Device.SensorDeviceHandler();
+            deviceHdl.Config = new v0_1.Device.SensorDeviceCfg()
             {
                 RemoteIp = "192.168.123.201",
                 RemotePort = 5000,
@@ -29,8 +30,8 @@ namespace SensingNet.MyTest
                 IsActivelyTx = true,
                 TxInterval = 0,
                 TimeoutResponse = 5000,
-                ProtoConnect = v0_1.Device.EnumDeviceProtoConnect.Rs232,
-                ProtoFormat = v0_1.Device.EnumDeviceProtoFormat.SensingNetCmd,
+                ProtoConnect = EnumProtoConnect.Rs232,
+                ProtoFormat = EnumProtoFormat.SensingNetCmd,
                 IsActivelyConnect = false,
             };
             deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SignalCfg()
