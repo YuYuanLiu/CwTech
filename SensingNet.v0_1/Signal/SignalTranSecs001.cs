@@ -15,7 +15,7 @@ namespace SensingNet.v0_1.Signal
     {
 
 
-        public List<SignalEventArgs> AnalysisSignal(object sender, object msg)
+        public List<SignalEventArgs> AnalysisSignal<T>(object sender, object msg, IList<T> infos)
         {
 
             var result = new List<SignalEventArgs>();

@@ -13,7 +13,7 @@ namespace SensingNet.v0_1.Signal
     public interface ISignalTranBase
     {
 
-        List<SignalEventArgs> AnalysisSignal(object sender, object msg);
+        List<SignalEventArgs> AnalysisSignal<T>(object sender, object msg, IList<T> infos);
         object CreateMsgDataReq<T>(IList<T> reqInfos);
         object CreateMsgDataAck<T>(IList<T> reqInfos);
 

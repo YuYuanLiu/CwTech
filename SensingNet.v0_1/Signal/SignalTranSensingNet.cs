@@ -32,7 +32,7 @@ namespace SensingNet.v0_1.Signal
 
             return idx - 1;
         }
-        public List<SignalEventArgs> AnalysisSignal(object sender, object msg)
+        public List<SignalEventArgs> AnalysisSignal<T>(object sender, object msg, IList<T> infos)
         {
             var result = new List<SignalEventArgs>();
 
@@ -44,6 +44,7 @@ namespace SensingNet.v0_1.Signal
 
             ea.Data = new List<double>();
 
+            UInt32 val = 0;
             for (int idx = 0; idx < args.Length; idx++)
             {
                 var arg = args[idx];
@@ -53,18 +54,13 @@ namespace SensingNet.v0_1.Signal
                 {
                     continue;
                 }
-                else if (args[idx] == "-svid")
+                else if (args[idx] == "-svid" || args[idx] == "-channel")
                 {
                     idx++;
                     if (args.Length <= idx) continue;
-                    UInt32.TryParse(args[idx], out ea.Svid);
-                    continue;
-                }
-                else if (args[idx] == "-channel")
-                {
-                    idx++;
-                    if (args.Length <= idx) continue;
-                    UInt32.TryParse(args[idx], out ea.Svid);
+                    
+                    if (UInt32.TryParse(args[idx], out val))
+                        ea.Svid = val;
                     continue;
                 }
                 else if (args[idx] == "-data")

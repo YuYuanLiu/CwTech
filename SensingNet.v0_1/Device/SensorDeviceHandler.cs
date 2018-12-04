@@ -40,8 +40,8 @@ namespace SensingNet.v0_1.Device
                 if (this.Config.IsActivelyTx)
                 {
                     var ackDataMsg = this.SignalTran.CreateMsgDataAck(this.Config.SignalCfgList);
-                    if(ackDataMsg !=null)
-                    this.ProtoConn.WriteMsg(ackDataMsg);
+                    if (ackDataMsg != null)
+                        this.ProtoConn.WriteMsg(ackDataMsg);
                 }
                 else
                 {
@@ -74,18 +74,26 @@ namespace SensingNet.v0_1.Device
                 if (this.ProtoSession.ProcessSession(this.ProtoConn, msg)) continue;
 
 
-                var eaSignals = this.SignalTran.AnalysisSignal(this, msg);
-                foreach (var eaSignal in eaSignals)
+                var eaSignals = this.SignalTran.AnalysisSignal(this, msg, this.Config.SignalCfgList);
+                for (var idx = 0; idx < eaSignals.Count; idx++)
                 {
+                    var eaSignal = eaSignals[idx];
+
+                    eaSignal.Sender = this;
                     eaSignal.CalibrateData = new List<double>();
-                    var SignalCfg = this.Config.SignalCfgList.FirstOrDefault(x => x.Svid == eaSignal.Svid);
-                    if (SignalCfg == null) continue;
-                    for (int idx = 0; idx < eaSignal.Data.Count; idx++)
+
+                    if (eaSignal.Svid == null && this.Config.SignalCfgList.Count > idx)
+                        eaSignal.Svid = this.Config.SignalCfgList[idx].Svid;
+
+
+                    var signalCfg = this.Config.SignalCfgList.FirstOrDefault(x => x.Svid == eaSignal.Svid);
+                    if (signalCfg == null) continue;
+                    for (int idx_data = 0; idx_data < eaSignal.Data.Count; idx_data++)
                     {
-                        var signal = eaSignal.Data[idx];
+                        var signal = eaSignal.Data[idx_data];
                         //var signal = d / (Math.Pow(2, 23) - 1) * 5; //轉回電壓
-                        signal = signal * SignalCfg.CalibrateSysScale + SignalCfg.CalibrateSysOffset;//轉成System值
-                        eaSignal.CalibrateData.Add(signal * SignalCfg.CalibrateUserScale + SignalCfg.CalibrateUserOffset);//轉入User Define
+                        signal = signal * signalCfg.CalibrateSysScale + signalCfg.CalibrateSysOffset;//轉成System值
+                        eaSignal.CalibrateData.Add(signal * signalCfg.CalibrateUserScale + signalCfg.CalibrateUserOffset);//轉入User Define
                     }
 
                     eaSignal.RcvDateTime = DateTime.Now;
