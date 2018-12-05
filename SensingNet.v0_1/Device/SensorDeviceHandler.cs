@@ -138,7 +138,7 @@ namespace SensingNet.v0_1.Device
                     this.ProtoConn = new ProtoConnTcp(localEndPoint, remoteEndPoint, this.Config.IsActivelyConnect);
                     break;
                 case EnumProtoConnect.Rs232:
-                    this.ProtoConn = new ProtoConnRs232(this.Config.ComPort);
+                    this.ProtoConn = new ProtoConnRs232(this.Config.SerialPortConfig);
                     break;
                 default:
                     //由使用者自己實作
@@ -148,7 +148,7 @@ namespace SensingNet.v0_1.Device
             if (this.ProtoConn == null) throw new ArgumentException("ProtoConn");
             this.ProtoConn.evtDataReceive += (sender, e) =>
             {
-                var ea = e as CtkNonStopTcpStateEventArgs;
+                var ea = e as CtkProtocolBufferEventArgs;
                 this.ProtoFormat.ReceiveBytes(ea.buffer, ea.offset, ea.length);
                 this.areMsg.Set();
 
@@ -163,13 +163,43 @@ namespace SensingNet.v0_1.Device
             {
                 case EnumProtoFormat.SensingNetCmd:
                     this.ProtoFormat = new ProtoFormatSensingNetCmd();
-                    this.SignalTran = new SignalTranSensingNet();
                     break;
                 default:
                     //由使用者自己實作
                     break;
             }
             if (this.ProtoFormat == null) throw new ArgumentException("必須指定ProtoFormat");
+
+
+
+            switch (this.Config.ProtoSession)
+            {
+                case EnumProtoSession.SensingNetCmd:
+                    this.ProtoSession = new ProtoSessionSensingNetCmd();
+                    break;
+                case EnumProtoSession.Secs:
+                    this.ProtoSession = new ProtoSessionSecs();
+                    break;
+                default:
+                    //由使用者自己實作
+                    break;
+            }
+            if (this.ProtoSession == null) throw new ArgumentException("必須指定ProtoFormat");
+
+            switch (this.Config.SignalTran)
+            {
+                case EnumSignalTran.SensingNet:
+                    this.SignalTran = new SignalTranSensingNet();
+                    break;
+                case EnumSignalTran.Secs001:
+                    this.SignalTran = new SignalTranSecs001();
+                    break;
+                default:
+                    //由使用者自己實作
+                    break;
+            }
+            if (this.ProtoSession == null) throw new ArgumentException("必須指定ProtoFormat");
+
 
 
 

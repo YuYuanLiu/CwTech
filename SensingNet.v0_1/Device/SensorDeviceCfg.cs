@@ -1,8 +1,10 @@
-﻿using SensingNet.v0_1.Protocol;
+﻿using CToolkit.v0_1.DigitalPort;
+using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Signal;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -19,13 +21,16 @@ namespace SensingNet.v0_1.Device
         public int LocalPort;
         public String RemoteIp = "192.168.123.101";
         public int RemotePort = 5000;
-        public string ComPort = "COM1";
+
+        public CtkSerialPortCfg SerialPortConfig = new CtkSerialPortCfg();
 
         public int DeviceId = 0;
         public String DeviceName = null;
 
         public EnumProtoConnect ProtoConnect = EnumProtoConnect.Tcp;
         public EnumProtoFormat ProtoFormat = EnumProtoFormat.Secs;
+        public EnumProtoSession ProtoSession = EnumProtoSession.Secs;
+        public EnumSignalTran SignalTran = EnumSignalTran.SensingNet;
         public bool IsActivelyConnect = false;//Device是否為主動連線
         public bool IsActivelyTx = false;//Device是否會主動發訊息
         public int TxInterval = 0; // ms, 0=即時

@@ -19,8 +19,8 @@ dataType g_eeprom;
 // WDT
 //====================================
 uint8_t wdtTimeout = WDTO_8S;
-const uint32_t wdtMaxCount = 1000;
-const uint32_t nothing_delay = 10;
+const uint32_t wdtMaxCount = 100;
+const uint32_t nothing_delay = 100;
 uint32_t wdtCount = 0;
 
 //=======================
@@ -33,7 +33,7 @@ IPAddress gateway(192, 168, 123, 1);
 IPAddress subnet(255, 255, 255, 0);
 EthernetServer server(5000);
 
-String ethReadBuffer = String(256);
+String ethReadBuffer = String(128);
 
 //=======================
 // Serial Port Variable
@@ -43,7 +43,7 @@ boolean stringComplete = false;  // whether the string is complete
 byte recv_buff[128] = {0};
 int recv_len=0;
 
-String serialReadBuffer = String(256);
+String serialReadBuffer = String(128);
 
 
 //=======================

@@ -2,6 +2,7 @@ using CToolkit;
 using CToolkit.Net;
 using CToolkit.Protocol;
 using CToolkit.Secs;
+using CToolkit.v0_1.DigitalPort;
 using System;
 using System.IO.Ports;
 using System.Net;
@@ -18,7 +19,7 @@ namespace SensingNet.v0_1.Protocol
     public class ProtoConnRs232 : IProtoConnectBase, IDisposable
     {    //Socket m_connSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         CtkNonStopSerialPort nonStopSerialPort;
-        public string ComPort;
+        public CtkSerialPortCfg Config;
 
 
 
@@ -28,9 +29,9 @@ namespace SensingNet.v0_1.Protocol
         //AutoResetEvent are_ConnectDone = new AutoResetEvent(false);
         ManualResetEvent mreHasMsg = new ManualResetEvent(false);
 
-        public ProtoConnRs232(string compPort)
+        public ProtoConnRs232(CtkSerialPortCfg config)
         {
-            this.ComPort = compPort;
+            this.Config = config;
         }
 
 
@@ -53,7 +54,7 @@ namespace SensingNet.v0_1.Protocol
                     this.nonStopSerialPort.Disconnect();
             }
 
-            this.nonStopSerialPort = new CtkNonStopSerialPort(this.ComPort);
+            this.nonStopSerialPort = new CtkNonStopSerialPort(this.Config);
             this.nonStopSerialPort.evtFirstConnect += (sender, e) => { this.OnFirstConnect(e); };
             this.nonStopSerialPort.evtFailConnect += (sender, e) => this.OnFailConnect(e);
             this.nonStopSerialPort.evtDisconnect += (sender, e) => this.OnDisconnect(e);
@@ -66,10 +67,10 @@ namespace SensingNet.v0_1.Protocol
 
         #region IProtoConnectBase
 
-        public bool IsLocalReadyConnect { get { return this.nonStopSerialPort.IsLocalReadyConnect; } }//Local連線成功=遠端連線成功
-        public bool IsRemoteConnected { get { return this.nonStopSerialPort.IsRemoteConnected; } }
-        public bool IsOpenRequesting { get { return this.nonStopSerialPort.IsOpenRequesting; } }//用途是避免重複要求連線
-        public bool IsNonStopRunning { get { return this.nonStopSerialPort.IsNonStopRunning; } }
+        public bool IsLocalReadyConnect { get { return this.nonStopSerialPort == null ? false : this.nonStopSerialPort.IsLocalReadyConnect; } }//Local連線成功=遠端連線成功
+        public bool IsRemoteConnected { get { return this.nonStopSerialPort == null ? false : this.nonStopSerialPort.IsRemoteConnected; } }
+        public bool IsOpenRequesting { get { return this.nonStopSerialPort == null ? false : this.nonStopSerialPort.IsOpenRequesting; } }//用途是避免重複要求連線
+        public bool IsNonStopRunning { get { return this.nonStopSerialPort == null ? false : this.nonStopSerialPort.IsNonStopRunning; } }
 
 
 

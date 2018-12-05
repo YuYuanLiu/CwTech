@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SensingNet.v0_1.Storage;
 using SensingNet.v0_1.Protocol;
+using CToolkit.v0_1.DigitalPort;
 
 namespace SensingNet.MyTest
 {
@@ -26,13 +27,17 @@ namespace SensingNet.MyTest
             {
                 RemoteIp = "192.168.123.201",
                 RemotePort = 5000,
-                ComPort = "",
-                IsActivelyTx = true,
+                SerialPortConfig = new CtkSerialPortCfg()
+                {
+                    PortName = "COM4",
+                    BaudRate = 19200,
+                },
                 TxInterval = 0,
+                //IsActivelyTx = true,
                 TimeoutResponse = 5000,
                 ProtoConnect = EnumProtoConnect.Rs232,
                 ProtoFormat = EnumProtoFormat.SensingNetCmd,
-                IsActivelyConnect = false,
+                ProtoSession = EnumProtoSession.SensingNetCmd,
             };
             deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SignalCfg()
             {

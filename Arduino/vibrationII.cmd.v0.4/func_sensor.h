@@ -22,8 +22,8 @@ void readHumidity() {
 
 void procReadHumidity() {
 	readHumidity();
-	printHumidityToEth();
-	printTemperatureToEth();
+	respHumidityToEth();
+	respTemperatureToEth();
 }
 
 //=======================
@@ -81,10 +81,7 @@ void readVibration() {
 
 }
 
-void procReadVibration() {
-	readVibration();
-	respVibToEth();
-}
+
 
 
 

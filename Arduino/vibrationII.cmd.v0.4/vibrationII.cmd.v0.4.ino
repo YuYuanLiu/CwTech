@@ -1,5 +1,5 @@
-#ifndef __vibrationII_cmd_v0_3_ino__
-#define __vibrationII_cmd_v0_3_ino__
+#ifndef __vibrationII_cmd_v0_4_ino__
+#define __vibrationII_cmd_v0_4_ino__
 
 #include "header.h"
 /*
@@ -15,7 +15,7 @@
 void setup()
 {
   //--- Serial --------------------------------------
-  Serial.begin(9600);
+  Serial.begin(19200);
   for (int i = 0; i < 5 && !Serial; i++)
   {
     // wait for serial port to connect. Needed for native USB port only
@@ -50,42 +50,24 @@ void setup()
 }
 void loop()
 {
-
-  //--- Main --------------------------------------
-  //Serial.println("Wait for connecting...");
-  EthernetClient client = server.available();
   wdt_reset();
   wdtCount++;
-  if (wdtCount > wdtMaxCount)
-  {
-    Serial.print("Module Reset");
-    while (1)
-      ;
+  if (wdtCount > wdtMaxCount){
+    //無連線delay 100ms * 100次 = 10秒無連線
+    delay(16 * 1000);//WDT timeout 最大8秒, 設定16秒以重啟Arduino
   }
-  if (client)
-  {
+
+
+  readVibration();
+  bool flag = ethComm();
+  flag |= serialComm();
+    
+  if (!flag) {
     wdtCount = 0;
-    { //無效工作, 但要留下來, compiler會把無用的code移除
-      int zeroCount = 0;
-      char readChar;
-      while (zeroCount < 1)
-      {
-        readChar = client.read();
-        if (readChar < 0)
-          break;
-        zeroCount++;
-      }
-    }
-    procReadVibration();
+  }else{
+    delay(nothing_delay);//無連線delay 100ms
   }
-  else
-  {
-    delay(nothing_delay);
-  }
-
-  Ethernet.maintain();
-
-  CheckSerialCMD();
+  //CheckSerialCMD();
 }
 
 
@@ -97,6 +79,7 @@ void loop()
  */
 void serialEvent()
 {
+  return;
   while (Serial.available())
   {
     // get the new byte:

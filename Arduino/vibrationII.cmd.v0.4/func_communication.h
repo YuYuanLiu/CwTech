@@ -5,9 +5,23 @@
 
 
 
-//=======================
-// Ethernet Function
-//=======================
+void respVibToSerial() {
+  
+    if (!Serial)
+        return;
+    String respData = "cmd -respData";
+    
+    respData += " -svid " + String(0);
+    respData += " -data ";
+    for (int idx = 0; idx < sizeAdsSignals; idx++)
+      respData += String(adsSignals[idx]) + " ";
+  
+    respData += "    \r\n";
+    Serial.print(respData);
+
+}
+
+
 void respVibToEth() {
 	//Serial.println("printToEth...");
 	String respData = "cmd -respData";
@@ -25,7 +39,7 @@ void respVibToEth() {
 	//printToSerial();
 }
 
-void printHumidityToEth() {
+void respHumidityToEth() {
 	//Serial.println("printHumidityToEth...");
 	String respData = "cmd -respData";
 	respData += " -svid " + String(1);
@@ -37,7 +51,7 @@ void printHumidityToEth() {
 	server.print(respData);
 }
 
-void printTemperatureToEth() {
+void respTemperatureToEth() {
 	//Serial.println("printHumidityToEth...");
 	String respData = "cmd -respData";
 	respData += " -svid " + String(2);
@@ -51,25 +65,6 @@ void printTemperatureToEth() {
 
 
 
-void respVibToSerial() {
-  
-    if (!Serial)
-        return;
-    else
-        Serial.println("printToEth...");
-
-    String respData = "cmd -respData";
-    
-    respData += " -svid " + String(0);
-    respData += " -data ";
-    for (int idx = 0; idx < sizeAdsSignals; idx++)
-      respData += String(adsSignals[idx]) + " ";
-  
-    respData += "    \r\n";
-    Serial.print(respData);
-
-}
-
 
 
 
@@ -77,12 +72,8 @@ bool ethComm()
 {
     Ethernet.maintain(); //必加
     EthernetClient client = server.available();
-    
-    if (client)
-        return false;
 
     ethReadBuffer = "";
-    int zeroCount = 0;
     char readChar = 0;
     while (client.available())
     {
@@ -100,7 +91,6 @@ bool ethComm()
                 ethReadBuffer = ethReadBuffer.substring(4);
         }
 
-        zeroCount++;
     }
 
     if (ethReadBuffer.indexOf("-reqData") >= 0
@@ -112,6 +102,43 @@ bool ethComm()
     return true;
 }
 
+
+
+
+
+bool serialComm()
+{
+    if (!Serial)
+        return false;
+
+    serialReadBuffer = "";
+    char readChar = 0;
+    while (Serial.available())
+    {
+        readChar = Serial.read();
+        if (readChar < 0)
+            continue;
+        if (readChar == '\n')
+            break;
+        serialReadBuffer += readChar;
+
+        if (serialReadBuffer.length() > 8)
+        {
+            //長度超過8, 卻找不到cmd, 就把字串截掉
+            if (serialReadBuffer.indexOf("cmd") < 0)
+                serialReadBuffer = serialReadBuffer.substring(4);
+        }
+
+    }
+
+    if (serialReadBuffer.indexOf("-reqData") >= 0
+      || serialReadBuffer.indexOf("-req_data") >= 0)
+    {
+        respVibToSerial();
+    }
+
+    return true;
+}
 
 
 

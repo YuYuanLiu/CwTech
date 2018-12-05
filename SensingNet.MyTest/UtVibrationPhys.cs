@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SensingNet.v0_1.Storage;
 using SensingNet.v0_1.Protocol;
+using SensingNet.v0_1.Signal;
 
 namespace SensingNet.MyTest
 {
@@ -26,11 +27,12 @@ namespace SensingNet.MyTest
             {
                 RemoteIp = "192.168.123.201",
                 RemotePort = 5000,
-                IsActivelyTx = true,
                 TxInterval = 0,
                 TimeoutResponse = 5000,
+                ProtoConnect = EnumProtoConnect.Tcp,
                 ProtoFormat = EnumProtoFormat.SensingNetCmd,
-                IsActivelyConnect = false,
+                ProtoSession = EnumProtoSession.SensingNetCmd,
+                SignalTran = EnumSignalTran.SensingNet,
             };
             deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SignalCfg()
             {
