@@ -19,7 +19,7 @@ namespace SensingNet.MyTest.UnitTest
     [TestClass]
     public class UtCommunicationVibration
     {
-        FileStorage fs = new FileStorage(@"signals/vibration");
+        SNetFileStorage fs = new SNetFileStorage(@"signals/vibration");
 
         [TestMethod]
         public void TestMethod()
@@ -32,18 +32,18 @@ namespace SensingNet.MyTest.UnitTest
 
 
 
-            var deviceHdl = new SensorDeviceHandler();
-            deviceHdl.Config = new SensorDeviceCfg()
+            var deviceHdl = new SNetSensorDeviceHandler();
+            deviceHdl.Config = new SNetSensorDeviceCfg()
             {
                 RemoteIp = "127.0.0.1",
                 RemotePort = 5003,
                 IsActivelyTx = true,
                 TxInterval = 0,
                 TimeoutResponse = 5000,
-                ProtoFormat = EnumProtoFormat.SensingNetCmd,
+                ProtoFormat = SNetEnumProtoFormat.SensingNetCmd,
                 IsActivelyConnect = false,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SignalCfg()
+            deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SNetSignalCfg()
             {
                 Svid = 0,
             });

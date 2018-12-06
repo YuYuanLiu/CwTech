@@ -10,9 +10,9 @@ namespace SensingNet.v0_1.Storage
     /// <summary>
     /// DateTime(yyyy/MM/dd HH:mm:ss+08),UTC timestamp, data1, data2, ...
     /// </summary>
-    public class FileStorageFormat_Csv0_1 : FileStorageFormat
+    public class FileStorageFormat_Csv0_1 : SNetFileStorageFormat
     {
-        public const string format = "yyyy/MM/dd HH:mm:ss zzz";
+        public const string TimeFormat = "yyyy/MM/dd HH:mm:ss zzz";
 
 
         public FileStorageFormat_Csv0_1()
@@ -24,7 +24,7 @@ namespace SensingNet.v0_1.Storage
         public override void WriteValues(StreamWriter sw, DateTime datetime, IEnumerable<double> values)
         {
             var dt = datetime.ToLocalTime();
-            var dtformat = dt.ToString(format);
+            var dtformat = dt.ToString(TimeFormat);
             sw.Write(dtformat);
             foreach (var val in values)
                 sw.Write(",{0}", val);
@@ -32,9 +32,9 @@ namespace SensingNet.v0_1.Storage
         }
 
 
-        public override void ReadStream(StreamReader sr, SignalCollector collector)
+        public override void ReadStream(StreamReader sr, SNetSignalCollector collector)
         {
-            SignalPerSec tfbps = null;
+            SNetSignalPerSec tfbps = null;
             for (var line = sr.ReadLine(); line != null; line = sr.ReadLine())
             {
                 //切割資料
@@ -43,19 +43,19 @@ namespace SensingNet.v0_1.Storage
 
                 //第一筆為 timestamp
                 var dt = new DateTime(0);
-                if (!DateTime.TryParseExact(vals[0], format, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt)) continue;
+                if (!DateTime.TryParseExact(vals[0], TimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt)) continue;
 
 
                 if (tfbps == null)
                 {
-                    tfbps = new SignalPerSec();
+                    tfbps = new SNetSignalPerSec();
                     //tfbps.dt = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);//去掉豪秒數, 只有timestamp有這問題
                     tfbps.dt = dt;
                 }
                 else if ((dt - tfbps.dt).TotalSeconds >= 1.0)
                 {//若時間變更超過一秒, 就加一個物件來儲存
                     collector.AddLast(tfbps);
-                    tfbps = new SignalPerSec();
+                    tfbps = new SNetSignalPerSec();
                     tfbps.dt = dt;
                 }
 

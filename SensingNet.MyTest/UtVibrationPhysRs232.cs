@@ -17,13 +17,13 @@ namespace SensingNet.MyTest
     [TestClass]
     public class UtVibrationPhysRs232
     {
-        FileStorage fs = new FileStorage(@"signals/vibration");
+        SNetFileStorage fs = new SNetFileStorage(@"signals/vibration");
 
         [TestMethod]
         public void TestMethod()
         {
-            var deviceHdl = new v0_1.Device.SensorDeviceHandler();
-            deviceHdl.Config = new v0_1.Device.SensorDeviceCfg()
+            var deviceHdl = new v0_1.Device.SNetSensorDeviceHandler();
+            deviceHdl.Config = new v0_1.Device.SNetSensorDeviceCfg()
             {
                 RemoteIp = "192.168.123.201",
                 RemotePort = 5000,
@@ -35,11 +35,11 @@ namespace SensingNet.MyTest
                 TxInterval = 0,
                 //IsActivelyTx = true,
                 TimeoutResponse = 5000,
-                ProtoConnect = EnumProtoConnect.Rs232,
-                ProtoFormat = EnumProtoFormat.SensingNetCmd,
-                ProtoSession = EnumProtoSession.SensingNetCmd,
+                ProtoConnect = SNetEnumProtoConnect.Rs232,
+                ProtoFormat = SNetEnumProtoFormat.SensingNetCmd,
+                ProtoSession = SNetEnumProtoSession.SensingNetCmd,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SignalCfg()
+            deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SNetSignalCfg()
             {
                 Svid = 0,
             });

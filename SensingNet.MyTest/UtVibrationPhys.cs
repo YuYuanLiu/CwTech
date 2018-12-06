@@ -17,24 +17,24 @@ namespace SensingNet.MyTest
     [TestClass]
     public class UtVibrationPhys
     {
-        FileStorage fs = new FileStorage(@"signals/vibration");
+        SNetFileStorage fs = new SNetFileStorage(@"signals/vibration");
 
         [TestMethod]
         public void TestMethod()
         {
-            var deviceHdl = new v0_1.Device.SensorDeviceHandler();
-            deviceHdl.Config = new v0_1.Device.SensorDeviceCfg()
+            var deviceHdl = new v0_1.Device.SNetSensorDeviceHandler();
+            deviceHdl.Config = new v0_1.Device.SNetSensorDeviceCfg()
             {
                 RemoteIp = "192.168.123.201",
                 RemotePort = 5000,
                 TxInterval = 0,
                 TimeoutResponse = 5000,
-                ProtoConnect = EnumProtoConnect.Tcp,
-                ProtoFormat = EnumProtoFormat.SensingNetCmd,
-                ProtoSession = EnumProtoSession.SensingNetCmd,
-                SignalTran = EnumSignalTran.SensingNet,
+                ProtoConnect = SNetEnumProtoConnect.Tcp,
+                ProtoFormat = SNetEnumProtoFormat.SensingNetCmd,
+                ProtoSession = SNetEnumProtoSession.SensingNetCmd,
+                SignalTran = SNetEnumSignalTran.SensingNet,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SignalCfg()
+            deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SNetSignalCfg()
             {
                 Svid = 0,
             });
