@@ -158,7 +158,7 @@ namespace SensingNet.v0_1.Framework
                         hdl.CfInit();
                         hdl.evtReceiveData += delegate (object ss, HsmsConnector_EventArgsRcvData ea)
                         {
-                            this.OnReceiveData(new EventArgsSecsRcvData()
+                            this.OnReceiveData(new SNetQSecsRcvDataEventArgs()
                             {
                                 handler = ss as SNetQSecsHandler,
                                 message = ea.msg
@@ -207,8 +207,8 @@ namespace SensingNet.v0_1.Framework
 
         #region Event
 
-        public event EventHandler<EventArgsSecsRcvData> evtReceiveData;
-        public void OnReceiveData(EventArgsSecsRcvData ea)
+        public event EventHandler<SNetQSecsRcvDataEventArgs> evtReceiveData;
+        public void OnReceiveData(SNetQSecsRcvDataEventArgs ea)
         {
             if (this.evtReceiveData == null)
                 return;

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SensingNet.v0_1.QSecs
 {
-    public class EventArgsSecsRcvData : EventArgs
+    public class SNetQSecsRcvDataEventArgs : EventArgs
     {
         public SNetQSecsHandler handler;
         public HsmsMessage message;

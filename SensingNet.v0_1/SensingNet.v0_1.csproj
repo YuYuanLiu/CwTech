@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dsp\SNetDspMgr.cs" />
     <Compile Include="Protocol\SNetEnumProtoConnect.cs" />
     <Compile Include="Protocol\SNetEnumProtoSession.cs" />
     <Compile Include="Protocol\SNetEnumProtoFormat.cs" />

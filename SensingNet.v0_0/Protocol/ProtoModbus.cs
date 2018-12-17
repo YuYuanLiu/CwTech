@@ -47,7 +47,7 @@ namespace SensingNet.v0_0.Protocol
             {
                 var msg = msgReceiver.Dequeue();
 
-                //TODO: Data Receive
+                //TODO: Modbus Data Receive
 
                 /*
                 var list = msg;
@@ -88,7 +88,7 @@ namespace SensingNet.v0_0.Protocol
 
             var txMsg = new ModbusMessage();
 
-            //TODO: Data request
+            //TODO: Modbus Data request
 
             this.WriteMsg(stream, txMsg.ToRequestBytes());
 
