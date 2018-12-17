@@ -54,6 +54,7 @@ namespace SensingNet.v0_1.Framework
         }
         public int CfRun()
         {
+            this.CfIsRunning = true;
             while (!this.disposed && this.CfIsRunning)
             {
                 try
