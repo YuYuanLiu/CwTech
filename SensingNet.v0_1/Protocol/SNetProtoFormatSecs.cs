@@ -13,10 +13,10 @@ namespace SensingNet.v0_1.Protocol
     /// <summary>
     /// 客戶要求的Secs Format
     /// </summary>
-    public class SNetProtoFormatSecs : ConcurrentQueue<HsmsMessage>, ISNetProtoFormatBase
+    public class SNetProtoFormatSecs : ConcurrentQueue<CtkHsmsMessage>, ISNetProtoFormatBase
     {
 
-        HsmsMessageReceiver hsmsMsgRcv = new HsmsMessageReceiver();
+        CtkHsmsMessageReceiver hsmsMsgRcv = new CtkHsmsMessageReceiver();
 
         ~SNetProtoFormatSecs() { this.Dispose(false); }
 
@@ -34,7 +34,7 @@ namespace SensingNet.v0_1.Protocol
         public bool HasMessage() { return this.Count > 0; }
         public bool TryDequeueMsg(out object msg)
         {
-            HsmsMessage mymsg = null;
+            CtkHsmsMessage mymsg = null;
             var flag = this.TryDequeue(out mymsg);
             msg = mymsg;
             return flag;

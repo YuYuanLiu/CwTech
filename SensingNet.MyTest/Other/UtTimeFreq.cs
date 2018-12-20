@@ -38,7 +38,7 @@ namespace SensingNet.MyTest
                     for (int idx = 0; idx < finalWave.Length; idx++)
                         finalWave[idx] = baseWave[idx] + abnormalWave[idx];
 
-                    var npContext = new CToolkit.v0_1.NumericProc.NpContext();
+                    var npContext = new CToolkit.v0_1.NumericProc.CtkNpContext();
                     var finalFft = npContext.FftForward(finalWave);
 
                     var spectrum = npContext.SpectrumHalfFft(finalFft);
@@ -46,7 +46,7 @@ namespace SensingNet.MyTest
                     for (int hz = 0; hz < spectrum.Count; hz++)
                     {
                         bmp.SetPixel(second, spectrum.Count - hz - 1
-                            , CToolkit.v0_1.Paint.RgbColor.FromHSL(hslFactor - spectrum[hz].Magnitude / amp, 0.8, 0.5));
+                            , CToolkit.v0_1.Paint.CtkRgbColor.FromHSL(hslFactor - spectrum[hz].Magnitude / amp, 0.8, 0.5));
                     }
 
                 }
@@ -80,7 +80,7 @@ namespace SensingNet.MyTest
             var hamming = MathNet.Numerics.Window.Hamming(512);
 
 
-            var npContext = new CToolkit.v0_1.NumericProc.NpContext();
+            var npContext = new CToolkit.v0_1.NumericProc.CtkNpContext();
             using (var bmp = new Bitmap(wave.Count / window, window / 2))
             {
                 var spec = new List<List<double>>();
@@ -98,8 +98,8 @@ namespace SensingNet.MyTest
 
                     var fft = npContext.FftForward(signal);
                     var spectrumD = npContext.SpectrumHalfFft(fft);
-                    var spectrum = CToolkit.v0_1.NumericProc.TypeConverter.ToMagnitude(spectrumD);
-                    spectrum = CToolkit.v0_1.NumericProc.NpUtil.Interpolation(spectrum, bmp.Height);
+                    var spectrum = CToolkit.v0_1.NumericProc.CtkTypeConverter.ToMagnitude(spectrumD);
+                    spectrum = CToolkit.v0_1.NumericProc.CtkNpUtil.Interpolation(spectrum, bmp.Height);
 
                     var max = spectrum.Max();
                     for (int idx = 0; idx < spectrum.Length; idx++)
@@ -125,7 +125,7 @@ namespace SensingNet.MyTest
                         var col = row[hz];
 
                         bmp.SetPixel(second, row.Count - hz - 1
-                            , CToolkit.v0_1.Paint.JetColor.Color(col + 0.1, 0, amp));
+                            , CToolkit.v0_1.Paint.CtkJetColor.Color(col + 0.1, 0, amp));
                     }
 
                 bmp.Save("spectrum.bmp");

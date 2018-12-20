@@ -9,7 +9,7 @@ namespace SensingNet.v0_0.Secs
   public  class EventArgsSecsRcvData:EventArgs
     {
         public QSecsHandler handler;
-        public HsmsMessage message;
+        public CtkHsmsMessage message;
 
     }
 }

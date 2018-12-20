@@ -29,7 +29,7 @@ namespace SensingNet.v0_0.Secs
 
 
 
-        public HsmsConnector hsmsConnector;
+        public CtkHsmsConnector hsmsConnector;
         public EnumHandlerStatus status = EnumHandlerStatus.None;
         public bool WaitDispose;
 
@@ -38,12 +38,12 @@ namespace SensingNet.v0_0.Secs
         public bool CfIsRunning { get; set; }
         public int CfInit()
         {
-            hsmsConnector = new HsmsConnector();
+            hsmsConnector = new CtkHsmsConnector();
             //hsmsConnector.ctkConnSocket.isActively = true;
             var localIp = CtkNetUtil.GetLikelyFirst127Ip(this.cfg.LocalIp, this.cfg.RemoteIp);
             if (localIp == null) throw new Exception("無法取得在地IP");
             hsmsConnector.local = new IPEndPoint(localIp, this.cfg.LocalPort);
-            hsmsConnector.evtReceiveData += delegate (Object sen, HsmsConnector_EventArgsRcvData evt)
+            hsmsConnector.evtReceiveData += delegate (Object sen, CtkHsmsConnector_EventArgsRcvData evt)
             {
 
                 var myMsg = evt.msg;
@@ -55,10 +55,10 @@ namespace SensingNet.v0_0.Secs
                 switch (myMsg.header.SType)
                 {
                     case 1:
-                        hsmsConnector.Send(HsmsMessage.CtrlMsg_SelectRsp(0));
+                        hsmsConnector.Send(CtkHsmsMessage.CtrlMsg_SelectRsp(0));
                         return;
                     case 5:
-                        hsmsConnector.Send(HsmsMessage.CtrlMsg_LinktestRsp());
+                        hsmsConnector.Send(CtkHsmsMessage.CtrlMsg_LinktestRsp());
                         return;
                 }
 
@@ -155,7 +155,7 @@ namespace SensingNet.v0_0.Secs
                 if (qsvidcfg.PassFilter != EnumPassFilter.None)
                 {
                     qsvidData.InitFilterIfNull(qsvidcfg.PassFilter, qsvidcfg.PassFilter_SampleRate, qsvidcfg.PassFilter_CutoffLow, qsvidcfg.PassFilter_CutoffHigh);
-                    signalData = CToolkit.v0_1.NumericProc.NpUtil.Interpolation(signalData, (int)qsvidcfg.PassFilter_SampleRate);
+                    signalData = CToolkit.v0_1.NumericProc.CtkNpUtil.Interpolation(signalData, (int)qsvidcfg.PassFilter_SampleRate);
                     signalData = qsvidData.ProcessSamples(signalData);
                 }
                 sps.signals.AddRange(signalData);
@@ -244,13 +244,13 @@ namespace SensingNet.v0_0.Secs
 
         #region Event
 
-        public event EventHandler<HsmsConnector_EventArgsRcvData> evtReceiveData;
-        public void OnReceiveData(HsmsMessage msg)
+        public event EventHandler<CtkHsmsConnector_EventArgsRcvData> evtReceiveData;
+        public void OnReceiveData(CtkHsmsMessage msg)
         {
             if (this.evtReceiveData == null)
                 return;
 
-            this.evtReceiveData(this, new HsmsConnector_EventArgsRcvData() { msg = msg });
+            this.evtReceiveData(this, new CtkHsmsConnector_EventArgsRcvData() { msg = msg });
         }
 
         #endregion

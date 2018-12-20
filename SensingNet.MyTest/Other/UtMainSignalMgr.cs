@@ -18,7 +18,7 @@ namespace SensingNet.MyTest
             using (var signalMgr = new v0_0.Signal.SignalMgrExecer())
             {
 
-                CToolkit.v0_1.Logging.LoggerMapper.Singleton.Get().evtLogWrite += UtMainSignalMgr_evtLogWrite;
+                CToolkit.v0_1.Logging.CtkLoggerMapper.Singleton.Get().evtLogWrite += UtMainSignalMgr_evtLogWrite;
 
 
                 CtkUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
@@ -57,7 +57,7 @@ namespace SensingNet.MyTest
 
         }
 
-        private void UtMainSignalMgr_evtLogWrite(object sender, CToolkit.v0_1.Logging.LoggerEventArgs e)
+        private void UtMainSignalMgr_evtLogWrite(object sender, CToolkit.v0_1.Logging.CtkLoggerEventArgs e)
         {
 
             System.Diagnostics.Debug.WriteLine(e.message);

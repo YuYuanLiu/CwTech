@@ -31,7 +31,7 @@ namespace SensingNet.v0_1.QSecs
         public double ExceptionDataFormatError;
 
 
-        public EnumPassFilter PassFilter = EnumPassFilter.None;//使用FIR filter
+        public CtkEnumPassFilter PassFilter = CtkEnumPassFilter.None;//使用FIR filter
         public int PassFilter_SampleRate = 512;
         public int PassFilter_CutoffHigh = 255;
         public int PassFilter_CutoffLow = 5;

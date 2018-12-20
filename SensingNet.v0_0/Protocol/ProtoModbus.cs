@@ -11,7 +11,7 @@ namespace SensingNet.v0_0.Protocol
     public class ProtoModbus : ProtoBase, IDisposable
     {
 
-        ModbusMessageReceiver msgReceiver = new ModbusMessageReceiver();
+        CtkModbusMessageReceiver msgReceiver = new CtkModbusMessageReceiver();
 
 
         ~ProtoModbus() { this.Dispose(false); }
@@ -86,7 +86,7 @@ namespace SensingNet.v0_0.Protocol
         public override void WriteMsg_TxDataReq(Stream stream)
         {
 
-            var txMsg = new ModbusMessage();
+            var txMsg = new CtkModbusMessage();
 
             //TODO: Modbus Data request
 

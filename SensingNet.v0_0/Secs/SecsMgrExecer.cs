@@ -155,7 +155,7 @@ namespace SensingNet.v0_0.Secs
                     if (hdl.status == EnumHandlerStatus.None)
                     {
                         hdl.CfInit();
-                        hdl.evtReceiveData += delegate (object ss, HsmsConnector_EventArgsRcvData ea)
+                        hdl.evtReceiveData += delegate (object ss, CtkHsmsConnector_EventArgsRcvData ea)
                         {
                             this.OnReceiveData(new EventArgsSecsRcvData()
                             {

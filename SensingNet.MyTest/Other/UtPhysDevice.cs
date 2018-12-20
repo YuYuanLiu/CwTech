@@ -41,17 +41,17 @@ namespace SensingNet.MyTest
                     var myMsg = e.message;
                     if (myMsg.header.StreamId == 1 && myMsg.header.FunctionId == 3)
                     {
-                        var rootNode = myMsg.rootNode as SecsIINodeList;
-                        var svidNode = rootNode.Data[0] as SecsIINodeUInt32;
+                        var rootNode = myMsg.rootNode as CtkSecsIINodeList;
+                        var svidNode = rootNode.Data[0] as CtkSecsIINodeUInt32;
                         var qsvid = svidNode.Data[0];
 
                         
 
-                        var msg = new HsmsMessage();
+                        var msg = new CtkHsmsMessage();
                         msg.header.StreamId = 1;
                         msg.header.FunctionId = 4;
-                        var list = new SecsIINodeList();
-                        var signal = new SecsIINodeASCII();
+                        var list = new CtkSecsIINodeList();
+                        var signal = new CtkSecsIINodeASCII();
                         signal.AddString(1.2 + "");
                         list.Data.Add(signal);
                         msg.rootNode = list;
@@ -83,9 +83,9 @@ namespace SensingNet.MyTest
         [TestMethod]
         public void HsmsConnectorTestPassive()
         {
-            using (var hsmsConnector = new HsmsConnector())
+            using (var hsmsConnector = new CtkHsmsConnector())
             {
-                hsmsConnector.evtReceiveData += delegate (Object sen, HsmsConnector_EventArgsRcvData evt)
+                hsmsConnector.evtReceiveData += delegate (Object sen, CtkHsmsConnector_EventArgsRcvData evt)
                 {
 
                     var myMsg = evt.msg;
@@ -97,20 +97,20 @@ namespace SensingNet.MyTest
                     switch (myMsg.header.SType)
                     {
                         case 1:
-                            hsmsConnector.Send(HsmsMessage.CtrlMsg_SelectRsp(0));
+                            hsmsConnector.Send(CtkHsmsMessage.CtrlMsg_SelectRsp(0));
                             return;
                         case 5:
-                            hsmsConnector.Send(HsmsMessage.CtrlMsg_LinktestRsp());
+                            hsmsConnector.Send(CtkHsmsMessage.CtrlMsg_LinktestRsp());
                             return;
                     }
 
                     if (myMsg.header.StreamId == 1 && myMsg.header.FunctionId == 3)
                     {
-                        var msg = new HsmsMessage();
+                        var msg = new CtkHsmsMessage();
                         msg.header.StreamId = 1;
                         msg.header.FunctionId = 4;
-                        var list = new SecsIINodeList();
-                        var signal = new SecsIINodeFloat64();
+                        var list = new CtkSecsIINodeList();
+                        var signal = new CtkSecsIINodeFloat64();
                         signal.Data.Add(1.2);
                         list.Data.Add(signal);
                         msg.rootNode = list;
@@ -142,9 +142,9 @@ namespace SensingNet.MyTest
         [TestMethod]
         public void HsmsConnectorTestActive()
         {
-            using (var hsmsConnector = new HsmsConnector())
+            using (var hsmsConnector = new CtkHsmsConnector())
             {
-                hsmsConnector.evtReceiveData += delegate (Object sen, HsmsConnector_EventArgsRcvData evt)
+                hsmsConnector.evtReceiveData += delegate (Object sen, CtkHsmsConnector_EventArgsRcvData evt)
                 {
 
                     var myMsg = evt.msg;
@@ -156,20 +156,20 @@ namespace SensingNet.MyTest
                     switch (myMsg.header.SType)
                     {
                         case 1:
-                            hsmsConnector.Send(HsmsMessage.CtrlMsg_SelectRsp(0));
+                            hsmsConnector.Send(CtkHsmsMessage.CtrlMsg_SelectRsp(0));
                             return;
                         case 5:
-                            hsmsConnector.Send(HsmsMessage.CtrlMsg_LinktestRsp());
+                            hsmsConnector.Send(CtkHsmsMessage.CtrlMsg_LinktestRsp());
                             return;
                     }
 
                     if (myMsg.header.StreamId == 1 && myMsg.header.FunctionId == 3)
                     {
-                        var msg = new HsmsMessage();
+                        var msg = new CtkHsmsMessage();
                         msg.header.StreamId = 1;
                         msg.header.FunctionId = 4;
-                        var list = new SecsIINodeList();
-                        var signal = new SecsIINodeFloat64();
+                        var list = new CtkSecsIINodeList();
+                        var signal = new CtkSecsIINodeFloat64();
                         signal.Data.Add(1.2);
                         list.Data.Add(signal);
                         msg.rootNode = list;
@@ -190,7 +190,7 @@ namespace SensingNet.MyTest
                     try
                     {
                         hsmsConnector.Connect();
-                        hsmsConnector.Send(HsmsMessage.CtrlMsg_SelectReq());
+                        hsmsConnector.Send(CtkHsmsMessage.CtrlMsg_SelectReq());
                         hsmsConnector.ReceiveRepeat();
                     }
                     catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex.StackTrace); }

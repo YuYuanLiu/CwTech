@@ -116,9 +116,9 @@ namespace SensingNet.v0_1.Protocol
                 var buff = Encoding.UTF8.GetBytes(msg as string);
                 this.WriteBytes(buff, 0, buff.Length);
             }
-            else if (msg.GetType() == typeof(HsmsMessage))
+            else if (msg.GetType() == typeof(CtkHsmsMessage))
             {
-                var secsMsg = msg as HsmsMessage;
+                var secsMsg = msg as CtkHsmsMessage;
                 this.WriteBytes(secsMsg.ToBytes());
             }
             else

@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CToolkit.v0_1, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="CToolkit.v0_1, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLL\CToolkit.v0.1\CToolkit.v0_1.dll</HintPath>
     </Reference>

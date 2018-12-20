@@ -28,8 +28,8 @@ namespace SensingNet.MyTest
 
             System.Threading.Thread.Sleep(1000);
 
-            var msg = new CToolkit.v0_1.Modbus.ModbusMessage();
-            msg.funcCode = CToolkit.v0_1.Modbus.ModbusMessage.fctReadHoldingRegister;
+            var msg = new CToolkit.v0_1.Modbus.CtkModbusMessage();
+            msg.funcCode = CToolkit.v0_1.Modbus.CtkModbusMessage.fctReadHoldingRegister;
             msg.unitId = 1;
             msg.readLength = 32;
             var buffer = msg.ToRequestBytes();

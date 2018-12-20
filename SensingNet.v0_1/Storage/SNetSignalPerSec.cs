@@ -30,7 +30,7 @@ namespace SensingNet.v0_1.Storage
             this.fft = new ComplexD[this.signals.Count()];
             if (this.signals.Count <= 0) return this.fft;
 
-            this.fft = NpContext.Singleton.FftForwardD(this.signals);
+            this.fft = CtkNpContext.Singleton.FftForwardD(this.signals);
             return this.fft;
         }
 
@@ -38,7 +38,7 @@ namespace SensingNet.v0_1.Storage
         {
             var fft = this.ComputeFft();
 
-            var freqData = NpContext.Singleton.SpectrumFftD(fft);
+            var freqData = CtkNpContext.Singleton.SpectrumFftD(fft);
 
             this.spectrum = new ComplexD[fft.Length / 2 ];
             for (int idx = 0; idx < spectrum.Length; idx++)
@@ -62,7 +62,7 @@ namespace SensingNet.v0_1.Storage
         public void Interpolation(int dataSize)
         {
             if (dataSize == this.signals.Count) return;
-            var list = CToolkit.v0_1.NumericProc.NpUtil.Interpolation(this.signals.ToArray(), dataSize);
+            var list = CToolkit.v0_1.NumericProc.CtkNpUtil.Interpolation(this.signals.ToArray(), dataSize);
             this.signals.Clear();
             this.signals.AddRange(list);
         }

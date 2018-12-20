@@ -20,7 +20,7 @@ namespace SensingNet.v0_1.QSecs
         int cutoffHigh;
 
 
-        public void InitFilterIfNull(EnumPassFilter passFilter, int sampleRate, int cutoffLow, int cutoffHigh)
+        public void InitFilterIfNull(CtkEnumPassFilter passFilter, int sampleRate, int cutoffLow, int cutoffHigh)
         {
 
             var flag = this.filter != null;
@@ -39,7 +39,7 @@ namespace SensingNet.v0_1.QSecs
             var coff = new double[0];
             switch (passFilter)
             {
-                case EnumPassFilter.BandPass:
+                case CtkEnumPassFilter.BandPass:
                     coff = MathNet.Filtering.FIR.FirCoefficients.BandPass(
                        sampleRate,
                        cutoffLow,
