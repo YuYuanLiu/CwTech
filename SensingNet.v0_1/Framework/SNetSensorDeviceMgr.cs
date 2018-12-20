@@ -1,4 +1,6 @@
 using CToolkit;
+using CToolkit.v0_1;
+using CToolkit.v0_1.Config;
 using SensingNet.v0_1.Device;
 using SensingNet.v0_1.Signal;
 using System;
@@ -7,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Framework
 {
-    public class SNetSensorDeviceMgr : IDisposable, IContextFlowRun
+    public class SNetSensorDeviceMgr : IDisposable, ICtkContextFlowRun
     {
 
         public String DefaultConfigsFilder = "Config/DeviceConfigs";
-        public CToolkit.Config.ConfigCollector<SNetSensorDeviceCfg> configs = new CToolkit.Config.ConfigCollector<SNetSensorDeviceCfg>();
+        public ConfigCollector<SNetSensorDeviceCfg> configs = new ConfigCollector<SNetSensorDeviceCfg>();
         Dictionary<String, SNetSensorDeviceHandler> handlers = new Dictionary<String, SNetSensorDeviceHandler>();
         Task<int> runTask;
 

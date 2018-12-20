@@ -1,4 +1,6 @@
-using CToolkit.Logging;
+using CToolkit.v0_1;
+using CToolkit.v0_1.Logging;
+using CToolkit.v0_1.TimeOp;
 using SensingNet.v0_0.Protocol;
 using SensingNet.v0_0.Signal;
 using System;
@@ -149,7 +151,7 @@ namespace SensingNet.v0_0.Protocol
                     {
                         //等待下次要求資料的間隔
                         while ((timestampDiff = timestampEnd - timestampStart) < this.dConfig.TxInterval / 1000.0)
-                            timestampEnd = CToolkit.DateTimeStamp.ToTimestamp();
+                            timestampEnd = CtkDateTimeUtil.ToTimestamp();
                         timestampStart = timestampEnd;
 
                         this.protoEthComm.WriteMsg_TxDataReq(stream);
@@ -174,7 +176,7 @@ namespace SensingNet.v0_0.Protocol
 
             if (this.m_ConnectTcpClient != null)
             {
-                CToolkit.CtkUtil.TryCatch(() =>
+                CtkUtil.TryCatch(() =>
                 {
                     if (this.m_ConnectTcpClient.Connected && this.m_ConnectTcpClient.GetStream() != null)
                         this.m_ConnectTcpClient.GetStream().Close();
@@ -205,7 +207,7 @@ namespace SensingNet.v0_0.Protocol
             if (this.m_ConnectTcpClient != null)
             {
 
-                CToolkit.CtkUtil.TryCatch(() =>
+                CtkUtil.TryCatch(() =>
                 {
                     if (this.m_ConnectTcpClient.Connected && this.m_ConnectTcpClient.GetStream() != null)
                         this.m_ConnectTcpClient.GetStream().Close();

@@ -5,7 +5,7 @@ using MathNet.Numerics;
 using System.IO;
 using System.Collections.Generic;
 using System.Net;
-using CToolkit.Protocol;
+using CToolkit.v0_1.Protocol;
 
 namespace SensingNet.MyTest
 {
@@ -18,7 +18,7 @@ namespace SensingNet.MyTest
         public void TestMethod()
         {
             var remoteEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502);
-            var nonStopTcpClient = new CToolkit.Net.CtkNonStopTcpClient(remoteEp);
+            var nonStopTcpClient = new CToolkit.v0_1.Net.CtkNonStopTcpClient(remoteEp);
             nonStopTcpClient.evtDataReceive += delegate (object sender, CtkProtocolBufferEventArgs e)
             {
                 System.Diagnostics.Debug.WriteLine(e.length);
@@ -28,8 +28,8 @@ namespace SensingNet.MyTest
 
             System.Threading.Thread.Sleep(1000);
 
-            var msg = new CToolkit.Modbus.ModbusMessage();
-            msg.funcCode = CToolkit.Modbus.ModbusMessage.fctReadHoldingRegister;
+            var msg = new CToolkit.v0_1.Modbus.ModbusMessage();
+            msg.funcCode = CToolkit.v0_1.Modbus.ModbusMessage.fctReadHoldingRegister;
             msg.unitId = 1;
             msg.readLength = 32;
             var buffer = msg.ToRequestBytes();

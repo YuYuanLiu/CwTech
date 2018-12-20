@@ -1,4 +1,4 @@
-﻿using CToolkit.Logging;
+﻿using CToolkit.v0_1.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;

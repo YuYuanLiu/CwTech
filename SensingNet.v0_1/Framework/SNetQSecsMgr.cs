@@ -1,6 +1,8 @@
 using CToolkit;
-using CToolkit.Logging;
-using CToolkit.Secs;
+using CToolkit.v0_1;
+using CToolkit.v0_1.Config;
+using CToolkit.v0_1.Logging;
+using CToolkit.v0_1.Secs;
 using SensingNet.v0_1.QSecs;
 using SensingNet.v0_1.Signal;
 using System;
@@ -13,10 +15,10 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Framework
 {
-    public class SNetQSecsMgr : IContextFlowRun, IDisposable
+    public class SNetQSecsMgr : ICtkContextFlowRun, IDisposable
     {
         public String DefaultConfigsFolder = "Config/QSecsConfigs/";
-        public CToolkit.Config.ConfigCollector<SNetQSecsCfg> configs = new CToolkit.Config.ConfigCollector<SNetQSecsCfg>();
+        public ConfigCollector<SNetQSecsCfg> configs = new ConfigCollector<SNetQSecsCfg>();
         public Dictionary<String, SNetQSecsHandler> handlers = new Dictionary<String, SNetQSecsHandler>();
         Task<int> runTask;
 

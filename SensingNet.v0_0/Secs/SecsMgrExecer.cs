@@ -1,6 +1,7 @@
-using CToolkit;
-using CToolkit.Logging;
-using CToolkit.Secs;
+using CToolkit.v0_1;
+using CToolkit.v0_1.Config;
+using CToolkit.v0_1.Logging;
+using CToolkit.v0_1.Secs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,14 @@ using System.Threading;
 
 namespace SensingNet.v0_0.Secs
 {
-    public class SecsMgrExecer : IContextFlowRun, IDisposable
+    public class SecsMgrExecer : ICtkContextFlowRun, IDisposable
     {
         public SecsMgrCfg config;
         public bool isExec = false;
 
 
         public String DefaultConfigsFolder = "Config/QSecsConfigs/";
-        public CToolkit.Config.ConfigCollector<QSecsCfg> configs = new CToolkit.Config.ConfigCollector<QSecsCfg>();
+        public ConfigCollector<QSecsCfg> configs = new ConfigCollector<QSecsCfg>();
         public Dictionary<String, QSecsHandler> handlers = new Dictionary<String, QSecsHandler>();
 
         ~SecsMgrExecer() { this.Dispose(false); }

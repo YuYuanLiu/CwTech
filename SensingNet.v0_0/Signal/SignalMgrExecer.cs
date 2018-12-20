@@ -1,4 +1,6 @@
 using CToolkit;
+using CToolkit.v0_1;
+using CToolkit.v0_1.Config;
 using SensingNet.v0_0.Protocol;
 using SensingNet.v0_0.Storage;
 using System;
@@ -7,12 +9,12 @@ using System.Threading;
 
 namespace SensingNet.v0_0.Signal
 {
-    public class SignalMgrExecer : IDisposable, IContextFlowRun
+    public class SignalMgrExecer : IDisposable, ICtkContextFlowRun
     {
 
         public SignalMgrCfg mgrConfig;
         public String DefaultConfigsFilder = "Config/DeviceConfigs";
-        public CToolkit.Config.ConfigCollector<DeviceCfg> configs = new CToolkit.Config.ConfigCollector<DeviceCfg>();
+        public ConfigCollector<DeviceCfg> configs = new ConfigCollector<DeviceCfg>();
         Dictionary<String, SignalHandler> handlers = new Dictionary<String, SignalHandler>();
         public bool isExec = false;
 

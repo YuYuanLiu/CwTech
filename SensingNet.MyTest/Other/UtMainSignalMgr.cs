@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
-using CToolkit.Net;
+using CToolkit.v0_1.Net;
+using CToolkit.v0_1;
 
 namespace SensingNet.MyTest
 {
@@ -17,10 +18,10 @@ namespace SensingNet.MyTest
             using (var signalMgr = new v0_0.Signal.SignalMgrExecer())
             {
 
-                CToolkit.Logging.LoggerMapper.Singleton.Get().evtLogWrite += UtMainSignalMgr_evtLogWrite;
+                CToolkit.v0_1.Logging.LoggerMapper.Singleton.Get().evtLogWrite += UtMainSignalMgr_evtLogWrite;
 
 
-                CToolkit.CtkUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
+                CtkUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
                 {
                     signalMgr.CfInit();
                     signalMgr.CfLoad();
@@ -56,7 +57,7 @@ namespace SensingNet.MyTest
 
         }
 
-        private void UtMainSignalMgr_evtLogWrite(object sender, CToolkit.Logging.LoggerEventArgs e)
+        private void UtMainSignalMgr_evtLogWrite(object sender, CToolkit.v0_1.Logging.LoggerEventArgs e)
         {
 
             System.Diagnostics.Debug.WriteLine(e.message);

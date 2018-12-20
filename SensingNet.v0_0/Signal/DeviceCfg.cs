@@ -1,4 +1,5 @@
-﻿using SensingNet.v0_0.Protocol;
+﻿using CToolkit.v0_1;
+using SensingNet.v0_0.Protocol;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,6 +37,6 @@ namespace SensingNet.v0_0.Signal
 
 
 
-        public void SaveToXmlFile(string fn) { CToolkit.CtkUtil.SaveToXmlFileT(this, fn); }
+        public void SaveToXmlFile(string fn) { CtkUtil.SaveToXmlFileT(this, fn); }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CToolkit.v0_1;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +38,7 @@ namespace SensingNet.v0_0.Secs
 
 
 
-        public void SaveToXmlFile(string fn) { CToolkit.CtkUtil.SaveToXmlFileT(this, fn); }
+        public void SaveToXmlFile(string fn) { CtkUtil.SaveToXmlFileT(this, fn); }
 
     }
 

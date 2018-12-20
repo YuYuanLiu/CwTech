@@ -1,4 +1,4 @@
-﻿using CToolkit.Secs;
+﻿using CToolkit.v0_1.Secs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +11,7 @@ namespace SensingNet.v0_0.Protocol
     public class ProtoSecs : ProtoBase, IDisposable
     {
 
-        CToolkit.Secs.HsmsMessageReceiver hsmsMsgRcv = new CToolkit.Secs.HsmsMessageReceiver();
+        CToolkit.v0_1.Secs.HsmsMessageReceiver hsmsMsgRcv = new CToolkit.v0_1.Secs.HsmsMessageReceiver();
 
 
         ~ProtoSecs() { this.Dispose(false); }
@@ -71,7 +71,7 @@ namespace SensingNet.v0_0.Protocol
 
                 try
                 {
-                    var list = msg.rootNode as CToolkit.Secs.SecsIINodeList;
+                    var list = msg.rootNode as CToolkit.v0_1.Secs.SecsIINodeList;
 
                     for (int idx = 0;
                         idx < list.Data.Count && idx < this.dConfig.SignalCfgList.Count;
@@ -82,7 +82,7 @@ namespace SensingNet.v0_0.Protocol
                         var scfg = this.dConfig.SignalCfgList[idx];
                         ea.DeviceSvid = scfg.DeviceSvid;
 
-                        var data = list.Data[idx] as CToolkit.Secs.SecsIINodeASCII;
+                        var data = list.Data[idx] as CToolkit.v0_1.Secs.SecsIINodeASCII;
                         if (data.Data.Count <= 0) continue;
 
                         ea.Data = new List<double>();
@@ -109,16 +109,16 @@ namespace SensingNet.v0_0.Protocol
         public override void WriteMsg_TxDataReq(Stream stream)
         {
 
-            var txMsg = new CToolkit.Secs.HsmsMessage();
+            var txMsg = new CToolkit.v0_1.Secs.HsmsMessage();
             txMsg.header.StreamId = 1;
             txMsg.header.FunctionId = 3;
             txMsg.header.WBit = true;
-            var sList = new CToolkit.Secs.SecsIINodeList();
-            //var sSvid = new CToolkit.Secs.SecsIINodeInt64();
+            var sList = new CToolkit.v0_1.Secs.SecsIINodeList();
+            //var sSvid = new CToolkit.v0_1.Secs.SecsIINodeInt64();
 
             foreach (var scfg in this.dConfig.SignalCfgList)
             {
-                var sSvid = new CToolkit.Secs.SecsIINodeUInt32();
+                var sSvid = new CToolkit.v0_1.Secs.SecsIINodeUInt32();
                 sSvid.Data.Add(scfg.DeviceSvid);
                 sList.Data.Add(sSvid);
             }

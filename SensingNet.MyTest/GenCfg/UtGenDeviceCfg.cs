@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
-using CToolkit.Secs;
+using CToolkit.v0_1.Secs;
 using System.Net;
-using CToolkit.Net;
+using CToolkit.v0_1.Net;
 using System.Text;
 using System.Collections.Generic;
 using System.IO;

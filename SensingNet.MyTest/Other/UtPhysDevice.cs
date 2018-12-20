@@ -1,10 +1,11 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
-using CToolkit.Secs;
+using CToolkit.v0_1.Secs;
 using System.Net;
 using SensingNet.v0_0;
 using SensingNet.v0_0.Secs;
+using CToolkit.v0_1;
 
 namespace SensingNet.MyTest
 {
@@ -24,7 +25,7 @@ namespace SensingNet.MyTest
                 {
                     
                 };
-                CToolkit.CtkUtil.RunWorkerAsyn(delegate (object sen, DoWorkEventArgs dwea)
+                CtkUtil.RunWorkerAsyn(delegate (object sen, DoWorkEventArgs dwea)
                 {
                     signalmgr.CfInit();
                     signalmgr.CfLoad();

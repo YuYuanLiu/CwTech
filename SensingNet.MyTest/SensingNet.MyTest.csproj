@@ -81,6 +81,7 @@
     <Compile Include="Other\UtPhysDevice.cs" />
     <Compile Include="Other\UtTimeFreq.cs" />
     <Compile Include="UnitTest\UtCommunicationVibration.cs" />
+    <Compile Include="UtSample.cs" />
     <Compile Include="UtVibrationPhysRs232.cs" />
     <Compile Include="UtVibrationPhys.cs" />
     <Compile Include="UtTest.cs" />

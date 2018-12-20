@@ -1,4 +1,4 @@
-using CToolkit.NumericProc;
+using CToolkit.v0_1.NumericProc;
 using Cudafy.Types;
 using System;
 using System.Collections.Generic;

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SensingNet.v0_0.Signal
 {
-    public class SignalHandler : CToolkit.IContextFlowRun
+    public class SignalHandler : ICtkContextFlowRun
     {
         public DeviceCfg config;
         public ProtoEthernet etherneter;
@@ -50,7 +50,7 @@ namespace SensingNet.v0_0.Signal
 
 
 
-            var localIpAddr = NetUtil.GetSuitableIp(this.config.LocalIp, this.config.RemoteIp);
+            var localIpAddr = CtkNetUtil.GetSuitableIp(this.config.LocalIp, this.config.RemoteIp);
             var localEndPoint = new IPEndPoint(localIpAddr, this.config.LocalPort);
             var remoteEndPoint = new IPEndPoint(IPAddress.Parse(this.config.RemoteIp), this.config.RemotePort);
 

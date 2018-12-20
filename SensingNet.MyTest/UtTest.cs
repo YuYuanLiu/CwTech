@@ -22,13 +22,13 @@ namespace SensingNet.MyTest
         {
             var tasks = new List<Task>();
 
-            var listener = new CToolkit.Net.CtkNonStopTcpListener("127.0.0.1", 5003);
+            var listener = new CToolkit.v0_1.Net.CtkNonStopTcpListener("127.0.0.1", 5003);
             tasks.Add(Task.Run(() =>
             {
                 listener.NonStopConnectAsyn();
             }));
 
-            var client = new CToolkit.Net.CtkNonStopTcpClient("127.0.0.1", 5003);
+            var client = new CToolkit.v0_1.Net.CtkNonStopTcpClient("127.0.0.1", 5003);
             var flagClient = false;
             tasks.Add(Task.Run(() =>
             {

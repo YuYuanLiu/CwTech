@@ -1,5 +1,6 @@
 ﻿using CToolkit;
-using CToolkit.Secs;
+using CToolkit.v0_1;
+using CToolkit.v0_1.Secs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,14 +24,14 @@ namespace SensingNet.v0_1.Signal
 
             try
             {
-                var list = secsMsg.rootNode as CToolkit.Secs.SecsIINodeList;
+                var list = secsMsg.rootNode as CToolkit.v0_1.Secs.SecsIINodeList;
 
                 for (int idx = 0; idx < list.Data.Count; idx++)
                 {
 
                     var ea = new SNetSignalEventArgs();
                     ea.Sender = sender;
-                    var data = list.Data[idx] as CToolkit.Secs.SecsIINodeASCII;
+                    var data = list.Data[idx] as CToolkit.v0_1.Secs.SecsIINodeASCII;
                     if (data.Data.Count <= 0) continue;
 
                     ea.Data = new List<double>();
@@ -57,12 +58,12 @@ namespace SensingNet.v0_1.Signal
             txMsg.header.StreamId = 1;
             txMsg.header.FunctionId = 3;
             txMsg.header.WBit = true;
-            var sList = new CToolkit.Secs.SecsIINodeList();
-            //var sSvid = new CToolkit.Secs.SecsIINodeInt64();
+            var sList = new CToolkit.v0_1.Secs.SecsIINodeList();
+            //var sSvid = new CToolkit.v0_1.Secs.SecsIINodeInt64();
 
             foreach (var scfg in listInfo)
             {
-                var sSvid = new CToolkit.Secs.SecsIINodeUInt32();
+                var sSvid = new CToolkit.v0_1.Secs.SecsIINodeUInt32();
                 sSvid.Data.Add(scfg.Svid);
                 sList.Data.Add(sSvid);
             }

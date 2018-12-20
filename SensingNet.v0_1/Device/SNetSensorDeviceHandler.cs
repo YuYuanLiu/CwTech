@@ -1,6 +1,6 @@
 ﻿using CToolkit;
-using CToolkit.Net;
-using CToolkit.Protocol;
+using CToolkit.v0_1.Net;
+using CToolkit.v0_1.Protocol;
 using CToolkit.v0_1;
 using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Signal;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Device
 {
-    public class SNetSensorDeviceHandler : IContextFlowRun, IDisposable
+    public class SNetSensorDeviceHandler : ICtkContextFlowRun, IDisposable
     {
         public SNetSensorDeviceCfg Config;
         public ISNetProtoConnectBase ProtoConn;//連線方式
@@ -24,13 +24,10 @@ namespace SensingNet.v0_1.Device
         public ISNetSignalTranBase SignalTran;//解譯
         public SNetEnumHandlerStatus Status = SNetEnumHandlerStatus.None;
 
-        Task<int> runTask;
-        CancellationTokenSource runTaskToken = new CancellationTokenSource();
-       
-
         AutoResetEvent areMsg = new AutoResetEvent(false);
         DateTime prevAckTime = DateTime.Now;
-
+        Task<int> runTask;
+        CancellationTokenSource runTaskToken = new CancellationTokenSource();
         public SNetSensorDeviceHandler() { }
         ~SNetSensorDeviceHandler() { this.Dispose(false); }
 
@@ -119,17 +116,30 @@ namespace SensingNet.v0_1.Device
 
 
 
-        #region IContextFlowRun
+        #region ICtkContextFlowRun
 
         /// <summary>
         /// 取得是否正在執行, 可由User設定為false
         /// </summary>
         public bool CfIsRunning { get; set; }
+        public virtual int CfExec()
+        {
+            this.ProtoConn.ConnectIfNo();//內部會處理重複要求連線
+            RealExec();
+            return 0;
+        }
+
+        public virtual int CfFree()
+        {
+            this.Dispose(false);
+            return 0;
+        }
+
         public virtual int CfInit()
         {
             if (this.Config == null) throw new SNetException("沒有設定參數");
 
-            var localIpAddr = NetUtil.GetSuitableIp(this.Config.LocalIp, this.Config.RemoteIp);
+            var localIpAddr = CtkNetUtil.GetSuitableIp(this.Config.LocalIp, this.Config.RemoteIp);
             var localEndPoint = new IPEndPoint(localIpAddr, this.Config.LocalPort);
             var remoteEndPoint = new IPEndPoint(IPAddress.Parse(this.Config.RemoteIp), this.Config.RemotePort);
 
@@ -216,12 +226,6 @@ namespace SensingNet.v0_1.Device
 
             return 0;
         }
-        public virtual int CfExec()
-        {
-            this.ProtoConn.ConnectIfNo();//內部會處理重複要求連線
-            RealExec();
-            return 0;
-        }
         public virtual int CfRun()
         {
             this.ProtoConn.NonStopConnectAsyn();
@@ -251,12 +255,6 @@ namespace SensingNet.v0_1.Device
             }
             return 0;
         }
-        public virtual int CfFree()
-        {
-            this.Dispose(false);
-            return 0;
-        }
-
         #endregion
 
 
@@ -297,12 +295,10 @@ namespace SensingNet.v0_1.Device
         void DisposeManaged()
         {
         }
-
         void DisposeUnmanaged()
         {
 
         }
-
         void DisposeSelf()
         {
             if (this.runTask != null)
@@ -310,9 +306,8 @@ namespace SensingNet.v0_1.Device
             if (this.ProtoConn != null)
                 this.ProtoConn.Dispose();
 
-            EventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
+            CtkEventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
         }
-
         #endregion
 
     }

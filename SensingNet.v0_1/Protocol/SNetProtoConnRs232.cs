@@ -1,7 +1,7 @@
 using CToolkit;
-using CToolkit.Net;
-using CToolkit.Protocol;
-using CToolkit.Secs;
+using CToolkit.v0_1.Net;
+using CToolkit.v0_1.Protocol;
+using CToolkit.v0_1.Secs;
 using CToolkit.v0_1.DigitalPort;
 using System;
 using System.IO.Ports;
@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using CToolkit.v0_1;
 
 namespace SensingNet.v0_1.Protocol
 {
@@ -205,7 +206,7 @@ namespace SensingNet.v0_1.Protocol
         void DisposeSelf()
         {
             this.Disconnect();
-            EventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
+            CtkEventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
         }
 
 

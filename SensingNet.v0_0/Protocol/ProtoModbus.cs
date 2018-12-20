@@ -1,4 +1,4 @@
-﻿using CToolkit.Modbus;
+﻿using CToolkit.v0_1.Modbus;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -61,7 +61,7 @@ namespace SensingNet.v0_0.Protocol
                     var scfg = this.dConfig.SignalCfgList[idx];
                     ea.DeviceSvid = scfg.DeviceSvid;
 
-                    var data = list.Data[idx] as CToolkit.Secs.SecsIINodeASCII;
+                    var data = list.Data[idx] as CToolkit.v0_1.Secs.SecsIINodeASCII;
                     if (data.Data.Count <= 0) continue;
 
                     ea.Data = new List<double>();

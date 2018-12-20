@@ -1,7 +1,8 @@
 using CToolkit;
-using CToolkit.Net;
-using CToolkit.Protocol;
-using CToolkit.Secs;
+using CToolkit.v0_1;
+using CToolkit.v0_1.Net;
+using CToolkit.v0_1.Protocol;
+using CToolkit.v0_1.Secs;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -64,7 +65,7 @@ namespace SensingNet.v0_1.Protocol
         public void ReloadListener()
         {
             if (this.listener != null) this.listener.Disconnect();
-            this.listener = new CToolkit.Net.CtkNonStopTcpListener();
+            this.listener = new CToolkit.v0_1.Net.CtkNonStopTcpListener();
             this.listener.localEP = this.local;
             this.listener.evtFirstConnect += (sender, e) =>
             {
@@ -243,7 +244,7 @@ namespace SensingNet.v0_1.Protocol
         void DisposeSelf()
         {
             this.Disconnect();
-            EventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
+            CtkEventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using CToolkit.v0_1.DigitalPort;
+﻿using CToolkit.v0_1;
+using CToolkit.v0_1.DigitalPort;
 using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Signal;
 using System;
@@ -41,6 +42,6 @@ namespace SensingNet.v0_1.Device
 
 
 
-        public void SaveToXmlFile(string fn) { CToolkit.CtkUtil.SaveToXmlFileT(this, fn); }
+        public void SaveToXmlFile(string fn) { CtkUtil.SaveToXmlFileT(this, fn); }
     }
 }

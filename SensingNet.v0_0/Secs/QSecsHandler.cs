@@ -1,5 +1,5 @@
 using CToolkit;
-using CToolkit.Secs;
+using CToolkit.v0_1.Secs;
 using CToolkit.v0_1;
 using SensingNet.v0_0.Storage;
 using System;
@@ -17,7 +17,7 @@ namespace SensingNet.v0_0.Secs
     /// 可將Device收到的資料做簡易處理
     /// 若不需要簡易資料處理, 可自行撰寫, 提供Secs通訊
     /// </summary>
-    public class QSecsHandler : IContextFlowRun, IDisposable
+    public class QSecsHandler : ICtkContextFlowRun, IDisposable
     {
         public QSecsCfg cfg;
 
@@ -40,7 +40,7 @@ namespace SensingNet.v0_0.Secs
         {
             hsmsConnector = new HsmsConnector();
             //hsmsConnector.ctkConnSocket.isActively = true;
-            var localIp = NetUtil.GetLikelyFirst127Ip(this.cfg.LocalIp, this.cfg.RemoteIp);
+            var localIp = CtkNetUtil.GetLikelyFirst127Ip(this.cfg.LocalIp, this.cfg.RemoteIp);
             if (localIp == null) throw new Exception("無法取得在地IP");
             hsmsConnector.local = new IPEndPoint(localIp, this.cfg.LocalPort);
             hsmsConnector.evtReceiveData += delegate (Object sen, HsmsConnector_EventArgsRcvData evt)
@@ -73,7 +73,7 @@ namespace SensingNet.v0_0.Secs
 
         public int CfLoad()
         {
-            CToolkit.CtkUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
+            CtkUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
             {
                 for (int idx = 0; !this.disposed; idx++)
                 {
@@ -155,7 +155,7 @@ namespace SensingNet.v0_0.Secs
                 if (qsvidcfg.PassFilter != EnumPassFilter.None)
                 {
                     qsvidData.InitFilterIfNull(qsvidcfg.PassFilter, qsvidcfg.PassFilter_SampleRate, qsvidcfg.PassFilter_CutoffLow, qsvidcfg.PassFilter_CutoffHigh);
-                    signalData = CToolkit.NumericProc.NpUtil.Interpolation(signalData, (int)qsvidcfg.PassFilter_SampleRate);
+                    signalData = CToolkit.v0_1.NumericProc.NpUtil.Interpolation(signalData, (int)qsvidcfg.PassFilter_SampleRate);
                     signalData = qsvidData.ProcessSamples(signalData);
                 }
                 sps.signals.AddRange(signalData);
