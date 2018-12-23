@@ -20,6 +20,10 @@ namespace SensingNet.v0_1.Dsp.TimeSignal
             return this.Signals[k];
         }
 
-
+        public KeyValuePair<CtkTimeSecond, List<double>>? GetLastOrDefault()
+        {
+            if (this.Signals.Count == 0) return null;
+            return this.Signals.Last();
+        }
     }
 }

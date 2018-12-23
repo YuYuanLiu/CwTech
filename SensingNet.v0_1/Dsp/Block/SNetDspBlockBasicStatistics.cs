@@ -9,6 +9,7 @@ namespace SensingNet.v0_1.Dsp.Block
 {
     public class SNetDspBlockBasicStatistics : SNetDspBlockBase
     {
+        public int PurgeSeconds = 60;
         public SNetDspTimeSignalSecond TSignalAvg = new SNetDspTimeSignalSecond();
         public SNetDspTimeSignalSecond TSignalMax = new SNetDspTimeSignalSecond();
         public SNetDspTimeSignalSecond TSignalMin = new SNetDspTimeSignalSecond();
@@ -32,6 +33,12 @@ namespace SensingNet.v0_1.Dsp.Block
             this.TSignalAvg.Set(e.Time, list.Average());
             this.TSignalMax.Set(e.Time, list.Max());
             this.TSignalMin.Set(e.Time, list.Min());
+
+            var oldTime = DateTime.Now.AddSeconds(-this.PurgeSeconds);
+            this.TSignalAvg.RemoveOldByTime(oldTime);
+            this.TSignalMax.RemoveOldByTime(oldTime);
+            this.TSignalMin.RemoveOldByTime(oldTime);
+
         }
       
 
