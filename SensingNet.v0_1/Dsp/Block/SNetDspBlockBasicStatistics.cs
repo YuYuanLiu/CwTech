@@ -20,8 +20,7 @@ namespace SensingNet.v0_1.Dsp.Block
             get { return this._input; }
             set
             {
-                //CtkEventUtil.RemoveEventHandlers(this._input, this);//input2 可能也來自同一個source
-                this._input.evtDataChange -= _input_evtDataChange;
+                if (this._input != null) this._input.evtDataChange -= _input_evtDataChange;
                 this._input = value;
                 this._input.evtDataChange += _input_evtDataChange;
             }

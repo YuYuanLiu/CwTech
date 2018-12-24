@@ -14,11 +14,7 @@ namespace SensingNet.v0_1.Dsp.Block
         ~SNetDspBlockBase() { this.Dispose(false); }
 
 
-        public void RemoveEventFromObject()
-        {
-            CtkEventUtil.RemoveEventHandlersFrom((dlgt) => true, this);
-        }
-
+        
 
         #region IDisposable
         // Flag: Has Dispose already been called?

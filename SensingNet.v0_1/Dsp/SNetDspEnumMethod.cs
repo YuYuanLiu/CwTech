@@ -5,11 +5,12 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp
 {
-    public enum SNetEnumDspPeriod
+    public enum SNetDspEnumMethod
     {
-        Second,
-        Minute,
-        Hour,
-        Day,
+        None,
+        Raw,
+        Average,
+        Maximum,
+        Minimum,
     }
 }
