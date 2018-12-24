@@ -14,7 +14,7 @@ namespace SensingNet.v0_0.Signal
 
         public SignalMgrCfg mgrConfig;
         public String DefaultConfigsFilder = "Config/DeviceConfigs";
-        public ConfigCollector<DeviceCfg> configs = new ConfigCollector<DeviceCfg>();
+        public CtkConfigCollector<DeviceCfg> configs = new CtkConfigCollector<DeviceCfg>();
         Dictionary<String, SignalHandler> handlers = new Dictionary<String, SignalHandler>();
         public bool isExec = false;
 

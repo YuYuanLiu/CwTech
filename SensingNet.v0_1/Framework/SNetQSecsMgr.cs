@@ -18,7 +18,7 @@ namespace SensingNet.v0_1.Framework
     public class SNetQSecsMgr : ICtkContextFlowRun, IDisposable
     {
         public String DefaultConfigsFolder = "Config/QSecsConfigs/";
-        public ConfigCollector<SNetQSecsCfg> configs = new ConfigCollector<SNetQSecsCfg>();
+        public CtkConfigCollector<SNetQSecsCfg> configs = new CtkConfigCollector<SNetQSecsCfg>();
         public Dictionary<String, SNetQSecsHandler> handlers = new Dictionary<String, SNetQSecsHandler>();
         Task<int> runTask;
 

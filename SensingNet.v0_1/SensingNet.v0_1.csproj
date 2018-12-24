@@ -59,7 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dsp\Block\SNetDspEnumInvokeResult.cs" />
     <Compile Include="Dsp\Block\ISNetDspBlock.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockFft.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockEventArg.cs" />
     <Compile Include="Dsp\TimeSignal\ISNetDspTimeSignal.cs" />
     <Compile Include="Dsp\TimeSignal\ISNetDspTimeSignalSet.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockBase.cs" />

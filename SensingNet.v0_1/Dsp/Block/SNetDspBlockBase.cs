@@ -13,12 +13,19 @@ namespace SensingNet.v0_1.Dsp.Block
 
         ~SNetDspBlockBase() { this.Dispose(false); }
 
+
+        public void RemoveEventFromObject()
+        {
+            CtkEventUtil.RemoveEventHandlersFrom((dlgt) => true, this);
+        }
+
+
         #region IDisposable
         // Flag: Has Dispose already been called?
-        bool disposed = false;
+        protected bool disposed = false;
 
         // Public implementation of Dispose pattern callable by consumers.
-        public void Dispose()
+        public virtual void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
@@ -46,7 +53,7 @@ namespace SensingNet.v0_1.Dsp.Block
 
 
 
-      protected virtual  void DisposeManaged()
+        protected virtual void DisposeManaged()
         {
         }
         protected virtual void DisposeUnmanaged()
@@ -56,6 +63,8 @@ namespace SensingNet.v0_1.Dsp.Block
         protected virtual void DisposeSelf()
         {
             CtkEventUtil.RemoveEventHandlersFrom((dlgt) => true, this);
+
+
         }
         #endregion
     }
