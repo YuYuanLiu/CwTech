@@ -59,20 +59,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dsp\Block\SNetDspBlockFilter_PassFilter.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetSecondEventArg.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetEventArg.cs" />
     <Compile Include="Dsp\SNetDspEnumInvokeResult.cs" />
     <Compile Include="Dsp\Block\ISNetDspBlock.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockFft.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockFilter.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockEventArg.cs" />
-    <Compile Include="Dsp\TimeSignal\ISNetDspTimeSignal.cs" />
     <Compile Include="Dsp\TimeSignal\ISNetDspTimeSignalSet.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockBase.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetSecondEventArg.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockTimeSignalEventArg.cs" />
     <Compile Include="Dsp\SNetDspLayoutGraph.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockSeqDataCollector.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockBasicStatistics.cs" />
     <Compile Include="Dsp\TimeSignal\SNetDspTimeSignalSetMilliSecond.cs" />
     <Compile Include="Dsp\TimeSignal\SNetDspTimeSignalSetSecond.cs" />
-    <Compile Include="Dsp\TimeSignal\SNetDspTimeSignalSecond.cs" />
     <Compile Include="Dsp\SNetDspEnumMethod.cs" />
     <Compile Include="Dsp\SNetDspEnumPeriod.cs" />
     <Compile Include="Framework\SNetAlarmMgr.cs" />
@@ -96,7 +97,6 @@
     <Compile Include="QSecs\SNetQSecsRcvDataEventArgs.cs" />
     <Compile Include="QSecs\SNetQSecsCfg.cs" />
     <Compile Include="QSecs\SNetQSecsHandler.cs" />
-    <Compile Include="QSecs\SNetQSecsHandlerSvidData.cs" />
     <Compile Include="QSecs\SNetQSvidCfg.cs" />
     <Compile Include="Framework\SNetQSecsMgr.cs" />
     <Compile Include="SNetException.cs" />

@@ -8,5 +8,6 @@ namespace SensingNet.v0_1.Dsp.Block
     public interface ISNetDspBlock
     {
         String SNetDspIdentifier { get; set; }
-    }
+
+      }
 }

@@ -1,5 +1,7 @@
 ﻿using CToolkit.v0_1;
+using CToolkit.v0_1.NumericProc;
 using CToolkit.v0_1.TimeOp;
+using MathNet.Filtering.FIR;
 using SensingNet.v0_1.Dsp.TimeSignal;
 using System;
 using System.Collections.Concurrent;
@@ -9,14 +11,16 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp.Block
 {
-    public class SNetDspBlockBasicStatistics : SNetDspBlockBase
+    public class SNetDspBlockFilter : SNetDspBlockBase
     {
-
-        public SNetDspTimeSignalSetSecond TSignalAvg = new SNetDspTimeSignalSetSecond();
-        public SNetDspTimeSignalSetSecond TSignalMax = new SNetDspTimeSignalSetSecond();
-        public SNetDspTimeSignalSetSecond TSignalMin = new SNetDspTimeSignalSetSecond();
+        public SNetDspBlockFilter_PassFilter PassFilter = new SNetDspBlockFilter_PassFilter();
+        public int PassFilterCutoffHigh = 512;
+        public int PassFilterCutoffLow = 5;
+        public CtkEnumPassFilter PassFilterMode = CtkEnumPassFilter.None;
+        public int PassFilterSampleRate = 1024;
+        public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
         protected SNetDspBlockBase _input;
-        ~SNetDspBlockBasicStatistics() { this.Dispose(false); }
+
 
         public SNetDspBlockBase Input
         {
@@ -28,15 +32,14 @@ namespace SensingNet.v0_1.Dsp.Block
                 this._input.evtDataChange += _input_evtDataChange;
             }
         }
+
+
         protected override void PurgeSignal()
         {
             if (this.PurgeSeconds <= 0) return;
             var now = DateTime.Now;
             var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
-
-            this.PurgeSignalByTime(this.TSignalAvg, oldKey);
-            this.PurgeSignalByTime(this.TSignalMax, oldKey);
-            this.PurgeSignalByTime(this.TSignalMin, oldKey);
+            this.PurgeSignalByTime(this.TSignal, oldKey);
         }
 
         private void _input_evtDataChange(object sender, SNetDspBlockTimeSignalEventArg e)
@@ -45,25 +48,24 @@ namespace SensingNet.v0_1.Dsp.Block
             if (tsSetSecondEa == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
+            if (!tsSetSecondEa.BeforeLastTime.HasValue) return;
+            if (tsSetSecondEa.Time == tsSetSecondEa.BeforeLastTime.Value) return;
+            var t = tsSetSecondEa.BeforeLastTime.Value;
 
-            var key = tsSetSecondEa.Time;
-            var list = tsSetSecondEa.TSignal.GetOrCreate(key);
-            this.TSignalAvg.Set(tsSetSecondEa.Time, list.Average());
-            this.TSignalMax.Set(tsSetSecondEa.Time, list.Max());
-            this.TSignalMin.Set(tsSetSecondEa.Time, list.Min());
-
-
+            //取得時間變更前的時間資料
+            IEnumerable<double> signalData = tsSetSecondEa.TSignal.GetOrCreate(t);
 
 
+            if (this.PassFilterMode != CtkEnumPassFilter.None)
+            {
+                this.PassFilter.InitFilterIfNull(this.PassFilterMode, this.PassFilterSampleRate, this.PassFilterCutoffLow, this.PassFilterCutoffHigh);
+                signalData = CtkNpUtil.Interpolation(signalData, (int)this.PassFilterSampleRate);
+                signalData = this.PassFilter.ProcessSamples(signalData);
+            }
 
-            this.PurgeSignal();
-
-
+            this.DoDataChange(this.TSignal, t, signalData);
             e.InvokeResult = this.disposed ? SNetDspEnumInvokeResult.IsDisposed : SNetDspEnumInvokeResult.None;
         }
-
-
-
         #region IDisposable
 
         protected override void DisposeSelf()
@@ -73,5 +75,7 @@ namespace SensingNet.v0_1.Dsp.Block
         }
 
         #endregion
+
+
     }
 }

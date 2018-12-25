@@ -17,8 +17,8 @@ namespace SensingNet.v0_1.Framework
 {
     public class SNetQSecsMgr : ICtkContextFlowRun, IDisposable
     {
-        public String DefaultConfigsFolder = "Config/QSecsConfigs/";
         public CtkConfigCollector<SNetQSecsCfg> configs = new CtkConfigCollector<SNetQSecsCfg>();
+        public String DefaultConfigsFolder = "Config/QSecsConfigs/";
         public Dictionary<String, SNetQSecsHandler> handlers = new Dictionary<String, SNetQSecsHandler>();
         Task<int> runTask;
 
@@ -26,19 +26,8 @@ namespace SensingNet.v0_1.Framework
         ~SNetQSecsMgr() { this.Dispose(false); }
 
 
-
+        #region ICtkContextFlowRun
         public bool CfIsRunning { get; set; }
-        public int CfInit()
-        {
-            this.configs.UpdateFromFolder(DefaultConfigsFolder);
-
-
-            return 0;
-        }
-        public int CfLoad()
-        {
-            return 0;
-        }
         public int CfExec()
         {
             try
@@ -52,6 +41,24 @@ namespace SensingNet.v0_1.Framework
             {
                 Monitor.Exit(this);
             }
+            return 0;
+        }
+        public int CfFree()
+        {
+            this.configs.ClearAll();
+            this.RunHandlerStatus();
+            this.Dispose(false);
+            return 0;
+        }
+        public int CfInit()
+        {
+            this.configs.UpdateFromFolder(DefaultConfigsFolder);
+
+
+            return 0;
+        }
+        public int CfLoad()
+        {
             return 0;
         }
         public int CfRun()
@@ -83,49 +90,7 @@ namespace SensingNet.v0_1.Framework
             this.RunHandlerStatus();
             return 0;
         }
-        public int CfFree()
-        {
-            this.configs.ClearAll();
-            this.RunHandlerStatus();
-            this.Dispose(false);
-            return 0;
-        }
-
-            /// <summary>
-        /// 簡易資料處理的更新
-        /// 當收到訊號欲更新各QSecsHandler時, 執行此函式
-        /// 想要自行處理資料, 可以忽略
-        /// </summary>
-        public void DoSecsDataUpdate(SNetSignalEventArgs sea)
-        {
-            try
-            {
-                if (!Monitor.TryEnter(this, 5 * 1000)) return;
-                this.configs.UpdateIfOverTime();
-
-
-                //廣播
-                foreach (var dict in this.configs)
-                    foreach (var qsecscfg in dict.Value)
-                    {
-                        if (!handlers.ContainsKey(qsecscfg.Key))
-                            handlers[qsecscfg.Key] = new SNetQSecsHandler();
-
-                        var sh = handlers[qsecscfg.Key];
-                        sh.cfg = qsecscfg.Value;
-
-                        //執行, 有相關的Handler自己處理
-                        sh.DoRcvSignalData(sea);
-                    }
-            }
-            finally
-            {
-                Monitor.Exit(this);
-            }
-
-        }
-
-
+        #endregion 
 
         void RunHandlerStatus()
         {
@@ -134,7 +99,7 @@ namespace SensingNet.v0_1.Framework
             //先全部設定為: 等待Dispose
             foreach (var hdl in this.handlers)
             {
-                hdl.Value.WaitDispose = true;
+                hdl.Value.IsWaitDispose = true;
             }
 
 
@@ -154,7 +119,7 @@ namespace SensingNet.v0_1.Framework
                     hdl.cfg = cfg.Value;
 
                     //解除等待Dispoe
-                    hdl.WaitDispose = false;
+                    hdl.IsWaitDispose = false;
 
                     if (hdl.status == SNetEnumHandlerStatus.None)
                     {
@@ -192,7 +157,7 @@ namespace SensingNet.v0_1.Framework
             var removeHandlers = new Dictionary<String, SNetQSecsHandler>();
             foreach (var qsh in this.handlers)
             {
-                if (!qsh.Value.WaitDispose) continue;
+                if (!qsh.Value.IsWaitDispose) continue;
 
                 qsh.Value.CfUnLoad();
                 qsh.Value.status = SNetEnumHandlerStatus.Unload;
@@ -219,22 +184,27 @@ namespace SensingNet.v0_1.Framework
             this.evtReceiveData(this, ea);
         }
 
-
-
-
         #endregion
 
         #region Dispose
 
-        bool disposed = false;
-
-
-        public void Dispose()
+        protected bool disposed = false;
+        public virtual void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+        protected virtual void DisposeManaged()
+        {
 
+        }
+        protected virtual void DisposeSelf()
+        {
+
+        }
+        protected virtual void DisposeUnManaged()
+        {
+        }
         protected virtual void Dispose(bool disposing)
         {
             if (disposed)
@@ -252,21 +222,7 @@ namespace SensingNet.v0_1.Framework
             this.DisposeSelf();
             disposed = true;
         }
-
-        public void DisposeManaged()
-        {
-
-        }
-
-        public void DisposeUnManaged()
-        {
-        }
-
-        public void DisposeSelf()
-        {
-
-        }
-
+        
         #endregion
     }
 }

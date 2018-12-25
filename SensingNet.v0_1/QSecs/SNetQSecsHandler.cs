@@ -23,21 +23,29 @@ namespace SensingNet.v0_1.QSecs
     {
         public SNetQSecsCfg cfg;
 
+        public CtkHsmsConnector hsmsConnector;
+
         /// <summary>
         /// 一個Secs Handler需要一組IP/Port
         /// 對一個 IP/Port 而言, Svid 不應該重複, 因此用 Query SVID 作為Key
         /// </summary>
-        public Dictionary<UInt32, SNetQSecsHandlerSvidData> qsvidSignalDataDict = new Dictionary<UInt32, SNetQSecsHandlerSvidData>();
-
-
-
-        public CtkHsmsConnector hsmsConnector;
         public SNetEnumHandlerStatus status = SNetEnumHandlerStatus.None;
-        public bool WaitDispose;
+        public bool IsWaitDispose;
 
-
+        #region ICtkContextFlowRun
 
         public bool CfIsRunning { get; set; }
+        public int CfExec()
+        {
+            return 0;
+        }
+
+        public int CfFree()
+        {
+            this.Dispose(false);
+            return 0;
+        }
+
         public int CfInit()
         {
             hsmsConnector = new CtkHsmsConnector();
@@ -92,153 +100,16 @@ namespace SensingNet.v0_1.QSecs
             });
             return 0;
         }
-        public int CfExec()
-        {
-            return 0;
-        }
         public int CfRun() { return 0; }
         public int CfRunAsyn() { return 0; }
         public int CfUnLoad()
         {
             return 0;
         }
-        public int CfFree()
-        {
-            this.Dispose(false);
-            return 0;
-        }
+        #endregion 
 
 
 
-
-        /// <summary>
-        /// 簡易資料處理
-        /// 當收到訊號時, 可以執行此函式, 更新資料
-        /// </summary>
-        /// <param name="sea"></param>
-        public void DoRcvSignalData(SNetSignalEventArgs sea)
-        {
-            foreach (var qsvidcfg in this.cfg.QSvidCfgList)
-            {
-                // TODO: 太久沒更新的資料要清掉, 避免佔記憶體空間
-
-
-                var flag = false;
-                // IP / Port 有對應的優先
-                if (qsvidcfg.DeviceIp == sea.RemoteIp && qsvidcfg.DevicePort == sea.RemotePort)
-                    flag = true;
-
-                // 否則要對應 Device Name
-                if (!flag && qsvidcfg.DeviceName == sea.Name)
-                    flag = true;
-
-                //需要對應SVID
-                flag &= qsvidcfg.DeviceSvid == sea.Svid;
-
-                if (!flag) continue;
-
-
-                var qsvidData = this.GetSignalCollector(qsvidcfg.QSvid);
-                var sps = (from s in qsvidData.SignalCollector
-                           where s.dt.ToString("yyyyMMddHHmmss") == sea.RcvDateTime.ToString("yyyyMMddHHmmss")
-                           select s).FirstOrDefault();
-                if (sps == null)
-                {
-                    sps = new Storage.SNetSignalPerSec();
-                    qsvidData.SignalCollector.AddLast(sps);
-                    sps.dt = sea.RcvDateTime;
-                }
-
-                IEnumerable<double> signalData = sea.CalibrateData;
-                if (qsvidcfg.PassFilter != CtkEnumPassFilter.None)
-                {
-                    qsvidData.InitFilterIfNull(qsvidcfg.PassFilter, qsvidcfg.PassFilter_SampleRate, qsvidcfg.PassFilter_CutoffLow, qsvidcfg.PassFilter_CutoffHigh);
-                    signalData = CToolkit.v0_1.NumericProc.CtkNpUtil.Interpolation(signalData, (int)qsvidcfg.PassFilter_SampleRate);
-                    signalData = qsvidData.ProcessSamples(signalData);
-                }
-                sps.signals.AddRange(signalData);
-
-
-                while (qsvidData.SignalCollector.Count > qsvidcfg.StatisticsSecond)
-                {
-                    qsvidData.SignalCollector.RemoveFirst();
-                    if (this.qsvidSignalDataDict.Count <= 0) break;
-                }
-            }
-
-
-        }
-
-
-
-        public bool StatisticsValue(UInt32 qsvid, SNetSignalCollector signalCollector, out double val)
-        {
-            val = 0;
-            foreach (var qsvidcfg in this.cfg.QSvidCfgList)
-            {
-                if (qsvidcfg.QSvid != qsvid) continue;
-
-                signalCollector.RefreshTime();
-                if (signalCollector.Count == 0) return false;
-                switch (qsvidcfg.StatisticsMethod)
-                {
-                    case SNetEnumStatisticsMethod.Max:
-                        val = signalCollector.signals.Max();
-                        return true;
-                    case SNetEnumStatisticsMethod.Min:
-                        val = signalCollector.signals.Min();
-                        return true;
-                    case SNetEnumStatisticsMethod.Average:
-                        val = signalCollector.signals.Average();
-                        return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool StatisticsValue(UInt32 qsvid, out double val)
-        {
-            val = 0;
-            foreach (var qsvidcfg in this.cfg.QSvidCfgList)
-            {
-                if (qsvidcfg.QSvid != qsvid) continue;
-
-                var qsvidData = this.GetSignalCollector(qsvidcfg.QSvid);
-                var collector = qsvidData.SignalCollector;
-                return this.StatisticsValue(qsvid, collector, out val);
-            }
-            return false;
-        }
-
-
-        public double StatisticsValue(UInt32 qsvid)
-        {
-            var val = 0.0;
-            this.StatisticsValue(qsvid, out val);
-            return val;
-        }
-
-
-
-
-
-        public SNetQSecsHandlerSvidData GetSignalCollector(UInt32 qsvid)
-        {
-            if (!this.qsvidSignalDataDict.ContainsKey(qsvid))
-                this.qsvidSignalDataDict[qsvid] = new SNetQSecsHandlerSvidData();
-            return this.qsvidSignalDataDict[qsvid];
-        }
-        public SNetQSvidCfg GetQSvidCfg(UInt32 qsvid)
-        {
-            foreach (var qsvidcfg in this.cfg.QSvidCfgList)
-            {
-                if (qsvidcfg.QSvid != qsvid) continue;
-                return qsvidcfg;
-            }
-
-            return null;
-        }
 
         #region Event
 
@@ -265,6 +136,24 @@ namespace SensingNet.v0_1.QSecs
             GC.SuppressFinalize(this);
         }
 
+        public void DisposeManaged()
+        {
+
+        }
+
+        public void DisposeSelf()
+        {
+            if (this.hsmsConnector != null)
+            {
+                this.hsmsConnector.Dispose();
+            }
+
+        }
+
+        public void DisposeUnManaged()
+        {
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposed)
@@ -282,25 +171,6 @@ namespace SensingNet.v0_1.QSecs
             this.DisposeSelf();
             disposed = true;
         }
-
-        public void DisposeManaged()
-        {
-
-        }
-
-        public void DisposeUnManaged()
-        {
-        }
-
-        public void DisposeSelf()
-        {
-            if (this.hsmsConnector != null)
-            {
-                this.hsmsConnector.Dispose();
-            }
-
-        }
-
         #endregion
 
     }
