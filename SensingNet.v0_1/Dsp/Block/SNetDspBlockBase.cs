@@ -11,6 +11,7 @@ namespace SensingNet.v0_1.Dsp.Block
     public class SNetDspBlockBase : ISNetDspBlock, IDisposable
     {
         public int PurgeSeconds = 60;
+        public bool IsEnalbed = true;
         protected String _identifier = Guid.NewGuid().ToString();
         ~SNetDspBlockBase() { this.Dispose(false); }
 

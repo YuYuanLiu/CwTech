@@ -58,12 +58,12 @@ namespace SensingNet.v0_1.Signal
             txMsg.header.StreamId = 1;
             txMsg.header.FunctionId = 3;
             txMsg.header.WBit = true;
-            var sList = new CToolkit.v0_1.Secs.CtkSecsIINodeList();
+            var sList = new CtkSecsIINodeList();
             //var sSvid = new CToolkit.v0_1.Secs.SecsIINodeInt64();
 
             foreach (var scfg in listInfo)
             {
-                var sSvid = new CToolkit.v0_1.Secs.CtkSecsIINodeUInt32();
+                var sSvid = new CtkSecsIINodeUInt64();
                 sSvid.Data.Add(scfg.Svid);
                 sList.Data.Add(sSvid);
             }

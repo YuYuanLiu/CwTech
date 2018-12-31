@@ -8,7 +8,7 @@ namespace SensingNet.v0_1.Signal
     public class SNetSignalCfg
     {
 
-        public UInt32 Svid = 0;
+        public UInt64 Svid = 0;
         public String Name;
 
 
