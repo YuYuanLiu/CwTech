@@ -53,7 +53,7 @@ namespace SensingNet.v0_1.QSecs
             var localIp = CtkNetUtil.GetLikelyFirst127Ip(this.cfg.LocalIp, this.cfg.RemoteIp);
             if (localIp == null) throw new Exception("無法取得在地IP");
             hsmsConnector.local = new IPEndPoint(localIp, this.cfg.LocalPort);
-            hsmsConnector.evtReceiveData += delegate (Object sen, CtkHsmsConnector_EventArgsRcvData evt)
+            hsmsConnector.evtReceiveData += delegate(Object sen, CtkHsmsConnector_EventArgsRcvData evt)
             {
 
                 var myMsg = evt.msg;
@@ -82,7 +82,7 @@ namespace SensingNet.v0_1.QSecs
         }
         public int CfLoad()
         {
-            CtkUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
+            CtkUtil.RunWorkerAsyn(delegate(object sender, DoWorkEventArgs e)
             {
                 for (int idx = 0; !this.disposed; idx++)
                 {
@@ -106,8 +106,18 @@ namespace SensingNet.v0_1.QSecs
         {
             return 0;
         }
-        #endregion 
+        #endregion
 
+
+
+        public SNetQSvidCfg GetQSvidCfg(UInt32 svid)
+        {
+            var query = from row in this.cfg.QSvidCfgList
+                        where row.QSvid == svid
+                        select row;
+
+            return query.FirstOrDefault();
+        }
 
 
 
