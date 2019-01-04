@@ -89,7 +89,7 @@ namespace SensingNet.MyTest.UnitTest
 
 
 
-            SpinWait.SpinUntil(() => (DateTime.Now - startDt).TotalMinutes >= 1);
+            SpinWait.SpinUntil(() => (DateTime.Now - startDt).TotalSeconds >= 3);
             deviceHdl.CfIsRunning = false;
             SpinWait.SpinUntil(() => isFinishDevice);
 

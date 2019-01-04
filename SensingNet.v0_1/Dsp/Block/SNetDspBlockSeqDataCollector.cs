@@ -49,7 +49,7 @@ namespace SensingNet.v0_1.Dsp.Block
 
         protected override void DisposeSelf()
         {
-            CtkEventUtil.RemoveEventHandlersFrom((dlgt) => true, this);//移除自己的Event Delegate
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter( this, (dlgt) => true);//移除自己的Event Delegate
         }
 
         #endregion

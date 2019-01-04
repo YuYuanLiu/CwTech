@@ -306,7 +306,7 @@ namespace SensingNet.v0_1.Device
             if (this.ProtoConn != null)
                 this.ProtoConn.Dispose();
 
-            CtkEventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
         }
         #endregion
 

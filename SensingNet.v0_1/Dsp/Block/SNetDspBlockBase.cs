@@ -102,7 +102,7 @@ namespace SensingNet.v0_1.Dsp.Block
         }
         protected virtual void DisposeSelf()
         {
-            CtkEventUtil.RemoveEventHandlersFrom((dlgt) => true, this);
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter( this, (dlgt) => true);
         }
 
         protected virtual void DisposeUnmanaged()

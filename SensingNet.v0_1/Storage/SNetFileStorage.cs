@@ -203,7 +203,7 @@ namespace SensingNet.v0_1.Storage
         {
             this.CloseStream(ref this.fwriter);
 
-            CtkEventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter( this, (dlgt) => true);
         }
 
         #endregion
