@@ -1,0 +1,14 @@
+	MSB			LSB
+	Device No	Signal Type	Signal NO	Statictics
+	FF	FF	FF	FF
+Vibration	0x00	0x00	0xXX	
+Humidity	0x00	0x01	0xXX	
+Temperature	0x00	0x02	0xXX	
+				
+				
+				
+				
+				
+Statistics	0	Average		
+	1	Max		
+	2	Min		
