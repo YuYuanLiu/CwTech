@@ -60,7 +60,7 @@ namespace SensingNet.MyTest
         private void UtMainSignalMgr_evtLogWrite(object sender, CToolkit.v0_1.Logging.CtkLoggerEventArgs e)
         {
 
-            System.Diagnostics.Debug.WriteLine(e.message);
+            System.Diagnostics.Debug.WriteLine(e.Message);
         }
     }
 }

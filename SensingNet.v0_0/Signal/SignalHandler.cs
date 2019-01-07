@@ -16,8 +16,6 @@ namespace SensingNet.v0_0.Signal
         public EnumHandlerStatus status = EnumHandlerStatus.None;
         public bool WaitDispose = false;
 
-
-
         void capturer_evtDataRcv(object sender, EventArgs ea)
         {
             var eaCapture = ea as SignalEventArgs;
@@ -43,7 +41,24 @@ namespace SensingNet.v0_0.Signal
         }
 
 
+        #region ICtkContextFlowRun
+
         public bool CfIsRunning { get; set; }
+
+        public int CfExec()
+        {
+
+            this.etherneter.ConnectIfNo();
+
+            return 0;
+        }
+
+        public int CfFree()
+        {
+            return 0;
+
+        }
+
         public int CfInit()
         {
             if (this.config == null) throw new SensingNetException("沒有設定參數");
@@ -63,38 +78,25 @@ namespace SensingNet.v0_0.Signal
 
             return 0;
         }
+
         public int CfLoad()
         {
 
             return 0;
         }
+
+        public int CfRun() { throw new NotImplementedException("此方法不實作重複執行, 請使用CfExec"); }
+
+        public int CfRunAsyn() { throw new NotImplementedException("此方法不實作重複執行, 請使用CfExec"); }
+
         public int CfUnLoad()
         {
             this.etherneter.Disconnect();
             //this.evtCapture = null;
             return 0;
         }
-        public int CfFree()
-        {
-            return 0;
 
-        }
-        public int CfExec()
-        {
-
-            this.etherneter.ConnectIfNo();
-
-            return 0;
-        }
-        public int CfRun() { throw new NotImplementedException("此方法不實作重複執行, 請使用CfExec"); }
-        public int CfRunAsyn() { throw new NotImplementedException("此方法不實作重複執行, 請使用CfExec"); }
-
-
-
-
-
-
-
+        #endregion
 
 
 

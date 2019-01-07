@@ -17,7 +17,7 @@ namespace SensingNet.v0_0
         }
         public static void Write(CtkLoggerEventArgs ea, CtkLoggerEnumLevel _level)
         {
-            ea.level = _level;
+            ea.Level = _level;
             Logger.Write(ea);
         }
         //public static void Write(string msg, params object[] args) { Logger.Write(string.Format(msg, args)); }會造成呼叫模擬兩可

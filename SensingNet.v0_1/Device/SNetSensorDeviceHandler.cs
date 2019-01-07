@@ -12,6 +12,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CToolkit.v0_1.Threading;
 
 namespace SensingNet.v0_1.Device
 {
@@ -255,16 +256,17 @@ namespace SensingNet.v0_1.Device
             }
             return 0;
         }
+
         #endregion
 
 
 
         #region IDisposable
         // Flag: Has Dispose already been called?
-        bool disposed = false;
+        protected bool disposed = false;
 
         // Public implementation of Dispose pattern callable by consumers.
-        public void Dispose()
+        public virtual void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
@@ -292,17 +294,22 @@ namespace SensingNet.v0_1.Device
 
 
 
-        void DisposeManaged()
+        protected virtual void DisposeManaged()
         {
         }
-        void DisposeUnmanaged()
+        protected virtual void DisposeUnmanaged()
         {
 
         }
-        void DisposeSelf()
+        protected virtual void DisposeSelf()
         {
+            this.CfIsRunning = false;
+
             if (this.runTask != null)
+            {
+                SpinWait.SpinUntil(() => this.runTask.IsCompleted || this.runTask.IsFaulted || this.runTask.IsCanceled, 3000);
                 this.runTask.Dispose();
+            }
             if (this.ProtoConn != null)
                 this.ProtoConn.Dispose();
 
