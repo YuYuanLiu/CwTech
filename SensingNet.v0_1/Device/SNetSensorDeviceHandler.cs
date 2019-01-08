@@ -98,6 +98,7 @@ namespace SensingNet.v0_1.Device
                         eaSignal.CalibrateData.Add(signal * signalCfg.CalibrateUserScale + signalCfg.CalibrateUserOffset);//轉入User Define
                     }
 
+                    eaSignal.SignalConfig = signalCfg;
                     eaSignal.RcvDateTime = DateTime.Now;
                     this.OnSignalCapture(eaSignal);
                 }
