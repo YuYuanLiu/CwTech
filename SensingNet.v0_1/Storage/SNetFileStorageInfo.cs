@@ -50,7 +50,7 @@ namespace SensingNet.v0_1.Storage
 
 
 
-        public void ReadStream(StreamReader sr, CToolkit.v0_1.NumericProc.CtkEnumPassFilter passFilter, int sampleRate, int cutoffLow, int cutoffHigh)
+        public void ReadStream(StreamReader sr, CtkEnumPassFilterMode passFilter, int sampleRate, int cutoffLow, int cutoffHigh)
         {
             var filter = new CtkFftOnlineFilter();
             filter.SetFilter(passFilter, sampleRate, cutoffLow, cutoffHigh);

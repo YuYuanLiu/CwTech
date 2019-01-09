@@ -16,7 +16,7 @@ namespace SensingNet.v0_1.Dsp.Block
         public SNetDspBlockFilter_PassFilter PassFilter = new SNetDspBlockFilter_PassFilter();
         public int PassFilterCutoffHigh = 512;
         public int PassFilterCutoffLow = 5;
-        public CtkEnumPassFilter PassFilterMode = CtkEnumPassFilter.None;
+        public CtkEnumPassFilterMode PassFilterMode = CtkEnumPassFilterMode.None;
         public int PassFilterSampleRate = 1024;
         public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
         protected SNetDspBlockBase _input;
@@ -56,7 +56,7 @@ namespace SensingNet.v0_1.Dsp.Block
             IEnumerable<double> signalData = tsSetSecondEa.TSignal.GetOrCreate(t);
 
 
-            if (this.PassFilterMode != CtkEnumPassFilter.None)
+            if (this.PassFilterMode != CtkEnumPassFilterMode.None)
             {
                 this.PassFilter.InitFilterIfNull(this.PassFilterMode, this.PassFilterSampleRate, this.PassFilterCutoffLow, this.PassFilterCutoffHigh);
                 signalData = CtkNpUtil.Interpolation(signalData, (int)this.PassFilterSampleRate);

@@ -13,11 +13,11 @@ namespace SensingNet.v0_1.Dsp.Block
         public OnlineFirFilter PassFilter;
         public int CutoffHigh = 512;
         public int CutoffLow = 5;
-        public CtkEnumPassFilter Mode = CtkEnumPassFilter.None;
+        public CtkEnumPassFilterMode Mode = CtkEnumPassFilterMode.None;
         public int SampleRate = 1024;
 
 
-        public void InitFilterIfNull(CtkEnumPassFilter passFilter, int sampleRate, int cutoffLow, int cutoffHigh)
+        public void InitFilterIfNull(CtkEnumPassFilterMode passFilter, int sampleRate, int cutoffLow, int cutoffHigh)
         {
 
             var flag = this.PassFilter != null;
@@ -36,7 +36,7 @@ namespace SensingNet.v0_1.Dsp.Block
             var coff = new double[0];
             switch (passFilter)
             {
-                case CtkEnumPassFilter.BandPass:
+                case CtkEnumPassFilterMode.BandPass:
                     coff = FirCoefficients.BandPass(sampleRate, cutoffLow, cutoffHigh);
                     break;
 
