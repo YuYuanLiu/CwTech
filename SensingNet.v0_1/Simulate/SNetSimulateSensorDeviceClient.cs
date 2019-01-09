@@ -4,6 +4,8 @@ using CToolkit.v0_1.Net;
 using CToolkit.v0_1.Secs;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Double;
+using SensingNet.v0_1.Device;
+using SensingNet.v0_1.Signal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,28 +13,53 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SensorNetwork.Simulate
+namespace SensingNet.v0_1.Simulate
 {
-    public class SsnwSimulateSecsServer : IDisposable
+    public class SNetSimulateSensorDeviceClient : IDisposable
     {
-        CtkNonStopTcpClient client;
+        SNetSensorDeviceHandler client;
         public volatile bool IsSendRequest = false;
 
-        ~SsnwSimulateSecsServer() { this.Dispose(false); }
+        ~SNetSimulateSensorDeviceClient() { this.Dispose(false); }
 
         public void RunAsyn()
         {
 
-            client = new CtkNonStopTcpClient("10.75.51.128", 10002);
-            client.evtFirstConnect += (ss, ee) => { Write("evtFirstConnect"); };
-            client.evtFailConnect += (ss, ee) => { Write("evtFailConnect"); };
-            client.evtErrorReceive += (ss, ee) => { Write("evtErrorReceive"); };
-            client.evtDataReceive += (ss, ee) =>
+            var signalConfigs = new List<SNetSignalCfg>();
+            signalConfigs.Add(new SNetSignalCfg() { Svid = 0 });
+
+            this.client = new SNetSensorDeviceHandler();
+            this.client.Config = new SNetSensorDeviceCfg()
             {
-                Write("evtDataReceive");
+                DeviceId = 0,
+                DeviceName = "Test",
+                IsActivelyConnect = false,
+                IsActivelyTx = false,
+                LocalIp = null,
+                LocalPort = 0,
+                ProtoConnect = Protocol.SNetEnumProtoConnect.Tcp,
+                ProtoFormat = Protocol.SNetEnumProtoFormat.SensingNetCmd,
+                ProtoSession = Protocol.SNetEnumProtoSession.SensingNetCmd,
+                RemoteIp = "127.0.0.1",
+                RemotePort = 5003,
+                SerialPortConfig = null,
+                SignalTran = Signal.SNetEnumSignalTran.SensingNet,
+                TimeoutResponse = 5000,
+                TxInterval = 1000,
+                SignalCfgList = signalConfigs,
             };
 
-            client.NonStopConnectAsyn();
+
+            this.client.evtSignalCapture += (ss, ee) =>
+            {
+                var sb = new StringBuilder();
+                sb.AppendFormat("Data Count={0}", ee.CalibrateData.Count);
+                Write(sb.ToString());
+            };
+
+            this.client.CfInit();
+            this.client.CfLoad();
+            this.client.CfRunAsyn();
         }
 
 
@@ -48,7 +75,7 @@ namespace SensorNetwork.Simulate
             var cmd = "";
             do
             {
-                Console.Write(">");
+                Write(this.GetType().Name);
                 cmd = Console.ReadLine();
 
                 switch (cmd)
@@ -57,7 +84,7 @@ namespace SensorNetwork.Simulate
                         this.Send();
                         break;
                     case "state":
-                        Console.WriteLine("State={0}", this.client.IsRemoteConnected);
+                        this.Write(this.CmdState());
                         break;
                 }
 
@@ -68,33 +95,18 @@ namespace SensorNetwork.Simulate
 
         }
 
+        string CmdState()
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat("Message Count={0}\n", this.client.ProtoFormat.Count());
+            return sb.ToString();
+        }
+
+
         public void Send()
         {
-            var txMsg = new CtkHsmsMessage();
-            txMsg.header.StreamId = 1;
-            txMsg.header.FunctionId = 3;
-            txMsg.header.WBit = true;
-            var sList = new CtkSecsIINodeList();
-            //var sSvid = new CToolkit.v0_1.Secs.SecsIINodeInt64();
 
-
-            var list = new List<UInt64>();
-            list.Add(0);
-            list.Add(1);
-            list.Add(2);
-            list.Add(168);
-
-
-            foreach (var scfg in list)
-            {
-                var sSvid = new CtkSecsIINodeUInt64();
-                sSvid.Data.Add(scfg);
-                sList.Data.Add(sSvid);
-            }
-
-            txMsg.rootNode = sList;
-
-            this.client.WriteBytes(txMsg.ToBytes());
+            this.client.ProtoConn.WriteMsg("cmd\n");
 
         }
 
@@ -102,7 +114,14 @@ namespace SensorNetwork.Simulate
         public void Stop()
         {
             if (this.client != null)
-                this.client.AbortNonStopConnect();
+            {
+                using (this.client)
+                {
+                    this.client.CfIsRunning = false;
+                    this.client.CfUnLoad();
+                    this.client.CfFree();
+                }
+            }
         }
 
 

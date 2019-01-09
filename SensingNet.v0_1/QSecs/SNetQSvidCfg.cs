@@ -25,10 +25,6 @@ namespace SensingNet.v0_1.QSecs
         public String StoragePath;
 
 
-        public double DataTimeFailureSPEC_SEC;
-        public double ExceptionDataTimeFailure;
-        public double ExceptionDataNotFound;
-        public double ExceptionDataFormatError;
 
 
         public CtkEnumPassFilter PassFilter = CtkEnumPassFilter.None;//使用FIR filter

@@ -21,7 +21,7 @@ namespace SensingNet.MyTest
             var nonStopTcpClient = new CToolkit.v0_1.Net.CtkNonStopTcpClient(remoteEp);
             nonStopTcpClient.evtDataReceive += delegate (object sender, CtkProtocolBufferEventArgs e)
             {
-                System.Diagnostics.Debug.WriteLine(e.length);
+                System.Diagnostics.Debug.WriteLine(e.Length);
             };
             nonStopTcpClient.NonStopConnectAsyn();
 

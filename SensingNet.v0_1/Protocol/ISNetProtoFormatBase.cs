@@ -17,7 +17,7 @@ namespace SensingNet.v0_1.Protocol
         bool IsReceiving();
         bool HasMessage();
         bool TryDequeueMsg(out object msg);
-
+        int Count();
 
 
 

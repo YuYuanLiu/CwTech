@@ -13,8 +13,6 @@ namespace SensingNet.v0_1.Protocol
     public interface ISNetProtoConnectBase : ICtkProtocolNonStopConnect, IDisposable
     {
 
-        void CheckConnecter();
-        
 
 
 

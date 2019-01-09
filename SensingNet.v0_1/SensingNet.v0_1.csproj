@@ -83,6 +83,8 @@
     <Compile Include="Protocol\SNetEnumProtoConnect.cs" />
     <Compile Include="Protocol\SNetEnumProtoSession.cs" />
     <Compile Include="Protocol\SNetEnumProtoFormat.cs" />
+    <Compile Include="Simulate\SNetSimulateSensorDeviceClient.cs" />
+    <Compile Include="Simulate\SNetSimulateCmdClient.cs" />
     <Compile Include="SNetEnumHandlerStatus.cs" />
     <Compile Include="Framework\SNetSensorDeviceMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -124,6 +126,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Compile Include="Simulate\SNetSimulateSecsClient.cs" />
+    <Compile Include="Simulate\SNetSimulateVibration.cs" />
     <None Include="Tools\place_these_executables_in_same_folder_as_Cudafy.NET.dll_" />
   </ItemGroup>
   <ItemGroup>

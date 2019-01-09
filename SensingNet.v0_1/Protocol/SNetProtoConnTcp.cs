@@ -65,12 +65,13 @@ namespace SensingNet.v0_1.Protocol
         public void ReloadListener()
         {
             if (this.listener != null) this.listener.Disconnect();
-            this.listener = new CToolkit.v0_1.Net.CtkNonStopTcpListener();
+            this.listener = new CtkNonStopTcpListener();
             this.listener.localEP = this.local;
             this.listener.evtFirstConnect += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
                 this.ActiveWorkClient = ea.workClient;
+                //this.listener.CleanExclude(this.activeWorkTcpClient);   
                 this.OnFirstConnect(e);
             };
             this.listener.evtFailConnect += (sender, e) => this.OnFailConnect(e);
@@ -116,6 +117,7 @@ namespace SensingNet.v0_1.Protocol
             if (this.IsRemoteConnected || this.IsOpenRequesting) return;
 
             var now = DateTime.Now;
+            //上次要求連線在10秒內也不會再連線
             if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
             this.timeOfBeginConnect = now;
 

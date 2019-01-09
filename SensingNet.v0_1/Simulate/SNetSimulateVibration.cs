@@ -10,14 +10,24 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SensorNetwork.Simulate
+namespace SensingNet.v0_1.Simulate
 {
-    public class SsnwSimulateVibration : IDisposable
+    public class SNetSimulateVibration : IDisposable
     {
         public CtkNonStopTcpListener listener;
 
         public void RunAsyn()
         {
+
+            CtkLog.RegisterAllLogger((ss, ea) =>
+            {
+                var now = DateTime.Now;
+                var sb = new StringBuilder();
+                sb.AppendFormat("[{0}] ", now.ToString("yyyyMMdd HH:mm:ss"));
+                sb.AppendFormat("{0} ", ea.Message);
+                sb.AppendFormat("{0}", ea.Exception.StackTrace);
+                Write(sb.ToString());
+            });
 
 
             var len = 512;
@@ -33,10 +43,18 @@ namespace SensorNetwork.Simulate
             this.listener = new CtkNonStopTcpListener("127.0.0.1", 5003);
             listener.NonStopConnectAsyn();
 
+            listener.evtFirstConnect += (ss, ee) =>
+            {
+                var myea = ee as CtkNonStopTcpStateEventArgs;
+                var sb = new StringBuilder();
+                sb.Append("evtFirstConnect:\n");
+                sb.Append(this.CmdState());
+                this.Write(sb.ToString());
+            };
             listener.evtDataReceive += (ss, ee) =>
             {
                 var myea = ee as CtkNonStopTcpStateEventArgs;
-                var msg = Encoding.UTF8.GetString(myea.buffer, myea.offset, myea.length);
+                var msg = Encoding.UTF8.GetString(myea.Buffer, myea.Offset, myea.Length);
                 if (!msg.Contains("\n")) return;
                 var sb = new StringBuilder();
                 sb.Append("cmd -respData -svid 0 -data");
@@ -47,6 +65,7 @@ namespace SensorNetwork.Simulate
 
                 var limit = ts.Ticks * 1.0 / TimeSpan.TicksPerSecond * sampleRate;
                 if (limit <= 0) limit = 1;
+                if (ts.TotalMilliseconds > 500) limit = 1;
 
                 for (var idx = 0; idx < limit; idx++)
                 {
@@ -68,18 +87,13 @@ namespace SensorNetwork.Simulate
             var cmd = "";
             do
             {
-                WriteEnd();
+                Write(this.GetType().Name);
                 cmd = Console.ReadLine();
 
                 switch (cmd)
                 {
                     case "state":
-                        break;
-                    case "count":
-                        WriteStart();
-                        Write("Connected Count={0}", this.listener.ConnectCount());
-                        Write("Client Count={0}", this.listener.TcpClientList);
-                        WriteEnd();
+                        Write(this.CmdState());
                         break;
                 }
 
@@ -89,17 +103,19 @@ namespace SensorNetwork.Simulate
             this.Stop();
         }
 
-
-        void WriteStart()
+        string CmdState()
         {
-            Console.WriteLine();
+            var sb = new StringBuilder();
+            sb.AppendFormat("Connected Count={0}\n", this.listener.ConnectCount());
+            sb.AppendFormat("Client Count={0}\n", this.listener.TcpClientList.Count);
+            return sb.ToString();
         }
+
+
         void Write(string msg, params object[] arg)
         {
+            Console.WriteLine();
             Console.WriteLine(msg, arg);
-        }
-        void WriteEnd()
-        {
             Console.Write(">");
         }
 
@@ -151,12 +167,7 @@ namespace SensorNetwork.Simulate
 
         protected virtual void DisposeSelf()
         {
-            if (this.listener != null)
-            {
-                using (this.listener)
-                    this.listener.AbortNonStopConnect();
-            }
-
+            this.Stop();
         }
 
         protected virtual void DisposeUnmanaged()

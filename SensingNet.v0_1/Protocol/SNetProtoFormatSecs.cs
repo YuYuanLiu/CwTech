@@ -21,17 +21,21 @@ namespace SensingNet.v0_1.Protocol
         ~SNetProtoFormatSecs() { this.Dispose(false); }
 
 
+        #region ISNetProtoFormatBase
 
+        int ISNetProtoFormatBase.Count() { return this.Count; }
+
+        public bool HasMessage() { return this.Count > 0; }
+
+        public bool IsReceiving()
+        {
+            return this.hsmsMsgRcv.GetMsgBufferLength() > 0;
+        }
 
         public void ReceiveBytes(byte[] buffer, int offset, int length)
         {
             this.hsmsMsgRcv.Receive(buffer, offset, length);
         }
-        public bool IsReceiving()
-        {
-            return this.hsmsMsgRcv.GetMsgBufferLength() > 0;
-        }
-        public bool HasMessage() { return this.Count > 0; }
         public bool TryDequeueMsg(out object msg)
         {
             CtkHsmsMessage mymsg = null;
@@ -39,8 +43,8 @@ namespace SensingNet.v0_1.Protocol
             msg = mymsg;
             return flag;
         }
+        #endregion
 
-    
 
 
         #region IDisposable
@@ -81,16 +85,15 @@ namespace SensingNet.v0_1.Protocol
 
         }
 
-        void DisposeUnmanaged()
-        {
-
-        }
-
         void DisposeSelf()
         {
 
         }
 
+        void DisposeUnmanaged()
+        {
+
+        }
         #endregion
 
     }
