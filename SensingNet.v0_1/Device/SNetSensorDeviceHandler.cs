@@ -1,4 +1,4 @@
-﻿using CToolkit;
+using CToolkit;
 using CToolkit.v0_1.Net;
 using CToolkit.v0_1.Protocol;
 using CToolkit.v0_1;
@@ -12,6 +12,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CToolkit.v0_1.Threading;
 
 namespace SensingNet.v0_1.Device
 {
@@ -105,15 +106,6 @@ namespace SensingNet.v0_1.Device
 
 
 
-        #region Event
-        public event EventHandler<SNetSignalEventArgs> evtSignalCapture;
-        void OnSignalCapture(SNetSignalEventArgs e)
-        {
-            if (evtSignalCapture == null) return;
-            this.evtSignalCapture(this, e);
-        }
-        #endregion
-
 
 
         #region ICtkContextFlowRun
@@ -153,12 +145,14 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumProtoConnect.Rs232:
                     this.ProtoConn = new SNetProtoConnRs232(this.Config.SerialPortConfig);
                     break;
-                default:
+                case SNetEnumProtoConnect.Custom:
                     //由使用者自己實作
                     break;
+                default:
+                    throw new ArgumentException("ProtoConn");
             }
 
-            if (this.ProtoConn == null) throw new ArgumentException("ProtoConn");
+            
             this.ProtoConn.evtDataReceive += (sender, e) =>
             {
                 var ea = e as CtkProtocolBufferEventArgs;
@@ -177,11 +171,15 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumProtoFormat.SensingNetCmd:
                     this.ProtoFormat = new SNetProtoFormatSensingNetCmd();
                     break;
-                default:
+                case SNetEnumProtoFormat.Secs:
+                    this.ProtoFormat = new SNetProtoFormatSecs();
+                    break;
+                case SNetEnumProtoFormat.Custom:
                     //由使用者自己實作
                     break;
+                default:
+                    throw new ArgumentException("必須指定ProtoFormat");
             }
-            if (this.ProtoFormat == null) throw new ArgumentException("必須指定ProtoFormat");
 
 
 
@@ -193,11 +191,12 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumProtoSession.Secs:
                     this.ProtoSession = new SNetProtoSessionSecs();
                     break;
-                default:
+                case SNetEnumProtoSession.Custom:
                     //由使用者自己實作
                     break;
+                default:
+                    throw new ArgumentException("必須指定ProtoSession");
             }
-            if (this.ProtoSession == null) throw new ArgumentException("必須指定ProtoFormat");
 
             switch (this.Config.SignalTran)
             {
@@ -207,14 +206,12 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumSignalTran.Secs001:
                     this.SignalTran = new SNetSignalTranSecs001();
                     break;
-                default:
+                 case SNetEnumSignalTran.Custom:
                     //由使用者自己實作
                     break;
+                default:
+                    throw new ArgumentException("必須指定ProtoFormat");
             }
-            if (this.ProtoSession == null) throw new ArgumentException("必須指定ProtoFormat");
-
-
-
 
 
             return 0;
@@ -255,16 +252,26 @@ namespace SensingNet.v0_1.Device
             }
             return 0;
         }
+
         #endregion
 
+
+        #region Event
+        public event EventHandler<SNetSignalEventArgs> evtSignalCapture;
+        void OnSignalCapture(SNetSignalEventArgs e)
+        {
+            if (evtSignalCapture == null) return;
+            this.evtSignalCapture(this, e);
+        }
+        #endregion
 
 
         #region IDisposable
         // Flag: Has Dispose already been called?
-        bool disposed = false;
+        protected bool disposed = false;
 
         // Public implementation of Dispose pattern callable by consumers.
-        public void Dispose()
+        public virtual void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
@@ -292,21 +299,26 @@ namespace SensingNet.v0_1.Device
 
 
 
-        void DisposeManaged()
+        protected virtual void DisposeManaged()
         {
         }
-        void DisposeUnmanaged()
+        protected virtual void DisposeUnmanaged()
         {
 
         }
-        void DisposeSelf()
+        protected virtual void DisposeSelf()
         {
+            this.CfIsRunning = false;
+
             if (this.runTask != null)
+            {
+                SpinWait.SpinUntil(() => this.runTask.IsCompleted || this.runTask.IsFaulted || this.runTask.IsCanceled, 3000);
                 this.runTask.Dispose();
+            }
             if (this.ProtoConn != null)
                 this.ProtoConn.Dispose();
 
-            CtkEventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
         }
         #endregion
 
