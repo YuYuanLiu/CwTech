@@ -1,0 +1,170 @@
+using CToolkit.v0_1;
+using CToolkit.v0_1.Logging;
+using CToolkit.v0_1.Net;
+using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra.Double;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace SensorNetwork.Simulate
+{
+    public class SsnwSimulateVibration : IDisposable
+    {
+        public CtkNonStopTcpListener listener;
+
+        public void RunAsyn()
+        {
+
+
+            var len = 512;
+            var sampleRate = 512.0;
+
+            var sin1 = new DenseVector(Generate.Sinusoidal(len, sampleRate, 10.0, 1.0));
+            var sin2 = new DenseVector(Generate.Sinusoidal(len, sampleRate, 60.0, 0.5));
+            var wave = sin1 + sin2;
+            var waveIndex = 0;
+
+
+            DateTime? prevTime = DateTime.Now;
+            this.listener = new CtkNonStopTcpListener("127.0.0.1", 5003);
+            listener.NonStopConnectAsyn();
+
+            listener.evtDataReceive += (ss, ee) =>
+            {
+                var myea = ee as CtkNonStopTcpStateEventArgs;
+                var msg = Encoding.UTF8.GetString(myea.buffer, myea.offset, myea.length);
+                if (!msg.Contains("\n")) return;
+                var sb = new StringBuilder();
+                sb.Append("cmd -respData -svid 0 -data");
+
+                var now = DateTime.Now;
+                var ts = now - prevTime.Value;
+                prevTime = now;
+
+                var limit = ts.Ticks * 1.0 / TimeSpan.TicksPerSecond * sampleRate;
+                if (limit <= 0) limit = 1;
+
+                for (var idx = 0; idx < limit; idx++)
+                {
+                    sb.AppendFormat(" {0}", wave[waveIndex++]);
+                    if (waveIndex >= wave.Count) waveIndex = 0;
+                }
+                sb.AppendLine();
+
+                myea.WriteMsg(sb.ToString());
+
+            };
+
+
+
+        }
+
+        public void CommandLine()
+        {
+            var cmd = "";
+            do
+            {
+                WriteEnd();
+                cmd = Console.ReadLine();
+
+                switch (cmd)
+                {
+                    case "state":
+                        break;
+                    case "count":
+                        WriteStart();
+                        Write("Connected Count={0}", this.listener.ConnectCount());
+                        Write("Client Count={0}", this.listener.TcpClientList);
+                        WriteEnd();
+                        break;
+                }
+
+
+            } while (string.Compare(cmd, "exit", true) != 0);
+
+            this.Stop();
+        }
+
+
+        void WriteStart()
+        {
+            Console.WriteLine();
+        }
+        void Write(string msg, params object[] arg)
+        {
+            Console.WriteLine(msg, arg);
+        }
+        void WriteEnd()
+        {
+            Console.Write(">");
+        }
+
+
+        public void Stop()
+        {
+            this.listener.AbortNonStopConnect();
+        }
+
+
+        #region IDisposable
+        // Flag: Has Dispose already been called?
+        protected bool disposed = false;
+
+        // Public implementation of Dispose pattern callable by consumers.
+        public virtual void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                // Free any other managed objects here.
+                //
+                this.DisposeManaged();
+            }
+
+            // Free any unmanaged objects here.
+            //
+            this.DisposeUnmanaged();
+
+            this.DisposeSelf();
+
+            disposed = true;
+        }
+
+
+
+        protected virtual void DisposeManaged()
+        {
+        }
+
+        protected virtual void DisposeSelf()
+        {
+            if (this.listener != null)
+            {
+                using (this.listener)
+                    this.listener.AbortNonStopConnect();
+            }
+
+        }
+
+        protected virtual void DisposeUnmanaged()
+        {
+
+        }
+        #endregion
+
+
+    }
+}
