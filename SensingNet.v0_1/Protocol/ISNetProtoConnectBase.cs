@@ -1,4 +1,4 @@
-﻿using CToolkit.v0_1.Net;
+using CToolkit.v0_1.Net;
 using CToolkit.v0_1.Protocol;
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ namespace SensingNet.v0_1.Protocol
     public interface ISNetProtoConnectBase : ICtkProtocolNonStopConnect, IDisposable
     {
 
+        void CheckConnecter();
         
 
 
