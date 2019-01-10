@@ -9,7 +9,7 @@ namespace SensingNet.v0_1.QSecs
     public class SNetQSecsRcvDataEventArgs : EventArgs
     {
         public SNetQSecsHandler handler;
-        public HsmsMessage message;
+        public CtkHsmsMessage message;
 
     }
 }

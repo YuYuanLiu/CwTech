@@ -12,40 +12,110 @@ using System.Threading;
 
 namespace SensingNet.MyTest
 {
+
+    class EventClass
+    {
+        public event EventHandler evtTest;
+        public void OnTest()
+        {
+            if (this.evtTest == null) return;
+            this.evtTest(this, null);
+
+        }
+    }
+
+
+    class UseClass : IDisposable
+    {
+
+        ~UseClass() { this.Dispose(false); }
+
+        public string name;
+        public void Use(Object sender, EventArgs ea)
+        {
+            System.Diagnostics.Debug.WriteLine("Use " + this.name);
+        }
+        #region IDisposable
+        // Flag: Has Dispose already been called?
+        bool disposed = false;
+
+        // Public implementation of Dispose pattern callable by consumers.
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                // Free any other managed objects here.
+                //
+                this.DisposeManaged();
+            }
+
+            // Free any unmanaged objects here.
+            //
+            this.DisposeUnmanaged();
+            this.DisposeSelf();
+            disposed = true;
+        }
+
+
+
+        void DisposeManaged()
+        {
+        }
+        void DisposeUnmanaged()
+        {
+
+        }
+        void DisposeSelf()
+        {
+
+        }
+        #endregion
+
+    }
+
+
     [TestClass]
     public class UtTest
     {
-
-
         [TestMethod]
         public void TestMethod()
         {
-            var tasks = new List<Task>();
+            var useA = new UseClass() { name = "A" };
+              var evtCls = new EventClass();
+            evtCls.evtTest += useA.Use;
 
-            var listener = new CToolkit.v0_1.Net.CtkNonStopTcpListener("127.0.0.1", 5003);
-            tasks.Add(Task.Run(() =>
-            {
-                listener.NonStopConnectAsyn();
-            }));
+            TestUse(evtCls);
 
-            var client = new CToolkit.v0_1.Net.CtkNonStopTcpClient("127.0.0.1", 5003);
-            var flagClient = false;
-            tasks.Add(Task.Run(() =>
-            {
-                client.ConnectIfNo();
-
-                SpinWait.SpinUntil(() => client.IsRemoteConnected);
-
-                SpinWait.SpinUntil(() => flagClient);
-
-                client.Disconnect();
+            evtCls.OnTest();
 
 
-            }));
 
-            var flag = false;
-            SpinWait.SpinUntil(() => flag);
 
+
+        }
+
+
+        void TestUse(EventClass evtCls)
+        {
+            var useB = new UseClass() { name = "B" };
+            evtCls.evtTest += useB.Use;
+            using (useB) { }
+
+
+            evtCls.evtTest -= useB.Use;
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
 
 
         }

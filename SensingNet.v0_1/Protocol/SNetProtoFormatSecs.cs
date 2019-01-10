@@ -13,34 +13,43 @@ namespace SensingNet.v0_1.Protocol
     /// <summary>
     /// 客戶要求的Secs Format
     /// </summary>
-    public class SNetProtoFormatSecs : ConcurrentQueue<HsmsMessage>, ISNetProtoFormatBase
+    public class SNetProtoFormatSecs : ConcurrentQueue<CtkHsmsMessage>, ISNetProtoFormatBase
     {
 
-        HsmsMessageReceiver hsmsMsgRcv = new HsmsMessageReceiver();
+        CtkHsmsMessageReceiver hsmsMsgRcv = new CtkHsmsMessageReceiver();
 
         ~SNetProtoFormatSecs() { this.Dispose(false); }
 
 
+        #region ISNetProtoFormatBase
 
+        int ISNetProtoFormatBase.Count() { return this.Count; }
 
-        public void ReceiveBytes(byte[] buffer, int offset, int length)
-        {
-            this.hsmsMsgRcv.Receive(buffer, offset, length);
-        }
+        public bool HasMessage() { return this.Count > 0; }
+
         public bool IsReceiving()
         {
             return this.hsmsMsgRcv.GetMsgBufferLength() > 0;
         }
-        public bool HasMessage() { return this.Count > 0; }
+
+        public void ReceiveBytes(byte[] buffer, int offset, int length)
+        {
+            this.hsmsMsgRcv.Receive(buffer, offset, length);
+            while (this.hsmsMsgRcv.Count > 0)
+            {
+                var msg = this.hsmsMsgRcv.Dequeue();
+                this.Enqueue(msg);
+            }
+        }
         public bool TryDequeueMsg(out object msg)
         {
-            HsmsMessage mymsg = null;
+            CtkHsmsMessage mymsg = null;
             var flag = this.TryDequeue(out mymsg);
             msg = mymsg;
             return flag;
         }
+        #endregion
 
-    
 
 
         #region IDisposable
@@ -81,16 +90,15 @@ namespace SensingNet.v0_1.Protocol
 
         }
 
-        void DisposeUnmanaged()
-        {
-
-        }
-
         void DisposeSelf()
         {
 
         }
 
+        void DisposeUnmanaged()
+        {
+
+        }
         #endregion
 
     }

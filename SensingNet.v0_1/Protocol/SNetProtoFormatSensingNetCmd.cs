@@ -15,8 +15,19 @@ namespace SensingNet.v0_1.Protocol
 
 
 
-        #region IProtoBase
+        #region ISNetProtoFormatBase
 
+        int ISNetProtoFormatBase.Count() { return this.Count; }
+
+        public bool HasMessage()
+        {
+            return this.Count > 0;
+        }
+
+        public bool IsReceiving()
+        {
+            return this.rcvSb.Length > 0;
+        }
 
         public void ReceiveBytes(byte[] buffer, int offset, int length)
         {
@@ -37,14 +48,6 @@ namespace SensingNet.v0_1.Protocol
                 this.rcvSb.Clear();
                 this.rcvSb.Append(content);
             }
-        }
-        public bool IsReceiving()
-        {
-            return this.rcvSb.Length > 0;
-        }
-        public bool HasMessage()
-        {
-            return this.Count > 0;
         }
         public bool TryDequeueMsg(out object msg)
         {
@@ -98,18 +101,14 @@ namespace SensingNet.v0_1.Protocol
 
         }
 
-        void DisposeUnmanaged()
-        {
-
-        }
-
         void DisposeSelf()
         {
         }
 
+        void DisposeUnmanaged()
+        {
 
-
-
+        }
         #endregion
 
     }

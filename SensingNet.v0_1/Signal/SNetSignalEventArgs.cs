@@ -13,10 +13,11 @@ namespace SensingNet.v0_1.Signal
         public int RemotePort;
         public string Name;
 
-        public UInt32? Svid;
+        public UInt64? Svid;
         public List<double> Data = new List<double>();
         public List<double> CalibrateData = new List<double>();
         public DateTime RcvDateTime;
+        public SNetSignalCfg SignalConfig;
 
     }
 }

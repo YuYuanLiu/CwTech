@@ -65,12 +65,13 @@ namespace SensingNet.v0_1.Protocol
         public void ReloadListener()
         {
             if (this.listener != null) this.listener.Disconnect();
-            this.listener = new CToolkit.v0_1.Net.CtkNonStopTcpListener();
+            this.listener = new CtkNonStopTcpListener();
             this.listener.localEP = this.local;
             this.listener.evtFirstConnect += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
                 this.ActiveWorkClient = ea.workClient;
+                //this.listener.CleanExclude(this.activeWorkTcpClient);   
                 this.OnFirstConnect(e);
             };
             this.listener.evtFailConnect += (sender, e) => this.OnFailConnect(e);
@@ -116,6 +117,7 @@ namespace SensingNet.v0_1.Protocol
             if (this.IsRemoteConnected || this.IsOpenRequesting) return;
 
             var now = DateTime.Now;
+            //上次要求連線在10秒內也不會再連線
             if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
             this.timeOfBeginConnect = now;
 
@@ -152,9 +154,9 @@ namespace SensingNet.v0_1.Protocol
                 var buff = Encoding.UTF8.GetBytes(msg as string);
                 this.WriteBytes(buff, 0, buff.Length);
             }
-            else if (msg.GetType() == typeof(HsmsMessage))
+            else if (msg.GetType() == typeof(CtkHsmsMessage))
             {
-                var secsMsg = msg as HsmsMessage;
+                var secsMsg = msg as CtkHsmsMessage;
                 this.WriteBytes(secsMsg.ToBytes());
             }
             else 
@@ -244,7 +246,7 @@ namespace SensingNet.v0_1.Protocol
         void DisposeSelf()
         {
             this.Disconnect();
-            CtkEventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter( this, (dlgt) => true);
         }
 
         #endregion

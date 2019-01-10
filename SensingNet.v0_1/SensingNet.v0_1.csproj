@@ -32,20 +32,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CToolkit.v0_1">
+    <Reference Include="CToolkit.v0_1, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLL\CToolkit.v0.1\CToolkit.v0_1.dll</HintPath>
     </Reference>
     <Reference Include="Cudafy.NET, Version=1.29.5576.13786, Culture=neutral, PublicKeyToken=63a4c9931616906b, processorArchitecture=MSIL">
-      <HintPath>..\..\..\chidev.csharp\ChiDev\packages\CUDAfy.NET.1.29.5576.13786\lib\net40\Cudafy.NET.dll</HintPath>
+      <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\CUDAfy.NET.1.29.5576.13786\lib\net40\Cudafy.NET.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Filtering, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\chidev.csharp\ChiDev\packages\MathNet.Filtering.0.6.0\lib\net40\MathNet.Filtering.dll</HintPath>
+      <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\MathNet.Filtering.0.6.0\lib\net40\MathNet.Filtering.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\chidev.csharp\ChiDev\packages\MathNet.Numerics.4.7.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\MathNet.Numerics.4.7.0\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\chidev.csharp\ChiDev\packages\Newtonsoft.Json.12.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\Newtonsoft.Json.12.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -58,24 +60,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dsp\Block\SNetDspBlockDiagram.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockFilter_PassFilter.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetSecondEventArg.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetEventArg.cs" />
+    <Compile Include="Dsp\SNetDspEnumInvokeResult.cs" />
     <Compile Include="Dsp\Block\ISNetDspBlock.cs" />
-    <Compile Include="Dsp\TimeSignal\ISNetDspTimeSignal.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockFilter.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockEventArg.cs" />
     <Compile Include="Dsp\TimeSignal\ISNetDspTimeSignalSet.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockBase.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetSecondEventArg.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockTimeSignalEventArg.cs" />
     <Compile Include="Dsp\SNetDspLayoutGraph.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockSeqDataCollector.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockBasicStatistics.cs" />
     <Compile Include="Dsp\TimeSignal\SNetDspTimeSignalSetMilliSecond.cs" />
     <Compile Include="Dsp\TimeSignal\SNetDspTimeSignalSetSecond.cs" />
-    <Compile Include="Dsp\TimeSignal\SNetDspTimeSignalSecond.cs" />
-    <Compile Include="Dsp\SNetEnumDspMethod.cs" />
-    <Compile Include="Dsp\SNetEnumDspPeriod.cs" />
+    <Compile Include="Dsp\SNetDspEnumMethod.cs" />
+    <Compile Include="Dsp\SNetDspEnumPeriod.cs" />
     <Compile Include="Framework\SNetAlarmMgr.cs" />
     <Compile Include="Framework\SNetDspMgr.cs" />
     <Compile Include="Protocol\SNetEnumProtoConnect.cs" />
     <Compile Include="Protocol\SNetEnumProtoSession.cs" />
     <Compile Include="Protocol\SNetEnumProtoFormat.cs" />
+    <Compile Include="Simulate\SNetSimulateSensorDeviceClient.cs" />
+    <Compile Include="Simulate\SNetSimulateCmdClient.cs" />
     <Compile Include="SNetEnumHandlerStatus.cs" />
     <Compile Include="Framework\SNetSensorDeviceMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,7 +101,6 @@
     <Compile Include="QSecs\SNetQSecsRcvDataEventArgs.cs" />
     <Compile Include="QSecs\SNetQSecsCfg.cs" />
     <Compile Include="QSecs\SNetQSecsHandler.cs" />
-    <Compile Include="QSecs\SNetQSecsHandlerSvidData.cs" />
     <Compile Include="QSecs\SNetQSvidCfg.cs" />
     <Compile Include="Framework\SNetQSecsMgr.cs" />
     <Compile Include="SNetException.cs" />
@@ -116,9 +124,10 @@
     <Compile Include="Signal\SNetSignalTranSensingNet.cs" />
     <Compile Include="SNetUtil.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
+    <Compile Include="Simulate\SNetSimulateSecsClient.cs" />
+    <Compile Include="Simulate\SNetSimulateVibration.cs" />
     <None Include="Tools\place_these_executables_in_same_folder_as_Cudafy.NET.dll_" />
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,7 @@ namespace SensingNet.v0_0.Protocol
     public class ProtoSecs : ProtoBase, IDisposable
     {
 
-        CToolkit.v0_1.Secs.HsmsMessageReceiver hsmsMsgRcv = new CToolkit.v0_1.Secs.HsmsMessageReceiver();
+        CToolkit.v0_1.Secs.CtkHsmsMessageReceiver hsmsMsgRcv = new CToolkit.v0_1.Secs.CtkHsmsMessageReceiver();
 
 
         ~ProtoSecs() { this.Dispose(false); }
@@ -20,9 +20,9 @@ namespace SensingNet.v0_0.Protocol
 
         public override void FirstConnect(Stream stream)
         {
-            var txMsg = HsmsMessage.CtrlMsg_SelectReq();
+            var txMsg = CtkHsmsMessage.CtrlMsg_SelectReq();
             this.WriteMsg(stream, txMsg.ToBytes());
-            txMsg = HsmsMessage.CtrlMsg_LinktestReq();
+            txMsg = CtkHsmsMessage.CtrlMsg_LinktestReq();
             this.WriteMsg(stream, txMsg.ToBytes());
 
 
@@ -55,12 +55,12 @@ namespace SensingNet.v0_0.Protocol
                 switch (msg.header.SType)
                 {
                     case 1:
-                        this.WriteMsg(stream, HsmsMessage.CtrlMsg_SelectRsp(0).ToBytes());
+                        this.WriteMsg(stream, CtkHsmsMessage.CtrlMsg_SelectRsp(0).ToBytes());
                         continue;
                     case 2:
                         continue;
                     case 5:
-                        this.WriteMsg(stream, HsmsMessage.CtrlMsg_LinktestRsp().ToBytes());
+                        this.WriteMsg(stream, CtkHsmsMessage.CtrlMsg_LinktestRsp().ToBytes());
                         continue;
                     case 6:
                         continue;
@@ -71,7 +71,7 @@ namespace SensingNet.v0_0.Protocol
 
                 try
                 {
-                    var list = msg.rootNode as CToolkit.v0_1.Secs.SecsIINodeList;
+                    var list = msg.rootNode as CToolkit.v0_1.Secs.CtkSecsIINodeList;
 
                     for (int idx = 0;
                         idx < list.Data.Count && idx < this.dConfig.SignalCfgList.Count;
@@ -82,7 +82,7 @@ namespace SensingNet.v0_0.Protocol
                         var scfg = this.dConfig.SignalCfgList[idx];
                         ea.DeviceSvid = scfg.DeviceSvid;
 
-                        var data = list.Data[idx] as CToolkit.v0_1.Secs.SecsIINodeASCII;
+                        var data = list.Data[idx] as CToolkit.v0_1.Secs.CtkSecsIINodeASCII;
                         if (data.Data.Count <= 0) continue;
 
                         ea.Data = new List<double>();
@@ -109,16 +109,16 @@ namespace SensingNet.v0_0.Protocol
         public override void WriteMsg_TxDataReq(Stream stream)
         {
 
-            var txMsg = new CToolkit.v0_1.Secs.HsmsMessage();
+            var txMsg = new CToolkit.v0_1.Secs.CtkHsmsMessage();
             txMsg.header.StreamId = 1;
             txMsg.header.FunctionId = 3;
             txMsg.header.WBit = true;
-            var sList = new CToolkit.v0_1.Secs.SecsIINodeList();
+            var sList = new CToolkit.v0_1.Secs.CtkSecsIINodeList();
             //var sSvid = new CToolkit.v0_1.Secs.SecsIINodeInt64();
 
             foreach (var scfg in this.dConfig.SignalCfgList)
             {
-                var sSvid = new CToolkit.v0_1.Secs.SecsIINodeUInt32();
+                var sSvid = new CToolkit.v0_1.Secs.CtkSecsIINodeUInt32();
                 sSvid.Data.Add(scfg.DeviceSvid);
                 sList.Data.Add(sSvid);
             }

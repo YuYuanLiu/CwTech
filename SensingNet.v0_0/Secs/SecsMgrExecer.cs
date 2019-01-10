@@ -18,7 +18,7 @@ namespace SensingNet.v0_0.Secs
 
 
         public String DefaultConfigsFolder = "Config/QSecsConfigs/";
-        public ConfigCollector<QSecsCfg> configs = new ConfigCollector<QSecsCfg>();
+        public CtkConfigCollector<QSecsCfg> configs = new CtkConfigCollector<QSecsCfg>();
         public Dictionary<String, QSecsHandler> handlers = new Dictionary<String, QSecsHandler>();
 
         ~SecsMgrExecer() { this.Dispose(false); }
@@ -155,7 +155,7 @@ namespace SensingNet.v0_0.Secs
                     if (hdl.status == EnumHandlerStatus.None)
                     {
                         hdl.CfInit();
-                        hdl.evtReceiveData += delegate (object ss, HsmsConnector_EventArgsRcvData ea)
+                        hdl.evtReceiveData += delegate (object ss, CtkHsmsConnectorRcvDataEventArg ea)
                         {
                             this.OnReceiveData(new EventArgsSecsRcvData()
                             {

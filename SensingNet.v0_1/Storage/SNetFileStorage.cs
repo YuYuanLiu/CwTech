@@ -96,8 +96,12 @@ namespace SensingNet.v0_1.Storage
         void CloseStream(ref StreamWriter sw)
         {
             if (sw == null) return;
-            using (sw)
-                sw.Close();
+            try
+            {
+                using (sw)
+                    sw.Close();
+            }
+            catch (System.ObjectDisposedException) { }
             sw = null;
         }
 
@@ -203,7 +207,7 @@ namespace SensingNet.v0_1.Storage
         {
             this.CloseStream(ref this.fwriter);
 
-            CtkEventUtil.RemoveEventHandlersFrom(delegate (Delegate dlgt) { return true; }, this);
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
         }
 
         #endregion

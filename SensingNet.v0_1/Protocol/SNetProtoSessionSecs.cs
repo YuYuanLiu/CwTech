@@ -11,18 +11,18 @@ namespace SensingNet.v0_1.Protocol
 
         public bool ProcessSession(ISNetProtoConnectBase protoConn, object msg)
         {
-            var secsMsg = msg as HsmsMessage;
+            var secsMsg = msg as CtkHsmsMessage;
             if (secsMsg == null) throw new ArgumentException("不正確的msg型態");
 
             switch (secsMsg.header.SType)
             {
                 case 1:
-                    protoConn.WriteBytes(HsmsMessage.CtrlMsg_SelectRsp(0).ToBytes());
+                    protoConn.WriteBytes(CtkHsmsMessage.CtrlMsg_SelectRsp(0).ToBytes());
                     return true;
                 case 2:
                     return true;
                 case 5:
-                    protoConn.WriteBytes(HsmsMessage.CtrlMsg_LinktestRsp().ToBytes());
+                    protoConn.WriteBytes(CtkHsmsMessage.CtrlMsg_LinktestRsp().ToBytes());
                     return true;
                 case 6:
                     return true;
@@ -36,9 +36,9 @@ namespace SensingNet.v0_1.Protocol
         /// <param name="protoConn">並非所有通訊都是繼續自Stream, 因此請實作IProtoConnectBase</param>
         public void FirstConnect(ISNetProtoConnectBase protoConn)
         {
-            var txMsg = HsmsMessage.CtrlMsg_SelectReq();
+            var txMsg = CtkHsmsMessage.CtrlMsg_SelectReq();
             protoConn.WriteBytes(txMsg.ToBytes());
-            txMsg = HsmsMessage.CtrlMsg_LinktestReq();
+            txMsg = CtkHsmsMessage.CtrlMsg_LinktestReq();
             protoConn.WriteBytes(txMsg.ToBytes());
         }
 

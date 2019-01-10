@@ -25,10 +25,10 @@ namespace SensingNet.v0_1.Device
         public ISNetSignalTranBase SignalTran;//解譯
         public SNetEnumHandlerStatus Status = SNetEnumHandlerStatus.None;
 
+
         AutoResetEvent areMsg = new AutoResetEvent(false);
         DateTime prevAckTime = DateTime.Now;
-        Task<int> runTask;
-        CancellationTokenSource runTaskToken = new CancellationTokenSource();
+        CtkCancelTask taskRun;
         public SNetSensorDeviceHandler() { }
         ~SNetSensorDeviceHandler() { this.Dispose(false); }
 
@@ -37,7 +37,10 @@ namespace SensingNet.v0_1.Device
         {
             try
             {
-                if (!this.ProtoConn.IsRemoteConnected) { Thread.Sleep(1000); return 0; }
+
+                if (!SpinWait.SpinUntil(() => !this.CfIsRunning || this.ProtoConn.IsRemoteConnected, 1000)) return 0;
+                if (!this.CfIsRunning) return 0;//若不再執行->return 0
+
 
                 if (this.Config.IsActivelyTx)
                 {
@@ -50,7 +53,13 @@ namespace SensingNet.v0_1.Device
                     //等待下次要求資料的間隔
                     var now = DateTime.Now;
                     if (this.Config.TxInterval > 0)
-                        while ((now - prevAckTime).TotalMilliseconds < this.Config.TxInterval) now = DateTime.Now;
+                    {
+                        while ((now - prevAckTime).TotalMilliseconds < this.Config.TxInterval)
+                        {
+                            if (!this.CfIsRunning) return 0;//若不再執行->直接return
+                            now = DateTime.Now;
+                        }
+                    }
                     prevAckTime = now;
 
                     var reqDataMsg = this.SignalTran.CreateMsgDataReq(this.Config.SignalCfgList);
@@ -60,8 +69,6 @@ namespace SensingNet.v0_1.Device
 
                 //收到資料 或 Timeout 就往下走
                 this.areMsg.WaitOne(this.Config.TimeoutResponse);
-
-
             }
             catch (Exception ex) { CtkLog.Write(ex); }
             return 0;
@@ -98,6 +105,7 @@ namespace SensingNet.v0_1.Device
                         eaSignal.CalibrateData.Add(signal * signalCfg.CalibrateUserScale + signalCfg.CalibrateUserOffset);//轉入User Define
                     }
 
+                    eaSignal.SignalConfig = signalCfg;
                     eaSignal.RcvDateTime = DateTime.Now;
                     this.OnSignalCapture(eaSignal);
                 }
@@ -120,13 +128,25 @@ namespace SensingNet.v0_1.Device
             RealExec();
             return 0;
         }
-
         public virtual int CfFree()
         {
-            this.Dispose(false);
+            this.CfIsRunning = false;
+            this.areMsg.Set();//若在等訊號也通知結束等待
+
+            if (this.taskRun != null)
+            {
+                this.taskRun.Cancel();//取消執行Task
+                this.taskRun.Wait(1000);
+                this.taskRun.Dispose();
+            }
+            if (this.ProtoConn != null)
+            {
+                this.ProtoConn.Disconnect();
+                this.ProtoConn.Dispose();
+            }
+
             return 0;
         }
-
         public virtual int CfInit()
         {
             if (this.Config == null) throw new SNetException("沒有設定參數");
@@ -152,11 +172,10 @@ namespace SensingNet.v0_1.Device
                     throw new ArgumentException("ProtoConn");
             }
 
-            
             this.ProtoConn.evtDataReceive += (sender, e) =>
             {
                 var ea = e as CtkProtocolBufferEventArgs;
-                this.ProtoFormat.ReceiveBytes(ea.buffer, ea.offset, ea.length);
+                this.ProtoFormat.ReceiveBytes(ea.Buffer, ea.Offset, ea.Length);
                 this.areMsg.Set();
 
                 if (this.ProtoFormat.HasMessage())
@@ -171,14 +190,13 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumProtoFormat.SensingNetCmd:
                     this.ProtoFormat = new SNetProtoFormatSensingNetCmd();
                     break;
-                case SNetEnumProtoFormat.Secs:
+                case  SNetEnumProtoFormat.Secs:
                     this.ProtoFormat = new SNetProtoFormatSecs();
                     break;
                 case SNetEnumProtoFormat.Custom:
                     //由使用者自己實作
                     break;
-                default:
-                    throw new ArgumentException("必須指定ProtoFormat");
+                default: throw new ArgumentException("必須指定ProtoFormat");
             }
 
 
@@ -194,8 +212,7 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumProtoSession.Custom:
                     //由使用者自己實作
                     break;
-                default:
-                    throw new ArgumentException("必須指定ProtoSession");
+                default: throw new ArgumentException("必須指定ProtoFormat");
             }
 
             switch (this.Config.SignalTran)
@@ -209,8 +226,7 @@ namespace SensingNet.v0_1.Device
                  case SNetEnumSignalTran.Custom:
                     //由使用者自己實作
                     break;
-                default:
-                    throw new ArgumentException("必須指定ProtoFormat");
+                default: throw new ArgumentException("必須指定ProtoFormat");
             }
 
 
@@ -228,18 +244,20 @@ namespace SensingNet.v0_1.Device
             this.ProtoConn.NonStopConnectAsyn();
 
             this.CfIsRunning = true;
-            while (!disposed && this.CfIsRunning)
+            //三個方法(三個保護)控管執行
+            while (!disposed && this.CfIsRunning && !this.taskRun.CancelToken.IsCancellationRequested)
             {
+                this.taskRun.CancelToken.ThrowIfCancellationRequested();//一般cancel task 在 while 和 第一行
                 this.RealExec();
             }
             return 0;
         }
         public virtual int CfRunAsyn()
         {
-            if (this.runTask != null)
-                if (!this.runTask.Wait(100)) return 0;//正在工作
+            if (this.taskRun != null)
+                if (!this.taskRun.Wait(100)) return 0;//正在工作
 
-            this.runTask = Task.Factory.StartNew<int>(() => this.CfRun());
+            this.taskRun = CtkCancelTask.Run((ct) => { this.CfRun(); });
             return 0;
         }
         public virtual int CfUnLoad()
@@ -248,7 +266,6 @@ namespace SensingNet.v0_1.Device
             if (this.ProtoConn != null)
             {
                 this.ProtoConn.Disconnect();
-                this.ProtoConn = null;
             }
             return 0;
         }
@@ -310,14 +327,16 @@ namespace SensingNet.v0_1.Device
         {
             this.CfIsRunning = false;
 
-            if (this.runTask != null)
+            if (this.taskRun != null)
             {
-                SpinWait.SpinUntil(() => this.runTask.IsCompleted || this.runTask.IsFaulted || this.runTask.IsCanceled, 3000);
-                this.runTask.Dispose();
+                SpinWait.SpinUntil(() => this.taskRun.IsEnd(), 3000);
+                this.taskRun.Dispose();
             }
             if (this.ProtoConn != null)
                 this.ProtoConn.Dispose();
 
+            this.CfUnLoad();
+            this.CfFree();
             CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
         }
         #endregion

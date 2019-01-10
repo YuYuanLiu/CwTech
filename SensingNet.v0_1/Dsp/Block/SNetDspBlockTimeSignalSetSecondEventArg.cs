@@ -7,11 +7,10 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp.Block
 {
-    public class SNetDspBlockTimeSignalSetSecondEventArg : EventArgs
+    public class SNetDspBlockTimeSignalSetSecondEventArg : SNetDspBlockTimeSignalSetEventArg
     {
-        public Object Sender;
-        public CtkTimeSecond Time;
-        public SNetDspTimeSignalSetSecond TimeSignal;
+        public SNetDspTimeSignalSetSecond TSignal;
+        public SNetDspTimeSignalSetSecond NewTSignal;
 
     }
 }

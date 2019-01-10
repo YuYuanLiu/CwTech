@@ -5,12 +5,9 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp
 {
-    public enum SNetEnumDspMethod
+    public enum SNetDspEnumInvokeResult
     {
         None,
-        Raw,
-        Average,
-        Maximum,
-        Minimum,
+        IsDisposed,
     }
 }

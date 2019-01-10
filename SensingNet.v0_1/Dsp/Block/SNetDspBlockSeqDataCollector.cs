@@ -1,56 +1,58 @@
-﻿using CToolkit.v0_1.TimeOp;
-using MathNet.Numerics.LinearAlgebra.Double;
+﻿using CToolkit.v0_1;
+using CToolkit.v0_1.TimeOp;
 using SensingNet.v0_1.Dsp.TimeSignal;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SensingNet.v0_1.Dsp.Block
 {
+
     public class SNetDspBlockSeqDataCollector : SNetDspBlockBase
     {
-        public SNetDspTimeSignalSetSecond DataSource = new SNetDspTimeSignalSetSecond();
-        public int PurgeSeconds = 60;
+        public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
+
         ~SNetDspBlockSeqDataCollector() { this.Dispose(false); }
 
 
         public SNetDspTimeSignalSetSecond GetOutput()
         {
-            return this.DataSource;
+            return this.TSignal;
         }
 
-        public void Input(IEnumerable<double> vals, DateTime? time = null)
+        /// <summary>
+        /// 建議照時間序列(Seq)來input, 避免後續使用的Block認定是Sequence, 然而不是
+        /// </summary>
+        /// <param name="vals"></param>
+        /// <param name="dt"></param>
+        public void Input(IEnumerable<double> vals, DateTime? dt = null)
         {
             var now = DateTime.Now;
-            var dt = now;
-            if (time.HasValue) dt = time.Value;
+            var time = now;
+            if (dt.HasValue) time = dt.Value;
 
-            var key = new CtkTimeSecond(dt);
-            var datas = this.DataSource.GetOrCreate(key);
-            datas.AddRange(vals);
-
-
-            var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
-            var query = this.DataSource.Signals.Where(x => x.Key < oldKey).ToList();
-            foreach (var ok in query)
-                this.DataSource.Signals.Remove(ok.Key);
-
+            this.DoDataChange(this.TSignal, time, vals);
         }
 
-
-
-        #region Event
-        public event EventHandler<SNetDspBlockTimeSignalSetSecondEventArg> evtDataChange;
-
-        protected void OnDataChange(SNetDspBlockTimeSignalSetSecondEventArg ea)
+        protected override void PurgeSignal()
         {
-            if (this.evtDataChange == null) return;
-            this.evtDataChange(this, ea);
+            if (this.PurgeSeconds <= 0) return;
+            var now = DateTime.Now;
+            var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
+            this.PurgeSignalByTime(this.TSignal, oldKey);
         }
-        #endregion
 
+
+
+
+
+        #region IDisposable
+
+        protected override void DisposeSelf()
+        {
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter( this, (dlgt) => true);//移除自己的Event Delegate
+        }
+
+        #endregion
     }
 
 

@@ -13,7 +13,7 @@ namespace SensingNet.v0_1.Framework
     {
 
         public String DefaultConfigsFilder = "Config/DeviceConfigs";
-        public ConfigCollector<SNetSensorDeviceCfg> configs = new ConfigCollector<SNetSensorDeviceCfg>();
+        public CtkConfigCollector<SNetSensorDeviceCfg> configs = new CtkConfigCollector<SNetSensorDeviceCfg>();
         Dictionary<String, SNetSensorDeviceHandler> handlers = new Dictionary<String, SNetSensorDeviceHandler>();
         Task<int> runTask;
 

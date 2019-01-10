@@ -20,18 +20,18 @@ namespace SensingNet.v0_1.Signal
         {
 
             var result = new List<SNetSignalEventArgs>();
-            var secsMsg = msg as HsmsMessage;
+            var secsMsg = msg as CtkHsmsMessage;
 
             try
             {
-                var list = secsMsg.rootNode as CToolkit.v0_1.Secs.SecsIINodeList;
+                var list = secsMsg.rootNode as CToolkit.v0_1.Secs.CtkSecsIINodeList;
 
                 for (int idx = 0; idx < list.Data.Count; idx++)
                 {
 
                     var ea = new SNetSignalEventArgs();
                     ea.Sender = sender;
-                    var data = list.Data[idx] as CToolkit.v0_1.Secs.SecsIINodeASCII;
+                    var data = list.Data[idx] as CToolkit.v0_1.Secs.CtkSecsIINodeASCII;
                     if (data.Data.Count <= 0) continue;
 
                     ea.Data = new List<double>();
@@ -54,16 +54,16 @@ namespace SensingNet.v0_1.Signal
             if (listInfo == null) throw new ArgumentException("未定義此型別的操作方式");
 
 
-            var txMsg = new HsmsMessage();
+            var txMsg = new CtkHsmsMessage();
             txMsg.header.StreamId = 1;
             txMsg.header.FunctionId = 3;
             txMsg.header.WBit = true;
-            var sList = new CToolkit.v0_1.Secs.SecsIINodeList();
+            var sList = new CtkSecsIINodeList();
             //var sSvid = new CToolkit.v0_1.Secs.SecsIINodeInt64();
 
             foreach (var scfg in listInfo)
             {
-                var sSvid = new CToolkit.v0_1.Secs.SecsIINodeUInt32();
+                var sSvid = new CtkSecsIINodeUInt64();
                 sSvid.Data.Add(scfg.Svid);
                 sList.Data.Add(sSvid);
             }
