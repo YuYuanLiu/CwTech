@@ -11,5 +11,7 @@ namespace SensingNet.v0_1
         public SNetException(string msg) : base(msg) { }
 
 
+
+
     }
 }
