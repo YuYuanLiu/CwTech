@@ -29,7 +29,9 @@ namespace SensingNet.v0_1.Dsp.Block
                 ea.TSignal = tSignal;
             }
 
-            tSignal.AddRange(time, newDatas);
+
+            ea.NewTSignal.AddByKey(time, newDatas); 
+            tSignal.AddByKey(time, newDatas);
             this.OnDataChange(ea);
             this.PurgeSignal();
         }

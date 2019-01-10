@@ -124,7 +124,7 @@ namespace SensingNet.v0_1.Framework
                     if (hdl.status == SNetEnumHandlerStatus.None)
                     {
                         hdl.CfInit();
-                        hdl.evtReceiveData += delegate (object ss, CtkHsmsConnector_EventArgsRcvData ea)
+                        hdl.evtReceiveData += delegate (object ss, CtkHsmsConnectorRcvDataEventArg ea)
                         {
                             this.OnReceiveData(new SNetQSecsRcvDataEventArgs()
                             {

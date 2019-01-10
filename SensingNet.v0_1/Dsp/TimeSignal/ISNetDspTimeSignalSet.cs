@@ -7,7 +7,7 @@ namespace SensingNet.v0_1.Dsp.TimeSignal
 {
     public interface ISNetDspTimeSignalSet
     {
-        void AddRange(object key, IEnumerable<double> signals);
+        void AddByKey(object key, IEnumerable<double> signals);
 
         bool ContainKey(object key);
 

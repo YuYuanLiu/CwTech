@@ -21,7 +21,7 @@ namespace SensingNet.v0_1.Dsp.TimeSignal
 
         #region ISNetDspTimeSignalSet
 
-        public void AddRange(object key, IEnumerable<double> signals)
+        public void AddByKey(object key, IEnumerable<double> signals)
         {
             var list = this.GetOrCreate(key);
             list.AddRange(signals);

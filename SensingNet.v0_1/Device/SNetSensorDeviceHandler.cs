@@ -137,7 +137,6 @@ namespace SensingNet.v0_1.Device
             RealExec();
             return 0;
         }
-
         public virtual int CfFree()
         {
             this.CfIsRunning = false;
@@ -157,7 +156,6 @@ namespace SensingNet.v0_1.Device
 
             return 0;
         }
-
         public virtual int CfInit()
         {
             if (this.Config == null) throw new SNetException("沒有設定參數");
@@ -176,12 +174,13 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumProtoConnect.Rs232:
                     this.ProtoConn = new SNetProtoConnRs232(this.Config.SerialPortConfig);
                     break;
-                default:
+                case SNetEnumProtoConnect.Custom:
                     //由使用者自己實作
                     break;
+                default: throw new ArgumentException("ProtoConn"); ;
             }
 
-            if (this.ProtoConn == null) throw new ArgumentException("ProtoConn");
+
             this.ProtoConn.evtDataReceive += (sender, e) =>
             {
                 var ea = e as CtkProtocolBufferEventArgs;
@@ -200,11 +199,14 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumProtoFormat.SensingNetCmd:
                     this.ProtoFormat = new SNetProtoFormatSensingNetCmd();
                     break;
-                default:
+                case  SNetEnumProtoFormat.Secs:
+                    this.ProtoFormat = new SNetProtoFormatSecs();
+                    break;
+                case SNetEnumProtoFormat.Custom:
                     //由使用者自己實作
                     break;
+                default: throw new ArgumentException("必須指定ProtoFormat");
             }
-            if (this.ProtoFormat == null) throw new ArgumentException("必須指定ProtoFormat");
 
 
 
@@ -216,11 +218,12 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumProtoSession.Secs:
                     this.ProtoSession = new SNetProtoSessionSecs();
                     break;
-                default:
+                case SNetEnumProtoSession.Custom:
                     //由使用者自己實作
                     break;
+                default: throw new ArgumentException("必須指定ProtoFormat");
             }
-            if (this.ProtoSession == null) throw new ArgumentException("必須指定ProtoFormat");
+
 
             switch (this.Config.SignalTran)
             {
@@ -230,11 +233,12 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumSignalTran.Secs001:
                     this.SignalTran = new SNetSignalTranSecs001();
                     break;
-                default:
+                case SNetEnumSignalTran.Custom:
                     //由使用者自己實作
                     break;
+                default: throw new ArgumentException("必須指定ProtoFormat");
             }
-            if (this.ProtoSession == null) throw new ArgumentException("必須指定ProtoFormat");
+
 
 
 

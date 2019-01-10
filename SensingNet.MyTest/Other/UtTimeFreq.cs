@@ -6,6 +6,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using CToolkit.v0_1.Numeric;
 
 namespace SensingNet.MyTest
 {
@@ -38,7 +39,7 @@ namespace SensingNet.MyTest
                     for (int idx = 0; idx < finalWave.Length; idx++)
                         finalWave[idx] = baseWave[idx] + abnormalWave[idx];
 
-                    var npContext = new CToolkit.v0_1.NumericProc.CtkNpContext();
+                    var npContext = new CToolkit.v0_1.Numeric.CtkNpContext();
                     var finalFft = npContext.FftForward(finalWave);
 
                     var spectrum = npContext.SpectrumHalfFft(finalFft);
@@ -80,7 +81,7 @@ namespace SensingNet.MyTest
             var hamming = MathNet.Numerics.Window.Hamming(512);
 
 
-            var npContext = new CToolkit.v0_1.NumericProc.CtkNpContext();
+            var npContext = new CToolkit.v0_1.Numeric.CtkNpContext();
             using (var bmp = new Bitmap(wave.Count / window, window / 2))
             {
                 var spec = new List<List<double>>();
@@ -98,8 +99,8 @@ namespace SensingNet.MyTest
 
                     var fft = npContext.FftForward(signal);
                     var spectrumD = npContext.SpectrumHalfFft(fft);
-                    var spectrum = CToolkit.v0_1.NumericProc.CtkTypeConverter.ToMagnitude(spectrumD);
-                    spectrum = CToolkit.v0_1.NumericProc.CtkNpUtil.Interpolation(spectrum, bmp.Height);
+                    var spectrum = CToolkit.v0_1.Numeric.CtkTypeConverter.ToMagnitude(spectrumD);
+                    spectrum = CtkNumUtil.Interpolation(spectrum, bmp.Height);
 
                     var max = spectrum.Max();
                     for (int idx = 0; idx < spectrum.Length; idx++)

@@ -1,5 +1,5 @@
 ﻿using CToolkit.v0_1;
-using CToolkit.v0_1.NumericProc;
+using CToolkit.v0_1.Numeric;
 using CToolkit.v0_1.TimeOp;
 using MathNet.Filtering.FIR;
 using SensingNet.v0_1.Dsp.TimeSignal;
@@ -59,7 +59,7 @@ namespace SensingNet.v0_1.Dsp.Block
             if (this.PassFilterMode != CtkEnumPassFilterMode.None)
             {
                 this.PassFilter.InitFilterIfNull(this.PassFilterMode, this.PassFilterSampleRate, this.PassFilterCutoffLow, this.PassFilterCutoffHigh);
-                signalData = CtkNpUtil.Interpolation(signalData, (int)this.PassFilterSampleRate);
+                signalData = CtkNumUtil.InterpolationCanOneOrZero(signalData, (int)this.PassFilterSampleRate);
                 signalData = this.PassFilter.ProcessSamples(signalData);
             }
 

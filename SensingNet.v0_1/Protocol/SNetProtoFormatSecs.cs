@@ -35,6 +35,11 @@ namespace SensingNet.v0_1.Protocol
         public void ReceiveBytes(byte[] buffer, int offset, int length)
         {
             this.hsmsMsgRcv.Receive(buffer, offset, length);
+            while (this.hsmsMsgRcv.Count > 0)
+            {
+                var msg = this.hsmsMsgRcv.Dequeue();
+                this.Enqueue(msg);
+            }
         }
         public bool TryDequeueMsg(out object msg)
         {

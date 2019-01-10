@@ -1,4 +1,4 @@
-﻿using CToolkit.v0_1.NumericProc;
+﻿using CToolkit.v0_1.Numeric;
 using Cudafy.Types;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using System;
@@ -62,7 +62,7 @@ namespace SensingNet.v0_1.Storage
         public void Interpolation(int dataSize)
         {
             if (dataSize == this.signals.Count) return;
-            var list = CToolkit.v0_1.NumericProc.CtkNpUtil.Interpolation(this.signals.ToArray(), dataSize);
+            var list = CtkNumUtil.Interpolation(this.signals.ToArray(), dataSize);
             this.signals.Clear();
             this.signals.AddRange(list);
         }

@@ -8,6 +8,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Text;
+using CToolkit.v0_1.Numeric;
+using CToolkit.v0_1.Net;
 
 namespace SensingNet.v0_0.Secs
 {
@@ -43,7 +45,7 @@ namespace SensingNet.v0_0.Secs
             var localIp = CtkNetUtil.GetLikelyFirst127Ip(this.cfg.LocalIp, this.cfg.RemoteIp);
             if (localIp == null) throw new Exception("無法取得在地IP");
             hsmsConnector.local = new IPEndPoint(localIp, this.cfg.LocalPort);
-            hsmsConnector.evtReceiveData += delegate (Object sen, CtkHsmsConnector_EventArgsRcvData evt)
+            hsmsConnector.evtReceiveData += delegate (Object sen, CtkHsmsConnectorRcvDataEventArg evt)
             {
 
                 var myMsg = evt.msg;
@@ -155,7 +157,7 @@ namespace SensingNet.v0_0.Secs
                 if (qsvidcfg.PassFilter != EnumPassFilter.None)
                 {
                     qsvidData.InitFilterIfNull(qsvidcfg.PassFilter, qsvidcfg.PassFilter_SampleRate, qsvidcfg.PassFilter_CutoffLow, qsvidcfg.PassFilter_CutoffHigh);
-                    signalData = CToolkit.v0_1.NumericProc.CtkNpUtil.Interpolation(signalData, (int)qsvidcfg.PassFilter_SampleRate);
+                    signalData = CtkNumUtil.InterpolationCanOneOrZero(signalData, (int)qsvidcfg.PassFilter_SampleRate);
                     signalData = qsvidData.ProcessSamples(signalData);
                 }
                 sps.signals.AddRange(signalData);
@@ -244,13 +246,13 @@ namespace SensingNet.v0_0.Secs
 
         #region Event
 
-        public event EventHandler<CtkHsmsConnector_EventArgsRcvData> evtReceiveData;
+        public event EventHandler<CtkHsmsConnectorRcvDataEventArg> evtReceiveData;
         public void OnReceiveData(CtkHsmsMessage msg)
         {
             if (this.evtReceiveData == null)
                 return;
 
-            this.evtReceiveData(this, new CtkHsmsConnector_EventArgsRcvData() { msg = msg });
+            this.evtReceiveData(this, new CtkHsmsConnectorRcvDataEventArg() { msg = msg });
         }
 
         #endregion
