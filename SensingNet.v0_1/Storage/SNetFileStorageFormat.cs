@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SensingNet.v0_1.Dsp.TimeSignal;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,11 @@ namespace SensingNet.v0_1.Storage
 
 
         public virtual void ReadStream(StreamReader sr, SNetSignalCollector collector)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void ReadTSignal(StreamReader sr, SNetDspTimeSignalSetSecond tSignal)
         {
             throw new NotImplementedException();
         }

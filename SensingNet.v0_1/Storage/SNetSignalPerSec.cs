@@ -13,6 +13,7 @@ namespace SensingNet.v0_1.Storage
     /// 因應人們習慣的最小單位(秒)為收集依據
     /// 
     /// </summary>
+    [Obsolete("請使用 SNetDspTimeSignalSetSecond 替代")]
     public class SNetSignalPerSec
     {
         public DateTime dt;
@@ -40,7 +41,7 @@ namespace SensingNet.v0_1.Storage
 
             var freqData = CtkNpContext.Singleton.SpectrumFftD(fft);
 
-            this.spectrum = new ComplexD[fft.Length / 2 ];
+            this.spectrum = new ComplexD[fft.Length / 2];
             for (int idx = 0; idx < spectrum.Length; idx++)
                 spectrum[idx] = freqData[idx];
 

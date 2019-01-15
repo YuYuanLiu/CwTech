@@ -11,10 +11,9 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp.Block
 {
-    public class SNetDspBlockFilter : SNetDspBlockBase
+    public class SNetDspBlockFft : SNetDspBlockBase
     {
-        public SNetDspBlockFilter_PassFilter PassFilter = new SNetDspBlockFilter_PassFilter();
-        //使用Struct傳入是傳值, 修改是無法帶出來的, 但你可以回傳同一個結構後接住它
+
         public CtkPassFilterStruct FilterArgs = new CtkPassFilterStruct()
         {
             CutoffHigh = 512,
@@ -23,6 +22,8 @@ namespace SensingNet.v0_1.Dsp.Block
             SampleRate = 1024,
         };
         public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
+        public SNetDspTimeSignalSetSecond TSignalFreq = new SNetDspTimeSignalSetSecond();
+
         protected SNetDspBlockBase _input;
 
 
@@ -44,6 +45,7 @@ namespace SensingNet.v0_1.Dsp.Block
             var now = DateTime.Now;
             var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
             this.PurgeSignalByTime(this.TSignal, oldKey);
+            this.PurgeSignalByTime(this.TSignalFreq, oldKey);
         }
 
         private void _input_evtDataChange(object sender, SNetDspBlockTimeSignalEventArg e)
@@ -62,9 +64,6 @@ namespace SensingNet.v0_1.Dsp.Block
 
             if (this.FilterArgs.Mode != CtkEnumPassFilterMode.None)
             {
-                this.PassFilter.InitFilterIfNull(this.FilterArgs);
-                signalData = CtkNumUtil.InterpolationCanOneOrZero(signalData, (int)this.FilterArgs.SampleRate);
-                signalData = this.PassFilter.ProcessSamples(signalData);
             }
 
             this.DoDataChange(this.TSignal, t, signalData);
@@ -74,7 +73,7 @@ namespace SensingNet.v0_1.Dsp.Block
 
         protected override void DisposeSelf()
         {
-            CtkEventUtil.RemoveEventHandlersFromOwningByFilter( this, (dlgt) => true);//移除自己的Event Delegate
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);//移除自己的Event Delegate
             CtkEventUtil.RemoveEventHandlersFromOwningByTarget(this._input, this);//移除在別人那的Event Delegate
         }
 

@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dsp\Block\SNetDspBlockDiagram.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlockFft.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockFilter_PassFilter.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetSecondEventArg.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetEventArg.cs" />

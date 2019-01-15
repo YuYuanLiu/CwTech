@@ -12,28 +12,35 @@ namespace SensingNet.v0_1.Dsp.Block
     {
         public bool IsEnalbed = true;
         public int PurgeSeconds = 60;
+        public Object PrevTime;//存放結構時:CtkTimeSecond, 仍可為null, 因此本身是物件形態
         protected String _identifier = Guid.NewGuid().ToString();
         ~SNetDspBlockBase() { this.Dispose(false); }
 
 
         public string SNetDspIdentifier { get { return this._identifier; } set { this._identifier = value; } }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tSignal">來源資料, 集合會被修改</param>
+        /// <param name="time"></param>
+        /// <param name="newDatas"></param>
         protected virtual void DoDataChange(SNetDspTimeSignalSetSecond tSignal, CtkTimeSecond time, IEnumerable<double> newDatas)
         {
             var ea = new SNetDspBlockTimeSignalSetSecondEventArg();
             ea.Time = time;
-            {
-                var last = tSignal.GetLastOrDefault();
-                if (last.HasValue) ea.BeforeLastTime = last.Value.Key;
-                ea.Sender = this;
-                ea.TSignal = tSignal;
-            }
+            ea.Sender = this;
+            ea.TSignal = tSignal;
+            ea.BeforeLastTime = (CtkTimeSecond?)this.PrevTime;
 
-
-            ea.NewTSignal.AddByKey(time, newDatas); 
+            ea.NewTSignal.AddByKey(time, newDatas);
             tSignal.AddByKey(time, newDatas);
             this.OnDataChange(ea);
+
             this.PurgeSignal();
+
+            this.PrevTime = time;
+
         }
         protected virtual void PurgeSignal()
         {
@@ -109,7 +116,7 @@ namespace SensingNet.v0_1.Dsp.Block
         }
         protected virtual void DisposeSelf()
         {
-            CtkEventUtil.RemoveEventHandlersFromOwningByFilter( this, (dlgt) => true);
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
         }
 
         protected virtual void DisposeUnmanaged()

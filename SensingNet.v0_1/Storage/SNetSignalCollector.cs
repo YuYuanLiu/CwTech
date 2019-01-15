@@ -14,6 +14,7 @@ namespace SensingNet.v0_1.Storage
     /// 需被設置的資料為 times/signals
     /// </summary>
     [Serializable]
+    [Obsolete("請使用 SNetDspTimeSignalSetSecond 替代")]
     public class SNetSignalCollector : LinkedList<SNetSignalPerSec>
     {
         public List<DateTime> times = new List<DateTime>();

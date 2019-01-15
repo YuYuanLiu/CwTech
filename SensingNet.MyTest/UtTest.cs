@@ -9,117 +9,42 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using CToolkit.v0_1.Numeric;
 
 namespace SensingNet.MyTest
 {
 
-    class EventClass
-    {
-        public event EventHandler evtTest;
-        public void OnTest()
-        {
-            if (this.evtTest == null) return;
-            this.evtTest(this, null);
 
-        }
-    }
-
-
-    class UseClass : IDisposable
-    {
-
-        ~UseClass() { this.Dispose(false); }
-
-        public string name;
-        public void Use(Object sender, EventArgs ea)
-        {
-            System.Diagnostics.Debug.WriteLine("Use " + this.name);
-        }
-        #region IDisposable
-        // Flag: Has Dispose already been called?
-        bool disposed = false;
-
-        // Public implementation of Dispose pattern callable by consumers.
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        // Protected implementation of Dispose pattern.
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-                return;
-
-            if (disposing)
-            {
-                // Free any other managed objects here.
-                //
-                this.DisposeManaged();
-            }
-
-            // Free any unmanaged objects here.
-            //
-            this.DisposeUnmanaged();
-            this.DisposeSelf();
-            disposed = true;
-        }
-
-
-
-        void DisposeManaged()
-        {
-        }
-        void DisposeUnmanaged()
-        {
-
-        }
-        void DisposeSelf()
-        {
-
-        }
-        #endregion
-
-    }
 
 
     [TestClass]
     public class UtTest
     {
+        object prevtime = null;
+
         [TestMethod]
         public void TestMethod()
         {
-            var useA = new UseClass() { name = "A" };
-              var evtCls = new EventClass();
-            evtCls.evtTest += useA.Use;
 
-            TestUse(evtCls);
+            var pf = new CtkPassFilterStruct();
+            pf.SampleRate = 1024;
 
-            evtCls.OnTest();
+            var pf2 = (CtkPassFilterStruct)this.prevtime;
+            Change(pf);
+            pf2 = (CtkPassFilterStruct)this.prevtime;
 
-
-
-
-
+            Console.Write(pf.SampleRate);
         }
 
 
-        void TestUse(EventClass evtCls)
+
+
+        void Change(object obj)
         {
-            var useB = new UseClass() { name = "B" };
-            evtCls.evtTest += useB.Use;
-            using (useB) { }
-
-
-            evtCls.evtTest -= useB.Use;
-
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-
+            var pf = (CtkPassFilterStruct)obj;
+            pf.SampleRate = 512;
+            prevtime = pf;
         }
-
 
     }
 }
