@@ -13,7 +13,7 @@ namespace SensingNet.v0_1.Dsp.Block
 {
     public class SNetDspBlockFilter : SNetDspBlockBase
     {
-        public SNetDspBlockFilter_PassFilter PassFilter = new SNetDspBlockFilter_PassFilter();
+        public CtkFftOnlineFilter PassFilter = new CtkFftOnlineFilter();
         //使用Struct傳入是傳值, 修改是無法帶出來的, 但你可以回傳同一個結構後接住它
         public CtkPassFilterStruct FilterArgs = new CtkPassFilterStruct()
         {
@@ -52,9 +52,9 @@ namespace SensingNet.v0_1.Dsp.Block
             if (tsSetSecondEa == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
-            if (!tsSetSecondEa.BeforeLastTime.HasValue) return;
-            if (tsSetSecondEa.Time == tsSetSecondEa.BeforeLastTime.Value) return;
-            var t = tsSetSecondEa.BeforeLastTime.Value;
+            if (!tsSetSecondEa.PrevTime.HasValue) return;
+            if (tsSetSecondEa.Time == tsSetSecondEa.PrevTime.Value) return;
+            var t = tsSetSecondEa.PrevTime.Value;
 
             //取得時間變更前的時間資料
             IEnumerable<double> signalData = tsSetSecondEa.TSignal.GetOrCreate(t);
@@ -62,7 +62,7 @@ namespace SensingNet.v0_1.Dsp.Block
 
             if (this.FilterArgs.Mode != CtkEnumPassFilterMode.None)
             {
-                this.PassFilter.InitFilterIfNull(this.FilterArgs);
+                this.PassFilter.SetFilter(this.FilterArgs);
                 signalData = CtkNumUtil.InterpolationCanOneOrZero(signalData, (int)this.FilterArgs.SampleRate);
                 signalData = this.PassFilter.ProcessSamples(signalData);
             }

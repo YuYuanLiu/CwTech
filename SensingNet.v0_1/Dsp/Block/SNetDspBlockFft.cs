@@ -8,21 +8,14 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Dsp.Block
 {
     public class SNetDspBlockFft : SNetDspBlockBase
     {
 
-        public CtkPassFilterStruct FilterArgs = new CtkPassFilterStruct()
-        {
-            CutoffHigh = 512,
-            CutoffLow = 5,
-            Mode = CtkEnumPassFilterMode.None,
-            SampleRate = 1024,
-        };
         public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
-        public SNetDspTimeSignalSetSecond TSignalFreq = new SNetDspTimeSignalSetSecond();
 
         protected SNetDspBlockBase _input;
 
@@ -45,26 +38,32 @@ namespace SensingNet.v0_1.Dsp.Block
             var now = DateTime.Now;
             var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
             this.PurgeSignalByTime(this.TSignal, oldKey);
-            this.PurgeSignalByTime(this.TSignalFreq, oldKey);
         }
 
         private void _input_evtDataChange(object sender, SNetDspBlockTimeSignalEventArg e)
         {
-            var tsSetSecondEa = e as SNetDspBlockTimeSignalSetSecondEventArg;
-            if (tsSetSecondEa == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
+            var ea = e as SNetDspBlockTimeSignalSetSecondEventArg;
+            if (ea == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
-            if (!tsSetSecondEa.BeforeLastTime.HasValue) return;
-            if (tsSetSecondEa.Time == tsSetSecondEa.BeforeLastTime.Value) return;
-            var t = tsSetSecondEa.BeforeLastTime.Value;
+            if (!ea.PrevTime.HasValue) return;
+            if (ea.Time == ea.PrevTime.Value) return;
+            var t = ea.PrevTime.Value;
 
             //取得時間變更前的時間資料
-            IEnumerable<double> signalData = tsSetSecondEa.TSignal.GetOrCreate(t);
+            IList<double> signalData = ea.TSignal.GetOrCreate(t);
 
+            var ctkNumContext = CtkNumContext.GetOrCreate();
+            var comp = ctkNumContext.FftForward(signalData);
 
-            if (this.FilterArgs.Mode != CtkEnumPassFilterMode.None)
+            var fftData = new List<double>(comp.Length);
+            this.TSignal.Set(t, fftData);
+
+            Parallel.For(0, comp.Length, (idx) =>
             {
-            }
+                fftData[idx] = comp[idx].Magnitude;
+            });
+
 
             this.DoDataChange(this.TSignal, t, signalData);
             e.InvokeResult = this.disposed ? SNetDspEnumInvokeResult.IsDisposed : SNetDspEnumInvokeResult.None;

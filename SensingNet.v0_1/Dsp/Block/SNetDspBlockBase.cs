@@ -31,7 +31,7 @@ namespace SensingNet.v0_1.Dsp.Block
             ea.Time = time;
             ea.Sender = this;
             ea.TSignal = tSignal;
-            ea.BeforeLastTime = (CtkTimeSecond?)this.PrevTime;
+            ea.PrevTime = (CtkTimeSecond?)this.PrevTime;
 
             ea.NewTSignal.AddByKey(time, newDatas);
             tSignal.AddByKey(time, newDatas);

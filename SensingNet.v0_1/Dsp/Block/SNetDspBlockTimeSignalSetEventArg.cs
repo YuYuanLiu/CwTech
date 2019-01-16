@@ -10,6 +10,6 @@ namespace SensingNet.v0_1.Dsp.Block
     public class SNetDspBlockTimeSignalSetEventArg : SNetDspBlockTimeSignalEventArg
     {
         public CtkTimeSecond Time;
-        public CtkTimeSecond? BeforeLastTime;
+        public CtkTimeSecond? PrevTime;
     }
 }

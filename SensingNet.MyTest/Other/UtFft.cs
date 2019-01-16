@@ -4,6 +4,7 @@ using System.ComponentModel;
 using MathNet.Numerics;
 using System.IO;
 using System.Collections.Generic;
+using CToolkit.v0_1.Numeric;
 
 namespace SensingNet.MyTest
 {
@@ -33,7 +34,7 @@ namespace SensingNet.MyTest
 
 
 
-            var npContext = new CToolkit.v0_1.Numeric.CtkNpContext();
+            var npContext = new CtkNumContext();
             var baseFft = npContext.FftForward(baseWave);
             var abnormalFft = npContext.FftForward(abnormalWave);
             var finalFft = npContext.FftForward(finalWave);
@@ -84,7 +85,7 @@ namespace SensingNet.MyTest
             finalWave.AddRange(abnormalWave);
 
 
-            var npContext = new CToolkit.v0_1.Numeric.CtkNpContext();
+            var npContext = new CtkNumContext();
             var baseFft = npContext.SpectrumTime(baseWave);
             var abnormalFft = npContext.SpectrumTime(abnormalWave);
             var finalFft = npContext.SpectrumTime(finalWave);

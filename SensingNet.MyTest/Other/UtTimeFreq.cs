@@ -39,7 +39,7 @@ namespace SensingNet.MyTest
                     for (int idx = 0; idx < finalWave.Length; idx++)
                         finalWave[idx] = baseWave[idx] + abnormalWave[idx];
 
-                    var npContext = new CToolkit.v0_1.Numeric.CtkNpContext();
+                    var npContext = new CtkNumContext();
                     var finalFft = npContext.FftForward(finalWave);
 
                     var spectrum = npContext.SpectrumHalfFft(finalFft);
@@ -81,7 +81,7 @@ namespace SensingNet.MyTest
             var hamming = MathNet.Numerics.Window.Hamming(512);
 
 
-            var npContext = new CToolkit.v0_1.Numeric.CtkNpContext();
+            var npContext = new CtkNumContext();
             using (var bmp = new Bitmap(wave.Count / window, window / 2))
             {
                 var spec = new List<List<double>>();

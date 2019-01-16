@@ -10,6 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using CToolkit.v0_1.Numeric;
+using System.Numerics;
+using Cudafy.Types;
+using System.Runtime.InteropServices;
 
 namespace SensingNet.MyTest
 {
@@ -26,25 +29,23 @@ namespace SensingNet.MyTest
         public void TestMethod()
         {
 
-            var pf = new CtkPassFilterStruct();
-            pf.SampleRate = 1024;
 
-            var pf2 = (CtkPassFilterStruct)this.prevtime;
-            Change(pf);
-            pf2 = (CtkPassFilterStruct)this.prevtime;
+            var ary1 = new Complex[3];
+            var ary2 = new ComplexD[3];
 
-            Console.Write(pf.SampleRate);
+
+
+            var cap1 = Marshal.SizeOf(new Complex());
+            var cap2 = Marshal.SizeOf(new Complex());
+
+
+
+
+            
+
         }
 
 
-
-
-        void Change(object obj)
-        {
-            var pf = (CtkPassFilterStruct)obj;
-            pf.SampleRate = 512;
-            prevtime = pf;
-        }
 
     }
 }

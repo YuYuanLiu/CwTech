@@ -37,7 +37,7 @@ namespace SensingNet.v0_1.Storage
             fft = new ComplexD[signals.Count];
             if (signals.Count <= 0) return fft;
 
-            this.fft = CtkNpContext.Singleton.FftForwardD(this.signals);
+            this.fft = CtkNumContext.GetOrCreate().FftForwardD(this.signals);
             return fft;
         }
 
@@ -46,7 +46,7 @@ namespace SensingNet.v0_1.Storage
             var fft = this.ComputeFft();
 
 
-            var freqData = CtkNpContext.Singleton.SpectrumFftD(fft);
+            var freqData = CtkNumContext.GetOrCreate().SpectrumFftD(fft);
 
             this.spectrum = new ComplexD[fft.Length / 2];
             for (int idx = 0; idx < spectrum.Length; idx++)
