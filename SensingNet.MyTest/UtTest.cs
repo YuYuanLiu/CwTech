@@ -13,6 +13,7 @@ using CToolkit.v0_1.Numeric;
 using System.Numerics;
 using Cudafy.Types;
 using System.Runtime.InteropServices;
+using CToolkit.v0_1;
 
 namespace SensingNet.MyTest
 {
@@ -33,15 +34,21 @@ namespace SensingNet.MyTest
             var ary1 = new Complex[3];
             var ary2 = new ComplexD[3];
 
+            ary1[0] = new Complex(1.2, 2.3);
+            ary1[1] = new Complex(3.4, 4.5);
+
+            //ary2 = (ComplexD[])ary1;
 
 
-            var cap1 = Marshal.SizeOf(new Complex());
-            var cap2 = Marshal.SizeOf(new Complex());
+
+            Console.Write(ary1.Length);
 
 
 
 
-            
+
+
+
 
         }
 

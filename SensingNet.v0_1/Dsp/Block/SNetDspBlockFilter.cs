@@ -48,6 +48,7 @@ namespace SensingNet.v0_1.Dsp.Block
 
         private void _input_evtDataChange(object sender, SNetDspBlockTimeSignalEventArg e)
         {
+            if (!this.IsEnalbed) return;
             var tsSetSecondEa = e as SNetDspBlockTimeSignalSetSecondEventArg;
             if (tsSetSecondEa == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 

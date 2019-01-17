@@ -75,6 +75,7 @@
     <Compile Include="Dsp\Block\SNetDspBlockSeqDataCollector.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockBasicStatistics.cs" />
     <Compile Include="Dsp\TimeSignal\SNetDspTimeSignalSetMilliSecond.cs" />
+    <Compile Include="Dsp\TimeSignal\SNetDspTimeSignalSecondC.cs" />
     <Compile Include="Dsp\TimeSignal\SNetDspTimeSignalSetSecond.cs" />
     <Compile Include="Dsp\SNetDspEnumMethod.cs" />
     <Compile Include="Dsp\SNetDspEnumPeriod.cs" />

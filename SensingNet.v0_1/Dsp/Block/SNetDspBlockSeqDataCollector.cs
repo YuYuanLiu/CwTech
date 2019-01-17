@@ -26,6 +26,7 @@ namespace SensingNet.v0_1.Dsp.Block
         /// <param name="dt"></param>
         public void Input(IEnumerable<double> vals, DateTime? dt = null)
         {
+            if (!this.IsEnalbed) return;
             var now = DateTime.Now;
             var time = now;
             if (dt.HasValue) time = dt.Value;

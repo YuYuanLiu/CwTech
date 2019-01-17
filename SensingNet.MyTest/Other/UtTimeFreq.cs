@@ -99,7 +99,7 @@ namespace SensingNet.MyTest
 
                     var fft = npContext.FftForward(signal);
                     var spectrumD = npContext.SpectrumHalfFft(fft);
-                    var spectrum = CToolkit.v0_1.Numeric.CtkTypeConverter.ToMagnitude(spectrumD);
+                    var spectrum = CtkNumConverter.ToMagnitude(spectrumD);
                     spectrum = CtkNumUtil.Interpolation(spectrum, bmp.Height);
 
                     var max = spectrum.Max();

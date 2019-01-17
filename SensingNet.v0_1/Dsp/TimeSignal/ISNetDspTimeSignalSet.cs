@@ -5,16 +5,16 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp.TimeSignal
 {
-    public interface ISNetDspTimeSignalSet
+    public interface ISNetDspTimeSignalSet<T, S>
     {
-        void AddByKey(object key, IEnumerable<double> signals);
+        void AddByKey(T key, IEnumerable<S> signals);
 
-        bool ContainKey(object key);
+        bool ContainKey(T key);
 
-        List<double> GetOrCreate(object key);
+        List<S> GetOrCreate(T key);
 
-        void Set(object key, List<double> signals);
-        void Set(object key, double signal);
+        void Set(T key, List<S> signals);
+        void Set(T key, S signals);
 
     }
 }

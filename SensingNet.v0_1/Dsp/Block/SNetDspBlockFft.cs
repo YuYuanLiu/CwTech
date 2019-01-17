@@ -14,7 +14,10 @@ namespace SensingNet.v0_1.Dsp.Block
 {
     public class SNetDspBlockFft : SNetDspBlockBase
     {
-
+        public int SampleRate = 1024;
+        /// <summary>
+        /// MathNet FFT 選 Matlab -> 算出來的結果可以加總後取平均, 仍是頻域圖
+        /// </summary>
         public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
 
         protected SNetDspBlockBase _input;
@@ -42,6 +45,7 @@ namespace SensingNet.v0_1.Dsp.Block
 
         private void _input_evtDataChange(object sender, SNetDspBlockTimeSignalEventArg e)
         {
+            if (!this.IsEnalbed) return;
             var ea = e as SNetDspBlockTimeSignalSetSecondEventArg;
             if (ea == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 

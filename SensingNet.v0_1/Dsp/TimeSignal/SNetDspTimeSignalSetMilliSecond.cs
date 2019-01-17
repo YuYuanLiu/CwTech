@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp.TimeSignal
 {
-    public class SNetDspTimeSignalSetMilliSecond : ISNetDspTimeSignalSet
+    public class SNetDspTimeSignalSetMilliSecond : ISNetDspTimeSignalSet<CtkTimeMilliSecond, double>
     {
         public SortedDictionary<CtkTimeMilliSecond, List<double>> Signals = new SortedDictionary<CtkTimeMilliSecond, List<double>>();
 
@@ -21,19 +21,19 @@ namespace SensingNet.v0_1.Dsp.TimeSignal
 
         #region ISNetDspTimeSignalSet
 
-        public void AddByKey(object key, IEnumerable<double> signals)
+        public void AddByKey(CtkTimeMilliSecond key, IEnumerable<double> signals)
         {
             var list = this.GetOrCreate(key);
             list.AddRange(signals);
         }
-        public bool ContainKey(object key) { return this.Signals.ContainsKey((CtkTimeMilliSecond)key); }
-        public List<double> GetOrCreate(object key)
+        public bool ContainKey(CtkTimeMilliSecond key) { return this.Signals.ContainsKey((CtkTimeMilliSecond)key); }
+        public List<double> GetOrCreate(CtkTimeMilliSecond key)
         {
             var k = (CtkTimeMilliSecond)key;
             if (!this.Signals.ContainsKey(k)) this.Signals[k] = new List<double>();
             return this.Signals[k];
         }
-        public bool GetOrCreate(object key, ref List<double> data)
+        public bool GetOrCreate(CtkTimeMilliSecond key, ref List<double> data)
         {
             var k = (CtkTimeMilliSecond)key;
             if (!this.Signals.ContainsKey(k))
@@ -47,12 +47,12 @@ namespace SensingNet.v0_1.Dsp.TimeSignal
             data = this.Signals[k];
             return false;
         }
-        public void Set(object key, List<double> signals)
+        public void Set(CtkTimeMilliSecond key, List<double> signals)
         {
             var k = (CtkTimeMilliSecond)key;
             this.Signals[k] = signals;
         }
-        public void Set(object key, double signal)
+        public void Set(CtkTimeMilliSecond key, double signal)
         {
             var list = this.GetOrCreate(key);
             list.Clear();
