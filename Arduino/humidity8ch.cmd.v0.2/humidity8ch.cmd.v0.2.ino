@@ -75,8 +75,8 @@ void loop() {
 
   float vrValue = analogRead(VR_INPUT) / 1023.0 * 100.0;
   if(Serial){
-    Serial.print("VR: ");
-    Serial.println(vrValue);
+    //Serial.print("VR: ");
+    //Serial.println(vrValue);
   }
   
   if(humidity[0] > vrValue){
