@@ -16,10 +16,6 @@ void respToSerial()
         float loopTc = temperatureC[idx];
         //float loopTf = temperatureF[idx];
 
-        if(idx==0){
-          loopH = 45.2;
-          loopTc = 25.6;
-        }
         if (!isnan(loopH) && !isnan(loopTc))
         {
             String respData = "cmd -respData";
@@ -100,8 +96,6 @@ bool ethComm()
     char readChar = 0;
     while (client.available())
     {
-
-        wdtCount = 0;
         readChar = client.read();
         if (readChar < 0)
             continue;

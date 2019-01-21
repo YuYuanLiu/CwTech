@@ -91,10 +91,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SensingNet.v0_0\SensingNet.v0_0.csproj">
-      <Project>{5e17ab06-38f0-4f7d-92cc-aebd354ded1e}</Project>
-      <Name>SensingNet.v0_0</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SensingNet.v0_1\SensingNet.v0_1.csproj">
       <Project>{c54643aa-065e-410d-ba32-318a7141c999}</Project>
       <Name>SensingNet.v0_1</Name>
