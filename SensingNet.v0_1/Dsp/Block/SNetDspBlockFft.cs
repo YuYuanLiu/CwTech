@@ -56,12 +56,13 @@ namespace SensingNet.v0_1.Dsp.Block
 
             //取得時間變更前的時間資料
             IList<double> signalData = ea.TSignal.GetOrCreate(t);
+            signalData = CtkNumUtil.InterpolationForce(signalData, this.SampleRate);
 
             var ctkNumContext = CtkNumContext.GetOrCreate();
             var comp = ctkNumContext.FftForward(signalData);
 
-            var fftData = new List<double>(comp.Length);
-            this.TSignal.Set(t, fftData);
+            var fftData = new double[comp.Length];
+            this.TSignal.Set(t, fftData.ToList());
 
             Parallel.For(0, comp.Length, (idx) =>
             {
