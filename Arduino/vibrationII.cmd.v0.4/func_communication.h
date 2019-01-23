@@ -99,9 +99,10 @@ bool ethComm()
     if(ethReadBuffer.indexOf("cmd") >= 0)
     {
         respVibToEth();
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 
@@ -138,9 +139,10 @@ bool serialComm()
     if (serialReadBuffer.indexOf("cmd") >= 0)
     {
         respVibToSerial();
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 
