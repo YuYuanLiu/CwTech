@@ -61,7 +61,7 @@ void loop() {
   bool flag = ethComm();
   flag |= serialComm();
     
-  if (!flag) {
+  if (flag) {
     wdtCount = 0;
   }else{
     delay(nothing_delay);//無連線delay 100ms
