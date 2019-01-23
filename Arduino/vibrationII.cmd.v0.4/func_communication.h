@@ -93,8 +93,10 @@ bool ethComm()
 
     }
 
-    if (ethReadBuffer.indexOf("-reqData") >= 0
-      || ethReadBuffer.indexOf("-req_data") >= 0)
+
+    //if (ethReadBuffer.indexOf("-reqData") >= 0
+      //|| ethReadBuffer.indexOf("-req_data") >= 0)
+    if(ethReadBuffer.indexOf("cmd") >= 0)
     {
         respVibToEth();
     }
@@ -131,8 +133,9 @@ bool serialComm()
 
     }
 
-    if (serialReadBuffer.indexOf("-reqData") >= 0
-      || serialReadBuffer.indexOf("-req_data") >= 0)
+    //if (serialReadBuffer.indexOf("-reqData") >= 0
+    //  || serialReadBuffer.indexOf("-req_data") >= 0)
+    if (serialReadBuffer.indexOf("cmd") >= 0)
     {
         respVibToSerial();
     }
