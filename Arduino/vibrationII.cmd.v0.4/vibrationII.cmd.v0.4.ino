@@ -22,10 +22,10 @@ void setup()
     delay(1000);
   }
   //--- EEPROM --------------------------------------
-  g_eeprom.IP[0] = 1;
-  g_eeprom.IP[1] = 1;
-  g_eeprom.IP[2] = 1;
-  g_eeprom.IP[3] = 1;
+  g_eeprom.IP[0] = 192;
+  g_eeprom.IP[1] = 168;
+  g_eeprom.IP[2] = 123;
+  g_eeprom.IP[3] = 201;
   CheckEEPROM_READ(&g_eeprom.IP[0], sizeof(g_eeprom));
 
   //--- Ethernet --------------------------------------
@@ -33,8 +33,7 @@ void setup()
   //Ethernet.begin(mac, ip, myDns, gateway, subnet); // Full setting
   Ethernet.begin(mac, ip);
   server.begin();
-  if (Serial)
-  {
+  if (Serial){
     Serial.print("Server address:");
     Serial.println(Ethernet.localIP());
   }
@@ -62,7 +61,7 @@ void loop()
   bool flag = ethComm();
   flag |= serialComm();
     
-  if (!flag) {
+  if (flag) {
     wdtCount = 0;
   }else{
     delay(nothing_delay);//無連線delay 100ms
