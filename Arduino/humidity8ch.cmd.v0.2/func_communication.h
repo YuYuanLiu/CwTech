@@ -16,6 +16,8 @@ void respToSerial()
         float loopTc = temperatureC[idx];
         //float loopTf = temperatureF[idx];
 
+
+
         if (!isnan(loopH) && !isnan(loopTc))
         {
             String respData = "cmd -respData";
@@ -71,6 +73,7 @@ void respToEth()
         float loopTc = temperatureC[idx];
         //float loopTf = temperatureF[idx];
 
+
         if (!isnan(loopH) && !isnan(loopTc))
         {
             String respData = "cmd -respData";
@@ -89,14 +92,14 @@ bool ethComm()
     Ethernet.maintain(); //必加
     EthernetClient client = server.available();
     
-    if (client)
-        return false;
 
     ethReadBuffer = "";
     int zeroCount = 0;
     char readChar = 0;
     while (client.available())
     {
+
+        wdtCount = 0;
         readChar = client.read();
         if (readChar < 0)
             continue;
@@ -114,17 +117,17 @@ bool ethComm()
         zeroCount++;
     }
 
+
     if (ethReadBuffer.indexOf("-reqData") >= 0
       || ethReadBuffer.indexOf("-req_data") >= 0)
     {
         respToEth();
+        return true;
     }
-
-    return true;
+    return false;    
 }
 
-bool serialComm()
-{
+bool serialComm(){
     if (!Serial)
         return false;
 
@@ -133,6 +136,7 @@ bool serialComm()
     char readChar = 0;
     while (Serial.available())
     {
+        wdtCount = 0;
         readChar = Serial.read();
         if (readChar < 0)
             continue;
@@ -154,9 +158,10 @@ bool serialComm()
       || serialReadBuffer.indexOf("-req_data") >= 0)
     {
         respToSerial();
+        return true;
     }
-
-    return true;
+    return false;
+    
 }
 
 #endif
