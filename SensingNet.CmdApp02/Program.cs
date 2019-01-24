@@ -1,7 +1,9 @@
-﻿using SensingNet.v0_1.Simulate;
+﻿using CToolkit.v0_1.Wcf.Example;
+using SensingNet.v0_1.Simulate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,11 +13,14 @@ namespace SensingNet.CmdApp02
     {
         static void Main(string[] args)
         {
-            using (var sim = new SNetSimulateVibration())
+            using (var example = new CtkExampleClient())
             {
-                sim.RunAsyn();
-                sim.CommandLine();
+                example.RunAsyn();
+                example.CommandLine();
             }
+
+
+
         }
     }
 }

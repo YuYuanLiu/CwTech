@@ -72,14 +72,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="GenCfg\UtGenDeviceCfg.cs" />
-    <Compile Include="Other\UtBaseSignal.cs" />
-    <Compile Include="Other\UtDevice.cs" />
-    <Compile Include="Other\UtDspHighPass.cs" />
-    <Compile Include="Other\UtFft.cs" />
-    <Compile Include="Other\UtMainSignalMgr.cs" />
-    <Compile Include="Other\UtMemStreamTest.cs" />
-    <Compile Include="Other\UtTimeFreq.cs" />
     <Compile Include="UnitTest\UtDspBlockPropagate.cs" />
     <Compile Include="UnitTest\UtCommunicationVibration.cs" />
     <Compile Include="UtSample.cs" />
@@ -87,7 +79,6 @@
     <Compile Include="UtVibrationPhys.cs" />
     <Compile Include="UtTest.cs" />
     <Compile Include="UtModbus.cs" />
-    <Compile Include="UtSampleCaptureSignal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
