@@ -1,4 +1,5 @@
 ﻿using CToolkit.v0_1.Wcf.Example;
+using SensingNet.v0_1.QWcf.Simulate;
 using SensingNet.v0_1.Simulate;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace SensingNet.CmdApp02
     {
         static void Main(string[] args)
         {
-            using (var example = new CtkExampleClient())
+            using (var example = new SNetSimulateQWcfClient())
             {
                 example.RunAsyn();
                 example.CommandLine();

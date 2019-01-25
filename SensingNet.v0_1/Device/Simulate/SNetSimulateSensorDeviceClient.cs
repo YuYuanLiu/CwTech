@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_1.Simulate
+namespace SensingNet.v0_1.Device.Simulate
 {
     public class SNetSimulateSensorDeviceClient : IDisposable
     {

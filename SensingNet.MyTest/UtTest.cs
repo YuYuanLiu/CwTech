@@ -14,6 +14,7 @@ using System.Numerics;
 using Cudafy.Types;
 using System.Runtime.InteropServices;
 using CToolkit.v0_1;
+using SensingNet.v0_1.Dsp.Block;
 
 namespace SensingNet.MyTest
 {
@@ -30,20 +31,13 @@ namespace SensingNet.MyTest
         public void TestMethod()
         {
 
+            var fft = new SNetDspBlockFft();
+            var collector = new SNetDspBlockSeqDataCollector();
 
-            var ary1 = new Complex[3];
-            var ary2 = new ComplexD[3];
-
-            ary1[0] = new Complex(1.2, 2.3);
-            ary1[1] = new Complex(3.4, 4.5);
-
-            //ary2 = (ComplexD[])ary1;
+            fft.Input = collector;
 
 
-
-            Console.Write(ary1.Length);
-
-
+            CtkEventUtil.RemoveEventHandlersFromOwningByTarget(collector, fft);
 
 
 
