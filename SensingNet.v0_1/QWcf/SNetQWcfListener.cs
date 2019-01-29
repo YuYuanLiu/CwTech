@@ -14,18 +14,16 @@ namespace SensingNet.v0_1.QWcf
     public class SNetQWcfListener : IDisposable
     {
         SNetQWcfListenerService service = new SNetQWcfListenerService();
-        Dictionary<string, SNetQWcfChannelInfo<ISNetQWcfClient>> ChannelMapper = new Dictionary<string, SNetQWcfChannelInfo<ISNetQWcfClient>>();
         ServiceHost host;
 
 
 
         public void Close()
         {
-            foreach (var chinfo in this.ChannelMapper)
+            if (this.service != null)
             {
-                var ch = chinfo.Value.Channel;
-                ch.Abort();
-                ch.Close();
+                using (var obj = this.service)
+                    obj.Close();
             }
 
 
