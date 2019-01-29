@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -6,10 +6,22 @@ using System.Text;
 
 namespace SensingNet.v0_1.QWcf
 {
-    public class SNetQWcfListenerService : ISNetQWcfListener
+    public class SNetQWcfListenerService : ISNetQWcfListener,IDisposable
     {
-        Dictionary<string, SNetQWcfChannelInfo<ISNetQWcfClient>> ChannelMapper = new Dictionary<string, SNetQWcfChannelInfo<ISNetQWcfClient>>();
+        protected Dictionary<string, SNetQWcfChannelInfo<ISNetQWcfClient>> ChannelMapper = new Dictionary<string, SNetQWcfChannelInfo<ISNetQWcfClient>>();
 
+
+        public void Close()
+        {
+            foreach (var chinfo in this.ChannelMapper)
+            {
+                var ch = chinfo.Value.Channel;
+                ch.Abort();
+                ch.Close();
+            }
+
+
+        }
         public void RemoveObsoleteChannel()
         {
             var query = (from row in this.ChannelMapper
@@ -66,5 +78,51 @@ namespace SensingNet.v0_1.QWcf
 
 
         #endregion
+
+
+        #region Dispose
+
+        bool disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual void DisposeManaged()
+        {
+
+        }
+
+        public virtual void DisposeSelf()
+        {
+            this.Close();
+        }
+
+        public virtual void DisposeUnManaged()
+        {
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                // Free any managed objects here.
+                this.DisposeManaged();
+            }
+
+            // Free any unmanaged objects here.
+            //
+            this.DisposeUnManaged();
+            this.DisposeSelf();
+            disposed = true;
+        }
+        #endregion
+
+
     }
 }
