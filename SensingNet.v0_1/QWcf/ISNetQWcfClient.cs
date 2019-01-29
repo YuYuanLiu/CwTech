@@ -14,6 +14,8 @@ namespace SensingNet.v0_1.QWcf
         [OperationContract(IsOneWay = true)]
         void Send(SNnetQWcfMessage msg);
 
+        [OperationContract()]
+        SNnetQWcfMessage SendRelay(SNnetQWcfMessage msg);
 
     }
 

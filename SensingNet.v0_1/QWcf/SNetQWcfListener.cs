@@ -11,15 +11,13 @@ namespace SensingNet.v0_1.QWcf
 
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class SNetQWcfListener : ISNetQWcfListener, IDisposable
+    public class SNetQWcfListener : IDisposable
     {
+        SNetQWcfListenerService service = new SNetQWcfListenerService();
         Dictionary<string, SNetQWcfChannelInfo<ISNetQWcfClient>> ChannelMapper = new Dictionary<string, SNetQWcfChannelInfo<ISNetQWcfClient>>();
         ServiceHost host;
-        public List<ISNetQWcfClient> AllChannels()
-        {
-            this.RemoveObsoleteChannel();
-            return (this.ChannelMapper.Select(row => row.Value.Callback)).ToList();
-        }
+
+
 
         public void Close()
         {
@@ -41,60 +39,24 @@ namespace SensingNet.v0_1.QWcf
             }
         }
 
-        public ISNetQWcfClient Get(string key = null)
-        {
-            this.RemoveObsoleteChannel();
-            var oc = OperationContext.Current;
-            if (key == null)
-                key = oc.SessionId;
-            if (this.ChannelMapper.ContainsKey(key)) return this.ChannelMapper[key].Callback;
 
-            var chinfo = new SNetQWcfChannelInfo<ISNetQWcfClient>();
-            chinfo.SessionId = key;
-            chinfo.Channel = oc.Channel;
-            chinfo.Callback = oc.GetCallbackChannel<ISNetQWcfClient>();
-            this.ChannelMapper[key] = chinfo;
-            return chinfo.Callback;
-        }
 
         public void Open(string uri, string address = "")
         {
-            this.host = new ServiceHost(this, new Uri(Path.Combine(uri)));
+            this.host = new ServiceHost(this.service, new Uri(Path.Combine(uri)));
             var ep2 = this.host.AddServiceEndpoint(typeof(ISNetQWcfListener), new NetTcpBinding(), address);
             //this.host2.Opened += (ss, ee) => { Console.WriteLine("The calculator service has begun to listen"); };
             this.host.Open();
         }
 
-        public void RemoveObsoleteChannel()
-        {
-            var query = (from row in this.ChannelMapper
-                         where row.Value.Channel.State > CommunicationState.Opened
-                         select row).ToList();
-
-            foreach (var row in query)
-                this.ChannelMapper.Remove(row.Key);
-        }
-        #region ISNetQWcfListener
-
-        public void Send(SNnetQWcfMessage msg)
-        {
-            var callback = this.Get();
-            this.OnReceiveData(new SNetQWcfEventArgs() { Message = msg });
-        }
 
 
-        #endregion
+
 
 
         #region Event
 
-        public event EventHandler<SNetQWcfEventArgs> evtReceiveData;
-        public void OnReceiveData(SNetQWcfEventArgs ea)
-        {
-            if (this.evtReceiveData == null) return;
-            this.evtReceiveData(this, ea);
-        }
-
+        public event EventHandler<SNetQWcfEventArgs> evtReceiveData { add { this.service.evtReceiveData += value; } remove { this.service.evtReceiveData -= value; } }
         #endregion
 
 

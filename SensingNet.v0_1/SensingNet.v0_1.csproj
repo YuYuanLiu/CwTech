@@ -90,6 +90,8 @@
     <Compile Include="QWcf\ISNetQWcfClient.cs" />
     <Compile Include="QWcf\Simulate\SNetSimulateQWcfClient.cs" />
     <Compile Include="QWcf\Simulate\SNetSimulateQWcfListener.cs" />
+    <Compile Include="QWcf\SNetQWcfListenerService.cs" />
+    <Compile Include="QWcf\SNetQWcfClientCallback.cs" />
     <Compile Include="QWcf\SNetQWcfEventArgs.cs" />
     <Compile Include="QWcf\SNetQWcfListener.cs" />
     <Compile Include="QWcf\SNetQWcfClient.cs" />

@@ -12,14 +12,20 @@ namespace SensingNet.v0_1.QWcf
 {
 
 
-    public class SNetQWcfClient : ISNetQWcfClient, IDisposable
+    public class SNetQWcfClient : IDisposable
     {
 
         public ISNetQWcfListener Channel;
         public DuplexChannelFactory<ISNetQWcfListener> ChannelFactory;
+        public SNetQWcfClientCallback callback = new SNetQWcfClientCallback();
 
         ~SNetQWcfClient() { this.Dispose(false); }
 
+
+        public SNetQWcfClient()
+        {
+
+        }
 
         public void Close()
         {
@@ -35,31 +41,19 @@ namespace SensingNet.v0_1.QWcf
 
         public void Open(string uri, string address = "")
         {
-            var site = new InstanceContext(this);
+            var site = new InstanceContext(this.callback);
             var endpointAddress = new EndpointAddress(Path.Combine(uri, address));
             var binding = new NetTcpBinding();
             this.ChannelFactory = new DuplexChannelFactory<ISNetQWcfListener>(site, binding, endpointAddress);
             this.Channel = this.ChannelFactory.CreateChannel();
         }
-        #region ISNetQWcfListener
-
-        public void Send(SNnetQWcfMessage msg)
-        {
-            this.OnReceiveData(new SNetQWcfEventArgs() { Message = msg });
-        }
 
 
-        #endregion
 
 
         #region Event
 
-        public event EventHandler<SNetQWcfEventArgs> evtReceiveData;
-        public void OnReceiveData(SNetQWcfEventArgs ea)
-        {
-            if (this.evtReceiveData == null) return;
-            this.evtReceiveData(this, ea);
-        }
+        public event EventHandler<SNetQWcfEventArgs> evtReceiveData { add { this.callback.evtReceiveData += value; } remove { this.callback.evtReceiveData -= value; } }
 
         #endregion
 
