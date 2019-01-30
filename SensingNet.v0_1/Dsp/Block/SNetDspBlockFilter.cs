@@ -1,6 +1,6 @@
 ﻿using CToolkit.v0_1;
 using CToolkit.v0_1.Numeric;
-using CToolkit.v0_1.TimeOp;
+using CToolkit.v0_1.Timing;
 using MathNet.Filtering.FIR;
 using SensingNet.v0_1.Dsp.TimeSignal;
 using System;

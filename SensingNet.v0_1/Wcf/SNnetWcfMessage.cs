@@ -8,6 +8,6 @@ namespace SensingNet.v0_1.Wcf
     public class SNnetWcfMessage
     {
 
-        public Object Messsage;
+        public Object DataObj;
     }
 }

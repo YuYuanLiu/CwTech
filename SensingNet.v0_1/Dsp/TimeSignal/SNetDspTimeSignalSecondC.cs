@@ -1,5 +1,5 @@
 ﻿using CToolkit.v0_1.Numeric;
-using CToolkit.v0_1.TimeOp;
+using CToolkit.v0_1.Timing;
 using System;
 using System.Collections;
 using System.Collections.Generic;

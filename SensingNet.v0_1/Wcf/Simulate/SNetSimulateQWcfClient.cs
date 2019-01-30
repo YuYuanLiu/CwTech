@@ -25,7 +25,7 @@ namespace SensingNet.v0_1.Wcf.Simulate
             this.client = new SNetWcfClient();
             this.client.evtReceiveData += (ss, ee) =>
             {
-                CmdWrite(ee.Message.Message);
+                CmdWrite(ee.Message.DataObj+"");
             };
             this.client.Open(SNetSimulateQWcfListener.NetTcpUri);
         }
@@ -66,7 +66,7 @@ namespace SensingNet.v0_1.Wcf.Simulate
         public void Send()
         {
 
-            this.client.Channel.Send(new SNnetWcfMessage() { Message = "Client Send" });
+            this.client.Channel.Send(new SNnetWcfMessage() { DataObj = "Client Send" });
 
         }
 

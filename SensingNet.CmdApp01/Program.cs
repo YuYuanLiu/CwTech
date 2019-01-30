@@ -9,6 +9,7 @@ using System.ServiceModel.Description;
 using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
+using CToolkit.v0_1.Wcf;
 
 namespace SensingNet.CmdApp01
 {
@@ -16,7 +17,7 @@ namespace SensingNet.CmdApp01
     {
         public static void Main(string[] args)
         {
-            using (var example = new SNetSimulateQWcfListener())
+            using (var example = new CtkExampleService())
             {
                 example.RunAsyn();
                 example.CommandLine();

@@ -7,19 +7,19 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using CToolkit.v0_1.Wcf;
 
 namespace SensingNet.CmdApp02
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            using (var example = new SNetSimulateQWcfClient())
+            using (var example = new CtkExampleClient())
             {
                 example.RunAsyn();
                 example.CommandLine();
             }
-
 
 
         }

@@ -25,7 +25,7 @@ namespace SensingNet.v0_1.Wcf.Simulate
             this.listener = new SNetWcfListener();
             this.listener.evtReceiveData += (ss, ee) =>
             {
-                CmdWrite(ee.Message.Message);
+                CmdWrite(ee.Message.DataObj+"");
             };
             this.listener.Open(NetTcpUri);
         }
@@ -66,7 +66,7 @@ namespace SensingNet.v0_1.Wcf.Simulate
 
         public void Send()
         {
-            this.listener.AllChannels().ForEach(row => row.Send(new SNnetWcfMessage() { Message = "Listener Send" }));
+            this.listener.AllChannels().ForEach(row => row.Send(new SNnetWcfMessage() { DataObj = "Listener Send" }));
         }
 
 

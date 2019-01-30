@@ -13,18 +13,18 @@ namespace SensingNet.v0_1.Wcf
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class SNetWcfListener : IDisposable
     {
-        SNetWcfListenerService service = new SNetWcfListenerService();
+        SNetWcfListenerService Service = new SNetWcfListenerService();
         ServiceHost host;
 
 
 
-        public List<ISNetWcfClient> AllChannels() { return this.service.AllChannels(); }
+        public List<ISNetWcfClient> AllChannels() { return this.Service.AllChannels(); }
 
         public void Close()
         {
-            if (this.service != null)
+            if (this.Service != null)
             {
-                using (var obj = this.service)
+                using (var obj = this.Service)
                     obj.Close();
             }
 
@@ -42,7 +42,7 @@ namespace SensingNet.v0_1.Wcf
 
         public void Open(string uri, string address = "")
         {
-            this.host = new ServiceHost(this.service, new Uri(Path.Combine(uri)));
+            this.host = new ServiceHost(this.Service, new Uri(Path.Combine(uri)));
             var ep2 = this.host.AddServiceEndpoint(typeof(ISNetWcfListener), new NetTcpBinding(), address);
             //this.host2.Opened += (ss, ee) => { Console.WriteLine("The calculator service has begun to listen"); };
             this.host.Open();
@@ -55,7 +55,7 @@ namespace SensingNet.v0_1.Wcf
 
         #region Event
 
-        public event EventHandler<SNetWcfEventArgs> evtReceiveData { add { this.service.evtReceiveData += value; } remove { this.service.evtReceiveData -= value; } }
+        public event EventHandler<SNetWcfEventArgs> evtReceiveData { add { this.Service.evtReceiveData += value; } remove { this.Service.evtReceiveData -= value; } }
         #endregion
 
 

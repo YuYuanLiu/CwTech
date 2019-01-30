@@ -1,4 +1,4 @@
-﻿using CToolkit.v0_1.TimeOp;
+﻿using CToolkit.v0_1.Timing;
 using SensingNet.v0_1.Dsp.TimeSignal;
 using System;
 using System.Collections.Generic;
