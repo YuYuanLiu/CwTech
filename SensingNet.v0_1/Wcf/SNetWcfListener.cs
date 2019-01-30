@@ -1,37 +1,36 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_1.QWcf
+namespace SensingNet.v0_1.Wcf
 {
 
 
-    public class SNetQWcfClient : IDisposable
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    public class SNetWcfListener : IDisposable
     {
-
-        public ISNetQWcfListener Channel;
-        public DuplexChannelFactory<ISNetQWcfListener> ChannelFactory;
-        public SNetQWcfClientCallback callback = new SNetQWcfClientCallback();
-
-        ~SNetQWcfClient() { this.Dispose(false); }
+        SNetWcfListenerService service = new SNetWcfListenerService();
+        ServiceHost host;
 
 
-        public SNetQWcfClient()
-        {
 
-        }
+        public List<ISNetWcfClient> AllChannels() { return this.service.AllChannels(); }
 
         public void Close()
         {
-            if (this.ChannelFactory != null)
+            if (this.service != null)
             {
-                using (var obj = this.ChannelFactory)
+                using (var obj = this.service)
+                    obj.Close();
+            }
+
+            if (this.host != null)
+            {
+                using (var obj = this.host)
                 {
                     obj.Abort();
                     obj.Close();
@@ -39,22 +38,24 @@ namespace SensingNet.v0_1.QWcf
             }
         }
 
+
+
         public void Open(string uri, string address = "")
         {
-            var site = new InstanceContext(this.callback);
-            var endpointAddress = new EndpointAddress(Path.Combine(uri, address));
-            var binding = new NetTcpBinding();
-            this.ChannelFactory = new DuplexChannelFactory<ISNetQWcfListener>(site, binding, endpointAddress);
-            this.Channel = this.ChannelFactory.CreateChannel();
+            this.host = new ServiceHost(this.service, new Uri(Path.Combine(uri)));
+            var ep2 = this.host.AddServiceEndpoint(typeof(ISNetWcfListener), new NetTcpBinding(), address);
+            //this.host2.Opened += (ss, ee) => { Console.WriteLine("The calculator service has begun to listen"); };
+            this.host.Open();
         }
+
+
 
 
 
 
         #region Event
 
-        public event EventHandler<SNetQWcfEventArgs> evtReceiveData { add { this.callback.evtReceiveData += value; } remove { this.callback.evtReceiveData -= value; } }
-
+        public event EventHandler<SNetWcfEventArgs> evtReceiveData { add { this.service.evtReceiveData += value; } remove { this.service.evtReceiveData -= value; } }
         #endregion
 
 
@@ -100,8 +101,12 @@ namespace SensingNet.v0_1.QWcf
             disposed = true;
         }
         #endregion
-    }
 
+
+
+
+
+    }
 
 
 

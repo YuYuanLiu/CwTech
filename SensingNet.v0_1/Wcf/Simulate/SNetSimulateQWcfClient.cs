@@ -11,18 +11,18 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_1.QWcf.Simulate
+namespace SensingNet.v0_1.Wcf.Simulate
 {
     public class SNetSimulateQWcfClient : IDisposable
     {
-        SNetQWcfClient client;
+        SNetWcfClient client;
         public volatile bool IsSendRequest = false;
 
         ~SNetSimulateQWcfClient() { this.Dispose(false); }
 
         public void RunAsyn()
         {
-            this.client = new SNetQWcfClient();
+            this.client = new SNetWcfClient();
             this.client.evtReceiveData += (ss, ee) =>
             {
                 CmdWrite(ee.Message.Message);
@@ -66,7 +66,7 @@ namespace SensingNet.v0_1.QWcf.Simulate
         public void Send()
         {
 
-            this.client.Channel.Send(new SNnetQWcfMessage() { Message = "Client Send" });
+            this.client.Channel.Send(new SNnetWcfMessage() { Message = "Client Send" });
 
         }
 

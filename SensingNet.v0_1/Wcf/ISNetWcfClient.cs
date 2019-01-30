@@ -5,17 +5,17 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_1.QWcf
+namespace SensingNet.v0_1.Wcf
 {
 
 
-    public interface ISNetQWcfClient
+    public interface ISNetWcfClient
     {
         [OperationContract(IsOneWay = true)]
-        void Send(SNnetQWcfMessage msg);
+        void Send(SNnetWcfMessage msg);
 
         [OperationContract()]
-        SNnetQWcfMessage SendRelay(SNnetQWcfMessage msg);
+        SNnetWcfMessage SendRelay(SNnetWcfMessage msg);
 
     }
 

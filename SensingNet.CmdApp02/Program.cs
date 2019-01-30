@@ -1,5 +1,5 @@
 ﻿using CToolkit.v0_1.Wcf.Example;
-using SensingNet.v0_1.QWcf.Simulate;
+using SensingNet.v0_1.Wcf.Simulate;
 using SensingNet.v0_1.Simulate;
 using System;
 using System.Collections.Generic;

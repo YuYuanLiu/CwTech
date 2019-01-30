@@ -1,35 +1,37 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_1.QWcf
+namespace SensingNet.v0_1.Wcf
 {
 
 
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class SNetQWcfListener : IDisposable
+    public class SNetWcfClient : IDisposable
     {
-        SNetQWcfListenerService service = new SNetQWcfListenerService();
-        ServiceHost host;
+
+        public ISNetWcfListener Channel;
+        public DuplexChannelFactory<ISNetWcfListener> ChannelFactory;
+        public SNetWcfClientCallback callback = new SNetWcfClientCallback();
+
+        ~SNetWcfClient() { this.Dispose(false); }
 
 
+        public SNetWcfClient()
+        {
+
+        }
 
         public void Close()
         {
-            if (this.service != null)
+            if (this.ChannelFactory != null)
             {
-                using (var obj = this.service)
-                    obj.Close();
-            }
-
-
-            if (this.host != null)
-            {
-                using (var obj = this.host)
+                using (var obj = this.ChannelFactory)
                 {
                     obj.Abort();
                     obj.Close();
@@ -37,24 +39,22 @@ namespace SensingNet.v0_1.QWcf
             }
         }
 
-
-
         public void Open(string uri, string address = "")
         {
-            this.host = new ServiceHost(this.service, new Uri(Path.Combine(uri)));
-            var ep2 = this.host.AddServiceEndpoint(typeof(ISNetQWcfListener), new NetTcpBinding(), address);
-            //this.host2.Opened += (ss, ee) => { Console.WriteLine("The calculator service has begun to listen"); };
-            this.host.Open();
+            var site = new InstanceContext(this.callback);
+            var endpointAddress = new EndpointAddress(Path.Combine(uri, address));
+            var binding = new NetTcpBinding();
+            this.ChannelFactory = new DuplexChannelFactory<ISNetWcfListener>(site, binding, endpointAddress);
+            this.Channel = this.ChannelFactory.CreateChannel();
         }
-
-
 
 
 
 
         #region Event
 
-        public event EventHandler<SNetQWcfEventArgs> evtReceiveData { add { this.service.evtReceiveData += value; } remove { this.service.evtReceiveData -= value; } }
+        public event EventHandler<SNetWcfEventArgs> evtReceiveData { add { this.callback.evtReceiveData += value; } remove { this.callback.evtReceiveData -= value; } }
+
         #endregion
 
 
@@ -100,12 +100,8 @@ namespace SensingNet.v0_1.QWcf
             disposed = true;
         }
         #endregion
-
-
-
-
-
     }
+
 
 
 

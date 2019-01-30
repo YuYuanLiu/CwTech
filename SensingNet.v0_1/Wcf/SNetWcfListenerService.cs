@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
 
-namespace SensingNet.v0_1.QWcf
+namespace SensingNet.v0_1.Wcf
 {
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class SNetQWcfListenerService : ISNetQWcfListener,IDisposable
+    public class SNetWcfListenerService : ISNetWcfListener,IDisposable
     {
-        Dictionary<string, SNetQWcfChannelInfo<ISNetQWcfClient>> ChannelMapper = new Dictionary<string, SNetQWcfChannelInfo<ISNetQWcfClient>>();
+        protected Dictionary<string, SNetQWcfChannelInfo<ISNetWcfClient>> ChannelMapper = new Dictionary<string, SNetQWcfChannelInfo<ISNetWcfClient>>();
 
 
         public void Close()
@@ -21,8 +21,6 @@ namespace SensingNet.v0_1.QWcf
                 ch.Abort();
                 ch.Close();
             }
-
-
 
         }
 
@@ -35,12 +33,12 @@ namespace SensingNet.v0_1.QWcf
             foreach (var row in query)
                 this.ChannelMapper.Remove(row.Key);
         }
-        public List<ISNetQWcfClient> AllChannels()
+        public List<ISNetWcfClient> AllChannels()
         {
             this.RemoveObsoleteChannel();
             return (this.ChannelMapper.Select(row => row.Value.Callback)).ToList();
         }
-        public ISNetQWcfClient Get(string key = null)
+        public ISNetWcfClient Get(string key = null)
         {
             this.RemoveObsoleteChannel();
             var oc = OperationContext.Current;
@@ -48,23 +46,23 @@ namespace SensingNet.v0_1.QWcf
                 key = oc.SessionId;
             if (this.ChannelMapper.ContainsKey(key)) return this.ChannelMapper[key].Callback;
 
-            var chinfo = new SNetQWcfChannelInfo<ISNetQWcfClient>();
+            var chinfo = new SNetQWcfChannelInfo<ISNetWcfClient>();
             chinfo.SessionId = key;
             chinfo.Channel = oc.Channel;
-            chinfo.Callback = oc.GetCallbackChannel<ISNetQWcfClient>();
+            chinfo.Callback = oc.GetCallbackChannel<ISNetWcfClient>();
             this.ChannelMapper[key] = chinfo;
             return chinfo.Callback;
         }
 
         #region ISNetQWcfListener
-        public void Send(SNnetQWcfMessage msg)
+        public void Send(SNnetWcfMessage msg)
         {
-            this.OnReceiveData(new SNetQWcfEventArgs() { Message = msg });
+            this.OnReceiveData(new SNetWcfEventArgs() { Message = msg });
         }
 
-        public SNnetQWcfMessage SendRelay(SNnetQWcfMessage msg)
+        public SNnetWcfMessage SendRelay(SNnetWcfMessage msg)
         {
-            var ea = new SNetQWcfEventArgs() { Message = msg };
+            var ea = new SNetWcfEventArgs() { Message = msg };
             this.OnReceiveData(ea);
             return ea.ReplyMessage;
         }
@@ -72,8 +70,8 @@ namespace SensingNet.v0_1.QWcf
 
         #region Event
 
-        public event EventHandler<SNetQWcfEventArgs> evtReceiveData;
-        public void OnReceiveData(SNetQWcfEventArgs ea)
+        public event EventHandler<SNetWcfEventArgs> evtReceiveData;
+        public void OnReceiveData(SNetWcfEventArgs ea)
         {
             if (this.evtReceiveData == null) return;
             this.evtReceiveData(this, ea);
@@ -126,6 +124,8 @@ namespace SensingNet.v0_1.QWcf
             disposed = true;
         }
         #endregion
+
+
 
     }
 }

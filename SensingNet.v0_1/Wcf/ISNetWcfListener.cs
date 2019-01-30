@@ -5,19 +5,19 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_1.QWcf
+namespace SensingNet.v0_1.Wcf
 {
 
     [ServiceContract(Namespace = "http://Microsoft.ServiceModel.Samples", SessionMode = SessionMode.Required,
-                    CallbackContract = typeof(ISNetQWcfClient))]
-    public interface ISNetQWcfListener
+                    CallbackContract = typeof(ISNetWcfClient))]
+    public interface ISNetWcfListener
     {
 
         [OperationContract(IsOneWay = true)]
-        void Send(SNnetQWcfMessage msg);
+        void Send(SNnetWcfMessage msg);
 
         [OperationContract()]
-        SNnetQWcfMessage SendRelay(SNnetQWcfMessage msg);
+        SNnetWcfMessage SendRelay(SNnetWcfMessage msg);
 
     }
 
