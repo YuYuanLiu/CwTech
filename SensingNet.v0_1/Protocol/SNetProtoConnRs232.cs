@@ -63,6 +63,15 @@ namespace SensingNet.v0_1.Protocol
         }
 
 
+        public void WriteBytes(byte[] buff, int offset, int length)
+        {
+            this.nonStopSerialPort.WriteMsg(new CtkProtocolBuffer()
+            {
+                Buffer = buff,
+                Offset = offset,
+                Length = length,
+            });
+        }
 
 
 
@@ -106,20 +115,19 @@ namespace SensingNet.v0_1.Protocol
         }
 
         public object ActiveWorkClient { get { return this.nonStopSerialPort.ActiveWorkClient; } set { this.nonStopSerialPort.ActiveWorkClient = value; } }
-        public void WriteBytes(byte[] buff, int offset, int length) { this.nonStopSerialPort.WriteBytes(buff, offset, length); }
-        public void WriteBytes(byte[] buff, int length) { this.WriteBytes(buff, 0, length); }
-        public void WriteBytes(byte[] buff) { this.WriteBytes(buff, 0, buff.Length); }
-        public void WriteMsg(object msg)
+
+        public void WriteMsg(CtkProtocolTrxMessage msg)
         {
-            if (msg.GetType() == typeof(string))
+            if (msg.As<string>() != null)
             {
-                var buff = Encoding.UTF8.GetBytes(msg as string);
+                var buff = Encoding.UTF8.GetBytes(msg.As<string>());
                 this.WriteBytes(buff, 0, buff.Length);
             }
-            else if (msg.GetType() == typeof(CtkHsmsMessage))
+            else if (msg.As<CtkHsmsMessage>() != null)
             {
-                var secsMsg = msg as CtkHsmsMessage;
-                this.WriteBytes(secsMsg.ToBytes());
+                var secsMsg = msg.As<CtkHsmsMessage>();
+                var buffer = secsMsg.ToBytes();
+                this.WriteBytes(buffer, 0, buffer.Length);
             }
             else
             {
@@ -129,32 +137,33 @@ namespace SensingNet.v0_1.Protocol
 
 
 
-        public event EventHandler<CtkProtocolBufferEventArgs> evtFirstConnect;
-        void OnFirstConnect(CtkProtocolBufferEventArgs ea)
+
+        public event EventHandler<CtkProtocolEventArgs> evtFirstConnect;
+        void OnFirstConnect(CtkProtocolEventArgs ea)
         {
             if (this.evtFirstConnect == null) return;
             this.evtFirstConnect(this, ea);
         }
-        public event EventHandler<CtkProtocolBufferEventArgs> evtFailConnect;
-        void OnFailConnect(CtkProtocolBufferEventArgs ea)
+        public event EventHandler<CtkProtocolEventArgs> evtFailConnect;
+        void OnFailConnect(CtkProtocolEventArgs ea)
         {
             if (this.evtFailConnect == null) return;
             this.evtFailConnect(this, ea);
         }
-        public event EventHandler<CtkProtocolBufferEventArgs> evtDisconnect;
-        void OnDisconnect(CtkProtocolBufferEventArgs ea)
+        public event EventHandler<CtkProtocolEventArgs> evtDisconnect;
+        void OnDisconnect(CtkProtocolEventArgs ea)
         {
             if (this.evtDisconnect == null) return;
             this.evtDisconnect(this, ea);
         }
-        public event EventHandler<CtkProtocolBufferEventArgs> evtDataReceive;
-        void OnDataReceive(CtkProtocolBufferEventArgs ea)
+        public event EventHandler<CtkProtocolEventArgs> evtDataReceive;
+        void OnDataReceive(CtkProtocolEventArgs ea)
         {
             if (this.evtDataReceive == null) return;
             this.evtDataReceive(this, ea);
         }
-        public event EventHandler<CtkProtocolBufferEventArgs> evtErrorReceive;
-        void OnErrorReceive(CtkProtocolBufferEventArgs ea)
+        public event EventHandler<CtkProtocolEventArgs> evtErrorReceive;
+        void OnErrorReceive(CtkProtocolEventArgs ea)
         {
             if (this.evtErrorReceive == null) return;
             this.evtErrorReceive(this, ea);

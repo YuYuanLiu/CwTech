@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CToolkit.v0_1.Protocol;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace SensingNet.v0_1.Protocol
     public interface ISNetProtoFormatBase
     {
 
-        void ReceiveBytes(byte[] buffer, int offset, int length);
+        void ReceiveMsg(CtkProtocolTrxMessage msg);
         bool IsReceiving();
         bool HasMessage();
         bool TryDequeueMsg(out object msg);

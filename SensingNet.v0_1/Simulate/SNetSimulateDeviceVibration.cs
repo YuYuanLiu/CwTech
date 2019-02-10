@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Simulate
 {
-    public class SNetSimulateVibration : IDisposable
+    public class SNetSimulateDeviceVibration : IDisposable
     {
         public CtkNonStopTcpListener listener;
 
@@ -54,7 +54,8 @@ namespace SensingNet.v0_1.Simulate
             listener.evtDataReceive += (ss, ee) =>
             {
                 var myea = ee as CtkNonStopTcpStateEventArgs;
-                var msg = Encoding.UTF8.GetString(myea.Buffer, myea.Offset, myea.Length);
+                var ctkBuffer = myea.TrxMessageBuffer;
+                var msg = Encoding.UTF8.GetString(ctkBuffer.Buffer, ctkBuffer.Offset, ctkBuffer.Length);
                 if (!msg.Contains("\n")) return;
                 var sb = new StringBuilder();
                 sb.Append("cmd -respData -svid 0 -data");

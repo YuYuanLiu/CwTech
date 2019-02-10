@@ -1,7 +1,7 @@
 using CToolkit.v0_1;
 using CToolkit.v0_1.Logging;
 using CToolkit.v0_1.Net;
-using CToolkit.v0_1.Secs;
+using CToolkit.v0_1.Wcf;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Double;
 using System;
@@ -13,41 +13,41 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Simulate
 {
-    public class SNetSimulateCmdClient : IDisposable
+    public class SNetSimulateDeviceCtkWcf : IDisposable
     {
-        CtkNonStopTcpClient client;
-        public volatile bool IsSendRequest = false;
+        CtkWcfDuplexTcpListener<CtkWcfDuplexTcpListener> listener;
 
-        ~SNetSimulateCmdClient() { this.Dispose(false); }
+        public const string ServerUri = @"net.tcp://localhost:9000/";
+
+
+
+        ~SNetSimulateDeviceCtkWcf() { this.Dispose(false); }
 
         public void RunAsyn()
         {
-
-            client = new CtkNonStopTcpClient("127.0.0.1", 5003);
-            client.evtFirstConnect += (ss, ee) => { Write("evtFirstConnect"); };
-            client.evtFailConnect += (ss, ee) =>
+            this.listener = CtkWcfDuplexTcpListener.CreateSingle();
+            this.listener.evtDataReceive += (ss, ee) =>
             {
-                var sb = new StringBuilder();
-                sb.Append("evtFailConnect: ");
-                sb.Append(ee.Exception.StackTrace);
-                Write(sb.ToString());
-            };
-            client.evtErrorReceive += (ss, ee) => { Write("evtErrorReceive"); };
-            client.evtDataReceive += (ss, ee) =>
-            {
-                var ctkBuffer = ee.TrxMessageBuffer;
-                var msg = Encoding.UTF8.GetString(ctkBuffer.Buffer, ctkBuffer.Offset, ctkBuffer.Length);
-                Write(msg);
-            };
+                var ea = ee as CtkWcfDuplexEventArgs;
+                CmdWrite(ea.WcfMsg.DataObj + "");
 
-            client.NonStopConnectAsyn();
+            };
+            this.listener.Uri = ServerUri;
+            this.listener.ConnectIfNo();
+
+
         }
 
 
-        public void Write(string msg, params object[] obj)
+
+
+        public void CmdWrite(string msg, params object[] obj)
         {
-            Console.WriteLine();
-            Console.WriteLine(msg, obj);
+            if (msg != null)
+            {
+                Console.WriteLine();
+                Console.WriteLine(msg, obj);
+            }
             Console.Write(">");
         }
 
@@ -56,7 +56,7 @@ namespace SensingNet.v0_1.Simulate
             var cmd = "";
             do
             {
-                Write(this.GetType().Name);
+                CmdWrite(this.GetType().Name);
                 cmd = Console.ReadLine();
 
                 switch (cmd)
@@ -64,37 +64,28 @@ namespace SensingNet.v0_1.Simulate
                     case "send":
                         this.Send();
                         break;
-                    case "state":
-                        Console.WriteLine("State={0}", this.client.IsRemoteConnected);
-                        break;
                 }
 
 
             } while (string.Compare(cmd, "exit", true) != 0);
 
-            this.Stop();
+            this.Close();
 
         }
 
 
         public void Send()
         {
-
-            this.client.WriteMsg("cmd\n");
-
+            this.listener.GetAllChannels().ForEach(row => row.CtkSend("Hello, I am server"));
         }
 
 
-        public void Stop()
+        public void Close()
         {
-            if (this.client != null)
-            {
-                using (this.client)
-                {
-                    this.client.AbortNonStopConnect();
-                    this.client.Disconnect();
-                }
-            }
+            using (var obj = this.listener)
+                obj.Close();
+
+
         }
 
 
@@ -139,7 +130,7 @@ namespace SensingNet.v0_1.Simulate
 
         protected virtual void DisposeSelf()
         {
-            this.Stop();
+            this.Close();
         }
 
         protected virtual void DisposeUnmanaged()

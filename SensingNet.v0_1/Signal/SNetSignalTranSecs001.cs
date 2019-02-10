@@ -1,5 +1,6 @@
 ﻿using CToolkit;
 using CToolkit.v0_1;
+using CToolkit.v0_1.Protocol;
 using CToolkit.v0_1.Secs;
 using System;
 using System.Collections.Generic;
@@ -48,7 +49,7 @@ namespace SensingNet.v0_1.Signal
             return null;
         }
 
-        public object CreateMsgDataReq<T>(IList<T> reqInfos)
+        public CtkProtocolTrxMessage CreateDataReqMsg<T>(IList<T> reqInfos)
         {
             var listInfo = reqInfos as IList<SNetSignalCfg>;
             if (listInfo == null) throw new ArgumentException("未定義此型別的操作方式");
@@ -76,7 +77,7 @@ namespace SensingNet.v0_1.Signal
         }
 
 
-        public object CreateMsgDataAck<T>(IList<T> reqInfos)
+        public CtkProtocolTrxMessage CreateAckMsg<T>(IList<T> reqInfos)
         {
             var listInfo = reqInfos as IList<SNetSignalCfg>;
             if (listInfo == null) throw new ArgumentException("未定義此型別的操作方式");

@@ -11,7 +11,7 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp.Block
 {
-    public class SNetDspBlockFilter : SNetDspBlockBase
+    public class SNetDspBlockFilter : SNetDspBlock
     {
         public CtkFftOnlineFilter PassFilter = new CtkFftOnlineFilter();
         //使用Struct傳入是傳值, 修改是無法帶出來的, 但你可以回傳同一個結構後接住它
@@ -23,10 +23,10 @@ namespace SensingNet.v0_1.Dsp.Block
             SampleRate = 1024,
         };
         public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
-        protected SNetDspBlockBase _input;
+        protected SNetDspBlock _input;
 
 
-        public SNetDspBlockBase Input
+        public SNetDspBlock Input
         {
             get { return this._input; }
             set

@@ -30,9 +30,9 @@ namespace SensingNet.MyTest
                 TxInterval = 0,
                 TimeoutResponse = 5000,
                 ProtoConnect = SNetEnumProtoConnect.Tcp,
-                ProtoFormat = SNetEnumProtoFormat.SensingNetCmd,
-                ProtoSession = SNetEnumProtoSession.SensingNetCmd,
-                SignalTran = SNetEnumSignalTran.SensingNet,
+                ProtoFormat = SNetEnumProtoFormat.SNetCmd,
+                ProtoSession = SNetEnumProtoSession.SNetCmd,
+                SignalTran = SNetEnumSignalTran.SNetCmd,
             };
             deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SNetSignalCfg()
             {

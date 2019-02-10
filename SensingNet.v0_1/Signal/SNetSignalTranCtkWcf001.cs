@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CToolkit.v0_1.Protocol;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Signal
 {
-    public class SNetSignalTranSensingNet : ISNetSignalTranBase
+    public class SNetSignalTranCtkWcf001 : ISNetSignalTranBase
     {
 
 
@@ -74,7 +75,7 @@ namespace SensingNet.v0_1.Signal
             return result;
         }
 
-        public object CreateMsgDataReq<T>(IList<T> reqInfos)
+        public CtkProtocolTrxMessage CreateDataReqMsg<T>(IList<T> reqInfos)
         {
             var listInfo = reqInfos as IList<SNetSignalCfg>;
             if (listInfo == null) throw new ArgumentException("未定義此型別的操作方式");
@@ -92,7 +93,7 @@ namespace SensingNet.v0_1.Signal
             return result.ToString();
         }
 
-        public object CreateMsgDataAck<T>(IList<T> reqInfos)
+        public CtkProtocolTrxMessage CreateAckMsg<T>(IList<T> reqInfos)
         {
             var listInfo = reqInfos as IList<SNetSignalCfg>;
             if (listInfo == null) throw new ArgumentException("未定義此型別的操作方式");
@@ -102,5 +103,7 @@ namespace SensingNet.v0_1.Signal
 
             return result.ToString();
         }
+
+
     }
 }

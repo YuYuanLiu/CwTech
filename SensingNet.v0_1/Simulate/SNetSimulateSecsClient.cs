@@ -94,7 +94,7 @@ namespace SensingNet.v0_1.Simulate
 
             txMsg.rootNode = sList;
 
-            this.client.WriteBytes(txMsg.ToBytes());
+            this.client.WriteMsg(txMsg);
 
         }
 

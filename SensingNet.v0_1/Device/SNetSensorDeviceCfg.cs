@@ -18,30 +18,28 @@ namespace SensingNet.v0_1.Device
     [Serializable]
     public class SNetSensorDeviceCfg
     {
+        public int DeviceId = 0;
+        public String DeviceName = null;
+        public bool IsActivelyConnect = false;
+        //Device是否為主動連線
+        public bool IsActivelyTx = false;
+
         public String LocalIp;
         public int LocalPort;
+        public SNetEnumProtoConnect ProtoConnect = SNetEnumProtoConnect.Tcp;
+        public SNetEnumProtoFormat ProtoFormat = SNetEnumProtoFormat.Secs;
+        public SNetEnumProtoSession ProtoSession = SNetEnumProtoSession.Secs;
         public String RemoteIp = "192.168.123.101";
         public int RemotePort = 5000;
 
         public CtkSerialPortCfg SerialPortConfig = new CtkSerialPortCfg();
-
-        public int DeviceId = 0;
-        public String DeviceName = null;
-
-        public SNetEnumProtoConnect ProtoConnect = SNetEnumProtoConnect.Tcp;
-        public SNetEnumProtoFormat ProtoFormat = SNetEnumProtoFormat.Secs;
-        public SNetEnumProtoSession ProtoSession = SNetEnumProtoSession.Secs;
-        public SNetEnumSignalTran SignalTran = SNetEnumSignalTran.SensingNet;
-        public bool IsActivelyConnect = false;//Device是否為主動連線
-        public bool IsActivelyTx = false;//Device是否會主動發訊息
-        public int TxInterval = 0; // ms, 0=即時
+        public string Uri;
+        public List<SNetSignalCfg> SignalCfgList = new List<SNetSignalCfg>();
+        public SNetEnumSignalTran SignalTran = SNetEnumSignalTran.SNetCmd;
         public int TimeoutResponse = 1000;
 
-        public List<SNetSignalCfg> SignalCfgList = new List<SNetSignalCfg>();
-
-
-
-
+        //Device是否會主動發訊息
+        public int TxInterval = 0; // ms, 0=即時
         public void SaveToXmlFile(string fn) { CtkUtil.SaveToXmlFileT(this, fn); }
     }
 }

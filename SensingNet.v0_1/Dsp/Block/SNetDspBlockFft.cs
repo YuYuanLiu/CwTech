@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Dsp.Block
 {
-    public class SNetDspBlockFft : SNetDspBlockBase
+    public class SNetDspBlockFft : SNetDspBlock
     {
         public int SampleRate = 1024;
         /// <summary>
@@ -20,10 +20,10 @@ namespace SensingNet.v0_1.Dsp.Block
         /// </summary>
         public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
 
-        protected SNetDspBlockBase _input;
+        protected SNetDspBlock _input;
 
 
-        public SNetDspBlockBase Input
+        public SNetDspBlock Input
         {
             get { return this._input; }
             set

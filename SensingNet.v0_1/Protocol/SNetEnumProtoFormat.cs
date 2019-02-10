@@ -7,9 +7,10 @@ namespace SensingNet.v0_1.Protocol
 {
     public enum SNetEnumProtoFormat
     {
-        SensingNetCmd,
+        SNetCmd,
         Secs,
         Modbus,
+        CtkWcf,
         Custom,
     }
 }

@@ -32,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CToolkit.v0_1, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\CToolkit.v0.1\CToolkit.v0_1.dll</HintPath>
-    </Reference>
     <Reference Include="Cudafy.NET, Version=1.29.5576.13786, Culture=neutral, PublicKeyToken=63a4c9931616906b, processorArchitecture=MSIL">
       <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\CUDAfy.NET.1.29.5576.13786\lib\net40\Cudafy.NET.dll</HintPath>
     </Reference>
@@ -66,12 +62,14 @@
     <Compile Include="Dsp\Block\SNetDspBlockFft.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetSecondEventArg.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetEventArg.cs" />
+    <Compile Include="Dsp\Block\SNetDspDiagram.cs" />
+    <Compile Include="Dsp\Block\SNetDspNode.cs" />
     <Compile Include="Dsp\SNetDspEnumInvokeResult.cs" />
     <Compile Include="Dsp\Block\ISNetDspBlock.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockFilter.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockEventArg.cs" />
     <Compile Include="Dsp\TimeSignal\ISNetDspTimeSignalSet.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockBase.cs" />
+    <Compile Include="Dsp\Block\SNetDspBlock.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockTimeSignalEventArg.cs" />
     <Compile Include="Dsp\SNetDspLayoutGraph.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockSeqDataCollector.cs" />
@@ -86,6 +84,11 @@
     <Compile Include="Protocol\SNetEnumProtoConnect.cs" />
     <Compile Include="Protocol\SNetEnumProtoSession.cs" />
     <Compile Include="Protocol\SNetEnumProtoFormat.cs" />
+    <Compile Include="Protocol\SNetProtoConnTcpWcf.cs" />
+    <Compile Include="Protocol\SNetProtoFormatCtkWcf.cs" />
+    <Compile Include="Protocol\SNetProtoSessionCtkWcf.cs" />
+    <Compile Include="Signal\SNetSignalTranCtkWcf001.cs" />
+    <Compile Include="Simulate\SNetSimulateDeviceCtkWcf.cs" />
     <Compile Include="Wcf\ISNetWcfListener.cs" />
     <Compile Include="Wcf\ISNetWcfClient.cs" />
     <Compile Include="Wcf\Simulate\SNetSimulateQWcfClient.cs" />
@@ -107,9 +110,9 @@
     <Compile Include="Protocol\ISNetProtoFormatBase.cs" />
     <Compile Include="Protocol\SNetProtoConnRs232.cs" />
     <Compile Include="Protocol\SNetProtoConnTcp.cs" />
-    <Compile Include="Protocol\SNetProtoFormatSensingNetCmd.cs" />
+    <Compile Include="Protocol\SNetProtoFormatSNetCmd.cs" />
     <Compile Include="Protocol\SNetProtoFormatSecs.cs" />
-    <Compile Include="Protocol\SNetProtoSessionSensingNetCmd.cs" />
+    <Compile Include="Protocol\SNetProtoSessionSNetCmd.cs" />
     <Compile Include="Protocol\SNetProtoSessionSecs.cs" />
     <Compile Include="QSecs\SNetEnumStatisticsMethod.cs" />
     <Compile Include="QSecs\SNetQSecsRcvDataEventArgs.cs" />
@@ -135,13 +138,13 @@
     <Compile Include="Storage\SNetSignalCollector.cs" />
     <Compile Include="Signal\SNetSignalEventArgs.cs" />
     <Compile Include="Storage\SNetSignalPerSec.cs" />
-    <Compile Include="Signal\SNetSignalTranSensingNet.cs" />
+    <Compile Include="Signal\SNetSignalTranSNetCmd.cs" />
     <Compile Include="SNetUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <Compile Include="Simulate\SNetSimulateSecsClient.cs" />
-    <Compile Include="Simulate\SNetSimulateVibration.cs" />
+    <Compile Include="Simulate\SNetSimulateDeviceVibration.cs" />
     <None Include="Tools\place_these_executables_in_same_folder_as_Cudafy.NET.dll_" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +155,12 @@
     <Content Include="Readme\README.txt" />
     <Content Include="Tools\cudafycl.exe" />
     <Content Include="Tools\CudafyViewer.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit.v0_1\CToolkit.v0_1.csproj">
+      <Project>{f07c68ef-a4d1-4af9-a283-35f6e27ace8a}</Project>
+      <Name>CToolkit.v0_1</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

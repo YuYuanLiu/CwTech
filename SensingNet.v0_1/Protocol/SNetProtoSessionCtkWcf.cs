@@ -6,18 +6,24 @@ using System.Text;
 
 namespace SensingNet.v0_1.Protocol
 {
-    public class SNetProtoSessionSensingNetCmd : ISNetProtoSessionBase
+    public class SNetProtoSessionCtkWcf : ISNetProtoSessionBase
     {
 
         public bool ProcessSession(ISNetProtoConnectBase protoConn, object msg)
         {
-            return false;
+          
+
+            return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="protoConn">並非所有通訊都是繼續自Stream, 因此請實作IProtoConnectBase</param>
         public void FirstConnect(ISNetProtoConnectBase protoConn)
         {
+           
         }
-
 
 
 

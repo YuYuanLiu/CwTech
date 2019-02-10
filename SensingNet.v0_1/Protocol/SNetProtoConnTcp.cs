@@ -25,16 +25,16 @@ namespace SensingNet.v0_1.Protocol
         ICtkProtocolNonStopConnect ctkProtoConnect { get { return this.client == null ? this.listener : this.client as ICtkProtocolNonStopConnect; } }
         public bool isListener = true;
         public DateTime? timeOfBeginConnect;
-        public IPEndPoint local;
-        public IPEndPoint remote;
+        public IPEndPoint LocalEndPoint;
+        public IPEndPoint RemoteEndPoint;
         ManualResetEvent mreHasMsg = new ManualResetEvent(false);
 
 
 
         public SNetProtoConnTcp(IPEndPoint l, IPEndPoint r, bool isListener)
         {
-            this.local = l;
-            this.remote = r;
+            this.LocalEndPoint = l;
+            this.RemoteEndPoint = r;
 
             this.isListener = isListener;
         }
@@ -50,8 +50,8 @@ namespace SensingNet.v0_1.Protocol
         {
             if (this.client != null) this.client.Disconnect();
             this.client = new CtkNonStopTcpClient();
-            this.client.localEP = this.local;
-            this.client.remoteEP = this.remote;
+            this.client.localEP = this.LocalEndPoint;
+            this.client.remoteEP = this.RemoteEndPoint;
             this.client.evtFirstConnect += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
@@ -66,7 +66,7 @@ namespace SensingNet.v0_1.Protocol
         {
             if (this.listener != null) this.listener.Disconnect();
             this.listener = new CtkNonStopTcpListener();
-            this.listener.localEP = this.local;
+            this.listener.localEP = this.LocalEndPoint;
             this.listener.evtFirstConnect += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
@@ -79,6 +79,7 @@ namespace SensingNet.v0_1.Protocol
             this.listener.evtDataReceive += (sender, e) => this.OnDataReceive(e);
         }
 
+        public void WriteBytes(byte[] buff, int offset, int length) { this.ActiveWorkStream.Write(buff, offset, length); }
 
 
 
@@ -143,23 +144,22 @@ namespace SensingNet.v0_1.Protocol
 
 
 
-        public object ActiveWorkClient { get { return this.client == null ? this.listener.ActiveWorkClient : this.client.ActiveWorkClient; } set { this.client.ActiveWorkClient = value; } }//一次只有一個可以被使用
-        public void WriteBytes(byte[] buff, int offset, int length) { this.ActiveWorkStream.Write(buff, offset, length); }
-        public void WriteBytes(byte[] buff, int length) { this.WriteBytes(buff, 0, length); }
-        public void WriteBytes(byte[] buff) { this.WriteBytes(buff, 0, buff.Length); }
-        public void WriteMsg(object msg)
+        public object ActiveWorkClient { get { return this.ctkProtoConnect.ActiveWorkClient; } set { this.ctkProtoConnect.ActiveWorkClient = (ICtkProtocolNonStopConnect)value; } }
+
+        public void WriteMsg(CtkProtocolTrxMessage msg)
         {
-            if (msg.GetType() == typeof(string))
+            if (msg.As<string>() != null)
             {
-                var buff = Encoding.UTF8.GetBytes(msg as string);
+                var buff = Encoding.UTF8.GetBytes(msg.As<string>());
                 this.WriteBytes(buff, 0, buff.Length);
             }
-            else if (msg.GetType() == typeof(CtkHsmsMessage))
+            else if (msg.As<CtkHsmsMessage>() != null)
             {
-                var secsMsg = msg as CtkHsmsMessage;
-                this.WriteBytes(secsMsg.ToBytes());
+                var secsMsg = msg.As<CtkHsmsMessage>();
+                var buffer = secsMsg.ToBytes();
+                this.WriteBytes(buffer, 0, buffer.Length);
             }
-            else 
+            else
             {
                 throw new ArgumentException("未定義該型別的寫入操作");
             }
@@ -170,32 +170,32 @@ namespace SensingNet.v0_1.Protocol
 
 
 
-        public event EventHandler<CtkProtocolBufferEventArgs> evtFirstConnect;
-        void OnFirstConnect(CtkProtocolBufferEventArgs ea)
+        public event EventHandler<CtkProtocolEventArgs> evtFirstConnect;
+        void OnFirstConnect(CtkProtocolEventArgs ea)
         {
             if (this.evtFirstConnect == null) return;
             this.evtFirstConnect(this, ea);
         }
-        public event EventHandler<CtkProtocolBufferEventArgs> evtFailConnect;
-        void OnFailConnect(CtkProtocolBufferEventArgs ea)
+        public event EventHandler<CtkProtocolEventArgs> evtFailConnect;
+        void OnFailConnect(CtkProtocolEventArgs ea)
         {
             if (this.evtFailConnect == null) return;
             this.evtFailConnect(this, ea);
         }
-        public event EventHandler<CtkProtocolBufferEventArgs> evtDisconnect;
-        void OnDisconnect(CtkProtocolBufferEventArgs ea)
+        public event EventHandler<CtkProtocolEventArgs> evtDisconnect;
+        void OnDisconnect(CtkProtocolEventArgs ea)
         {
             if (this.evtDisconnect == null) return;
             this.evtDisconnect(this, ea);
         }
-        public event EventHandler<CtkProtocolBufferEventArgs> evtDataReceive;
-        void OnDataReceive(CtkProtocolBufferEventArgs ea)
+        public event EventHandler<CtkProtocolEventArgs> evtDataReceive;
+        void OnDataReceive(CtkProtocolEventArgs ea)
         {
             if (this.evtDataReceive == null) return;
             this.evtDataReceive(this, ea);
         }
-        public event EventHandler<CtkProtocolBufferEventArgs> evtErrorReceive;
-        void OnErrorReceive(CtkProtocolBufferEventArgs ea)
+        public event EventHandler<CtkProtocolEventArgs> evtErrorReceive;
+        void OnErrorReceive(CtkProtocolEventArgs ea)
         {
             if (this.evtErrorReceive == null) return;
             this.evtErrorReceive(this, ea);
@@ -246,7 +246,7 @@ namespace SensingNet.v0_1.Protocol
         void DisposeSelf()
         {
             this.Disconnect();
-            CtkEventUtil.RemoveEventHandlersFromOwningByFilter( this, (dlgt) => true);
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
         }
 
         #endregion

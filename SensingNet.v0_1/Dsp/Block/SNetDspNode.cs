@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp.Block
 {
-   public  class SNetDspBlockDiagram : SNetDspBlock
+ public    class SNetDspNode
     {
     }
 }

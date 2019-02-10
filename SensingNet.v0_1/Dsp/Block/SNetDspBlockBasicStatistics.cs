@@ -9,16 +9,16 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp.Block
 {
-    public class SNetDspBlockBasicStatistics : SNetDspBlockBase
+    public class SNetDspBlockBasicStatistics : SNetDspBlock
     {
 
         public SNetDspTimeSignalSetSecond TSignalAvg = new SNetDspTimeSignalSetSecond();
         public SNetDspTimeSignalSetSecond TSignalMax = new SNetDspTimeSignalSetSecond();
         public SNetDspTimeSignalSetSecond TSignalMin = new SNetDspTimeSignalSetSecond();
-        protected SNetDspBlockBase _input;
+        protected SNetDspBlock _input;
         ~SNetDspBlockBasicStatistics() { this.Dispose(false); }
 
-        public SNetDspBlockBase Input
+        public SNetDspBlock Input
         {
             get { return this._input; }
             set

@@ -44,7 +44,7 @@ namespace SensingNet.v0_1.Device
 
                 if (this.Config.IsActivelyTx)
                 {
-                    var ackDataMsg = this.SignalTran.CreateMsgDataAck(this.Config.SignalCfgList);
+                    var ackDataMsg = this.SignalTran.CreateAckMsg(this.Config.SignalCfgList);
                     if (ackDataMsg != null)
                         this.ProtoConn.WriteMsg(ackDataMsg);
                 }
@@ -62,7 +62,7 @@ namespace SensingNet.v0_1.Device
                     }
                     prevAckTime = now;
 
-                    var reqDataMsg = this.SignalTran.CreateMsgDataReq(this.Config.SignalCfgList);
+                    var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
                     this.ProtoConn.WriteMsg(reqDataMsg);
                 }
 
@@ -174,6 +174,9 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumProtoConnect.Rs232:
                     this.ProtoConn = new SNetProtoConnRs232(this.Config.SerialPortConfig);
                     break;
+                case SNetEnumProtoConnect.TcpWcf:
+                    this.ProtoConn = new SNetProtoConnTcpWcf(this.Config.Uri, this.Config.IsActivelyConnect);
+                    break;
                 case SNetEnumProtoConnect.Custom:
                     //由使用者自己實作
                     break;
@@ -181,10 +184,10 @@ namespace SensingNet.v0_1.Device
             }
 
 
-            this.ProtoConn.evtDataReceive += (sender, e) =>
+            this.ProtoConn.evtDataReceive += (ss, ee) =>
             {
-                var ea = e as CtkProtocolBufferEventArgs;
-                this.ProtoFormat.ReceiveBytes(ea.Buffer, ea.Offset, ea.Length);
+                var ea = ee as CtkProtocolEventArgs;
+                this.ProtoFormat.ReceiveMsg(ea.TrxMessage);
                 this.areMsg.Set();
 
                 if (this.ProtoFormat.HasMessage())
@@ -196,11 +199,14 @@ namespace SensingNet.v0_1.Device
 
             switch (this.Config.ProtoFormat)
             {
-                case SNetEnumProtoFormat.SensingNetCmd:
-                    this.ProtoFormat = new SNetProtoFormatSensingNetCmd();
+                case SNetEnumProtoFormat.SNetCmd:
+                    this.ProtoFormat = new SNetProtoFormatSNetCmd();
                     break;
-                case  SNetEnumProtoFormat.Secs:
+                case SNetEnumProtoFormat.Secs:
                     this.ProtoFormat = new SNetProtoFormatSecs();
+                    break;
+                case SNetEnumProtoFormat.CtkWcf:
+                    this.ProtoFormat = new SNetProtoFormatCtkWcf();
                     break;
                 case SNetEnumProtoFormat.Custom:
                     //由使用者自己實作
@@ -212,11 +218,14 @@ namespace SensingNet.v0_1.Device
 
             switch (this.Config.ProtoSession)
             {
-                case SNetEnumProtoSession.SensingNetCmd:
-                    this.ProtoSession = new SNetProtoSessionSensingNetCmd();
+                case SNetEnumProtoSession.SNetCmd:
+                    this.ProtoSession = new SNetProtoSessionSNetCmd();
                     break;
                 case SNetEnumProtoSession.Secs:
                     this.ProtoSession = new SNetProtoSessionSecs();
+                    break;
+                case SNetEnumProtoSession.CtkWcf:
+                    this.ProtoSession = new SNetProtoSessionCtkWcf();
                     break;
                 case SNetEnumProtoSession.Custom:
                     //由使用者自己實作
@@ -227,11 +236,14 @@ namespace SensingNet.v0_1.Device
 
             switch (this.Config.SignalTran)
             {
-                case SNetEnumSignalTran.SensingNet:
-                    this.SignalTran = new SNetSignalTranSensingNet();
+                case SNetEnumSignalTran.SNetCmd:
+                    this.SignalTran = new SNetSignalTranSNetCmd();
                     break;
                 case SNetEnumSignalTran.Secs001:
                     this.SignalTran = new SNetSignalTranSecs001();
+                    break;
+                case SNetEnumSignalTran.CtkWcf001:
+                    this.SignalTran = new SNetSignalTranCtkWcf001();
                     break;
                 case SNetEnumSignalTran.Custom:
                     //由使用者自己實作

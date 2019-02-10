@@ -1,5 +1,6 @@
 ﻿using CToolkit.v0_1.Protocol;
 using CToolkit.v0_1.Secs;
+using CToolkit.v0_1.Wcf;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace SensingNet.v0_1.Protocol
 {
@@ -14,24 +16,14 @@ namespace SensingNet.v0_1.Protocol
     /// <summary>
     /// 客戶要求的Secs Format
     /// </summary>
-    public class SNetProtoFormatSecs : ISNetProtoFormatBase, IDisposable
+    public class SNetProtoFormatCtkWcf : ISNetProtoFormatBase, IDisposable
     {
 
-        public ConcurrentQueue<CtkHsmsMessage> MsgQueue = new ConcurrentQueue<CtkHsmsMessage>();
+        public ConcurrentQueue<CtkWcfMessage> MsgQueue = new ConcurrentQueue<CtkWcfMessage>();
+        ManualResetEvent mre = new ManualResetEvent(false);
 
-        CtkHsmsMessageReceiver hsmsMsgRcv = new CtkHsmsMessageReceiver();
+        ~SNetProtoFormatCtkWcf() { this.Dispose(false); }
 
-        ~SNetProtoFormatSecs() { this.Dispose(false); }
-
-        void ReceiveBytes(byte[] buffer, int offset, int length)
-        {
-            this.hsmsMsgRcv.Receive(buffer, offset, length);
-            while (this.hsmsMsgRcv.Count > 0)
-            {
-                var msg = this.hsmsMsgRcv.Dequeue();
-                this.MsgQueue.Enqueue(msg);
-            }
-        }
 
         #region ISNetProtoFormatBase
 
@@ -39,20 +31,26 @@ namespace SensingNet.v0_1.Protocol
 
         public bool HasMessage() { return this.MsgQueue.Count > 0; }
 
-        public bool IsReceiving() { return this.hsmsMsgRcv.GetMsgBufferLength() > 0; }
+        public bool IsReceiving() { return this.mre.WaitOne(1000); }
 
         public void ReceiveMsg(CtkProtocolTrxMessage msg)
         {
-            if (msg.Is<CtkProtocolBuffer>())
+            try
             {
-                var buffer = msg.As<CtkProtocolBuffer>();
-                this.ReceiveBytes(buffer.Buffer, buffer.Offset, buffer.Length);
+                mre.Reset();
+                if (msg.Is<CtkWcfMessage>())
+                    this.MsgQueue.Enqueue(msg.As<CtkWcfMessage>());
+                else
+                    throw new ArgumentException("Not support type");
             }
-            else throw new ArgumentException("Not support type");
+            finally { mre.Set(); }
+
         }
+
+
         public bool TryDequeueMsg(out object msg)
         {
-            CtkHsmsMessage mymsg = null;
+            CtkWcfMessage mymsg = null;
             var flag = this.MsgQueue.TryDequeue(out mymsg);
             msg = mymsg;
             return flag;
@@ -108,6 +106,7 @@ namespace SensingNet.v0_1.Protocol
         {
 
         }
+
 
         #endregion
 

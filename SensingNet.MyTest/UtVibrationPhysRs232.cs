@@ -36,8 +36,8 @@ namespace SensingNet.MyTest
                 //IsActivelyTx = true,
                 TimeoutResponse = 5000,
                 ProtoConnect = SNetEnumProtoConnect.Rs232,
-                ProtoFormat = SNetEnumProtoFormat.SensingNetCmd,
-                ProtoSession = SNetEnumProtoSession.SensingNetCmd,
+                ProtoFormat = SNetEnumProtoFormat.SNetCmd,
+                ProtoSession = SNetEnumProtoSession.SNetCmd,
             };
             deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SNetSignalCfg()
             {

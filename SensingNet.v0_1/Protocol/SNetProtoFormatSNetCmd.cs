@@ -5,36 +5,24 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
+using CToolkit.v0_1.Protocol;
 
 namespace SensingNet.v0_1.Protocol
 {
-    public class SNetProtoFormatSensingNetCmd : ConcurrentQueue<string>, ISNetProtoFormatBase, IDisposable
+    public class SNetProtoFormatSNetCmd : ISNetProtoFormatBase, IDisposable
     {
-   
-        StringBuilder rcvSb = new StringBuilder();
+        public ConcurrentQueue<string> MsgQueue = new ConcurrentQueue<string>();
+        StringBuilder receivingString = new StringBuilder();
 
 
 
-        #region ISNetProtoFormatBase
-
-        int ISNetProtoFormatBase.Count() { return this.Count; }
-
-        public bool HasMessage()
-        {
-            return this.Count > 0;
-        }
-
-        public bool IsReceiving()
-        {
-            return this.rcvSb.Length > 0;
-        }
-
-        public void ReceiveBytes(byte[] buffer, int offset, int length)
+        void ReceiveBytes(byte[] buffer, int offset, int length)
         {
             lock (this)
             {
-                this.rcvSb.Append(Encoding.UTF8.GetString(buffer, offset, length));
-                var content = this.rcvSb.ToString();
+                this.receivingString.Append(Encoding.UTF8.GetString(buffer, offset, length));
+                var content = this.receivingString.ToString();
                 for (var idx = content.IndexOf('\n'); idx >= 0; idx = content.IndexOf('\n'))
                 {
                     var line = content.Substring(0, idx + 1);
@@ -42,17 +30,35 @@ namespace SensingNet.v0_1.Protocol
                     line = line.Replace("\n", "");
                     line = line.Trim();
                     if (line.Contains("cmd"))
-                        this.Enqueue(line);
+                        this.MsgQueue.Enqueue(line);
                     content = content.Remove(0, idx + 1);
                 }
-                this.rcvSb.Clear();
-                this.rcvSb.Append(content);
+                this.receivingString.Clear();
+                this.receivingString.Append(content);
             }
         }
+
+        #region ISNetProtoFormatBase
+
+        int ISNetProtoFormatBase.Count() { return this.MsgQueue.Count; }
+        public bool HasMessage() { return this.MsgQueue.Count > 0; }
+
+        public bool IsReceiving() { return this.receivingString.Length > 0; }
+
+        public void ReceiveMsg(CtkProtocolTrxMessage msg)
+        {
+            if (msg.Is<CtkProtocolBuffer>())
+            {
+                var buffer = msg.As<CtkProtocolBuffer>();
+                this.ReceiveBytes(buffer.Buffer, buffer.Offset, buffer.Length);
+            }
+            else throw new ArgumentException("Not support type");
+        }
+
         public bool TryDequeueMsg(out object msg)
         {
             string line = null;
-            var flag = this.TryDequeue(out line);
+            var flag = this.MsgQueue.TryDequeue(out line);
             msg = line;
             return flag;
         }
@@ -109,6 +115,8 @@ namespace SensingNet.v0_1.Protocol
         {
 
         }
+
+
         #endregion
 
     }

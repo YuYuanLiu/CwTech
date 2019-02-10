@@ -8,13 +8,13 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp.Block
 {
-    public class SNetDspBlockBase : ISNetDspBlock, IDisposable
+    public class SNetDspBlock : SNetDspNode, ISNetDspBlock, IDisposable
     {
         public bool IsEnalbed = true;
         public int PurgeSeconds = 60;
         public Object PrevTime;//存放結構時:CtkTimeSecond, 仍可為null, 因此本身是物件形態
         protected String _identifier = Guid.NewGuid().ToString();
-        ~SNetDspBlockBase() { this.Dispose(false); }
+        ~SNetDspBlock() { this.Dispose(false); }
 
 
         public string SNetDspIdentifier { get { return this._identifier; } set { this._identifier = value; } }

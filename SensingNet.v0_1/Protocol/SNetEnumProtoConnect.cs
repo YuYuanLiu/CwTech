@@ -10,5 +10,6 @@ namespace SensingNet.v0_1.Protocol
         Tcp,
         Rs232,
         Custom,
+        TcpWcf,
     }
 }

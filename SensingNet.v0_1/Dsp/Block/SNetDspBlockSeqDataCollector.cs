@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace SensingNet.v0_1.Dsp.Block
 {
 
-    public class SNetDspBlockSeqDataCollector : SNetDspBlockBase
+    public class SNetDspBlockSeqDataCollector : SNetDspBlock
     {
         public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
 

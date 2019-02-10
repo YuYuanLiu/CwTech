@@ -40,7 +40,7 @@ namespace SensingNet.MyTest.UnitTest
                 IsActivelyTx = true,
                 TxInterval = 0,
                 TimeoutResponse = 5000,
-                ProtoFormat = SNetEnumProtoFormat.SensingNetCmd,
+                ProtoFormat = SNetEnumProtoFormat.SNetCmd,
                 IsActivelyConnect = false,
             };
             deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SNetSignalCfg()
