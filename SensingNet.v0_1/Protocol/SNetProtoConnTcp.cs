@@ -13,7 +13,7 @@ namespace SensingNet.v0_1.Protocol
 {
 
     /// <summary>
-    /// ¶È¶i¦æ³s½u³q°T, ¤£³B²zProtocol Format
+    /// åƒ…é€²è¡Œé€£ç·šé€šè¨Š, ä¸è™•ç†Protocol Format
     /// </summary>
     public class SNetProtoConnTcp : ISNetProtoConnectBase, IDisposable
     {    //Socket m_connSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -85,15 +85,15 @@ namespace SensingNet.v0_1.Protocol
 
         #region IProtoConnectBase
 
-        public bool IsLocalReadyConnect { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsLocalReadyConnect; } }//Local³s½u¦¨¥\=»·ºİ³s½u¦¨¥\
+        public bool IsLocalReadyConnect { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsLocalReadyConnect; } }//Localé€£ç·šæˆåŠŸ=é ç«¯é€£ç·šæˆåŠŸ
         public bool IsRemoteConnected { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsRemoteConnected; } }
-        public bool IsOpenRequesting { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsOpenRequesting; } }//¥Î³~¬OÁ×§K­«½Æ­n¨D³s½u
+        public bool IsOpenRequesting { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsOpenRequesting; } }//ç”¨é€”æ˜¯é¿å…é‡è¤‡è¦æ±‚é€£ç·š
         public bool IsNonStopRunning { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsNonStopRunning; } }
 
 
         public void ConnectIfNo()
         {
-            if (this.IsNonStopRunning) return;//NonStopConnect ¤v¦b¶i¦æ¤¤ªº¸Ü, ¤£»İ¦A¥ÎConnectIfNo
+            if (this.IsNonStopRunning) return;//NonStopConnect å·±åœ¨é€²è¡Œä¸­çš„è©±, ä¸éœ€å†ç”¨ConnectIfNo
             if (this.IsRemoteConnected || this.IsOpenRequesting) return;
 
             var now = DateTime.Now;
@@ -118,7 +118,7 @@ namespace SensingNet.v0_1.Protocol
             if (this.IsRemoteConnected || this.IsOpenRequesting) return;
 
             var now = DateTime.Now;
-            //¤W¦¸­n¨D³s½u¦b10¬í¤º¤]¤£·|¦A³s½u
+            //ä¸Šæ¬¡è¦æ±‚é€£ç·šåœ¨10ç§’å…§ä¹Ÿä¸æœƒå†é€£ç·š
             if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
             this.timeOfBeginConnect = now;
 
@@ -144,7 +144,7 @@ namespace SensingNet.v0_1.Protocol
 
 
 
-        public object ActiveWorkClient { get { return this.ctkProtoConnect.ActiveWorkClient; } set { this.ctkProtoConnect.ActiveWorkClient = (ICtkProtocolNonStopConnect)value; } }
+        public object ActiveWorkClient { get { return this.ctkProtoConnect.ActiveWorkClient; } set { this.ctkProtoConnect.ActiveWorkClient = value; } }
 
         public void WriteMsg(CtkProtocolTrxMessage msg)
         {
@@ -161,7 +161,7 @@ namespace SensingNet.v0_1.Protocol
             }
             else
             {
-                throw new ArgumentException("¥¼©w¸q¸Ó«¬§Oªº¼g¤J¾Ş§@");
+                throw new ArgumentException("æœªå®šç¾©è©²å‹åˆ¥çš„å¯«å…¥æ“ä½œ");
             }
         }
 
