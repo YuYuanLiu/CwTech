@@ -1,4 +1,4 @@
-﻿using CToolkit;
+using CToolkit;
 using CToolkit.v0_1.Net;
 using CToolkit.v0_1.Protocol;
 using CToolkit.v0_1;
@@ -38,7 +38,11 @@ namespace SensingNet.v0_1.Device
             try
             {
 
-                if (!SpinWait.SpinUntil(() => !this.CfIsRunning || this.ProtoConn.IsRemoteConnected, 1000)) return 0;
+                if (!SpinWait.SpinUntil(() => !this.CfIsRunning || this.ProtoConn.IsRemoteConnected, 100))
+                {
+                    Thread.Sleep(1000);
+                    return 0;
+                }
                 if (!this.CfIsRunning) return 0;//若不再執行->return 0
 
 
@@ -51,16 +55,18 @@ namespace SensingNet.v0_1.Device
                 else
                 {
                     //等待下次要求資料的間隔
-                    var now = DateTime.Now;
                     if (this.Config.TxInterval > 0)
                     {
-                        while ((now - prevAckTime).TotalMilliseconds < this.Config.TxInterval)
+                        var interval = DateTime.Now - prevAckTime;
+                        while (interval.TotalMilliseconds < this.Config.TxInterval)
                         {
                             if (!this.CfIsRunning) return 0;//若不再執行->直接return
-                            now = DateTime.Now;
+                            var sleep = this.Config.TxInterval - (int)interval.TotalMilliseconds;
+                            if (sleep > 0)
+                                Thread.Sleep(sleep);
                         }
                     }
-                    prevAckTime = now;
+                    prevAckTime = DateTime.Now;
 
                     var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
                     this.ProtoConn.WriteMsg(reqDataMsg);
