@@ -25,7 +25,6 @@ namespace SensingNet.MyTest
     [TestClass]
     public class UtTest
     {
-        object prevtime = null;
 
         [TestMethod]
         public void TestMethod()

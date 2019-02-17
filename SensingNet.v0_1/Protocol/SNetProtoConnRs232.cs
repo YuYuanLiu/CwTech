@@ -65,7 +65,7 @@ namespace SensingNet.v0_1.Protocol
 
         public void WriteBytes(byte[] buff, int offset, int length)
         {
-            this.nonStopSerialPort.WriteMsg(new CtkProtocolBuffer()
+            this.nonStopSerialPort.WriteMsg(new CtkProtocolBufferMessage()
             {
                 Buffer = buff,
                 Offset = offset,

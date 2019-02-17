@@ -6,6 +6,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Net;
 using CToolkit.v0_1.Protocol;
+using CToolkit.v0_1.Net;
 
 namespace SensingNet.MyTest
 {
@@ -18,10 +19,11 @@ namespace SensingNet.MyTest
         public void TestMethod()
         {
             var remoteEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502);
-            var nonStopTcpClient = new CToolkit.v0_1.Net.CtkNonStopTcpClient(remoteEp);
+            var nonStopTcpClient = new CtkNonStopTcpClient(remoteEp);
             nonStopTcpClient.evtDataReceive += (ss, ee) =>
             {
-                var ctkBuffer = ee.TrxMessageBuffer;
+                var ea = ee as CtkNonStopTcpStateEventArgs;
+                var ctkBuffer = ea.TrxMessageBuffer;
                 System.Diagnostics.Debug.WriteLine(ctkBuffer.Length);
             };
             nonStopTcpClient.NonStopConnectAsyn();

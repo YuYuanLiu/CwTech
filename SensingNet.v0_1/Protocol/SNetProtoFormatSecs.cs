@@ -43,9 +43,9 @@ namespace SensingNet.v0_1.Protocol
 
         public void ReceiveMsg(CtkProtocolTrxMessage msg)
         {
-            if (msg.Is<CtkProtocolBuffer>())
+            if (msg.Is<CtkProtocolBufferMessage>())
             {
-                var buffer = msg.As<CtkProtocolBuffer>();
+                var buffer = msg.As<CtkProtocolBufferMessage>();
                 this.ReceiveBytes(buffer.Buffer, buffer.Offset, buffer.Length);
             }
             else throw new ArgumentException("Not support type");

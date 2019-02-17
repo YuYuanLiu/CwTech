@@ -35,7 +35,8 @@ namespace SensingNet.v0_1.Simulate
             client.evtErrorReceive += (ss, ee) => { Write("evtErrorReceive"); };
             client.evtDataReceive += (ss, ee) =>
             {
-                var ctkBuffer = ee.TrxMessageBuffer;
+                var ea = ee as CtkNonStopTcpStateEventArgs;
+                var ctkBuffer = ea.TrxMessageBuffer;
                 var msg = Encoding.UTF8.GetString(ctkBuffer.Buffer, ctkBuffer.Offset, ctkBuffer.Length);
                 Write(msg);
             };
