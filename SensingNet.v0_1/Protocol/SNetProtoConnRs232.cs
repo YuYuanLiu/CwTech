@@ -19,17 +19,12 @@ namespace SensingNet.v0_1.Protocol
     /// </summary>
     public class SNetProtoConnRs232 : ISNetProtoConnectBase, IDisposable
     {    //Socket m_connSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        CtkNonStopSerialPort nonStopSerialPort;
         public CtkSerialPortCfg Config;
-
-
-
-
         public DateTime? timeOfBeginConnect;
-
         //AutoResetEvent are_ConnectDone = new AutoResetEvent(false);
         ManualResetEvent mreHasMsg = new ManualResetEvent(false);
 
+        CtkNonStopSerialPort nonStopSerialPort;
         public SNetProtoConnRs232(CtkSerialPortCfg config)
         {
             this.Config = config;
@@ -77,13 +72,21 @@ namespace SensingNet.v0_1.Protocol
 
         #region IProtoConnectBase
 
+        public event EventHandler<CtkProtocolEventArgs> evtDataReceive;
+        public event EventHandler<CtkProtocolEventArgs> evtDisconnect;
+        public event EventHandler<CtkProtocolEventArgs> evtErrorReceive;
+        public event EventHandler<CtkProtocolEventArgs> evtFailConnect;
+        public event EventHandler<CtkProtocolEventArgs> evtFirstConnect;
+
+        public object ActiveWorkClient { get { return this.nonStopSerialPort.ActiveWorkClient; } set { this.nonStopSerialPort.ActiveWorkClient = value; } }
+        public int IntervalTimeOfConnectCheck { get { return this.nonStopSerialPort.IntervalTimeOfConnectCheck; } set { this.nonStopSerialPort.IntervalTimeOfConnectCheck = value; } }
         public bool IsLocalReadyConnect { get { return this.nonStopSerialPort == null ? false : this.nonStopSerialPort.IsLocalReadyConnect; } }//Local連線成功=遠端連線成功
-        public bool IsRemoteConnected { get { return this.nonStopSerialPort == null ? false : this.nonStopSerialPort.IsRemoteConnected; } }
-        public bool IsOpenRequesting { get { return this.nonStopSerialPort == null ? false : this.nonStopSerialPort.IsOpenRequesting; } }//用途是避免重複要求連線
         public bool IsNonStopRunning { get { return this.nonStopSerialPort == null ? false : this.nonStopSerialPort.IsNonStopRunning; } }
+        public bool IsOpenRequesting { get { return this.nonStopSerialPort == null ? false : this.nonStopSerialPort.IsOpenRequesting; } }
+        public bool IsRemoteConnected { get { return this.nonStopSerialPort == null ? false : this.nonStopSerialPort.IsRemoteConnected; } }
+        public void AbortNonStopConnect() { this.nonStopSerialPort.AbortNonStopConnect(); }
 
-
-
+        //用途是避免重複要求連線
         public void ConnectIfNo()
         {
             if (this.IsNonStopRunning) return;//NonStopConnect 己在進行中的話, 不需再用ConnectIfNo
@@ -96,6 +99,12 @@ namespace SensingNet.v0_1.Protocol
             this.ReloadComPort();
             this.nonStopSerialPort.ConnectIfNo();
         }
+        public void Disconnect()
+        {
+            if (this.nonStopSerialPort != null) { this.nonStopSerialPort.Disconnect(); this.nonStopSerialPort.Dispose(); this.nonStopSerialPort = null; }
+            if (this.mreHasMsg != null) this.mreHasMsg.Dispose();
+        }
+
         public void NonStopConnectAsyn()
         {
             if (this.IsRemoteConnected || this.IsOpenRequesting) return;
@@ -107,15 +116,6 @@ namespace SensingNet.v0_1.Protocol
             this.ReloadComPort();
             this.nonStopSerialPort.NonStopConnectAsyn();
         }
-        public void AbortNonStopConnect() { this.nonStopSerialPort.AbortNonStopConnect(); }
-        public void Disconnect()
-        {
-            if (this.nonStopSerialPort != null) { this.nonStopSerialPort.Disconnect(); this.nonStopSerialPort.Dispose(); this.nonStopSerialPort = null; }
-            if (this.mreHasMsg != null) this.mreHasMsg.Dispose();
-        }
-
-        public object ActiveWorkClient { get { return this.nonStopSerialPort.ActiveWorkClient; } set { this.nonStopSerialPort.ActiveWorkClient = value; } }
-
         public void WriteMsg(CtkProtocolTrxMessage msg)
         {
             if (msg.As<string>() != null)
@@ -134,41 +134,35 @@ namespace SensingNet.v0_1.Protocol
                 throw new ArgumentException("未定義該型別的寫入操作");
             }
         }
-
-
-
-
-        public event EventHandler<CtkProtocolEventArgs> evtFirstConnect;
-        void OnFirstConnect(CtkProtocolEventArgs ea)
-        {
-            if (this.evtFirstConnect == null) return;
-            this.evtFirstConnect(this, ea);
-        }
-        public event EventHandler<CtkProtocolEventArgs> evtFailConnect;
-        void OnFailConnect(CtkProtocolEventArgs ea)
-        {
-            if (this.evtFailConnect == null) return;
-            this.evtFailConnect(this, ea);
-        }
-        public event EventHandler<CtkProtocolEventArgs> evtDisconnect;
-        void OnDisconnect(CtkProtocolEventArgs ea)
-        {
-            if (this.evtDisconnect == null) return;
-            this.evtDisconnect(this, ea);
-        }
-        public event EventHandler<CtkProtocolEventArgs> evtDataReceive;
         void OnDataReceive(CtkProtocolEventArgs ea)
         {
             if (this.evtDataReceive == null) return;
             this.evtDataReceive(this, ea);
         }
-        public event EventHandler<CtkProtocolEventArgs> evtErrorReceive;
+
+        void OnDisconnect(CtkProtocolEventArgs ea)
+        {
+            if (this.evtDisconnect == null) return;
+            this.evtDisconnect(this, ea);
+        }
+
         void OnErrorReceive(CtkProtocolEventArgs ea)
         {
             if (this.evtErrorReceive == null) return;
             this.evtErrorReceive(this, ea);
         }
 
+        void OnFailConnect(CtkProtocolEventArgs ea)
+        {
+            if (this.evtFailConnect == null) return;
+            this.evtFailConnect(this, ea);
+        }
+
+        void OnFirstConnect(CtkProtocolEventArgs ea)
+        {
+            if (this.evtFirstConnect == null) return;
+            this.evtFirstConnect(this, ea);
+        }
         #endregion
 
 
@@ -210,15 +204,13 @@ namespace SensingNet.v0_1.Protocol
 
 
         void DisposeManaged() { }
-        void DisposeUnmanaged() { }
-
         void DisposeSelf()
         {
             this.Disconnect();
             CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
         }
 
-
+        void DisposeUnmanaged() { }
         #endregion
 
 

@@ -19,11 +19,10 @@ namespace SensingNet.v0_1.Protocol
     public class SNetProtoConnTcpWcf : ISNetProtoConnectBase, IDisposable
     {    //Socket m_connSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-
-
         public bool IsListener = true;
         public DateTime? timeOfBeginConnect;
         public string Uri;
+        protected int m_IntervalTimeOfConnectCheck = 5000;
         CtkWcfDuplexTcpClient<ICtkWcfDuplexOpService, CtkWcfDuplexTcpClient> client;
         CtkWcfDuplexTcpListener<CtkWcfDuplexTcpListener> listener;
 
@@ -76,6 +75,7 @@ namespace SensingNet.v0_1.Protocol
         public event EventHandler<CtkProtocolEventArgs> evtFirstConnect;
 
         public object ActiveWorkClient { get { return this.ctkProtoConnect.ActiveWorkClient; } set { this.ctkProtoConnect.ActiveWorkClient = (ICtkProtocolNonStopConnect)value; } }
+        public int IntervalTimeOfConnectCheck { get { return this.m_IntervalTimeOfConnectCheck; } set { this.m_IntervalTimeOfConnectCheck = value; } }
         public bool IsLocalReadyConnect { get { return this.ctkProtoConnect != null && this.ctkProtoConnect.IsLocalReadyConnect; } }//Local連線成功=遠端連線成功
         public bool IsNonStopRunning { get { return this.ctkProtoConnect != null && this.ctkProtoConnect.IsNonStopRunning; } }
         public bool IsOpenRequesting { get { return this.ctkProtoConnect != null && this.ctkProtoConnect.IsOpenRequesting; } }

@@ -189,7 +189,11 @@ namespace SensingNet.v0_1.Device
                 default: throw new ArgumentException("ProtoConn"); ;
             }
 
-
+            
+            this.ProtoConn.evtFirstConnect += (ss, ee) =>
+            {
+                this.ProtoSession.FirstConnect(this.ProtoConn);
+            };
             this.ProtoConn.evtDataReceive += (ss, ee) =>
             {
                 var ea = ee as CtkProtocolEventArgs;

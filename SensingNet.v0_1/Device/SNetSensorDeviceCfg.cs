@@ -31,6 +31,7 @@ namespace SensingNet.v0_1.Device
         public SNetEnumProtoSession ProtoSession = SNetEnumProtoSession.Secs;
         public String RemoteIp = "192.168.123.101";
         public int RemotePort = 5000;
+        public int IntervalOfNonStopConnect = 1000;
 
         public CtkSerialPortCfg SerialPortConfig = new CtkSerialPortCfg();
         public string Uri;
