@@ -61,6 +61,10 @@ namespace SensingNet.v0_1.Protocol
             this.client.evtFailConnect += (sender, e) => this.OnFailConnect(e);
             this.client.evtDisconnect += (sender, e) => this.OnDisconnect(e);
             this.client.evtDataReceive += (sender, e) => this.OnDataReceive(e);
+
+
+            this.client.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
+
         }
         public void ReloadListener()
         {
@@ -77,6 +81,10 @@ namespace SensingNet.v0_1.Protocol
             this.listener.evtFailConnect += (sender, e) => this.OnFailConnect(e);
             this.listener.evtDisconnect += (sender, e) => this.OnDisconnect(e);
             this.listener.evtDataReceive += (sender, e) => this.OnDataReceive(e);
+
+
+            this.listener.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
+
         }
 
         public void WriteBytes(byte[] buff, int offset, int length) { this.ActiveWorkStream.Write(buff, offset, length); }
