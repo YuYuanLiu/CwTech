@@ -17,7 +17,7 @@ namespace SensingNet.CmdApp01
     {
         public static void Main(string[] args)
         {
-            using (var example = new SNetSimulateDeviceCtkWcf())
+            using (var example = new SNetSimulateDeviceVibration())
             {
                 example.RunAsyn();
                 example.CommandLine();

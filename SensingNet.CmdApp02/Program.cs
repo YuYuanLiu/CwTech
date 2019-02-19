@@ -15,7 +15,7 @@ namespace SensingNet.CmdApp02
     {
         public static void Main(string[] args)
         {
-            using (var example = new CtkExampleCustomClient())
+            using (var example = new SNetSimulateCmdTcpClient())
             {
                 example.RunAsyn();
                 example.CommandLine();

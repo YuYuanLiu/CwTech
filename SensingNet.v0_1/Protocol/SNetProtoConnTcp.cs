@@ -61,6 +61,8 @@ namespace SensingNet.v0_1.Protocol
             this.client.evtFailConnect += (sender, e) => this.OnFailConnect(e);
             this.client.evtDisconnect += (sender, e) => this.OnDisconnect(e);
             this.client.evtDataReceive += (sender, e) => this.OnDataReceive(e);
+
+            this.client.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
         }
         public void ReloadListener()
         {
@@ -77,6 +79,8 @@ namespace SensingNet.v0_1.Protocol
             this.listener.evtFailConnect += (sender, e) => this.OnFailConnect(e);
             this.listener.evtDisconnect += (sender, e) => this.OnDisconnect(e);
             this.listener.evtDataReceive += (sender, e) => this.OnDataReceive(e);
+
+            this.listener.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
         }
 
         public void WriteBytes(byte[] buff, int offset, int length) { this.ActiveWorkStream.Write(buff, offset, length); }
@@ -89,7 +93,7 @@ namespace SensingNet.v0_1.Protocol
         public bool IsRemoteConnected { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsRemoteConnected; } }
         public bool IsOpenRequesting { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsOpenRequesting; } }//用途是避免重複要求連線
         public bool IsNonStopRunning { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsNonStopRunning; } }
-        public int IntervalTimeOfConnectCheck { get { return this.ctkProtoConnect.IntervalTimeOfConnectCheck; } set { this.ctkProtoConnect.IntervalTimeOfConnectCheck = value; } }
+        public int IntervalTimeOfConnectCheck { get; set; }
 
         public void ConnectIfNo()
         {
