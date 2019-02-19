@@ -89,7 +89,7 @@ namespace SensingNet.v0_1.Protocol
         public bool IsRemoteConnected { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsRemoteConnected; } }
         public bool IsOpenRequesting { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsOpenRequesting; } }//用途是避免重複要求連線
         public bool IsNonStopRunning { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsNonStopRunning; } }
-        public int IntervalTimeOfConnectCheck { get { return this.ctkProtoConnect == null ? 5000 : this.ctkProtoConnect.IntervalTimeOfConnectCheck; } set { this.ctkProtoConnect.IntervalTimeOfConnectCheck = value; } }
+        public int IntervalTimeOfConnectCheck { get; set; }
 
         public void ConnectIfNo()
         {
