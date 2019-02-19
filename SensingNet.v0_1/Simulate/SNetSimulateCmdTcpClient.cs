@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Simulate
 {
-    public class SNetSimulateCmdClient : IDisposable
+    public class SNetSimulateCmdTcpClient : IDisposable
     {
         CtkNonStopTcpClient client;
         public volatile bool IsSendRequest = false;
 
-        ~SNetSimulateCmdClient() { this.Dispose(false); }
+        ~SNetSimulateCmdTcpClient() { this.Dispose(false); }
 
         public void RunAsyn()
         {

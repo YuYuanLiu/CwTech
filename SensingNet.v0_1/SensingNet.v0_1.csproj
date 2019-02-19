@@ -101,7 +101,7 @@
     <Compile Include="Wcf\SNetWcfChannelInfo.cs" />
     <Compile Include="Wcf\SNnetWcfMessage.cs" />
     <Compile Include="Device\Simulate\SNetSimulateSensorDeviceClient.cs" />
-    <Compile Include="Simulate\SNetSimulateCmdClient.cs" />
+    <Compile Include="Simulate\SNetSimulateCmdTcpClient.cs" />
     <Compile Include="SNetEnumHandlerStatus.cs" />
     <Compile Include="Framework\SNetSensorDeviceMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
