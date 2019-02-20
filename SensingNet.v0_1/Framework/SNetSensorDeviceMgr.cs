@@ -37,7 +37,7 @@ namespace SensingNet.v0_1.Framework
         }
         public int CfExec()
         {
-            this.configs.UpdateIfOverTime();
+            this.configs.UpdateIfTimeout();
             this.UpdateHandlerStatus();
             return 0;
         }

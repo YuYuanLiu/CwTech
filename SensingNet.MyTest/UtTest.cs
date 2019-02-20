@@ -15,6 +15,7 @@ using Cudafy.Types;
 using System.Runtime.InteropServices;
 using CToolkit.v0_1;
 using SensingNet.v0_1.Dsp.Block;
+using System.Reflection;
 
 namespace SensingNet.MyTest
 {
@@ -30,17 +31,14 @@ namespace SensingNet.MyTest
         public void TestMethod()
         {
 
-            var fft = new SNetDspBlockFft();
-            var collector = new SNetDspBlockSeqDataCollector();
 
-            fft.Input = collector;
+            DaoTableStockAppCfg
 
+        }
 
-            CtkEventUtil.RemoveEventHandlersFromOwningByTarget(collector, fft);
-
-
-
-
+        static void aaa()
+        {
+            var method = MethodBase.GetCurrentMethod();
 
 
         }

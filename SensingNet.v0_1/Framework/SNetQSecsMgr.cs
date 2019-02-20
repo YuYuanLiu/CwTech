@@ -34,7 +34,7 @@ namespace SensingNet.v0_1.Framework
             {
                 if (!Monitor.TryEnter(this, 5 * 1000)) return -1;
 
-                this.configs.UpdateIfOverTime();
+                this.configs.UpdateIfTimeout();
                 this.RunHandlerStatus();
             }
             finally
