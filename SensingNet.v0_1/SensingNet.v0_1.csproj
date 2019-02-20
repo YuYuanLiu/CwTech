@@ -88,6 +88,7 @@
     <Compile Include="Protocol\SNetProtoFormatCtkWcf.cs" />
     <Compile Include="Protocol\SNetProtoSessionCtkWcf.cs" />
     <Compile Include="Signal\SNetSignalTranCtkWcf001.cs" />
+    <Compile Include="Simulate\SNetSimulateCmdSensorDevice.cs" />
     <Compile Include="Simulate\SNetSimulateDeviceCtkWcf.cs" />
     <Compile Include="Wcf\ISNetWcfListener.cs" />
     <Compile Include="Wcf\ISNetWcfClient.cs" />
