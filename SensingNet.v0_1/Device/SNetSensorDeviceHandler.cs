@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CToolkit.v0_1.Threading;
+using CToolkit.v0_1.Logging;
 
 namespace SensingNet.v0_1.Device
 {
@@ -64,6 +65,7 @@ namespace SensingNet.v0_1.Device
                             var sleep = this.Config.TxInterval - (int)interval.TotalMilliseconds;
                             if (sleep > 0)
                                 Thread.Sleep(sleep);
+                            interval = DateTime.Now - prevAckTime;
                         }
                     }
                     prevAckTime = DateTime.Now;
@@ -280,12 +282,20 @@ namespace SensingNet.v0_1.Device
             this.ProtoConn.NonStopConnectAsyn();
 
             this.CfIsRunning = true;
-            //三個方法(三個保護)控管執行
-            while (!disposed && this.CfIsRunning && !this.taskRun.CancelToken.IsCancellationRequested)
+
+            try
             {
-                this.taskRun.CancelToken.ThrowIfCancellationRequested();//一般cancel task 在 while 和 第一行
-                this.RealExec();
+                //三個方法(三個保護)控管執行
+                while (!disposed && this.CfIsRunning && !this.taskRun.CancelToken.IsCancellationRequested)
+                {
+                    this.taskRun.CancelToken.ThrowIfCancellationRequested();//一般cancel task 在 while 和 第一行
+                    this.RealExec();
+                }
+
+
+                CtkLog.Info("Finish SensorDevice");
             }
+            catch (Exception ex) { CtkLog.Write(ex, CtkLoggerEnumLevel.Error); }
             return 0;
         }
         public virtual int CfRunAsyn()
