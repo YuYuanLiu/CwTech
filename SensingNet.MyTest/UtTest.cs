@@ -32,7 +32,6 @@ namespace SensingNet.MyTest
         {
 
 
-            DaoTableStockAppCfg
 
         }
 
