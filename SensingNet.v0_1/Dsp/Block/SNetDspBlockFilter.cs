@@ -1,4 +1,4 @@
-﻿using CToolkit.v0_1;
+using CToolkit.v0_1;
 using CToolkit.v0_1.Numeric;
 using CToolkit.v0_1.Timing;
 using MathNet.Filtering.FIR;
@@ -46,7 +46,10 @@ namespace SensingNet.v0_1.Dsp.Block
             this.PurgeSignalByTime(this.TSignal, oldKey);
         }
 
-        private void _input_evtDataChange(object sender, SNetDspBlockTimeSignalEventArg e)
+        void _input_evtDataChange(object sender, SNetDspBlockTimeSignalEventArg e) { this.DoInput(sender, e); }
+
+
+        public void DoInput(object sender, SNetDspBlockTimeSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
             var tsSetSecondEa = e as SNetDspBlockTimeSignalSetSecondEventArg;
@@ -71,11 +74,16 @@ namespace SensingNet.v0_1.Dsp.Block
             this.DoDataChange(this.TSignal, t, signalData);
             e.InvokeResult = this.disposed ? SNetDspEnumInvokeResult.IsDisposed : SNetDspEnumInvokeResult.None;
         }
+
+
+
+
+
         #region IDisposable
 
         protected override void DisposeSelf()
         {
-            CtkEventUtil.RemoveEventHandlersFromOwningByFilter( this, (dlgt) => true);//移除自己的Event Delegate
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);//移除自己的Event Delegate
             CtkEventUtil.RemoveEventHandlersFromOwningByTarget(this._input, this);//移除在別人那的Event Delegate
         }
 
