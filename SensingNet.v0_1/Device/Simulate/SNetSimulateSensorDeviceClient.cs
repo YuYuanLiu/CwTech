@@ -1,10 +1,12 @@
 using CToolkit.v0_1;
 using CToolkit.v0_1.Logging;
 using CToolkit.v0_1.Net;
+using CToolkit.v0_1.Protocol;
 using CToolkit.v0_1.Secs;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Double;
 using SensingNet.v0_1.Device;
+using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Signal;
 using System;
 using System.Collections.Generic;
@@ -37,28 +39,42 @@ namespace SensingNet.v0_1.Device.Simulate
                 IsActivelyTx = false,
                 LocalIp = null,
                 LocalPort = 0,
-                ProtoConnect = Protocol.SNetEnumProtoConnect.Tcp,
-                ProtoFormat = Protocol.SNetEnumProtoFormat.SNetCmd,
-                ProtoSession = Protocol.SNetEnumProtoSession.SNetCmd,
+                ProtoConnect = SNetEnumProtoConnect.Tcp,
+                ProtoFormat = SNetEnumProtoFormat.SNetCmd,
+                ProtoSession = SNetEnumProtoSession.SNetCmd,
                 RemoteIp = "127.0.0.1",
                 RemotePort = 5003,
                 SerialPortConfig = null,
-                SignalTran = Signal.SNetEnumSignalTran.SNetCmd,
+                SignalTran = SNetEnumSignalTran.SNetCmd,
                 TimeoutResponse = 5000,
                 TxInterval = 1000,
                 SignalCfgList = signalConfigs,
             };
 
 
-            this.client.evtSignalCapture += (ss, ee) =>
-            {
-                var sb = new StringBuilder();
-                sb.AppendFormat("Data Count={0}", ee.CalibrateData.Count);
-                Write(sb.ToString());
-            };
+
 
             this.client.CfInit();
             this.client.CfLoad();
+
+            this.client.evtSignalCapture += (ss, ee) =>
+            {
+                var sb = new StringBuilder();
+                sb.AppendFormat("Count= {0} ; Data= ", ee.CalibrateData.Count);
+                foreach (var data in ee.CalibrateData)
+                {
+                    sb.AppendFormat("{0}, ", data);
+                }
+                Write(sb.ToString());
+            };
+            this.client.ProtoConn.evtDataReceive += (ss, ee) =>
+            {
+                var buffer = ee.TrxMessage.As<CtkProtocolBufferMessage>();
+                if (buffer == null) return;
+                this.Write(buffer.GetString());
+            };
+
+
             this.client.CfRunAsyn();
         }
 

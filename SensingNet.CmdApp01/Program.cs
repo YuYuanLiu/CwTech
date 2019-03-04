@@ -10,6 +10,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
 using CToolkit.v0_1.Wcf;
+using SensingNet.v0_1.Device.Simulate;
 
 namespace SensingNet.CmdApp01
 {
@@ -17,7 +18,7 @@ namespace SensingNet.CmdApp01
     {
         public static void Main(string[] args)
         {
-            using (var example = new SNetSimulateDeviceVibration())
+            using (var example = new SNetSimulateSensorDeviceClient())
             {
                 example.RunAsyn();
                 example.CommandLine();

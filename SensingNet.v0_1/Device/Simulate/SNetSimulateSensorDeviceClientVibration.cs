@@ -13,14 +13,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_1.Simulate
+namespace SensingNet.v0_1.Device.Simulate
 {
-    public class SNetSimulateCmdSensorDevice : IDisposable
+    public class SNetSimulateSensorDeviceClientVibration : IDisposable
     {
         SNetSensorDeviceHandler device;
         public volatile bool IsSendRequest = false;
 
-        ~SNetSimulateCmdSensorDevice() { this.Dispose(false); }
+        ~SNetSimulateSensorDeviceClientVibration() { this.Dispose(false); }
 
         public void RunAsyn()
         {

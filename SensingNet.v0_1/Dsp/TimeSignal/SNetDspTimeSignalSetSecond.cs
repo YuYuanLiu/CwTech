@@ -18,10 +18,12 @@ namespace SensingNet.v0_1.Dsp.TimeSignal
         public KeyValuePair<CtkTimeSecond, List<double>>? GetLastOrDefault()
         {
             if (this.Signals.Count == 0) return null;
-            return this.Signals.Last();
+            lock (this)
+                return this.Signals.Last();
         }
         public void Interpolation(int dataSize)
         {
+
             foreach (var kv in this.Signals)
             {
                 var ss = kv.Value;
@@ -43,7 +45,11 @@ namespace SensingNet.v0_1.Dsp.TimeSignal
         public List<double> GetOrCreate(CtkTimeSecond key)
         {
             var k = (CtkTimeSecond)key;
-            if (!this.Signals.ContainsKey(k)) this.Signals[k] = new List<double>();
+            if (!this.Signals.ContainsKey(k))
+            {
+                lock (this)
+                    this.Signals[k] = new List<double>();
+            }
             return this.Signals[k];
         }
         public bool GetOrCreate(CtkTimeSecond key, ref List<double> data)
@@ -52,7 +58,8 @@ namespace SensingNet.v0_1.Dsp.TimeSignal
             if (!this.Signals.ContainsKey(k))
             {
                 data = new List<double>();
-                this.Signals[k] = data;
+                lock (this)
+                    this.Signals[k] = data;
 
                 return true;
             }
@@ -63,7 +70,8 @@ namespace SensingNet.v0_1.Dsp.TimeSignal
         public void Set(CtkTimeSecond key, List<double> signals)
         {
             var k = (CtkTimeSecond)key;
-            this.Signals[k] = signals;
+            lock (this)
+                this.Signals[k] = signals;
         }
         public void Set(CtkTimeSecond key, double signal)
         {

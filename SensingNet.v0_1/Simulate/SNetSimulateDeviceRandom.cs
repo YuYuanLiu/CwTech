@@ -1,7 +1,6 @@
 using CToolkit.v0_1;
 using CToolkit.v0_1.Logging;
 using CToolkit.v0_1.Net;
-using CToolkit.v0_1.Secs;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Double;
 using System;
@@ -13,44 +12,58 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_1.Simulate
 {
-    public class SNetSimulateCmdTcpClient : IDisposable
+    public class SNetSimulateDeviceRandom : IDisposable
     {
-        CtkNonStopTcpClient client;
-        public volatile bool IsSendRequest = false;
-
-        ~SNetSimulateCmdTcpClient() { this.Dispose(false); }
+        public CtkNonStopTcpListener listener;
 
         public void RunAsyn()
         {
 
-            client = new CtkNonStopTcpClient("127.0.0.1", 5003);
-            client.evtFirstConnect += (ss, ee) => { Write("evtFirstConnect"); };
-            client.evtFailConnect += (ss, ee) =>
+            CtkLog.RegisterAllLogger((ss, ea) =>
             {
+                var now = DateTime.Now;
                 var sb = new StringBuilder();
-                sb.Append("evtFailConnect: ");
-                sb.Append(ee.Exception.StackTrace);
+                sb.AppendFormat("[{0}] ", now.ToString("yyyyMMdd HH:mm:ss"));
+                sb.AppendFormat("{0} ", ea.Message);
+                sb.AppendFormat("{0}", ea.Exception.StackTrace);
                 Write(sb.ToString());
-            };
-            client.evtErrorReceive += (ss, ee) => { Write("evtErrorReceive"); };
-            client.evtDataReceive += (ss, ee) =>
+            });
+
+
+
+            DateTime? prevTime = DateTime.Now;
+            this.listener = new CtkNonStopTcpListener("127.0.0.1", 5003);
+            listener.NonStopConnectAsyn();
+            var rnd = new Random((int)DateTime.Now.Ticks);
+
+            listener.evtFirstConnect += (ss, ee) =>
             {
-                var ea = ee as CtkNonStopTcpStateEventArgs;
-                var ctkBuffer = ea.TrxMessageBuffer;
-                this.Write(ctkBuffer.GetString());
+                var myea = ee as CtkNonStopTcpStateEventArgs;
+                var sb = new StringBuilder();
+                sb.Append("evtFirstConnect:\n");
+                sb.Append(this.CmdState());
+                this.Write(sb.ToString());
+            };
+            listener.evtDataReceive += (ss, ee) =>
+            {
+                var myea = ee as CtkNonStopTcpStateEventArgs;
+                var ctkBuffer = myea.TrxMessageBuffer;
+                var msg = Encoding.UTF8.GetString(ctkBuffer.Buffer, ctkBuffer.Offset, ctkBuffer.Length);
+                if (!msg.Contains("\n")) return;
+                var sb = new StringBuilder();
+                sb.Append("cmd -respData -svid 0 -data ");
+                sb.Append(rnd.NextDouble());
 
+
+
+                sb.AppendLine();
+
+                myea.WriteMsg(sb.ToString());
 
             };
 
-            client.NonStopConnectAsyn();
-        }
 
 
-        public void Write(string msg, params object[] obj)
-        {
-            Console.WriteLine();
-            Console.WriteLine(msg, obj);
-            Console.Write(">");
         }
 
         public void CommandLine()
@@ -63,11 +76,8 @@ namespace SensingNet.v0_1.Simulate
 
                 switch (cmd)
                 {
-                    case "send":
-                        this.Send();
-                        break;
                     case "state":
-                        Console.WriteLine("State={0}", this.client.IsRemoteConnected);
+                        Write(this.CmdState());
                         break;
                 }
 
@@ -75,28 +85,28 @@ namespace SensingNet.v0_1.Simulate
             } while (string.Compare(cmd, "exit", true) != 0);
 
             this.Stop();
+        }
 
+        string CmdState()
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat("Connected Count={0}\n", this.listener.ConnectCount());
+            sb.AppendFormat("Client Count={0}\n", this.listener.TcpClientList.Count);
+            return sb.ToString();
         }
 
 
-        public void Send()
+        void Write(string msg, params object[] arg)
         {
-
-            this.client.WriteMsg("cmd\n");
-
+            Console.WriteLine();
+            Console.WriteLine(msg, arg);
+            Console.Write(">");
         }
 
 
         public void Stop()
         {
-            if (this.client != null)
-            {
-                using (this.client)
-                {
-                    this.client.AbortNonStopConnect();
-                    this.client.Disconnect();
-                }
-            }
+            this.listener.AbortNonStopConnect();
         }
 
 

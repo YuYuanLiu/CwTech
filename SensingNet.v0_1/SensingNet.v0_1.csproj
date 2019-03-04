@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CToolkit.v0_1, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\CToolkit.v0.1\CToolkit.v0_1.dll</HintPath>
+    </Reference>
     <Reference Include="Cudafy.NET, Version=1.29.5576.13786, Culture=neutral, PublicKeyToken=63a4c9931616906b, processorArchitecture=MSIL">
       <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\CUDAfy.NET.1.29.5576.13786\lib\net40\Cudafy.NET.dll</HintPath>
     </Reference>
@@ -88,8 +92,9 @@
     <Compile Include="Protocol\SNetProtoFormatCtkWcf.cs" />
     <Compile Include="Protocol\SNetProtoSessionCtkWcf.cs" />
     <Compile Include="Signal\SNetSignalTranCtkWcf001.cs" />
-    <Compile Include="Simulate\SNetSimulateCmdSensorDevice.cs" />
+    <Compile Include="Device\Simulate\SNetSimulateSensorDeviceClientVibration.cs" />
     <Compile Include="Simulate\SNetSimulateDeviceCtkWcf.cs" />
+    <Compile Include="Simulate\SNetSimulateDeviceRandom.cs" />
     <Compile Include="Wcf\ISNetWcfListener.cs" />
     <Compile Include="Wcf\ISNetWcfClient.cs" />
     <Compile Include="Wcf\Simulate\SNetSimulateQWcfClient.cs" />
@@ -156,12 +161,6 @@
     <Content Include="Readme\README.txt" />
     <Content Include="Tools\cudafycl.exe" />
     <Content Include="Tools\CudafyViewer.exe" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit.v0_1\CToolkit.v0_1.csproj">
-      <Project>{f07c68ef-a4d1-4af9-a283-35f6e27ace8a}</Project>
-      <Name>CToolkit.v0_1</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

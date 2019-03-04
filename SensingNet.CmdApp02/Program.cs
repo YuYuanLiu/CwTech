@@ -15,7 +15,7 @@ namespace SensingNet.CmdApp02
     {
         public static void Main(string[] args)
         {
-            using (var example = new SNetSimulateCmdSensorDevice())
+            using (var example = new SNetSimulateDeviceRandom())
             {
                 example.RunAsyn();
                 example.CommandLine();
