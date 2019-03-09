@@ -32,15 +32,9 @@ namespace SensingNet.MyTest
         {
 
 
-
         }
 
-        static void aaa()
-        {
-            var method = MethodBase.GetCurrentMethod();
 
-
-        }
 
 
 
