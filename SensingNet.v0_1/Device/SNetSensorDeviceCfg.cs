@@ -18,8 +18,8 @@ namespace SensingNet.v0_1.Device
     [Serializable]
     public class SNetSensorDeviceCfg
     {
-        public int DeviceId = 0;
-        public String DeviceName = null;
+        public String DeviceUid;
+        public String DeviceName;
         public bool IsActivelyConnect = false;
         //Device是否為主動連線
         public bool IsActivelyTx = false;

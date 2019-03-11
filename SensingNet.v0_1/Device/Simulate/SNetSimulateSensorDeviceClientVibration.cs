@@ -28,7 +28,7 @@ namespace SensingNet.v0_1.Device.Simulate
             this.device = new SNetSensorDeviceHandler();
             this.device.Config = new SNetSensorDeviceCfg()
             {
-                DeviceId = 1,
+                DeviceUid = 1,
                 DeviceName = "Test127",
                 IntervalTimeOfConnectCheck = 1000,
                 IsActivelyConnect = false,

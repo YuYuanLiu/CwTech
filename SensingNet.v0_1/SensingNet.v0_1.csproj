@@ -68,6 +68,7 @@
     <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetEventArg.cs" />
     <Compile Include="Dsp\Block\SNetDspDiagram.cs" />
     <Compile Include="Dsp\Block\SNetDspNode.cs" />
+    <Compile Include="Dsp\Block\SNetDspWire.cs" />
     <Compile Include="Dsp\SNetDspEnumInvokeResult.cs" />
     <Compile Include="Dsp\Block\ISNetDspBlock.cs" />
     <Compile Include="Dsp\Block\SNetDspBlockFilter.cs" />
