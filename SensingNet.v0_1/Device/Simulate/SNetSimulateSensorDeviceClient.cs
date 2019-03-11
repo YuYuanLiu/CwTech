@@ -33,7 +33,7 @@ namespace SensingNet.v0_1.Device.Simulate
             this.client = new SNetSensorDeviceHandler();
             this.client.Config = new SNetSensorDeviceCfg()
             {
-                DeviceUid = 0,
+                DeviceUid = null,
                 DeviceName = "Test",
                 IsActivelyConnect = false,
                 IsActivelyTx = false,

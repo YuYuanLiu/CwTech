@@ -1,4 +1,4 @@
-﻿using CToolkit.v0_1;
+using CToolkit.v0_1;
 using CToolkit.v0_1.Numeric;
 using CToolkit.v0_1.Timing;
 using MathNet.Filtering.FIR;
@@ -8,18 +8,21 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace SensingNet.v0_1.Dsp.Block
+namespace SensingNet.v0_1.Dsp
 {
-    public class SNetDspBlockFft : SNetDspBlock
+    public class SNetDspNodeFilter : SNetDspBlock
     {
-        public int SampleRate = 1024;
-        /// <summary>
-        /// MathNet FFT 選 Matlab -> 算出來的結果可以加總後取平均, 仍是頻域圖
-        /// </summary>
+        public CtkFftOnlineFilter PassFilter = new CtkFftOnlineFilter();
+        //使用Struct傳入是傳值, 修改是無法帶出來的, 但你可以回傳同一個結構後接住它
+        public CtkPassFilterStruct FilterArgs = new CtkPassFilterStruct()
+        {
+            CutoffHigh = 512,
+            CutoffLow = 5,
+            Mode = CtkEnumPassFilterMode.None,
+            SampleRate = 1024,
+        };
         public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
-
         protected SNetDspBlock _input;
 
 
@@ -43,36 +46,39 @@ namespace SensingNet.v0_1.Dsp.Block
             this.PurgeSignalByTime(this.TSignal, oldKey);
         }
 
-        private void _input_evtDataChange(object sender, SNetDspBlockTimeSignalEventArg e)
+        void _input_evtDataChange(object sender, SNetDspTimeSignalEventArg e) { this.DoInput(sender, e); }
+
+
+        public void DoInput(object sender, SNetDspTimeSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetDspBlockTimeSignalSetSecondEventArg;
-            if (ea == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
+            var tsSetSecondEa = e as SNetDspTimeSignalSetSecondEventArg;
+            if (tsSetSecondEa == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
-            if (!ea.PrevTime.HasValue) return;
-            if (ea.Time == ea.PrevTime.Value) return;
-            var t = ea.PrevTime.Value;
+            if (!tsSetSecondEa.PrevTime.HasValue) return;
+            if (tsSetSecondEa.Time == tsSetSecondEa.PrevTime.Value) return;
+            var t = tsSetSecondEa.PrevTime.Value;
 
             //取得時間變更前的時間資料
-            IList<double> signalData = ea.TSignal.GetOrCreate(t);
-            signalData = CtkNumUtil.InterpolationForce(signalData, this.SampleRate);
+            IEnumerable<double> signalData = tsSetSecondEa.TSignal.GetOrCreate(t);
 
-            var ctkNumContext = CtkNumContext.GetOrCreate();
-            var comp = ctkNumContext.FftForward(signalData);
 
-            var fftData = new double[comp.Length];
-            this.TSignal.Set(t, fftData.ToList());
-
-            Parallel.For(0, comp.Length, (idx) =>
+            if (this.FilterArgs.Mode != CtkEnumPassFilterMode.None)
             {
-                fftData[idx] = comp[idx].Magnitude;
-            });
-
+                this.PassFilter.SetFilter(this.FilterArgs);
+                signalData = CtkNumUtil.InterpolationCanOneOrZero(signalData, (int)this.FilterArgs.SampleRate);
+                signalData = this.PassFilter.ProcessSamples(signalData);
+            }
 
             this.DoDataChange(this.TSignal, t, signalData);
             e.InvokeResult = this.disposed ? SNetDspEnumInvokeResult.IsDisposed : SNetDspEnumInvokeResult.None;
         }
+
+
+
+
+
         #region IDisposable
 
         protected override void DisposeSelf()

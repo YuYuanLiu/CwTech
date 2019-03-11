@@ -7,16 +7,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp.Block
+namespace SensingNet.v0_1.Dsp
 {
-    public class SNetDspBlockBasicStatistics : SNetDspBlock
+    public class SNetDspNodeBasicStatistics : SNetDspBlock
     {
 
         public SNetDspTimeSignalSetSecond TSignalAvg = new SNetDspTimeSignalSetSecond();
         public SNetDspTimeSignalSetSecond TSignalMax = new SNetDspTimeSignalSetSecond();
         public SNetDspTimeSignalSetSecond TSignalMin = new SNetDspTimeSignalSetSecond();
         protected SNetDspBlock _input;
-        ~SNetDspBlockBasicStatistics() { this.Dispose(false); }
+        ~SNetDspNodeBasicStatistics() { this.Dispose(false); }
 
         public SNetDspBlock Input
         {
@@ -40,9 +40,9 @@ namespace SensingNet.v0_1.Dsp.Block
             this.PurgeSignalByTime(this.TSignalMin, oldKey);
         }
 
-        private void _input_evtDataChange(object sender, SNetDspBlockTimeSignalEventArg e)
+        private void _input_evtDataChange(object sender, SNetDspTimeSignalEventArg e)
         {
-            var tsSetSecondEa = e as SNetDspBlockTimeSignalSetSecondEventArg;
+            var tsSetSecondEa = e as SNetDspTimeSignalSetSecondEventArg;
             if (tsSetSecondEa == null) throw new SNetException("尚無法處理此類資料: " + e.GetType().FullName);
 
 

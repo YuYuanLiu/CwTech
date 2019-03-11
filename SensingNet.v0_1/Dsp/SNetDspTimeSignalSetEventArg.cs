@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp.Block
+namespace SensingNet.v0_1.Dsp
 {
-    public class SNetDspBlockTimeSignalSetEventArg : SNetDspBlockTimeSignalEventArg
+    public class SNetDspTimeSignalSetEventArg : SNetDspTimeSignalEventArg
     {
         public CtkTimeSecond Time;
         public CtkTimeSecond? PrevTime;

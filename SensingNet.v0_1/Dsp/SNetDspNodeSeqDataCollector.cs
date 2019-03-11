@@ -4,14 +4,14 @@ using SensingNet.v0_1.Dsp.TimeSignal;
 using System;
 using System.Collections.Generic;
 
-namespace SensingNet.v0_1.Dsp.Block
+namespace SensingNet.v0_1.Dsp
 {
 
-    public class SNetDspBlockSeqDataCollector : SNetDspBlock
+    public class SNetDspNodeSeqDataCollector : SNetDspBlock
     {
         public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
 
-        ~SNetDspBlockSeqDataCollector() { this.Dispose(false); }
+        ~SNetDspNodeSeqDataCollector() { this.Dispose(false); }
 
 
         public SNetDspTimeSignalSetSecond GetOutput()

@@ -14,7 +14,6 @@ using System.Numerics;
 using Cudafy.Types;
 using System.Runtime.InteropServices;
 using CToolkit.v0_1;
-using SensingNet.v0_1.Dsp.Block;
 using System.Reflection;
 
 namespace SensingNet.MyTest

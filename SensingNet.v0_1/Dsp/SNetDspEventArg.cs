@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp.Block
+namespace SensingNet.v0_1.Dsp
 {
-    public class SNetDspBlockEventArg : EventArgs
+    public class SNetDspEventArg : EventArgs
     {
         public SNetDspEnumInvokeResult InvokeResult = SNetDspEnumInvokeResult.None;
 
 
 
-        public static implicit operator SNetDspBlockEventArg(SNetDspEnumInvokeResult result) { return new SNetDspBlockEventArg() { InvokeResult = result }; }
+        public static implicit operator SNetDspEventArg(SNetDspEnumInvokeResult result) { return new SNetDspEventArg() { InvokeResult = result }; }
     }
 }

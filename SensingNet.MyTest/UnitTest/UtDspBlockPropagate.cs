@@ -13,8 +13,8 @@ using CToolkit.v0_1.Net;
 using System.Threading;
 using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Device;
-using SensingNet.v0_1.Dsp.Block;
 using MathNet.Numerics.LinearAlgebra.Double;
+using SensingNet.v0_1.Dsp;
 
 namespace SensingNet.MyTest.UnitTest
 {
@@ -26,9 +26,9 @@ namespace SensingNet.MyTest.UnitTest
         public void TestMethod()
         {
 
-            var block_seq = new SNetDspBlockSeqDataCollector();
-            var block_filter = new SNetDspBlockFilter();
-            var block_statistics = new SNetDspBlockBasicStatistics();
+            var block_seq = new SNetDspNodeSeqDataCollector();
+            var block_filter = new SNetDspNodeFilter();
+            var block_statistics = new SNetDspNodeBasicStatistics();
 
             block_filter.Input = block_seq;
             block_statistics.Input = block_filter;
@@ -55,7 +55,7 @@ namespace SensingNet.MyTest.UnitTest
                 input += wave;
                 block_seq.Input(input, dt);
 
-                Console.Write("Avg={0}; Max={1}; Min={2}", 
+                Console.Write("Avg={0}; Max={1}; Min={2}",
                     block_statistics.TSignalAvg.GetLastOrDefault(),
                     block_statistics.TSignalMax.GetLastOrDefault(),
                     block_statistics.TSignalMin.GetLastOrDefault());
