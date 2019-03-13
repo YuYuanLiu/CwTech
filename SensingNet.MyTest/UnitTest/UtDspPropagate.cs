@@ -15,6 +15,9 @@ using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Device;
 using MathNet.Numerics.LinearAlgebra.Double;
 using SensingNet.v0_1.Dsp;
+using SensingNet.v0_1.Dsp.Basic;
+using SensingNet.v0_1.Dsp.TimeSignal;
+using System.Linq;
 
 namespace SensingNet.MyTest.UnitTest
 {
@@ -29,7 +32,7 @@ namespace SensingNet.MyTest.UnitTest
             var block = new SNetDspBlock();
             var node_seq = block.AddNode<SNetDspNodeSeqDataCollector>();
             var node_filter = block.AddNode<SNetDspNodeFilter>();
-            var node_statistics = block.AddNode<SNetDspNodeBasicStatistics>();
+            var node_statistics = block.AddNode<SNetDspNodeStatistics>();
 
             node_seq.evtDataChange += node_filter.DoInput;
             node_filter.evtDataChange += node_statistics.DoInput;
@@ -56,7 +59,10 @@ namespace SensingNet.MyTest.UnitTest
                     input[idx] = rnd.NextDouble() * 0.2;
 
                 input += wave;
-                node_seq.Input(input, dt);
+                node_seq.DoInput(null, new SNetDspSignalSetSecF8EventArg()
+                {
+                    NewTSignal = new SNetDspTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
+                });
 
                 Console.Write("Avg={0}; Max={1}; Min={2}",
                     node_statistics.TSignalAvg.GetLastOrDefault(),

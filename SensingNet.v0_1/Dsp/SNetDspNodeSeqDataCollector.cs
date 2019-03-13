@@ -1,5 +1,6 @@
 ﻿using CToolkit.v0_1;
 using CToolkit.v0_1.Timing;
+using SensingNet.v0_1.Dsp.Basic;
 using SensingNet.v0_1.Dsp.TimeSignal;
 using System;
 using System.Collections.Generic;
@@ -7,32 +8,35 @@ using System.Collections.Generic;
 namespace SensingNet.v0_1.Dsp
 {
 
-    public class SNetDspNodeSeqDataCollector : SNetDspBlock
+    public class SNetDspNodeSeqDataCollector : SNetDspNodeF8
     {
-        public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
+        public SNetDspTSignalSetSecF8 TSignal = new SNetDspTSignalSetSecF8();
 
         ~SNetDspNodeSeqDataCollector() { this.Dispose(false); }
 
 
-        public SNetDspTimeSignalSetSecond GetOutput()
-        {
-            return this.TSignal;
-        }
+
 
         /// <summary>
         /// 建議照時間序列(Seq)來input, 避免後續使用的Block認定是Sequence, 然而不是
         /// </summary>
         /// <param name="vals"></param>
         /// <param name="dt"></param>
-        public void Input(IEnumerable<double> vals, DateTime? dt = null)
+        public void DoInput(object sender, SNetDspSignalSetSecF8EventArg ea)
         {
+            //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;
-            var now = DateTime.Now;
-            var time = now;
-            if (dt.HasValue) time = dt.Value;
-
-            this.DoDataChange(this.TSignal, time, vals);
+            foreach (var kv in ea.NewTSignal.Signals)
+                this.DoInput(this.TSignal, kv);
         }
+
+        public void DoInput(object sender, SNetDspSignalSecF8EventArg ea)
+        {
+            //IEnumerable<double> vals, DateTime? dt = null
+            if (!this.IsEnalbed) return;
+            this.DoDataChange(this.TSignal, ea);
+        }
+
 
         protected override void PurgeSignal()
         {
@@ -50,7 +54,7 @@ namespace SensingNet.v0_1.Dsp
 
         protected override void DisposeSelf()
         {
-            CtkEventUtil.RemoveEventHandlersFromOwningByFilter( this, (dlgt) => true);//移除自己的Event Delegate
+            base.DisposeSelf();
         }
 
         #endregion

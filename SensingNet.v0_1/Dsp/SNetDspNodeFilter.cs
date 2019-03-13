@@ -2,6 +2,7 @@ using CToolkit.v0_1;
 using CToolkit.v0_1.Numeric;
 using CToolkit.v0_1.Timing;
 using MathNet.Filtering.FIR;
+using SensingNet.v0_1.Dsp.Basic;
 using SensingNet.v0_1.Dsp.TimeSignal;
 using System;
 using System.Collections.Concurrent;
@@ -11,9 +12,8 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp
 {
-    public class SNetDspNodeFilter : SNetDspBlock
+    public class SNetDspNodeFilter : SNetDspNodeF8
     {
-        public CtkFftOnlineFilter PassFilter = new CtkFftOnlineFilter();
         //使用Struct傳入是傳值, 修改是無法帶出來的, 但你可以回傳同一個結構後接住它
         public CtkPassFilterStruct FilterArgs = new CtkPassFilterStruct()
         {
@@ -22,37 +22,14 @@ namespace SensingNet.v0_1.Dsp
             Mode = CtkEnumPassFilterMode.None,
             SampleRate = 1024,
         };
-        public SNetDspTimeSignalSetSecond TSignal = new SNetDspTimeSignalSetSecond();
-        protected SNetDspBlock _input;
 
+        public CtkFftOnlineFilter PassFilter = new CtkFftOnlineFilter();
+        public SNetDspTSignalSetSecF8 TSignal = new SNetDspTSignalSetSecF8();
 
-        public SNetDspBlock Input
-        {
-            get { return this._input; }
-            set
-            {
-                if (this._input != null) this._input.evtDataChange -= _input_evtDataChange;
-                this._input = value;
-                this._input.evtDataChange += _input_evtDataChange;
-            }
-        }
-
-
-        protected override void PurgeSignal()
-        {
-            if (this.PurgeSeconds <= 0) return;
-            var now = DateTime.Now;
-            var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
-            this.PurgeSignalByTime(this.TSignal, oldKey);
-        }
-
-        void _input_evtDataChange(object sender, SNetDspTimeSignalEventArg e) { this.DoInput(sender, e); }
-
-
-        public void DoInput(object sender, SNetDspTimeSignalEventArg e)
+        public void DoInput(object sender, SNetDspSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var tsSetSecondEa = e as SNetDspTimeSignalSetSecondEventArg;
+            var tsSetSecondEa = e as SNetDspSignalSetSecF8EventArg;
             if (tsSetSecondEa == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
@@ -61,7 +38,7 @@ namespace SensingNet.v0_1.Dsp
             var t = tsSetSecondEa.PrevTime.Value;
 
             //取得時間變更前的時間資料
-            IEnumerable<double> signalData = tsSetSecondEa.TSignal.GetOrCreate(t);
+            IList<double> signalData = tsSetSecondEa.TSignal.GetOrCreate(t);
 
 
             if (this.FilterArgs.Mode != CtkEnumPassFilterMode.None)
@@ -71,20 +48,22 @@ namespace SensingNet.v0_1.Dsp
                 signalData = this.PassFilter.ProcessSamples(signalData);
             }
 
-            this.DoDataChange(this.TSignal, t, signalData);
+            this.DoDataChange(this.TSignal, new SNetDspTSignalSecF8(t, signalData));
             e.InvokeResult = this.disposed ? SNetDspEnumInvokeResult.IsDisposed : SNetDspEnumInvokeResult.None;
         }
 
-
-
-
-
+        protected override void PurgeSignal()
+        {
+            if (this.PurgeSeconds <= 0) return;
+            var now = DateTime.Now;
+            var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
+            this.PurgeSignalByTime(this.TSignal, oldKey);
+        }
         #region IDisposable
 
         protected override void DisposeSelf()
         {
-            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);//移除自己的Event Delegate
-            CtkEventUtil.RemoveEventHandlersFromOwningByTarget(this._input, this);//移除在別人那的Event Delegate
+            base.DisposeSelf();
         }
 
         #endregion

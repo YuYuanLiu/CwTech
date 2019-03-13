@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp
+namespace SensingNet.v0_1.Dsp.Basic
 {
 
     public class SNetDspWire
@@ -31,7 +31,7 @@ namespace SensingNet.v0_1.Dsp
     {
 
 
-        public new event EventHandler<T> EventTrigger;
+        //public new event EventHandler<T> EventTrigger;
 
 
     }

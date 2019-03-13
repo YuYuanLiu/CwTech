@@ -77,7 +77,7 @@ namespace SensingNet.v0_1.Storage
         }
 
 
-        public override void ReadTSignal(StreamReader sr, SNetDspTimeSignalSetSecond tSignal)
+        public override void ReadTSignal(StreamReader sr, SNetDspTSignalSetSecF8 tSignal)
         {
             var signals = new List<double>();
             for (var line = sr.ReadLine(); line != null; line = sr.ReadLine())

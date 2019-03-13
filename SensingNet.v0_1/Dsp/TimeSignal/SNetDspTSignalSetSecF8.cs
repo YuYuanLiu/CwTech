@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp.TimeSignal
 {
-    public class SNetDspTimeSignalSetSecond : ISNetDspTimeSignalSet<CtkTimeSecond, double>
+    public class SNetDspTSignalSetSecF8 : ISNetDspTimeSignalSet<CtkTimeSecond, double>
     {
         //1 Ticks是100奈秒, 0 tick={0001/1/1 上午 12:00:00}
         //請勿使用Datetime, 避免有人誤解 比對只進行 年月日時分秒, 事實會比較到tick
@@ -33,6 +33,7 @@ namespace SensingNet.v0_1.Dsp.TimeSignal
                 kv.Value.AddRange(list);
             }
         }
+
 
         #region ISNetDspTimeSignalSet
 
@@ -82,5 +83,14 @@ namespace SensingNet.v0_1.Dsp.TimeSignal
 
         #endregion
 
+
+
+        public static implicit operator SNetDspTSignalSetSecF8(SNetDspTSignalSecF8 val)
+        {
+            var rs = new SNetDspTSignalSetSecF8();
+            if (!val.Time.HasValue) throw new ArgumentException("Time can not be null");
+            rs.Signals[val.Time.Value] = val.Signals;
+            return rs;
+        }
     }
 }

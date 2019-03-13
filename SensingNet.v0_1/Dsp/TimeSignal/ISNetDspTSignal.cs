@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp
+namespace SensingNet.v0_1.Dsp.TimeSignal
 {
-    public interface ISNetDspDiagram : ISNetDspBlock
+    public interface ISNetDspTimeSignal<T, S>
     {
 
     }

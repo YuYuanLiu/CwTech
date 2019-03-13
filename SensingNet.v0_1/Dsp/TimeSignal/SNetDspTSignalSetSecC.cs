@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SensingNet.v0_1.Dsp.TimeSignal
 {
-    public class SNetDspTimeSignalSecondC : ISNetDspTimeSignalSet<CtkTimeSecond, Complex>
+    public class SNetDspTSignalSetSecC : ISNetDspTimeSignalSet<CtkTimeSecond, Complex>
     {
         //1 Ticks是100奈秒, 0 tick={0001/1/1 上午 12:00:00}
         //請勿使用Datetime, 避免有人誤解 比對只進行 年月日時分秒, 事實會比較到tick
