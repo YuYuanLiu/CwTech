@@ -33,8 +33,6 @@ namespace SensingNet.v0_1.Dsp
 
         public new event EventHandler<T> EventTrigger;
 
-      
-
 
     }
 

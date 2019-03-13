@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp
+namespace SensingNet.v0_1.Dsp.Old
 {
     public class SNetDspNodeBasicStatistics : SNetDspBlock
     {
@@ -40,9 +40,7 @@ namespace SensingNet.v0_1.Dsp
             this.PurgeSignalByTime(this.TSignalMin, oldKey);
         }
 
-        private void _input_evtDataChange(object sender, SNetDspTimeSignalEventArg e) { this.DoInput(sender, e); }
-
-        public void DoInput(object sender, SNetDspTimeSignalEventArg e)
+        private void _input_evtDataChange(object sender, SNetDspTimeSignalEventArg e)
         {
             var tsSetSecondEa = e as SNetDspTimeSignalSetSecondEventArg;
             if (tsSetSecondEa == null) throw new SNetException("尚無法處理此類資料: " + e.GetType().FullName);
@@ -64,6 +62,7 @@ namespace SensingNet.v0_1.Dsp
 
             e.InvokeResult = this.disposed ? SNetDspEnumInvokeResult.IsDisposed : SNetDspEnumInvokeResult.None;
         }
+
 
 
         #region IDisposable

@@ -64,6 +64,10 @@
   <ItemGroup>
     <Compile Include="Dsp\ISNetDspDiagram.cs" />
     <Compile Include="Dsp\ISNetDspBlock.cs" />
+    <Compile Include="Dsp\Old\SNetDspNodeBasicStatistics.cs" />
+    <Compile Include="Dsp\Old\SNetDspNodeFft.cs" />
+    <Compile Include="Dsp\Old\SNetDspNodeFilter.cs" />
+    <Compile Include="Dsp\Old\SNetDspNodeSeqDataCollector.cs" />
     <Compile Include="Dsp\SNetDspNodeFft.cs" />
     <Compile Include="Dsp\SNetDspTimeSignalSetSecondEventArg.cs" />
     <Compile Include="Dsp\SNetDspTimeSignalSetEventArg.cs" />
@@ -164,5 +168,6 @@
     <Content Include="Tools\cudafycl.exe" />
     <Content Include="Tools\CudafyViewer.exe" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

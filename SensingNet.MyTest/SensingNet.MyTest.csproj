@@ -72,6 +72,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="UnitTest\UtDspPropagate.cs" />
     <Compile Include="UnitTest\UtDspBlockPropagate.cs" />
     <Compile Include="UnitTest\UtCommunicationVibration.cs" />
     <Compile Include="UtSample.cs" />

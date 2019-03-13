@@ -14,24 +14,27 @@ using System.Threading;
 using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Device;
 using MathNet.Numerics.LinearAlgebra.Double;
-using SensingNet.v0_1.Dsp.Old;
+using SensingNet.v0_1.Dsp;
 
 namespace SensingNet.MyTest.UnitTest
 {
     [TestClass]
-    public class UtDspBlockPropagate
+    public class UtDspPropagate
     {
 
         [TestMethod]
         public void TestMethod()
         {
 
-            var block_seq = new SNetDspNodeSeqDataCollector();
-            var block_filter = new SNetDspNodeFilter();
-            var block_statistics = new SNetDspNodeBasicStatistics();
+            var block = new SNetDspBlock();
+            var node_seq = block.AddNode<SNetDspNodeSeqDataCollector>();
+            var node_filter = block.AddNode<SNetDspNodeFilter>();
+            var node_statistics = block.AddNode<SNetDspNodeBasicStatistics>();
 
-            block_filter.Input = block_seq;
-            block_statistics.Input = block_filter;
+            node_seq.evtDataChange += node_filter.DoInput;
+            node_filter.evtDataChange += node_statistics.DoInput;
+
+
 
 
             var len = 512;
@@ -53,12 +56,12 @@ namespace SensingNet.MyTest.UnitTest
                     input[idx] = rnd.NextDouble() * 0.2;
 
                 input += wave;
-                block_seq.Input(input, dt);
+                node_seq.Input(input, dt);
 
                 Console.Write("Avg={0}; Max={1}; Min={2}",
-                    block_statistics.TSignalAvg.GetLastOrDefault(),
-                    block_statistics.TSignalMax.GetLastOrDefault(),
-                    block_statistics.TSignalMin.GetLastOrDefault());
+                    node_statistics.TSignalAvg.GetLastOrDefault(),
+                    node_statistics.TSignalMax.GetLastOrDefault(),
+                    node_statistics.TSignalMin.GetLastOrDefault());
 
             }
 

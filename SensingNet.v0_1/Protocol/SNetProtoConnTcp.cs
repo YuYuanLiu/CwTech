@@ -83,7 +83,13 @@ namespace SensingNet.v0_1.Protocol
             this.listener.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
         }
 
-        public void WriteBytes(byte[] buff, int offset, int length) { this.ActiveWorkStream.Write(buff, offset, length); }
+        public void WriteBytes(byte[] buff, int offset, int length)
+        {
+            var stream = this.ActiveWorkStream;
+            stream.WriteTimeout = 10 * 1000;
+            stream.Write(buff, offset, length);
+            stream.Flush();
+        }
 
 
 
