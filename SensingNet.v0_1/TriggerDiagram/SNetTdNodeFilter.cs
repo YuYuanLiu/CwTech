@@ -2,17 +2,17 @@ using CToolkit.v0_1;
 using CToolkit.v0_1.Numeric;
 using CToolkit.v0_1.Timing;
 using MathNet.Filtering.FIR;
-using SensingNet.v0_1.Dsp.Basic;
-using SensingNet.v0_1.Dsp.TimeSignal;
+using SensingNet.v0_1.TriggerDiagram.Basic;
+using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp
+namespace SensingNet.v0_1.TriggerDiagram
 {
-    public class SNetDspNodeFilter : SNetDspNodeF8
+    public class SNetTdNodeFilter : SNetTdNodeF8
     {
         //使用Struct傳入是傳值, 修改是無法帶出來的, 但你可以回傳同一個結構後接住它
         public CtkPassFilterStruct FilterArgs = new CtkPassFilterStruct()
@@ -24,12 +24,12 @@ namespace SensingNet.v0_1.Dsp
         };
 
         public CtkFftOnlineFilter PassFilter = new CtkFftOnlineFilter();
-        public SNetDspTSignalSetSecF8 TSignal = new SNetDspTSignalSetSecF8();
+        public SNetTdTSignalSetSecF8 TSignal = new SNetTdTSignalSetSecF8();
 
-        public void DoInput(object sender, SNetDspSignalEventArg e)
+        public void DoInput(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var tsSetSecondEa = e as SNetDspSignalSetSecF8EventArg;
+            var tsSetSecondEa = e as SNetTdSignalSetSecF8EventArg;
             if (tsSetSecondEa == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
@@ -48,8 +48,8 @@ namespace SensingNet.v0_1.Dsp
                 signalData = this.PassFilter.ProcessSamples(signalData);
             }
 
-            this.DoDataChange(this.TSignal, new SNetDspTSignalSecF8(t, signalData));
-            e.InvokeResult = this.disposed ? SNetDspEnumInvokeResult.IsDisposed : SNetDspEnumInvokeResult.None;
+            this.DoDataChange(this.TSignal, new SNetTdTSignalSecF8(t, signalData));
+            e.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
 
         protected override void PurgeSignal()

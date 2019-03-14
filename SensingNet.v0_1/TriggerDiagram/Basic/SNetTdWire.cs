@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp.Basic
+namespace SensingNet.v0_1.TriggerDiagram.Basic
 {
 
-    public class SNetDspWire
+    public class SNetTdWire
     {
-        public List<SNetDspContact> Destinations = new List<SNetDspContact>();
-        public SNetDspContact Source = new SNetDspContact();
+        public List<SNetTdContact> Destinations = new List<SNetTdContact>();
+        public SNetTdContact Source = new SNetTdContact();
 
 
 
@@ -26,7 +26,7 @@ namespace SensingNet.v0_1.Dsp.Basic
     }
 
 
-    public class SNetDspWire<T> : SNetDspWire
+    public class SNetDspWire<T> : SNetTdWire
         where T : EventArgs
     {
 

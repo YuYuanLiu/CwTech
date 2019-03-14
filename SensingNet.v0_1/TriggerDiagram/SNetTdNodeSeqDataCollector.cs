@@ -1,18 +1,18 @@
 ﻿using CToolkit.v0_1;
 using CToolkit.v0_1.Timing;
-using SensingNet.v0_1.Dsp.Basic;
-using SensingNet.v0_1.Dsp.TimeSignal;
+using SensingNet.v0_1.TriggerDiagram.Basic;
+using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Generic;
 
-namespace SensingNet.v0_1.Dsp
+namespace SensingNet.v0_1.TriggerDiagram
 {
 
-    public class SNetDspNodeSeqDataCollector : SNetDspNodeF8
+    public class SNetTdNodeSeqDataCollector : SNetTdNodeF8
     {
-        public SNetDspTSignalSetSecF8 TSignal = new SNetDspTSignalSetSecF8();
+        public SNetTdTSignalSetSecF8 TSignal = new SNetTdTSignalSetSecF8();
 
-        ~SNetDspNodeSeqDataCollector() { this.Dispose(false); }
+        ~SNetTdNodeSeqDataCollector() { this.Dispose(false); }
 
 
 
@@ -22,7 +22,7 @@ namespace SensingNet.v0_1.Dsp
         /// </summary>
         /// <param name="vals"></param>
         /// <param name="dt"></param>
-        public void DoInput(object sender, SNetDspSignalSetSecF8EventArg ea)
+        public void DoInput(object sender, SNetTdSignalSetSecF8EventArg ea)
         {
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;
@@ -30,7 +30,7 @@ namespace SensingNet.v0_1.Dsp
                 this.DoInput(this.TSignal, kv);
         }
 
-        public void DoInput(object sender, SNetDspSignalSecF8EventArg ea)
+        public void DoInput(object sender, SNetTdSignalSecF8EventArg ea)
         {
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;

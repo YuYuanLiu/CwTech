@@ -1,15 +1,15 @@
 ﻿using CToolkit.v0_1;
 using CToolkit.v0_1.Timing;
-using SensingNet.v0_1.Dsp.Basic;
-using SensingNet.v0_1.Dsp.TimeSignal;
+using SensingNet.v0_1.TriggerDiagram.Basic;
+using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp
+namespace SensingNet.v0_1.TriggerDiagram
 {
-    public class SNetDspNodeF8: SNetDspNode
+    public class SNetTdNodeF8: SNetTdNode
     {
 
         public CtkTimeSecond? PrevTime;
@@ -20,13 +20,13 @@ namespace SensingNet.v0_1.Dsp
         {
             throw new NotImplementedException();
         }
-        protected virtual void PurgeSignalByCount(SNetDspTSignalSetSecF8 tSignal, int Count)
+        protected virtual void PurgeSignalByCount(SNetTdTSignalSetSecF8 tSignal, int Count)
         {
             var query = tSignal.Signals.Take(tSignal.Signals.Count - Count).ToList();
             foreach (var ok in query)
                 tSignal.Signals.Remove(ok.Key);
         }
-        protected virtual void PurgeSignalByTime(SNetDspTSignalSetSecF8 tSignal, CtkTimeSecond time)
+        protected virtual void PurgeSignalByTime(SNetTdTSignalSetSecF8 tSignal, CtkTimeSecond time)
         {
             var now = DateTime.Now;
             var query = tSignal.Signals.Where(x => x.Key < time).ToList();
@@ -36,9 +36,9 @@ namespace SensingNet.v0_1.Dsp
 
 
 
-        protected virtual void DoDataChange(SNetDspTSignalSetSecF8 tSignal, SNetDspSignalSecF8EventArg newSignals)
+        protected virtual void DoDataChange(SNetTdTSignalSetSecF8 tSignal, SNetTdSignalSecF8EventArg newSignals)
         {
-            var ea = new SNetDspSignalSetSecF8EventArg();
+            var ea = new SNetTdSignalSetSecF8EventArg();
             ea.Sender = this;
             var time = newSignals.TSignal.Time.HasValue ? newSignals.TSignal.Time.Value : DateTime.Now;
             ea.Time = time;
@@ -60,8 +60,8 @@ namespace SensingNet.v0_1.Dsp
 
         #region Event
 
-        public event EventHandler<SNetDspSignalEventArg> evtDataChange;
-        protected void OnDataChange(SNetDspSignalEventArg ea)
+        public event EventHandler<SNetTdSignalEventArg> evtDataChange;
+        protected void OnDataChange(SNetTdSignalEventArg ea)
         {
             if (this.evtDataChange == null) return;
             this.evtDataChange(this, ea);

@@ -1,4 +1,4 @@
-﻿using SensingNet.v0_1.Dsp.TimeSignal;
+﻿using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,7 +25,7 @@ namespace SensingNet.v0_1.Storage
             throw new NotImplementedException();
         }
 
-        public virtual void ReadTSignal(StreamReader sr, SNetDspTSignalSetSecF8 tSignal)
+        public virtual void ReadTSignal(StreamReader sr, SNetTdTSignalSetSecF8 tSignal)
         {
             throw new NotImplementedException();
         }

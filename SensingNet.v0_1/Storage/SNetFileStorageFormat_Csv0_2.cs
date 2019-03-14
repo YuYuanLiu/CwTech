@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using CToolkit.v0_1.Timing;
-using SensingNet.v0_1.Dsp.TimeSignal;
+using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 
 namespace SensingNet.v0_1.Storage
 {
@@ -77,7 +77,7 @@ namespace SensingNet.v0_1.Storage
         }
 
 
-        public override void ReadTSignal(StreamReader sr, SNetDspTSignalSetSecF8 tSignal)
+        public override void ReadTSignal(StreamReader sr, SNetTdTSignalSetSecF8 tSignal)
         {
             var signals = new List<double>();
             for (var line = sr.ReadLine(); line != null; line = sr.ReadLine())

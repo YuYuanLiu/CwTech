@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp.TimeSignal
+namespace SensingNet.v0_1.TriggerDiagram.TimeSignal
 {
-    public interface ISNetDspTimeSignalSet<T, S>
+    public interface ISNetTdTSignalSet<T, S>
     {
         void AddByKey(T key, IEnumerable<S> signals);
 

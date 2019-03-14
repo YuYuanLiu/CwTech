@@ -2,8 +2,8 @@
 using CToolkit.v0_1.Numeric;
 using CToolkit.v0_1.Timing;
 using MathNet.Filtering.FIR;
-using SensingNet.v0_1.Dsp.Basic;
-using SensingNet.v0_1.Dsp.TimeSignal;
+using SensingNet.v0_1.TriggerDiagram.Basic;
+using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,15 +11,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_1.Dsp
+namespace SensingNet.v0_1.TriggerDiagram
 {
-    public class SNetDspNodeFft : SNetDspNodeF8
+    public class SNetTdNodeFft : SNetTdNodeF8
     {
         public int SampleRate = 1024;
         /// <summary>
         /// MathNet FFT 選 Matlab -> 算出來的結果可以加總後取平均, 仍是頻域圖
         /// </summary>
-        public SNetDspTSignalSetSecF8 TSignal = new SNetDspTSignalSetSecF8();
+        public SNetTdTSignalSetSecF8 TSignal = new SNetTdTSignalSetSecF8();
 
 
 
@@ -32,7 +32,7 @@ namespace SensingNet.v0_1.Dsp
             this.PurgeSignalByTime(this.TSignal, oldKey);
         }
 
-        public  void DoInput(object sender, SNetDspSignalSetSecF8EventArg ea)
+        public  void DoInput(object sender, SNetTdSignalSetSecF8EventArg ea)
         {
             if (!this.IsEnalbed) return;
 
@@ -57,8 +57,8 @@ namespace SensingNet.v0_1.Dsp
             });
 
 
-            this.DoDataChange(this.TSignal, new SNetDspTSignalSecF8(t, signalData));
-            ea.InvokeResult = this.disposed ? SNetDspEnumInvokeResult.IsDisposed : SNetDspEnumInvokeResult.None;
+            this.DoDataChange(this.TSignal, new SNetTdTSignalSecF8(t, signalData));
+            ea.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
 
 

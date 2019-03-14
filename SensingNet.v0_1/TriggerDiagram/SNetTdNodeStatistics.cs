@@ -1,24 +1,24 @@
 ﻿using CToolkit.v0_1;
 using CToolkit.v0_1.Timing;
-using SensingNet.v0_1.Dsp.Basic;
-using SensingNet.v0_1.Dsp.TimeSignal;
+using SensingNet.v0_1.TriggerDiagram.Basic;
+using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp
+namespace SensingNet.v0_1.TriggerDiagram
 {
-    public class SNetDspNodeStatistics : SNetDspNodeF8
+    public class SNetTdNodeStatistics : SNetTdNodeF8
     {
 
-        public SNetDspTSignalSetSecF8 TSignalAvg = new SNetDspTSignalSetSecF8();
-        public SNetDspTSignalSetSecF8 TSignalMax = new SNetDspTSignalSetSecF8();
-        public SNetDspTSignalSetSecF8 TSignalMin = new SNetDspTSignalSetSecF8();
+        public SNetTdTSignalSetSecF8 TSignalAvg = new SNetTdTSignalSetSecF8();
+        public SNetTdTSignalSetSecF8 TSignalMax = new SNetTdTSignalSetSecF8();
+        public SNetTdTSignalSetSecF8 TSignalMin = new SNetTdTSignalSetSecF8();
 
 
-        ~SNetDspNodeStatistics() { this.Dispose(false); }
+        ~SNetTdNodeStatistics() { this.Dispose(false); }
 
 
 
@@ -34,10 +34,10 @@ namespace SensingNet.v0_1.Dsp
         }
 
 
-        public void DoInput(object sender, SNetDspSignalEventArg e)
+        public void DoInput(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetDspSignalSetSecF8EventArg;
+            var ea = e as SNetTdSignalSetSecF8EventArg;
             if (ea == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
@@ -49,7 +49,7 @@ namespace SensingNet.v0_1.Dsp
 
 
             this.PurgeSignal();
-            ea.InvokeResult = this.disposed ? SNetDspEnumInvokeResult.IsDisposed : SNetDspEnumInvokeResult.None;
+            ea.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
 
 

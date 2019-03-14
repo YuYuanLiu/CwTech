@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp.TimeSignal
+namespace SensingNet.v0_1.TriggerDiagram.Basic
 {
-    public interface ISNetDspTimeSignal<T, S>
+    public interface ISNetTdBlock : ISNetTdNode
     {
+        
+
 
     }
 }

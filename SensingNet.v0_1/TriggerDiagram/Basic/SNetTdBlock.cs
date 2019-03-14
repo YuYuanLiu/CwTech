@@ -1,32 +1,32 @@
 ﻿using CToolkit.v0_1;
 using CToolkit.v0_1.Timing;
-using SensingNet.v0_1.Dsp.TimeSignal;
+using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp.Basic
+namespace SensingNet.v0_1.TriggerDiagram.Basic
 {
-    public class SNetDspBlock : SNetDspNode, ISNetDspNode
+    public class SNetTdBlock : SNetTdNode, ISNetTdBlock
     {
-        public ConcurrentDictionary<String, SNetDspNode> DspNodes = new ConcurrentDictionary<string, SNetDspNode>();
-        public List<SNetDspWire> DspWires = new List<SNetDspWire>();
+        public Dictionary<String, SNetTdNode> DspNodes = new Dictionary<string, SNetTdNode>();
+        public List<SNetTdWire> DspWires = new List<SNetTdWire>();
 
 
         //存放結構時:CtkTimeSecond, 仍可為null, 因此本身是物件形態
-        ~SNetDspBlock() { this.Dispose(false); }
+        ~SNetTdBlock() { this.Dispose(false); }
 
 
-        public T AddNode<T>() where T : SNetDspNode, new()
+        public T AddNode<T>() where T : SNetTdNode, new()
         {
             var node = new T();
             this.DspNodes[node.SNetDspIdentifier] = node;
             return node;
         }
 
-        public T AddNode<T>(T node) where T : SNetDspNode
+        public T AddNode<T>(T node) where T : SNetTdNode
         {
             if (this.DspNodes.ContainsKey(node.SNetDspIdentifier)) throw new ArgumentException("Already exist identifier");
             this.DspNodes[node.SNetDspIdentifier] = node;

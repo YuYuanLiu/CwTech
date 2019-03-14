@@ -1,14 +1,14 @@
 ﻿using CToolkit.v0_1;
 using CToolkit.v0_1.Timing;
-using SensingNet.v0_1.Dsp.TimeSignal;
+using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.Dsp.Basic
+namespace SensingNet.v0_1.TriggerDiagram.Basic
 {
-    public class SNetDspNode : ISNetDspNode, IDisposable
+    public class SNetTdNode : ISNetTdNode, IDisposable
     {
         public bool IsEnalbed = true;
         protected String _identifier = Guid.NewGuid().ToString();
