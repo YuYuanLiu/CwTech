@@ -1,4 +1,4 @@
-﻿using CToolkit.v0_1;
+using CToolkit.v0_1;
 using CToolkit.v0_1.Numeric;
 using CToolkit.v0_1.Timing;
 using MathNet.Filtering.FIR;
@@ -32,9 +32,13 @@ namespace SensingNet.v0_1.TriggerDiagram
             this.PurgeSignalByTime(this.TSignal, oldKey);
         }
 
-        public  void DoInput(object sender, SNetTdSignalSetSecF8EventArg ea)
+        public  void DoInput(object sender, SNetTdEventArg e)
         {
             if (!this.IsEnalbed) return;
+            var ea = e as SNetTdSignalSetSecF8EventArg;
+            if (ea == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
+
+
 
 
             if (!ea.PrevTime.HasValue) return;
