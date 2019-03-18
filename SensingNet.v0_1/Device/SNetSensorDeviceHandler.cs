@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CToolkit.v0_1.Threading;
+using CToolkit.v0_1.Logging;
 
 namespace SensingNet.v0_1.Device
 {
@@ -38,31 +39,38 @@ namespace SensingNet.v0_1.Device
             try
             {
 
-                if (!SpinWait.SpinUntil(() => !this.CfIsRunning || this.ProtoConn.IsRemoteConnected, 1000)) return 0;
+                if (!SpinWait.SpinUntil(() => !this.CfIsRunning || this.ProtoConn.IsRemoteConnected, 100))
+                {
+                    Thread.Sleep(1000);
+                    return 0;
+                }
                 if (!this.CfIsRunning) return 0;//若不再執行->return 0
 
 
                 if (this.Config.IsActivelyTx)
                 {
-                    var ackDataMsg = this.SignalTran.CreateMsgDataAck(this.Config.SignalCfgList);
+                    var ackDataMsg = this.SignalTran.CreateAckMsg(this.Config.SignalCfgList);
                     if (ackDataMsg != null)
                         this.ProtoConn.WriteMsg(ackDataMsg);
                 }
                 else
                 {
                     //等待下次要求資料的間隔
-                    var now = DateTime.Now;
                     if (this.Config.TxInterval > 0)
                     {
-                        while ((now - prevAckTime).TotalMilliseconds < this.Config.TxInterval)
+                        var interval = DateTime.Now - prevAckTime;
+                        while (interval.TotalMilliseconds < this.Config.TxInterval)
                         {
                             if (!this.CfIsRunning) return 0;//若不再執行->直接return
-                            now = DateTime.Now;
+                            var sleep = this.Config.TxInterval - (int)interval.TotalMilliseconds;
+                            if (sleep > 0)
+                                Thread.Sleep(sleep);
+                            interval = DateTime.Now - prevAckTime;
                         }
                     }
-                    prevAckTime = now;
+                    prevAckTime = DateTime.Now;
 
-                    var reqDataMsg = this.SignalTran.CreateMsgDataReq(this.Config.SignalCfgList);
+                    var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
                     this.ProtoConn.WriteMsg(reqDataMsg);
                 }
 
@@ -113,6 +121,15 @@ namespace SensingNet.v0_1.Device
         }
 
 
+
+        #region Event
+        public event EventHandler<SNetSignalEventArgs> evtSignalCapture;
+        void OnSignalCapture(SNetSignalEventArgs e)
+        {
+            if (evtSignalCapture == null) return;
+            this.evtSignalCapture(this, e);
+        }
+        #endregion
 
 
 
@@ -165,17 +182,38 @@ namespace SensingNet.v0_1.Device
                 case SNetEnumProtoConnect.Rs232:
                     this.ProtoConn = new SNetProtoConnRs232(this.Config.SerialPortConfig);
                     break;
+                case SNetEnumProtoConnect.TcpWcf:
+                    this.ProtoConn = new SNetProtoConnTcpWcf(this.Config.Uri, this.Config.IsActivelyConnect);
+                    break;
                 case SNetEnumProtoConnect.Custom:
                     //由使用者自己實作
                     break;
-                default:
-                    throw new ArgumentException("ProtoConn");
+                default: throw new ArgumentException("ProtoConn"); ;
             }
 
-            this.ProtoConn.evtDataReceive += (sender, e) =>
+            this.ProtoConn.IntervalTimeOfConnectCheck = this.Config.IntervalTimeOfConnectCheck;
+            this.ProtoConn.evtFirstConnect += (ss, ee) =>
             {
-                var ea = e as CtkProtocolBufferEventArgs;
-                this.ProtoFormat.ReceiveBytes(ea.Buffer, ea.Offset, ea.Length);
+                this.ProtoSession.FirstConnect(this.ProtoConn);
+
+
+                if (this.Config.IsActivelyTx)
+                {
+                    var ackDataMsg = this.SignalTran.CreateAckMsg(this.Config.SignalCfgList);
+                    if (ackDataMsg != null)
+                        this.ProtoConn.WriteMsg(ackDataMsg);
+                }
+                else
+                {
+                    var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
+                    if (reqDataMsg != null)
+                        this.ProtoConn.WriteMsg(reqDataMsg);
+                }
+            };
+            this.ProtoConn.evtDataReceive += (ss, ee) =>
+            {
+                var ea = ee as CtkProtocolEventArgs;
+                this.ProtoFormat.ReceiveMsg(ea.TrxMessage);
                 this.areMsg.Set();
 
                 if (this.ProtoFormat.HasMessage())
@@ -187,11 +225,14 @@ namespace SensingNet.v0_1.Device
 
             switch (this.Config.ProtoFormat)
             {
-                case SNetEnumProtoFormat.SensingNetCmd:
-                    this.ProtoFormat = new SNetProtoFormatSensingNetCmd();
+                case SNetEnumProtoFormat.SNetCmd:
+                    this.ProtoFormat = new SNetProtoFormatSNetCmd();
                     break;
-                case  SNetEnumProtoFormat.Secs:
+                case SNetEnumProtoFormat.Secs:
                     this.ProtoFormat = new SNetProtoFormatSecs();
+                    break;
+                case SNetEnumProtoFormat.CtkWcf:
+                    this.ProtoFormat = new SNetProtoFormatCtkWcf();
                     break;
                 case SNetEnumProtoFormat.Custom:
                     //由使用者自己實作
@@ -203,11 +244,14 @@ namespace SensingNet.v0_1.Device
 
             switch (this.Config.ProtoSession)
             {
-                case SNetEnumProtoSession.SensingNetCmd:
-                    this.ProtoSession = new SNetProtoSessionSensingNetCmd();
+                case SNetEnumProtoSession.SNetCmd:
+                    this.ProtoSession = new SNetProtoSessionSNetCmd();
                     break;
                 case SNetEnumProtoSession.Secs:
                     this.ProtoSession = new SNetProtoSessionSecs();
+                    break;
+                case SNetEnumProtoSession.CtkWcf:
+                    this.ProtoSession = new SNetProtoSessionCtkWcf();
                     break;
                 case SNetEnumProtoSession.Custom:
                     //由使用者自己實作
@@ -215,19 +259,27 @@ namespace SensingNet.v0_1.Device
                 default: throw new ArgumentException("必須指定ProtoFormat");
             }
 
+
             switch (this.Config.SignalTran)
             {
-                case SNetEnumSignalTran.SensingNet:
-                    this.SignalTran = new SNetSignalTranSensingNet();
+                case SNetEnumSignalTran.SNetCmd:
+                    this.SignalTran = new SNetSignalTranSNetCmd();
                     break;
                 case SNetEnumSignalTran.Secs001:
                     this.SignalTran = new SNetSignalTranSecs001();
                     break;
-                 case SNetEnumSignalTran.Custom:
+                case SNetEnumSignalTran.CtkWcf001:
+                    this.SignalTran = new SNetSignalTranCtkWcf001();
+                    break;
+                case SNetEnumSignalTran.Custom:
                     //由使用者自己實作
                     break;
                 default: throw new ArgumentException("必須指定ProtoFormat");
             }
+
+
+
+
 
 
             return 0;
@@ -244,12 +296,20 @@ namespace SensingNet.v0_1.Device
             this.ProtoConn.NonStopConnectAsyn();
 
             this.CfIsRunning = true;
-            //三個方法(三個保護)控管執行
-            while (!disposed && this.CfIsRunning && !this.taskRun.CancelToken.IsCancellationRequested)
+
+            try
             {
-                this.taskRun.CancelToken.ThrowIfCancellationRequested();//一般cancel task 在 while 和 第一行
-                this.RealExec();
+                //三個方法(三個保護)控管執行
+                while (!disposed && this.CfIsRunning && !this.taskRun.CancelToken.IsCancellationRequested)
+                {
+                    this.taskRun.CancelToken.ThrowIfCancellationRequested();//一般cancel task 在 while 和 第一行
+                    this.RealExec();
+                }
+
+
+                CtkLog.Info("Finish SensorDevice");
             }
+            catch (Exception ex) { CtkLog.Write(ex, CtkLoggerEnumLevel.Error); }
             return 0;
         }
         public virtual int CfRunAsyn()
@@ -272,15 +332,6 @@ namespace SensingNet.v0_1.Device
 
         #endregion
 
-
-        #region Event
-        public event EventHandler<SNetSignalEventArgs> evtSignalCapture;
-        void OnSignalCapture(SNetSignalEventArgs e)
-        {
-            if (evtSignalCapture == null) return;
-            this.evtSignalCapture(this, e);
-        }
-        #endregion
 
 
         #region IDisposable
@@ -325,16 +376,6 @@ namespace SensingNet.v0_1.Device
         }
         protected virtual void DisposeSelf()
         {
-            this.CfIsRunning = false;
-
-            if (this.taskRun != null)
-            {
-                SpinWait.SpinUntil(() => this.taskRun.IsEnd(), 3000);
-                this.taskRun.Dispose();
-            }
-            if (this.ProtoConn != null)
-                this.ProtoConn.Dispose();
-
             this.CfUnLoad();
             this.CfFree();
             CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
