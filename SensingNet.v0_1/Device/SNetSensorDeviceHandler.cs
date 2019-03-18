@@ -195,6 +195,19 @@ namespace SensingNet.v0_1.Device
             this.ProtoConn.evtFirstConnect += (ss, ee) =>
             {
                 this.ProtoSession.FirstConnect(this.ProtoConn);
+
+                if (this.Config.IsActivelyTx)
+                {
+                    var ackDataMsg = this.SignalTran.CreateAckMsg(this.Config.SignalCfgList);
+                    if (ackDataMsg != null)
+                        this.ProtoConn.WriteMsg(ackDataMsg);
+                }
+                else
+                {
+                    var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
+                    if (reqDataMsg != null)
+                        this.ProtoConn.WriteMsg(reqDataMsg);
+                }
             };
             this.ProtoConn.evtDataReceive += (ss, ee) =>
             {
