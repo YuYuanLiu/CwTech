@@ -11,8 +11,8 @@ namespace SensingNet.v0_1.TriggerDiagram.Basic
 {
     public class SNetTdBlock : SNetTdNode, ISNetTdBlock
     {
-        public Dictionary<String, SNetTdNode> DspNodes = new Dictionary<string, SNetTdNode>();
-        public List<SNetTdWire> DspWires = new List<SNetTdWire>();
+        public Dictionary<String, SNetTdNode> TdNodes = new Dictionary<string, SNetTdNode>();
+        public List<SNetTdWire> TdWires = new List<SNetTdWire>();
 
 
         //存放結構時:CtkTimeSecond, 仍可為null, 因此本身是物件形態
@@ -22,14 +22,14 @@ namespace SensingNet.v0_1.TriggerDiagram.Basic
         public T AddNode<T>() where T : SNetTdNode, new()
         {
             var node = new T();
-            this.DspNodes[node.SNetDspIdentifier] = node;
+            this.TdNodes[node.SNetDspIdentifier] = node;
             return node;
         }
 
         public T AddNode<T>(T node) where T : SNetTdNode
         {
-            if (this.DspNodes.ContainsKey(node.SNetDspIdentifier)) throw new ArgumentException("Already exist identifier");
-            this.DspNodes[node.SNetDspIdentifier] = node;
+            if (this.TdNodes.ContainsKey(node.SNetDspIdentifier)) throw new ArgumentException("Already exist identifier");
+            this.TdNodes[node.SNetDspIdentifier] = node;
             return node;
         }
         public SNetDspWire<T> AddWire<T>( Delegate evt, EventHandler<T> destination)
@@ -46,12 +46,12 @@ namespace SensingNet.v0_1.TriggerDiagram.Basic
 
         public void RefreshNodeId()
         {
-            var dspNodes = this.DspNodes.Values;
-            lock (this.DspNodes)
+            var dspNodes = this.TdNodes.Values;
+            lock (this.TdNodes)
             {
-                this.DspNodes.Clear();
+                this.TdNodes.Clear();
                 foreach (var node in dspNodes)
-                    this.DspNodes[node.SNetDspIdentifier] = node;
+                    this.TdNodes[node.SNetDspIdentifier] = node;
             }
         }
    
