@@ -18,6 +18,8 @@ namespace SensingNet.v0_1
             bg.WorkerSupportsCancellation = true;
             bg.RunWorkerAsync();
 
+
+
             return 0;
         }
 
