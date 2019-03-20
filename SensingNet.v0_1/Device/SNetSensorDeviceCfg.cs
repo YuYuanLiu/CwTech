@@ -1,5 +1,5 @@
-﻿using CToolkit.v0_1;
-using CToolkit.v0_1.DigitalPort;
+﻿using CToolkit.v1_0;
+using CToolkit.v1_0.DigitalPort;
 using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Signal;
 using System;

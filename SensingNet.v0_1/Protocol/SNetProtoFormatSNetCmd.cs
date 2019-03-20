@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using CToolkit.v0_1.Protocol;
+using CToolkit.v1_0.Protocol;
 
 namespace SensingNet.v0_1.Protocol
 {

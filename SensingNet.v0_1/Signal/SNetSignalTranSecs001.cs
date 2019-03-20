@@ -1,7 +1,7 @@
 ﻿using CToolkit;
-using CToolkit.v0_1;
-using CToolkit.v0_1.Protocol;
-using CToolkit.v0_1.Secs;
+using CToolkit.v1_0;
+using CToolkit.v1_0.Protocol;
+using CToolkit.v1_0.Secs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,14 +25,14 @@ namespace SensingNet.v0_1.Signal
 
             try
             {
-                var list = secsMsg.rootNode as CToolkit.v0_1.Secs.CtkSecsIINodeList;
+                var list = secsMsg.rootNode as CToolkit.v1_0.Secs.CtkSecsIINodeList;
 
                 for (int idx = 0; idx < list.Data.Count; idx++)
                 {
 
                     var ea = new SNetSignalEventArgs();
                     ea.Sender = sender;
-                    var data = list.Data[idx] as CToolkit.v0_1.Secs.CtkSecsIINodeASCII;
+                    var data = list.Data[idx] as CToolkit.v1_0.Secs.CtkSecsIINodeASCII;
                     if (data.Data.Count <= 0) continue;
 
                     ea.Data = new List<double>();
@@ -60,7 +60,7 @@ namespace SensingNet.v0_1.Signal
             txMsg.header.FunctionId = 3;
             txMsg.header.WBit = true;
             var sList = new CtkSecsIINodeList();
-            //var sSvid = new CToolkit.v0_1.Secs.SecsIINodeInt64();
+            //var sSvid = new CToolkit.v1_0.Secs.SecsIINodeInt64();
 
             foreach (var scfg in listInfo)
             {

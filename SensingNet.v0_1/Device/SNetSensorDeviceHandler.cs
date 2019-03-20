@@ -1,7 +1,7 @@
 using CToolkit;
-using CToolkit.v0_1.Net;
-using CToolkit.v0_1.Protocol;
-using CToolkit.v0_1;
+using CToolkit.v1_0.Net;
+using CToolkit.v1_0.Protocol;
+using CToolkit.v1_0;
 using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Signal;
 using System;
@@ -12,8 +12,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using CToolkit.v0_1.Threading;
-using CToolkit.v0_1.Logging;
+using CToolkit.v1_0.Threading;
+using CToolkit.v1_0.Logging;
 
 namespace SensingNet.v0_1.Device
 {

@@ -1,6 +1,6 @@
 using CToolkit;
-using CToolkit.v0_1;
-using CToolkit.v0_1.Config;
+using CToolkit.v1_0;
+using CToolkit.v1_0.Config;
 using SensingNet.v0_1.Device;
 using SensingNet.v0_1.Signal;
 using System;

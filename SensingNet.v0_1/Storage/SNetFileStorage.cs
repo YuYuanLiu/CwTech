@@ -1,5 +1,5 @@
 using CToolkit;
-using CToolkit.v0_1;
+using CToolkit.v1_0;
 using SensingNet.v0_1.Signal;
 using System;
 using System.Collections.Generic;

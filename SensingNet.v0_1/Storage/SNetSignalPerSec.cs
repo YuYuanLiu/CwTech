@@ -1,4 +1,4 @@
-﻿using CToolkit.v0_1.Numeric;
+﻿using CToolkit.v1_0.Numeric;
 using Cudafy.Types;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using System;

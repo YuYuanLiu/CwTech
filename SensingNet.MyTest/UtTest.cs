@@ -9,11 +9,11 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using CToolkit.v0_1.Numeric;
+using CToolkit.v1_0.Numeric;
 using System.Numerics;
 using Cudafy.Types;
 using System.Runtime.InteropServices;
-using CToolkit.v0_1;
+using CToolkit.v1_0;
 using System.Reflection;
 
 namespace SensingNet.MyTest

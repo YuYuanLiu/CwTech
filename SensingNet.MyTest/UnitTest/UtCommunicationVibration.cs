@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using SensingNet.v0_1.Storage;
-using CToolkit.v0_1.Net;
+using CToolkit.v1_0.Net;
 using System.Threading;
 using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Device;

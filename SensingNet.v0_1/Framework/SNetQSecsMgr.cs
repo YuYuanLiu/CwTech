@@ -1,8 +1,8 @@
 using CToolkit;
-using CToolkit.v0_1;
-using CToolkit.v0_1.Config;
-using CToolkit.v0_1.Logging;
-using CToolkit.v0_1.Secs;
+using CToolkit.v1_0;
+using CToolkit.v1_0.Config;
+using CToolkit.v1_0.Logging;
+using CToolkit.v1_0.Secs;
 using SensingNet.v0_1.QSecs;
 using SensingNet.v0_1.Signal;
 using System;

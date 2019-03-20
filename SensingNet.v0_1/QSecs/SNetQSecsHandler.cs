@@ -1,7 +1,7 @@
 using CToolkit;
-using CToolkit.v0_1.Numeric;
-using CToolkit.v0_1.Secs;
-using CToolkit.v0_1;
+using CToolkit.v1_0.Numeric;
+using CToolkit.v1_0.Secs;
+using CToolkit.v1_0;
 using SensingNet.v0_1.Signal;
 using SensingNet.v0_1.Storage;
 using System;
@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Text;
-using CToolkit.v0_1.Net;
+using CToolkit.v1_0.Net;
 
 namespace SensingNet.v0_1.QSecs
 {
