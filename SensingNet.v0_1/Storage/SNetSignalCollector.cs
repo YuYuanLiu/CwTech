@@ -1,4 +1,4 @@
-using CToolkit.v0_1.Numeric;
+using CToolkit.v1_0.Numeric;
 using Cudafy.Types;
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,7 @@ namespace SensingNet.v0_1.Storage
     /// 需被設置的資料為 times/signals
     /// </summary>
     [Serializable]
+    [Obsolete("請使用 SNetDspTimeSignalSetSecond 替代")]
     public class SNetSignalCollector : LinkedList<SNetSignalPerSec>
     {
         public List<DateTime> times = new List<DateTime>();
@@ -36,7 +37,7 @@ namespace SensingNet.v0_1.Storage
             fft = new ComplexD[signals.Count];
             if (signals.Count <= 0) return fft;
 
-            this.fft = CtkNpContext.Singleton.FftForwardD(this.signals);
+            this.fft = CtkNumContext.GetOrCreate().FftForwardD(this.signals);
             return fft;
         }
 
@@ -45,7 +46,7 @@ namespace SensingNet.v0_1.Storage
             var fft = this.ComputeFft();
 
 
-            var freqData = CtkNpContext.Singleton.SpectrumFftD(fft);
+            var freqData = CtkNumContext.GetOrCreate().SpectrumFftD(fft);
 
             this.spectrum = new ComplexD[fft.Length / 2];
             for (int idx = 0; idx < spectrum.Length; idx++)

@@ -32,9 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CToolkit.v0_1, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\CToolkit.v0.1\CToolkit.v0_1.dll</HintPath>
+    <Reference Include="CToolkit.v1_0">
+      <HintPath>..\DLL\CToolkit.v1.0\CToolkit.v1_0.dll</HintPath>
+    </Reference>
+    <Reference Include="CToolkit.v1_0.Secs">
+      <HintPath>..\DLL\CToolkit.v1.0\CToolkit.v1_0.Secs.dll</HintPath>
     </Reference>
     <Reference Include="Cudafy.NET, Version=1.29.5576.13786, Culture=neutral, PublicKeyToken=63a4c9931616906b, processorArchitecture=MSIL">
       <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\CUDAfy.NET.1.29.5576.13786\lib\net40\Cudafy.NET.dll</HintPath>
@@ -53,6 +55,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,31 +64,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dsp\Block\SNetDspBlockDiagram.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockFilter_PassFilter.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetSecondEventArg.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockTimeSignalSetEventArg.cs" />
-    <Compile Include="Dsp\SNetDspEnumInvokeResult.cs" />
-    <Compile Include="Dsp\Block\ISNetDspBlock.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockFilter.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockEventArg.cs" />
-    <Compile Include="Dsp\TimeSignal\ISNetDspTimeSignalSet.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockBase.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockTimeSignalEventArg.cs" />
-    <Compile Include="Dsp\SNetDspLayoutGraph.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockSeqDataCollector.cs" />
-    <Compile Include="Dsp\Block\SNetDspBlockBasicStatistics.cs" />
-    <Compile Include="Dsp\TimeSignal\SNetDspTimeSignalSetMilliSecond.cs" />
-    <Compile Include="Dsp\TimeSignal\SNetDspTimeSignalSetSecond.cs" />
-    <Compile Include="Dsp\SNetDspEnumMethod.cs" />
-    <Compile Include="Dsp\SNetDspEnumPeriod.cs" />
+    <Compile Include="TriggerDiagram\Basic\ISNetTdDiagram.cs" />
+    <Compile Include="TriggerDiagram\Basic\ISNetTdBlock.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNodeF8.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNodeFft.cs" />
+    <Compile Include="TriggerDiagram\SNetTdSignalSecF8EventArg.cs" />
+    <Compile Include="TriggerDiagram\SNetTdSignalSetSecF8EventArg.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdContact.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdDiagram.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdNode.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdWire.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdEnumInvokeResult.cs" />
+    <Compile Include="TriggerDiagram\Basic\ISNetTdNode.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNodeFilter.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdEventArg.cs" />
+    <Compile Include="TriggerDiagram\TimeSignal\ISNetTdTSignal.cs" />
+    <Compile Include="TriggerDiagram\TimeSignal\ISNetTdTSignalSet.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdBlock.cs" />
+    <Compile Include="TriggerDiagram\SNetTdSignalEventArg.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNodeSeqDataCollector.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNodeStatistics.cs" />
+    <Compile Include="TriggerDiagram\TimeSignal\SNetTdTSignalSecF8.cs" />
+    <Compile Include="TriggerDiagram\TimeSignal\SNetTdTSignalSetSecC.cs" />
+    <Compile Include="TriggerDiagram\TimeSignal\SNetTdTSignalSetSecF8.cs" />
     <Compile Include="Framework\SNetAlarmMgr.cs" />
     <Compile Include="Framework\SNetDspMgr.cs" />
     <Compile Include="Protocol\SNetEnumProtoConnect.cs" />
     <Compile Include="Protocol\SNetEnumProtoSession.cs" />
     <Compile Include="Protocol\SNetEnumProtoFormat.cs" />
-    <Compile Include="Simulate\SNetSimulateSensorDeviceClient.cs" />
-    <Compile Include="Simulate\SNetSimulateCmdClient.cs" />
+    <Compile Include="Protocol\SNetProtoConnTcpWcf.cs" />
+    <Compile Include="Protocol\SNetProtoFormatCtkWcf.cs" />
+    <Compile Include="Protocol\SNetProtoSessionCtkWcf.cs" />
+    <Compile Include="Signal\SNetSignalTranCtkWcf001.cs" />
+    <Compile Include="Device\Simulate\SNetSimulateSensorDeviceClientVibration.cs" />
+    <Compile Include="Simulate\SNetSimulateDeviceCtkWcf.cs" />
+    <Compile Include="Simulate\SNetSimulateDeviceRandom.cs" />
+    <Compile Include="Wcf\ISNetWcfListener.cs" />
+    <Compile Include="Wcf\ISNetWcfClient.cs" />
+    <Compile Include="Wcf\Simulate\SNetSimulateQWcfClient.cs" />
+    <Compile Include="Wcf\Simulate\SNetSimulateQWcfListener.cs" />
+    <Compile Include="Wcf\SNetWcfListenerService.cs" />
+    <Compile Include="Wcf\SNetWcfClientCallback.cs" />
+    <Compile Include="Wcf\SNetWcfEventArgs.cs" />
+    <Compile Include="Wcf\SNetWcfListener.cs" />
+    <Compile Include="Wcf\SNetWcfClient.cs" />
+    <Compile Include="Wcf\SNetWcfChannelInfo.cs" />
+    <Compile Include="Wcf\SNnetWcfMessage.cs" />
+    <Compile Include="Device\Simulate\SNetSimulateSensorDeviceClient.cs" />
+    <Compile Include="Simulate\SNetSimulateCmdTcpClient.cs" />
     <Compile Include="SNetEnumHandlerStatus.cs" />
     <Compile Include="Framework\SNetSensorDeviceMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,9 +120,9 @@
     <Compile Include="Protocol\ISNetProtoFormatBase.cs" />
     <Compile Include="Protocol\SNetProtoConnRs232.cs" />
     <Compile Include="Protocol\SNetProtoConnTcp.cs" />
-    <Compile Include="Protocol\SNetProtoFormatSensingNetCmd.cs" />
+    <Compile Include="Protocol\SNetProtoFormatSNetCmd.cs" />
     <Compile Include="Protocol\SNetProtoFormatSecs.cs" />
-    <Compile Include="Protocol\SNetProtoSessionSensingNetCmd.cs" />
+    <Compile Include="Protocol\SNetProtoSessionSNetCmd.cs" />
     <Compile Include="Protocol\SNetProtoSessionSecs.cs" />
     <Compile Include="QSecs\SNetEnumStatisticsMethod.cs" />
     <Compile Include="QSecs\SNetQSecsRcvDataEventArgs.cs" />
@@ -121,13 +148,13 @@
     <Compile Include="Storage\SNetSignalCollector.cs" />
     <Compile Include="Signal\SNetSignalEventArgs.cs" />
     <Compile Include="Storage\SNetSignalPerSec.cs" />
-    <Compile Include="Signal\SNetSignalTranSensingNet.cs" />
+    <Compile Include="Signal\SNetSignalTranSNetCmd.cs" />
     <Compile Include="SNetUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <Compile Include="Simulate\SNetSimulateSecsClient.cs" />
-    <Compile Include="Simulate\SNetSimulateVibration.cs" />
+    <Compile Include="Simulate\SNetSimulateDeviceVibration.cs" />
     <None Include="Tools\place_these_executables_in_same_folder_as_Cudafy.NET.dll_" />
   </ItemGroup>
   <ItemGroup>
@@ -139,5 +166,6 @@
     <Content Include="Tools\cudafycl.exe" />
     <Content Include="Tools\CudafyViewer.exe" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

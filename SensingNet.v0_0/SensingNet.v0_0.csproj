@@ -36,7 +36,7 @@
   <ItemGroup>
     <Reference Include="CToolkit.v0_1, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\CToolkit.v0.1\CToolkit.v0_1.dll</HintPath>
+      <HintPath>DLL\CToolkit.v0.1\CToolkit.v0_1.dll</HintPath>
     </Reference>
     <Reference Include="Cudafy.NET, Version=1.29.5576.13786, Culture=neutral, PublicKeyToken=63a4c9931616906b, processorArchitecture=MSIL">
       <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\CUDAfy.NET.1.29.5576.13786\lib\net40\Cudafy.NET.dll</HintPath>
@@ -64,6 +64,8 @@
   <ItemGroup>
     <Compile Include="EnumHandlerStatus.cs" />
     <Compile Include="EnumPassFilter.cs" />
+    <Content Include="DLL\CToolkit.v0.1\CToolkit.v0_1.dll" />
+    <Content Include="DLL\CToolkit.v0.1\CToolkit.v0_1.pdb" />
     <Content Include="HammingFunc.cs.txt" />
     <Compile Include="LoggerAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

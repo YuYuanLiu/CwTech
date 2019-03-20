@@ -151,7 +151,7 @@ namespace SensingNet.v0_0.Protocol
                     {
                         //等待下次要求資料的間隔
                         while ((timestampDiff = timestampEnd - timestampStart) < this.dConfig.TxInterval / 1000.0)
-                            timestampEnd = CtkDateTimeUtil.ToTimestamp();
+                            timestampEnd = CtkTimeUtil.ToTimestamp();
                         timestampStart = timestampEnd;
 
                         this.protoEthComm.WriteMsg_TxDataReq(stream);

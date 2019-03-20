@@ -1,8 +1,8 @@
 using CToolkit;
-using CToolkit.v0_1;
-using CToolkit.v0_1.Config;
-using CToolkit.v0_1.Logging;
-using CToolkit.v0_1.Secs;
+using CToolkit.v1_0;
+using CToolkit.v1_0.Config;
+using CToolkit.v1_0.Logging;
+using CToolkit.v1_0.Secs;
 using SensingNet.v0_1.QSecs;
 using SensingNet.v0_1.Signal;
 using System;
@@ -34,13 +34,16 @@ namespace SensingNet.v0_1.Framework
             {
                 if (!Monitor.TryEnter(this, 5 * 1000)) return -1;
 
-                this.configs.UpdateIfOverTime();
+                this.configs.UpdateIfTimeout();
                 this.RunHandlerStatus();
             }
             finally
             {
                 Monitor.Exit(this);
             }
+            try { this.OnAfterEachExec(new EventArgs()); }
+            catch (Exception ex) { CtkLog.Write(ex, CtkLoggerEnumLevel.Warn); }
+
             return 0;
         }
         public int CfFree()
@@ -178,11 +181,17 @@ namespace SensingNet.v0_1.Framework
         public event EventHandler<SNetQSecsRcvDataEventArgs> evtReceiveData;
         public void OnReceiveData(SNetQSecsRcvDataEventArgs ea)
         {
-            if (this.evtReceiveData == null)
-                return;
-
+            if (this.evtReceiveData == null) return;
             this.evtReceiveData(this, ea);
         }
+
+        public event EventHandler evtAfterEachExec;
+        public void OnAfterEachExec(EventArgs ea)
+        {
+            if (this.evtAfterEachExec == null) return;
+            this.evtAfterEachExec(this, ea);
+        }
+
 
         #endregion
 
@@ -222,7 +231,7 @@ namespace SensingNet.v0_1.Framework
             this.DisposeSelf();
             disposed = true;
         }
-        
+
         #endregion
     }
 }

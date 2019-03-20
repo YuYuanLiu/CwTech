@@ -11,7 +11,7 @@ namespace SensingNet.v0_1.Signal
         public object Sender;
         public string RemoteIp;
         public int RemotePort;
-        public string Name;
+        public string DeviceName;
 
         public UInt64? Svid;
         public List<double> Data = new List<double>();

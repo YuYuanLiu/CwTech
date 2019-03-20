@@ -1,4 +1,4 @@
-﻿using CToolkit.v0_1.Secs;
+﻿using CToolkit.v1_0.Secs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +17,12 @@ namespace SensingNet.v0_1.Protocol
             switch (secsMsg.header.SType)
             {
                 case 1:
-                    protoConn.WriteBytes(CtkHsmsMessage.CtrlMsg_SelectRsp(0).ToBytes());
+                    protoConn.WriteMsg(CtkHsmsMessage.CtrlMsg_SelectRsp(0));
                     return true;
                 case 2:
                     return true;
                 case 5:
-                    protoConn.WriteBytes(CtkHsmsMessage.CtrlMsg_LinktestRsp().ToBytes());
+                    protoConn.WriteMsg(CtkHsmsMessage.CtrlMsg_LinktestRsp());
                     return true;
                 case 6:
                     return true;
@@ -37,9 +37,9 @@ namespace SensingNet.v0_1.Protocol
         public void FirstConnect(ISNetProtoConnectBase protoConn)
         {
             var txMsg = CtkHsmsMessage.CtrlMsg_SelectReq();
-            protoConn.WriteBytes(txMsg.ToBytes());
+            protoConn.WriteMsg(txMsg);
             txMsg = CtkHsmsMessage.CtrlMsg_LinktestReq();
-            protoConn.WriteBytes(txMsg.ToBytes());
+            protoConn.WriteMsg(txMsg);
         }
 
 

@@ -50,10 +50,10 @@ namespace SensingNet.v0_0.Storage
 
 
 
-        public void ReadStream(StreamReader sr, CtkEnumPassFilterMode passFilter, int sampleRate, int cutoffLow, int cutoffHigh)
+        public void ReadStream(StreamReader sr, CtkPassFilterStruct filterArgs)
         {
             var filter = new CtkFftOnlineFilter();
-            filter.SetFilter(passFilter, sampleRate, cutoffLow, cutoffHigh);
+            filter.SetFilter(filterArgs);
 
 
 

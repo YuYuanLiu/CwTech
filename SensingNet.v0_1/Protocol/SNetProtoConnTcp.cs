@@ -1,8 +1,8 @@
 using CToolkit;
-using CToolkit.v0_1;
-using CToolkit.v0_1.Net;
-using CToolkit.v0_1.Protocol;
-using CToolkit.v0_1.Secs;
+using CToolkit.v1_0;
+using CToolkit.v1_0.Net;
+using CToolkit.v1_0.Protocol;
+using CToolkit.v1_0.Secs;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -62,7 +62,6 @@ namespace SensingNet.v0_1.Protocol
             this.client.evtDisconnect += (sender, e) => this.OnDisconnect(e);
             this.client.evtDataReceive += (sender, e) => this.OnDataReceive(e);
 
-
             this.client.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
 
         }
@@ -84,10 +83,15 @@ namespace SensingNet.v0_1.Protocol
 
 
             this.listener.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
-
         }
 
-        public void WriteBytes(byte[] buff, int offset, int length) { this.ActiveWorkStream.Write(buff, offset, length); }
+        public void WriteBytes(byte[] buff, int offset, int length)
+        {
+            var stream = this.ActiveWorkStream;
+            stream.WriteTimeout = 10 * 1000;
+            stream.Write(buff, offset, length);
+            stream.Flush();
+        }
 
 
 

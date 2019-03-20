@@ -4,6 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CToolkit.v1_0.Timing;
+using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 
 namespace SensingNet.v0_1.Storage
 {
@@ -30,7 +32,6 @@ namespace SensingNet.v0_1.Storage
                 sw.Write(",{0}", val);
             sw.WriteLine();
         }
-
 
         public override void ReadStream(StreamReader sr, SNetSignalCollector collector)
         {
@@ -74,5 +75,36 @@ namespace SensingNet.v0_1.Storage
 
 
         }
+
+
+        public override void ReadTSignal(StreamReader sr, SNetTdTSignalSetSecF8 tSignal)
+        {
+            var signals = new List<double>();
+            for (var line = sr.ReadLine(); line != null; line = sr.ReadLine())
+            {
+                //切割資料
+                var vals = line.Split(',');
+                if (vals.Length < 2) continue;
+
+                //第一筆為 time
+                var dt = new DateTime(0);
+                if (!DateTime.TryParseExact(vals[0], TimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt)) continue;
+
+                var time = (CtkTimeSecond)dt;
+                tSignal.GetOrCreate(time);
+
+
+                for (int idx = 1; idx < vals.Length; idx++)
+                {
+                    var val = 0.0;
+                    if (!double.TryParse(vals[idx], out val)) continue;
+                    signals.Add(val);
+                }
+
+            }
+
+        }
+
+
     }
 }

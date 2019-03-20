@@ -49,6 +49,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,9 +77,9 @@
     <Content Include="Tools\CudafyViewer.exe" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit.v0_1\CToolkit.v0_1.csproj">
+    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit.v1_0\CToolkit.v1_0.csproj">
       <Project>{f07c68ef-a4d1-4af9-a283-35f6e27ace8a}</Project>
-      <Name>CToolkit.v0_1</Name>
+      <Name>CToolkit.v1_0</Name>
     </ProjectReference>
     <ProjectReference Include="..\SensingNet.v0_1\SensingNet.v0_1.csproj">
       <Project>{c54643aa-065e-410d-ba32-318a7141c999}</Project>

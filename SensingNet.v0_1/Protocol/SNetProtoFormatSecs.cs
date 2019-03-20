@@ -1,4 +1,5 @@
-﻿using CToolkit.v0_1.Secs;
+﻿using CToolkit.v1_0.Protocol;
+using CToolkit.v1_0.Secs;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -13,38 +14,46 @@ namespace SensingNet.v0_1.Protocol
     /// <summary>
     /// 客戶要求的Secs Format
     /// </summary>
-    public class SNetProtoFormatSecs : ConcurrentQueue<CtkHsmsMessage>, ISNetProtoFormatBase
+    public class SNetProtoFormatSecs : ISNetProtoFormatBase, IDisposable
     {
+
+        public ConcurrentQueue<CtkHsmsMessage> MsgQueue = new ConcurrentQueue<CtkHsmsMessage>();
 
         CtkHsmsMessageReceiver hsmsMsgRcv = new CtkHsmsMessageReceiver();
 
         ~SNetProtoFormatSecs() { this.Dispose(false); }
 
-
-        #region ISNetProtoFormatBase
-
-        int ISNetProtoFormatBase.Count() { return this.Count; }
-
-        public bool HasMessage() { return this.Count > 0; }
-
-        public bool IsReceiving()
-        {
-            return this.hsmsMsgRcv.GetMsgBufferLength() > 0;
-        }
-
-        public void ReceiveBytes(byte[] buffer, int offset, int length)
+        void ReceiveBytes(byte[] buffer, int offset, int length)
         {
             this.hsmsMsgRcv.Receive(buffer, offset, length);
             while (this.hsmsMsgRcv.Count > 0)
             {
                 var msg = this.hsmsMsgRcv.Dequeue();
-                this.Enqueue(msg);
+                this.MsgQueue.Enqueue(msg);
             }
+        }
+
+        #region ISNetProtoFormatBase
+
+        int ISNetProtoFormatBase.Count() { return this.MsgQueue.Count; }
+
+        public bool HasMessage() { return this.MsgQueue.Count > 0; }
+
+        public bool IsReceiving() { return this.hsmsMsgRcv.GetMsgBufferLength() > 0; }
+
+        public void ReceiveMsg(CtkProtocolTrxMessage msg)
+        {
+            if (msg.Is<CtkProtocolBufferMessage>())
+            {
+                var buffer = msg.As<CtkProtocolBufferMessage>();
+                this.ReceiveBytes(buffer.Buffer, buffer.Offset, buffer.Length);
+            }
+            else throw new ArgumentException("Not support type");
         }
         public bool TryDequeueMsg(out object msg)
         {
             CtkHsmsMessage mymsg = null;
-            var flag = this.TryDequeue(out mymsg);
+            var flag = this.MsgQueue.TryDequeue(out mymsg);
             msg = mymsg;
             return flag;
         }
@@ -99,6 +108,7 @@ namespace SensingNet.v0_1.Protocol
         {
 
         }
+
         #endregion
 
     }

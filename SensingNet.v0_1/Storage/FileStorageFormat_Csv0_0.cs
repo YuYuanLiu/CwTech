@@ -1,5 +1,5 @@
-﻿using CToolkit.v0_1;
-using CToolkit.v0_1.TimeOp;
+﻿using CToolkit.v1_0;
+using CToolkit.v1_0.Timing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,7 +30,7 @@ namespace SensingNet.v0_1.Storage
                 utc = DateTime.SpecifyKind(utc, DateTimeKind.Utc);
 
             //Loca / Utc ToUtcTimestamp 皆會轉成 UTC
-            var utcTimestamp = CtkDateTimeUtil.ToUtcTimestamp(utc);
+            var utcTimestamp = CtkTimeUtil.ToUtcTimestamp(utc);
             var localDt = utc.ToLocalTime();
 
             sw.Write("{0}", utcTimestamp);
@@ -55,7 +55,7 @@ namespace SensingNet.v0_1.Storage
                 if (!double.TryParse(vals[0], out timestamp)) continue;
 
                 //來源時間為Universal (檔案儲存時間)
-                var dt = CtkDateTimeUtil.ToLocalDateTimeFromTimestamp(timestamp);
+                var dt = CtkTimeUtil.ToLocalDateTimeFromTimestamp(timestamp);
 
                 if (tfbps == null)
                 {

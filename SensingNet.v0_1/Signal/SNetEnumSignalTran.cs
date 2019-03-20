@@ -7,8 +7,9 @@ namespace SensingNet.v0_1.Signal
 {
     public enum SNetEnumSignalTran
     {
-        SensingNet,
+        SNetCmd,
         Secs001, //for 客戶需求
+        CtkWcf001,
         Custom,
     }
 }

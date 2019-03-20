@@ -1,21 +1,27 @@
-﻿using SensingNet.v0_1.Simulate;
+﻿using CToolkit.v1_0.Wcf.Example;
+using SensingNet.v0_1.Wcf.Simulate;
+using SensingNet.v0_1.Simulate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using CToolkit.v1_0.Wcf;
 
 namespace SensingNet.CmdApp02
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            using (var sim = new SNetSimulateVibration())
+            using (var example = new SNetSimulateDeviceRandom())
             {
-                sim.RunAsyn();
-                sim.CommandLine();
+                example.RunAsyn();
+                example.CommandLine();
             }
+
+
         }
     }
 }

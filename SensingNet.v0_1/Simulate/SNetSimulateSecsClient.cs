@@ -1,7 +1,7 @@
-using CToolkit.v0_1;
-using CToolkit.v0_1.Logging;
-using CToolkit.v0_1.Net;
-using CToolkit.v0_1.Secs;
+using CToolkit.v1_0;
+using CToolkit.v1_0.Logging;
+using CToolkit.v1_0.Net;
+using CToolkit.v1_0.Secs;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Double;
 using System;
@@ -75,7 +75,7 @@ namespace SensingNet.v0_1.Simulate
             txMsg.header.FunctionId = 3;
             txMsg.header.WBit = true;
             var sList = new CtkSecsIINodeList();
-            //var sSvid = new CToolkit.v0_1.Secs.SecsIINodeInt64();
+            //var sSvid = new CToolkit.v1_0.Secs.SecsIINodeInt64();
 
 
             var list = new List<UInt64>();
@@ -94,7 +94,7 @@ namespace SensingNet.v0_1.Simulate
 
             txMsg.rootNode = sList;
 
-            this.client.WriteBytes(txMsg.ToBytes());
+            this.client.WriteMsg(txMsg);
 
         }
 

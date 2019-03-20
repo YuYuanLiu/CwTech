@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CToolkit.v1_0.Protocol;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,8 @@ namespace SensingNet.v0_1.Signal
     {
 
         List<SNetSignalEventArgs> AnalysisSignal<T>(object sender, object msg, IList<T> infos);
-        object CreateMsgDataReq<T>(IList<T> reqInfos);
-        object CreateMsgDataAck<T>(IList<T> reqInfos);
+        CtkProtocolTrxMessage CreateDataReqMsg<T>(IList<T> reqInfos);
+        CtkProtocolTrxMessage CreateAckMsg<T>(IList<T> reqInfos);
 
 
     }

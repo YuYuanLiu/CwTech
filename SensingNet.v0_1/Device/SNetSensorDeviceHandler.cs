@@ -1,19 +1,15 @@
-using CToolkit;
-using CToolkit.v0_1.Net;
-using CToolkit.v0_1.Protocol;
-using CToolkit.v0_1;
+using CToolkit.v1_0;
+using CToolkit.v1_0.Logging;
+using CToolkit.v1_0.Net;
+using CToolkit.v1_0.Protocol;
+using CToolkit.v1_0.Threading;
 using SensingNet.v0_1.Protocol;
 using SensingNet.v0_1.Signal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using CToolkit.v0_1.Threading;
-using CToolkit.v0_1.Logging;
 
 namespace SensingNet.v0_1.Device
 {
@@ -196,7 +192,6 @@ namespace SensingNet.v0_1.Device
             {
                 this.ProtoSession.FirstConnect(this.ProtoConn);
 
-
                 if (this.Config.IsActivelyTx)
                 {
                     var ackDataMsg = this.SignalTran.CreateAckMsg(this.Config.SignalCfgList);
@@ -370,15 +365,16 @@ namespace SensingNet.v0_1.Device
         protected virtual void DisposeManaged()
         {
         }
-        protected virtual void DisposeUnmanaged()
-        {
-
-        }
         protected virtual void DisposeSelf()
         {
             this.CfUnLoad();
             this.CfFree();
             CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
+        }
+
+        protected virtual void DisposeUnmanaged()
+        {
+
         }
         #endregion
 

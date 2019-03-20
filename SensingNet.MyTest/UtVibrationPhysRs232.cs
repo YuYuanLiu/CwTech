@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SensingNet.v0_1.Storage;
 using SensingNet.v0_1.Protocol;
-using CToolkit.v0_1.DigitalPort;
+using CToolkit.v1_0.DigitalPort;
 
 namespace SensingNet.MyTest
 {
@@ -36,8 +36,8 @@ namespace SensingNet.MyTest
                 //IsActivelyTx = true,
                 TimeoutResponse = 5000,
                 ProtoConnect = SNetEnumProtoConnect.Rs232,
-                ProtoFormat = SNetEnumProtoFormat.SensingNetCmd,
-                ProtoSession = SNetEnumProtoSession.SensingNetCmd,
+                ProtoFormat = SNetEnumProtoFormat.SNetCmd,
+                ProtoSession = SNetEnumProtoSession.SNetCmd,
             };
             deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SNetSignalCfg()
             {

@@ -1,4 +1,4 @@
-﻿using CToolkit.v0_1.Numeric;
+﻿using CToolkit.v1_0.Numeric;
 using Cudafy.Types;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using System;
@@ -13,6 +13,7 @@ namespace SensingNet.v0_1.Storage
     /// 因應人們習慣的最小單位(秒)為收集依據
     /// 
     /// </summary>
+    [Obsolete("請使用 SNetDspTimeSignalSetSecond 替代")]
     public class SNetSignalPerSec
     {
         public DateTime dt;
@@ -30,7 +31,7 @@ namespace SensingNet.v0_1.Storage
             this.fft = new ComplexD[this.signals.Count()];
             if (this.signals.Count <= 0) return this.fft;
 
-            this.fft = CtkNpContext.Singleton.FftForwardD(this.signals);
+            this.fft = CtkNumContext.GetOrCreate().FftForwardD(this.signals);
             return this.fft;
         }
 
@@ -38,9 +39,9 @@ namespace SensingNet.v0_1.Storage
         {
             var fft = this.ComputeFft();
 
-            var freqData = CtkNpContext.Singleton.SpectrumFftD(fft);
+            var freqData = CtkNumContext.GetOrCreate().SpectrumFftD(fft);
 
-            this.spectrum = new ComplexD[fft.Length / 2 ];
+            this.spectrum = new ComplexD[fft.Length / 2];
             for (int idx = 0; idx < spectrum.Length; idx++)
                 spectrum[idx] = freqData[idx];
 

@@ -9,7 +9,7 @@ namespace SensingNet.v0_1.Signal
     {
 
         public UInt64 Svid = 0;
-        public String Name;
+        public String SignalName;
 
 
         public double CalibrateSysScale = 1.0;

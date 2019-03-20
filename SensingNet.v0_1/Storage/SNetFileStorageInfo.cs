@@ -1,4 +1,5 @@
-using CToolkit.v0_1.Numeric;
+using CToolkit.v1_0.Numeric;
+using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,8 @@ namespace SensingNet.v0_1.Storage
     public class SNetFileStorageInfo
     {
         public SNetFileStorageFormat fsFormat = new SNetFileStorageFormat_Csv0_2();
-        public SNetSignalCollector collector = new SNetSignalCollector();
+        //public SNetSignalCollector collector = new SNetSignalCollector();
+        public SNetTdTSignalSetSecF8 TSignal = new SNetTdTSignalSetSecF8();
 
 
 
@@ -36,27 +38,19 @@ namespace SensingNet.v0_1.Storage
             var header = Newtonsoft.Json.JsonConvert.DeserializeObject<SNetFileStorageFormat>(headerStr);
 
             if (header.FormatName == typeof(FileStorageFormat_Csv0_0).Name)
-                this.fsFormat = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageFormat_Csv0_0>(headerStr);
+                throw new SNetException("不再支援的檔案格式");//this.fsFormat = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageFormat_Csv0_0>(headerStr);
             else if (header.FormatName == typeof(FileStorageFormat_Csv0_1).Name)
                 this.fsFormat = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageFormat_Csv0_1>(headerStr);
             else if (header.FormatName == typeof(SNetFileStorageFormat_Csv0_2).Name)
                 this.fsFormat = Newtonsoft.Json.JsonConvert.DeserializeObject<SNetFileStorageFormat_Csv0_2>(headerStr);
+            else
+                throw new SNetException("不支援的檔案格式");
 
-
-            this.fsFormat.ReadStream(sr, this.collector);
+            this.fsFormat.ReadTSignal(sr, this.TSignal);
 
         }
 
 
-
-
-        public void ReadStream(StreamReader sr, CtkEnumPassFilterMode passFilter, int sampleRate, int cutoffLow, int cutoffHigh)
-        {
-            var filter = new CtkFftOnlineFilter();
-            filter.SetFilter(passFilter, sampleRate, cutoffLow, cutoffHigh);
-
-            //TODO: 尚未完成
-        }
 
 
 

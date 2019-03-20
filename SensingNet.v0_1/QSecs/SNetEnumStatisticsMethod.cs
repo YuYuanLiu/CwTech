@@ -8,6 +8,7 @@ namespace SensingNet.v0_1.QSecs
     public enum SNetEnumStatisticsMethod
     {
         Raw,
+        Calibrated,
         Max,
         Min,
         Average

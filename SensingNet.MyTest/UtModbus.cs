@@ -5,7 +5,8 @@ using MathNet.Numerics;
 using System.IO;
 using System.Collections.Generic;
 using System.Net;
-using CToolkit.v0_1.Protocol;
+using CToolkit.v1_0.Protocol;
+using CToolkit.v1_0.Net;
 
 namespace SensingNet.MyTest
 {
@@ -18,24 +19,26 @@ namespace SensingNet.MyTest
         public void TestMethod()
         {
             var remoteEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502);
-            var nonStopTcpClient = new CToolkit.v0_1.Net.CtkNonStopTcpClient(remoteEp);
-            nonStopTcpClient.evtDataReceive += delegate (object sender, CtkProtocolBufferEventArgs e)
+            var nonStopTcpClient = new CtkNonStopTcpClient(remoteEp);
+            nonStopTcpClient.evtDataReceive += (ss, ee) =>
             {
-                System.Diagnostics.Debug.WriteLine(e.Length);
+                var ea = ee as CtkNonStopTcpStateEventArgs;
+                var ctkBuffer = ea.TrxMessageBuffer;
+                System.Diagnostics.Debug.WriteLine(ctkBuffer.Length);
             };
             nonStopTcpClient.NonStopConnectAsyn();
 
 
             System.Threading.Thread.Sleep(1000);
 
-            var msg = new CToolkit.v0_1.Modbus.CtkModbusMessage();
-            msg.funcCode = CToolkit.v0_1.Modbus.CtkModbusMessage.fctReadHoldingRegister;
+            var msg = new CToolkit.v1_0.Modbus.CtkModbusMessage();
+            msg.funcCode = CToolkit.v1_0.Modbus.CtkModbusMessage.fctReadHoldingRegister;
             msg.unitId = 1;
             msg.readLength = 32;
             var buffer = msg.ToRequestBytes();
 
 
-            nonStopTcpClient.WriteBytes(buffer, buffer.Length);
+            nonStopTcpClient.WriteMsg(buffer);
 
 
             while (true)
