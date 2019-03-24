@@ -26,15 +26,6 @@ namespace SensingNet.v0_1.QSecs
 
 
 
-
-        public CtkEnumPassFilterMode PassFilterMode = CtkEnumPassFilterMode.None;//使用FIR filter
-        public int PassFilter_SampleRate = 512;
-        public int PassFilter_CutoffHigh = 255;
-        public int PassFilter_CutoffLow = 5;
-
-
-
-
         public void SaveToXmlFile(string fn) { CtkUtil.SaveToXmlFileT(this, fn); }
 
     }
