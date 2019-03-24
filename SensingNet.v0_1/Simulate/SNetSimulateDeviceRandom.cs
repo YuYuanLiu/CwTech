@@ -51,7 +51,7 @@ namespace SensingNet.v0_1.Simulate
                 var msg = Encoding.UTF8.GetString(ctkBuffer.Buffer, ctkBuffer.Offset, ctkBuffer.Length);
                 if (!msg.Contains("\n")) return;
                 var sb = new StringBuilder();
-                sb.Append("cmd -respData -svid 0 -data ");
+                sb.Append("cmd -respData -svid 1 -data ");
                 sb.Append(rnd.NextDouble());
 
 
