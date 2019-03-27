@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CToolkit.v1_0, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\CToolkit.v1.0\CToolkit.v1_0.dll</HintPath>
+    </Reference>
     <Reference Include="Cudafy.NET, Version=1.29.5576.13786, Culture=neutral, PublicKeyToken=63a4c9931616906b, processorArchitecture=MSIL">
       <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\CUDAfy.NET.1.29.5576.13786\lib\net40\Cudafy.NET.dll</HintPath>
     </Reference>
@@ -68,10 +72,6 @@
     <None Include="Tools\place_these_executables_in_same_folder_as_Cudafy.NET.dll_" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit.v1_0\CToolkit.v1_0.csproj">
-      <Project>{f07c68ef-a4d1-4af9-a283-35f6e27ace8a}</Project>
-      <Name>CToolkit.v1_0</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SensingNet.v0_1\SensingNet.v0_1.csproj">
       <Project>{c54643aa-065e-410d-ba32-318a7141c999}</Project>
       <Name>SensingNet.v0_1</Name>
