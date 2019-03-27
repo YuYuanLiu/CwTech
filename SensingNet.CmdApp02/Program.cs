@@ -8,17 +8,27 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using CToolkit.v1_0.Wcf;
+using CToolkit.v1_0;
 
 namespace SensingNet.CmdApp02
 {
+
+
+
     class Program
     {
         public static void Main(string[] args)
         {
-            using (var example = new SNetSimulateDeviceRandom())
+            using (var sim = CtkWcfDuplexTcpClient.CreateSingle())
             {
-                example.RunAsyn();
-                example.CommandLine();
+                sim.Uri = "net.tcp://localhost:5000";
+                sim.ConnectIfNo();
+
+                var msg = CtkWcfMessage.Create(new CtkWcfTestUri());
+
+                sim.Channel.CtkSend(msg);
+
+                CtkCommandLine.Run();
             }
 
 

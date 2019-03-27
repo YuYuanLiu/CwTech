@@ -29,7 +29,7 @@ namespace SensingNet.v0_1.Simulate
             this.listener.evtDataReceive += (ss, ee) =>
             {
                 var ea = ee as CtkWcfDuplexEventArgs;
-                CmdWrite(ea.WcfMsg.DataObj + "");
+                CmdWrite(ea.WcfMsg.TypeName + "");
 
             };
             this.listener.Uri = ServerUri;
