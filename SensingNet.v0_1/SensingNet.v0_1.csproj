@@ -68,6 +68,7 @@
     <Compile Include="TriggerDiagram\Basic\ISNetTdBlock.cs" />
     <Compile Include="TriggerDiagram\SNetTdNodeF8.cs" />
     <Compile Include="TriggerDiagram\SNetTdNodeFft.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNodeQSecs.cs" />
     <Compile Include="TriggerDiagram\SNetTdSignalSecF8EventArg.cs" />
     <Compile Include="TriggerDiagram\SNetTdSignalSetSecF8EventArg.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdContact.cs" />

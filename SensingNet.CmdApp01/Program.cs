@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CToolkit.v1_0.Wcf;
 using SensingNet.v0_1.Device.Simulate;
+using CToolkit.v1_0;
 
 namespace SensingNet.CmdApp01
 {
@@ -18,10 +19,20 @@ namespace SensingNet.CmdApp01
     {
         public static void Main(string[] args)
         {
-            using (var example = new SNetSimulateSensorDeviceClient())
+            using (var sim = CtkWcfDuplexTcpListener.CreateSingle())
             {
-                example.RunAsyn();
-                example.CommandLine();
+                sim.Uri = @"net.tcp://localhost:5000";
+
+                sim.evtDataReceive += (ss, ee) =>
+                {
+                    var ea = ee as CtkWcfDuplexEventArgs;
+                    Console.WriteLine(ea.WcfMsg.TypeName);
+                };
+
+                sim.ConnectIfNo();
+
+                CtkCommandLine.Run();
+
             }
 
 
