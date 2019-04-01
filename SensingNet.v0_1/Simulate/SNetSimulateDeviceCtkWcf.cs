@@ -15,7 +15,7 @@ namespace SensingNet.v0_1.Simulate
 {
     public class SNetSimulateDeviceCtkWcf : IDisposable
     {
-        CtkWcfDuplexTcpListener<CtkWcfDuplexTcpListener> listener;
+        CtkWcfDuplexTcpListener<ICtkWcfDuplexOpService> listener;
 
         public const string ServerUri = @"net.tcp://localhost:9000/";
 
@@ -25,7 +25,7 @@ namespace SensingNet.v0_1.Simulate
 
         public void RunAsyn()
         {
-            this.listener = CtkWcfDuplexTcpListener.CreateSingle();
+            this.listener = CtkWcfDuplexTcpListener.NewDefault();
             this.listener.evtDataReceive += (ss, ee) =>
             {
                 var ea = ee as CtkWcfDuplexEventArgs;
