@@ -8,6 +8,9 @@ using System.Text;
 
 namespace SensingNet.v0_1.TriggerDiagram.TimeSignal
 {
+    /// <summary>
+    /// signal list at specified time
+    /// </summary>
     public class SNetTdTSignalSecF8 : ISNetTdTSignal<CtkTimeSecond, double>
     {
         //1 Ticks是100奈秒, 0 tick={0001/1/1 上午 12:00:00}
@@ -20,12 +23,16 @@ namespace SensingNet.v0_1.TriggerDiagram.TimeSignal
         {
             this.Time = time;
             this.Signals.AddRange(signals);
-
         }
+
+
+
+
+        #region Static Operator
 
         public static implicit operator SNetTdTSignalSecF8(KeyValuePair<CtkTimeSecond, List<double>> val) { return new SNetTdTSignalSecF8(val.Key, val.Value); }
 
-
+        #endregion
 
     }
 }

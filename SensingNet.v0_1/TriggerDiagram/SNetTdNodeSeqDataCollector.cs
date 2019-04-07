@@ -10,7 +10,7 @@ namespace SensingNet.v0_1.TriggerDiagram
 
     public class SNetTdNodeSeqDataCollector : SNetTdNodeF8
     {
-        public SNetTdTSignalSetSecF8 TSignal = new SNetTdTSignalSetSecF8();
+        public SNetTdTSignalSecSetF8 TSignal = new SNetTdTSignalSecSetF8();
 
         ~SNetTdNodeSeqDataCollector() { this.Dispose(false); }
 
@@ -22,11 +22,11 @@ namespace SensingNet.v0_1.TriggerDiagram
         /// </summary>
         /// <param name="vals"></param>
         /// <param name="dt"></param>
-        public void DoInput(object sender, SNetTdSignalSetSecF8EventArg ea)
+        public void DoInput(object sender, SNetTdSignalSecSetF8EventArg ea)
         {
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;
-            foreach (var kv in ea.NewTSignal.Signals)
+            foreach (var kv in ea.TSignalNew.Signals)
                 this.DoInput(this.TSignal, kv);
         }
 
@@ -34,16 +34,16 @@ namespace SensingNet.v0_1.TriggerDiagram
         {
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;
-            this.DoDataChange(this.TSignal, ea);
+            this.ProcDataInput(this.TSignal, ea.TSignal);
         }
 
 
-        protected override void PurgeSignal()
+        protected override void Purge()
         {
             if (this.PurgeSeconds <= 0) return;
             var now = DateTime.Now;
             var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
-            this.PurgeSignalByTime(this.TSignal, oldKey);
+            PurgeSignalByTime(this.TSignal, oldKey);
         }
 
 

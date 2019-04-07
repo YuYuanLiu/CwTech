@@ -22,20 +22,30 @@ using System.Linq;
 namespace SensingNet.MyTest.UnitTest
 {
     [TestClass]
-    public class UtDspPropagate
+    public class UtTdQSecs
     {
 
         [TestMethod]
         public void TestMethod()
         {
 
-            var block = new SNetTdBlock();
-            var node_seq = block.AddNode<SNetTdNodeSeqDataCollector>();
-            var node_filter = block.AddNode<SNetTdNodeFilter>();
-            var node_statistics = block.AddNode<SNetTdNodeStatistics>();
+            var block = new SNetTdBlockQSecs();
+            var node1 = block.AddNode<SNetTdNodeQSecs>();
 
-            node_seq.evtDataChange += node_filter.DoInput;
-            node_filter.evtDataChange += node_statistics.DoInput;
+            var isRunning = true;
+
+            Task.Run(() =>
+            {
+                while (isRunning)
+                {
+                    node1.DoInput(this, new SNetTdSignalSecSetF8EventArg()
+                    {
+
+                    });
+
+                    Thread.Sleep(1000);
+                }
+            });
 
 
 
@@ -59,15 +69,11 @@ namespace SensingNet.MyTest.UnitTest
                     input[idx] = rnd.NextDouble() * 0.2;
 
                 input += wave;
-                node_seq.DoInput(null, new SNetTdSignalSecSetF8EventArg()
+                node1.DoInput(null, new SNetTdSignalSecSetF8EventArg()
                 {
                     TSignalNew = new SNetTdTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
                 });
 
-                Console.Write("Avg={0}; Max={1}; Min={2}",
-                    node_statistics.TSignalAvg.GetLastOrDefault(),
-                    node_statistics.TSignalMax.GetLastOrDefault(),
-                    node_statistics.TSignalMin.GetLastOrDefault());
 
             }
 

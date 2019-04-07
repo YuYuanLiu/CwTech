@@ -25,14 +25,12 @@ namespace SensingNet.v0_1.TriggerDiagram.Basic
         #region IDisposable
         // Flag: Has Dispose already been called?
         protected bool disposed = false;
-
         // Public implementation of Dispose pattern callable by consumers.
         public virtual void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
         // Protected implementation of Dispose pattern.
         protected virtual void Dispose(bool disposing)
         {
@@ -50,14 +48,10 @@ namespace SensingNet.v0_1.TriggerDiagram.Basic
             this.DisposeSelf();
             disposed = true;
         }
-
-
-
         protected virtual void DisposeSelf()
         {
             this.Close();
         }
-
         #endregion
 
     }

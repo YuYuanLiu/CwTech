@@ -25,7 +25,7 @@ namespace SensingNet.v0_1.Storage
             throw new NotImplementedException();
         }
 
-        public virtual void ReadTSignal(StreamReader sr, SNetTdTSignalSetSecF8 tSignal)
+        public virtual void ReadTSignal(StreamReader sr, SNetTdTSignalSecSetF8 tSignal)
         {
             throw new NotImplementedException();
         }
