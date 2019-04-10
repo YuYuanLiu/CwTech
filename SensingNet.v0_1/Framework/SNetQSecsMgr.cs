@@ -203,17 +203,14 @@ namespace SensingNet.v0_1.Framework
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        protected virtual void DisposeManaged()
-        {
 
-        }
+
         protected virtual void DisposeSelf()
         {
 
         }
-        protected virtual void DisposeUnManaged()
-        {
-        }
+    
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposed)
@@ -222,12 +219,10 @@ namespace SensingNet.v0_1.Framework
             if (disposing)
             {
                 // Free any managed objects here.
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnManaged();
             this.DisposeSelf();
             disposed = true;
         }

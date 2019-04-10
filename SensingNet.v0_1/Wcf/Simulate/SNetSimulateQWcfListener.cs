@@ -25,41 +25,20 @@ namespace SensingNet.v0_1.Wcf.Simulate
             this.listener = new SNetWcfListener();
             this.listener.evtReceiveData += (ss, ee) =>
             {
-                CmdWrite(ee.Message.DataObj+"");
+                CtkLog.InfoNs(this, ee.Message.DataObj + "");
             };
             this.listener.Open(NetTcpUri);
         }
 
 
-        public void CmdWrite(string msg, params object[] obj)
+        public void Command(string cmd)
         {
-            if (!string.IsNullOrEmpty(msg))
+            switch (cmd)
             {
-                Console.WriteLine();
-                Console.WriteLine(msg, obj);
+                case "send":
+                    this.Send();
+                    break;
             }
-            Console.Write(">");
-        }
-
-        public void CommandLine()
-        {
-            var cmd = "";
-            do
-            {
-                CmdWrite(this.GetType().Name);
-                cmd = Console.ReadLine();
-
-                switch (cmd)
-                {
-                    case "send":
-                        this.Send();
-                        break;
-                }
-
-
-            } while (string.Compare(cmd, "exit", true) != 0);
-
-            this.Close();
 
         }
 
@@ -103,12 +82,10 @@ namespace SensingNet.v0_1.Wcf.Simulate
             {
                 // Free any other managed objects here.
                 //
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnmanaged();
 
             this.DisposeSelf();
 
@@ -117,19 +94,16 @@ namespace SensingNet.v0_1.Wcf.Simulate
 
 
 
-        protected virtual void DisposeManaged()
-        {
-        }
+
+
 
         protected virtual void DisposeSelf()
         {
             this.Close();
         }
 
-        protected virtual void DisposeUnmanaged()
-        {
 
-        }
+
         #endregion
 
 

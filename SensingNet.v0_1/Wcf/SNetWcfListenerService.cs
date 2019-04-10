@@ -92,19 +92,15 @@ namespace SensingNet.v0_1.Wcf
             GC.SuppressFinalize(this);
         }
 
-        public virtual void DisposeManaged()
-        {
 
-        }
+
 
         public virtual void DisposeSelf()
         {
             this.Close();
         }
 
-        public virtual void DisposeUnManaged()
-        {
-        }
+
 
         protected virtual void Dispose(bool disposing)
         {
@@ -114,12 +110,10 @@ namespace SensingNet.v0_1.Wcf
             if (disposing)
             {
                 // Free any managed objects here.
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnManaged();
             this.DisposeSelf();
             disposed = true;
         }

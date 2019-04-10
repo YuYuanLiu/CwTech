@@ -24,33 +24,22 @@ namespace SensingNet.v0_1.Simulate
         {
 
             client = new CtkNonStopTcpClient("127.0.0.1", 10002);
-            client.evtFirstConnect += (ss, ee) => { Write("evtFirstConnect"); };
-            client.evtFailConnect += (ss, ee) => { Write("evtFailConnect"); };
-            client.evtErrorReceive += (ss, ee) => { Write("evtErrorReceive"); };
+            client.evtFirstConnect += (ss, ee) => { CtkLog.InfoNs(this, "evtFirstConnect"); };
+            client.evtFailConnect += (ss, ee) => { CtkLog.InfoNs(this, "evtFailConnect"); };
+            client.evtErrorReceive += (ss, ee) => { CtkLog.InfoNs(this, "evtErrorReceive"); };
             client.evtDataReceive += (ss, ee) =>
             {
-                Write("evtDataReceive");
+                CtkLog.InfoNs(this, "evtDataReceive");
             };
 
             client.NonStopConnectAsyn();
         }
 
 
-        public void Write(string msg, params object[] obj)
-        {
-            Console.WriteLine();
-            Console.WriteLine(msg, obj);
-            Console.Write(">");
-        }
 
-        public void CommandLine()
-        {
-            var cmd = "";
-            do
-            {
-                Console.Write(">");
-                cmd = Console.ReadLine();
 
+        public void Command(string cmd)
+        {
                 switch (cmd)
                 {
                     case "send":
@@ -60,12 +49,6 @@ namespace SensingNet.v0_1.Simulate
                         Console.WriteLine("State={0}", this.client.IsRemoteConnected);
                         break;
                 }
-
-
-            } while (string.Compare(cmd, "exit", true) != 0);
-
-            this.Stop();
-
         }
 
         public void Send()
@@ -127,12 +110,10 @@ namespace SensingNet.v0_1.Simulate
             {
                 // Free any other managed objects here.
                 //
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnmanaged();
 
             this.DisposeSelf();
 
@@ -141,19 +122,16 @@ namespace SensingNet.v0_1.Simulate
 
 
 
-        protected virtual void DisposeManaged()
-        {
-        }
+
+
 
         protected virtual void DisposeSelf()
         {
             this.Stop();
         }
 
-        protected virtual void DisposeUnmanaged()
-        {
 
-        }
+
         #endregion
 
 

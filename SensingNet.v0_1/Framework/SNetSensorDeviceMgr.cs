@@ -203,12 +203,10 @@ namespace SensingNet.v0_1.Framework
             {
                 // Free any other managed objects here.
                 //
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnmanaged();
 
             this.DisposeSelf();
 
@@ -217,14 +215,9 @@ namespace SensingNet.v0_1.Framework
 
 
 
-        void DisposeManaged()
-        {
-        }
 
-        void DisposeUnmanaged()
-        {
 
-        }
+    
 
         void DisposeSelf()
         {

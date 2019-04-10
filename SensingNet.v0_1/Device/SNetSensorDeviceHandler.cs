@@ -354,25 +354,18 @@ namespace SensingNet.v0_1.Device
             {
                 // Free any other managed objects here.
                 //
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnmanaged();
             this.DisposeSelf();
             disposed = true;
         }
 
 
 
-        protected virtual void DisposeManaged()
-        {
-        }
-        protected virtual void DisposeUnmanaged()
-        {
 
-        }
+
         protected virtual void DisposeSelf()
         {
             this.CfUnLoad();

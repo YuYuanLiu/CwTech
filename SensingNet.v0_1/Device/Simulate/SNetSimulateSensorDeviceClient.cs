@@ -65,13 +65,13 @@ namespace SensingNet.v0_1.Device.Simulate
                 {
                     sb.AppendFormat("{0}, ", data);
                 }
-                Write(sb.ToString());
+                CtkLog.InfoNs(this, sb.ToString());
             };
             this.client.ProtoConn.evtDataReceive += (ss, ee) =>
             {
                 var buffer = ee.TrxMessage.As<CtkProtocolBufferMessage>();
                 if (buffer == null) return;
-                this.Write(buffer.GetString());
+                CtkLog.InfoNs(this, buffer.GetString());
             };
 
 
@@ -79,36 +79,19 @@ namespace SensingNet.v0_1.Device.Simulate
         }
 
 
-        public void Write(string msg, params object[] obj)
-        {
-            Console.WriteLine();
-            Console.WriteLine(msg, obj);
-            Console.Write(">");
-        }
 
-        public void CommandLine()
-        {
-            var cmd = "";
-            do
-            {
-                Write(this.GetType().Name);
-                cmd = Console.ReadLine();
 
+        public void Command(string cmd)
+        {
                 switch (cmd)
                 {
                     case "send":
                         this.Send();
                         break;
                     case "state":
-                        this.Write(this.CmdState());
+                       CtkLog.InfoNs(this,this.CmdState());
                         break;
                 }
-
-
-            } while (string.Compare(cmd, "exit", true) != 0);
-
-            this.Stop();
-
         }
 
         string CmdState()
@@ -162,12 +145,11 @@ namespace SensingNet.v0_1.Device.Simulate
             {
                 // Free any other managed objects here.
                 //
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnmanaged();
+
 
             this.DisposeSelf();
 
@@ -176,19 +158,15 @@ namespace SensingNet.v0_1.Device.Simulate
 
 
 
-        protected virtual void DisposeManaged()
-        {
-        }
+
 
         protected virtual void DisposeSelf()
         {
             this.Stop();
         }
 
-        protected virtual void DisposeUnmanaged()
-        {
 
-        }
+
         #endregion
 
 

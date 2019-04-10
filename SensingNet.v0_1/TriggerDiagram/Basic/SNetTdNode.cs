@@ -1,5 +1,6 @@
 ﻿using CToolkit.v1_0;
 using CToolkit.v1_0.Timing;
+using CToolkit.v1_0.TriggerDiagram;
 using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,12 @@ using System.Text;
 
 namespace SensingNet.v0_1.TriggerDiagram.Basic
 {
-    public class SNetTdNode : ISNetTdNode, IDisposable
+    public class SNetTdNode : ICtkTdNode, IDisposable
     {
         public bool IsEnalbed = true;
         protected String _identifier = Guid.NewGuid().ToString();
-        public string SNetDspIdentifier { get { return this._identifier; } set { this._identifier = value; } }
-        public string SNetDspName { get; set; }
+        public string CtkTdIdentifier { get { return this._identifier; } set { this._identifier = value; } }
+        public string CtkTdName { get; set; }
         public virtual void Close()
         {
             CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);//移除自己的Event Delegate

@@ -28,7 +28,10 @@ namespace SensingNet.CmdApp02
 
                 sim.Channel.CtkSend(msg);
 
-                CtkCommandLine.Run();
+                CtkCommandLine.Run(cmd =>
+                {
+                    
+                });
             }
 
 

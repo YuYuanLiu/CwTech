@@ -82,32 +82,25 @@ namespace SensingNet.v0_1.Protocol
             {
                 // Free any other managed objects here.
                 //
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnmanaged();
             this.DisposeSelf();
             disposed = true;
         }
 
 
 
-        void DisposeManaged()
-        {
 
-        }
 
         void DisposeSelf()
         {
 
         }
 
-        void DisposeUnmanaged()
-        {
 
-        }
+
 
         #endregion
 

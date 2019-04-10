@@ -64,20 +64,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TriggerDiagram\Basic\ISNetTdDiagram.cs" />
-    <Compile Include="TriggerDiagram\Basic\ISNetTdBlock.cs" />
     <Compile Include="TriggerDiagram\SNetTdNodeQSecs.cs" />
     <Compile Include="TriggerDiagram\SNetTdNodeF8.cs" />
     <Compile Include="TriggerDiagram\SNetTdNodeFft.cs" />
     <Compile Include="TriggerDiagram\SNetTdBlockQSecs.cs" />
     <Compile Include="TriggerDiagram\SNetTdSignalSecF8EventArg.cs" />
     <Compile Include="TriggerDiagram\SNetTdSignalSecSetF8EventArg.cs" />
-    <Compile Include="TriggerDiagram\Basic\SNetTdContact.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdDiagram.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdNode.cs" />
-    <Compile Include="TriggerDiagram\Basic\SNetTdWire.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdEnumInvokeResult.cs" />
-    <Compile Include="TriggerDiagram\Basic\ISNetTdNode.cs" />
     <Compile Include="TriggerDiagram\SNetTdNodeFilter.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdEventArg.cs" />
     <Compile Include="TriggerDiagram\TimeSignal\ISNetTdTSignal.cs" />
