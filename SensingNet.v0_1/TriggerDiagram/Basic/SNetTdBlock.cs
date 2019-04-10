@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace SensingNet.v0_1.TriggerDiagram.Basic
 {
@@ -22,15 +23,20 @@ namespace SensingNet.v0_1.TriggerDiagram.Basic
         public T AddNode<T>() where T : SNetTdNode, new()
         {
             var node = new T();
-            this.TdNodes[node.CtkTdIdentifier] = node;
-            return node;
+            return this.AddNode(node);
         }
 
         public T AddNode<T>(T node) where T : SNetTdNode
         {
-            if (this.TdNodes.ContainsKey(node.CtkTdIdentifier)) throw new ArgumentException("Already exist identifier");
-            this.TdNodes[node.CtkTdIdentifier] = node;
-            return node;
+            try
+            {
+                if (!Monitor.TryEnter(this.TdNodes, 30 * 1000)) throw new SNetException("Cannot add TdNodes in 30 seconds");
+
+                if (this.TdNodes.ContainsKey(node.CtkTdIdentifier)) throw new ArgumentException("Already exist identifier");
+                this.TdNodes[node.CtkTdIdentifier] = node;
+                return node;
+            }
+            finally { Monitor.Exit(this.TdNodes); }
         }
 
 
@@ -41,10 +47,10 @@ namespace SensingNet.v0_1.TriggerDiagram.Basic
             {
                 this.TdNodes.Clear();
                 foreach (var node in dspNodes)
-                    this.TdNodes[node.CtkTdIdentifier] = node;
+                    this.AddNode(node);
             }
         }
-   
+
 
 
         #region IDisposable
