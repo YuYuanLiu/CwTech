@@ -91,7 +91,7 @@ namespace SensingNet.v0_1.Storage
                 if (!DateTime.TryParseExact(vals[0], TimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt)) continue;
 
                 var time = (CtkTimeSecond)dt;
-                tSignal.GetOrCreate(time);
+                signals = tSignal.GetOrCreate(time);
 
 
                 for (int idx = 1; idx < vals.Length; idx++)
