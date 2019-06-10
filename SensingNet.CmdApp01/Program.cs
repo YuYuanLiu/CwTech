@@ -19,7 +19,7 @@ namespace SensingNet.CmdApp01
     {
         public static void Main(string[] args)
         {
-            using (var sim = CtkWcfDuplexTcpListener.NewDefault())
+            using (var sim = CtkWcfDuplexTcpListenerInst.NewDefault())
             {
                 sim.Uri = @"net.tcp://localhost:5000";
 

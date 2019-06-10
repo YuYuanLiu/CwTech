@@ -25,7 +25,7 @@ namespace SensingNet.v0_1.Simulate
 
         public void RunAsyn()
         {
-            this.listener = CtkWcfDuplexTcpListener.NewDefault();
+            this.listener = CtkWcfDuplexTcpListenerInst.NewDefault();
             this.listener.evtDataReceive += (ss, ee) =>
             {
                 var ea = ee as CtkWcfDuplexEventArgs;
