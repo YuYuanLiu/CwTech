@@ -19,7 +19,7 @@ namespace SensingNet.v0_1.TriggerDiagram
         /// <summary>
         /// MathNet FFT 選 Matlab -> 算出來的結果可以加總後取平均, 仍是頻域圖
         /// </summary>
-        public SNetTdTSignalsSecF8 TSignal = new SNetTdTSignalsSecF8();
+        public SNetTSignalsSecF8 TSignal = new SNetTSignalsSecF8();
 
 
 
@@ -35,7 +35,7 @@ namespace SensingNet.v0_1.TriggerDiagram
         public void Input(object sender, SNetTdEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetTdSignalSecSetF8EventArg;
+            var ea = e as SNetTdSignalsSecF8EventArg;
             if (ea == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
@@ -61,7 +61,7 @@ namespace SensingNet.v0_1.TriggerDiagram
             });
 
 
-            this.ProcDataInput(this.TSignal, new SNetTdTSignalSecF8(t, signalData));
+            this.ProcDataInput(this.TSignal, new SNetTSignalSecF8(t, signalData));
             ea.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
 

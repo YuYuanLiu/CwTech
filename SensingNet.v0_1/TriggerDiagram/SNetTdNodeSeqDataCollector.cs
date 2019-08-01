@@ -10,7 +10,7 @@ namespace SensingNet.v0_1.TriggerDiagram
 
     public class SNetTdNodeSeqDataCollector : SNetTdNodeF8
     {
-        public SNetTdTSignalsSecF8 TSignal = new SNetTdTSignalsSecF8();
+        public SNetTSignalsSecF8 TSignal = new SNetTSignalsSecF8();
 
         ~SNetTdNodeSeqDataCollector() { this.Dispose(false); }
 
@@ -22,7 +22,7 @@ namespace SensingNet.v0_1.TriggerDiagram
         /// </summary>
         /// <param name="vals"></param>
         /// <param name="dt"></param>
-        public void Input(object sender, SNetTdSignalSecSetF8EventArg ea)
+        public void Input(object sender, SNetTdSignalsSecF8EventArg ea)
         {
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;

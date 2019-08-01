@@ -11,7 +11,7 @@ namespace SensingNet.v0_1.Storage
     {
         public SNetFileStorageFormat fsFormat = new SNetFileStorageFormat_Csv0_2();
         //public SNetSignalCollector collector = new SNetSignalCollector();
-        public SNetTdTSignalsSecF8 TSignal = new SNetTdTSignalsSecF8();
+        public SNetTSignalsSecF8 TSignal = new SNetTSignalsSecF8();
 
 
 

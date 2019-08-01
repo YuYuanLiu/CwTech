@@ -61,7 +61,7 @@ namespace SensingNet.MyTest.UnitTest
                 input += wave;
                 node_seq.Input(null, new SNetTdSignalsSecF8EventArg()
                 {
-                    TSignalNew = new SNetTdTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
+                    TSignalNew = new SNetTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
                 });
 
                 Console.Write("Avg={0}; Max={1}; Min={2}",

@@ -24,12 +24,12 @@ namespace SensingNet.v0_1.TriggerDiagram
         };
 
         public CtkFftOnlineFilter PassFilter = new CtkFftOnlineFilter();
-        public SNetTdTSignalsSecF8 TSignal = new SNetTdTSignalsSecF8();
+        public SNetTSignalsSecF8 TSignal = new SNetTSignalsSecF8();
 
         public void Input(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var tsSetSecondEa = e as SNetTdSignalSecSetF8EventArg;
+            var tsSetSecondEa = e as SNetTdSignalsSecF8EventArg;
             if (tsSetSecondEa == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
@@ -48,7 +48,7 @@ namespace SensingNet.v0_1.TriggerDiagram
                 signalData = this.PassFilter.ProcessSamples(signalData);
             }
 
-            this.ProcDataInput(this.TSignal, new SNetTdTSignalSecF8(t, signalData));
+            this.ProcDataInput(this.TSignal, new SNetTSignalSecF8(t, signalData));
             e.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
 

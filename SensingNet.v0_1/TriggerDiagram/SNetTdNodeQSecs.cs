@@ -17,7 +17,7 @@ namespace SensingNet.v0_1.TriggerDiagram
     {
         public SNetQSvidCfg cfg;
         public UInt64 QSvid { get { return this.cfg.QSvid; } }
-        public SNetTdTSignalsSecF8 TSignal = new SNetTdTSignalsSecF8();
+        public SNetTSignalsSecF8 TSignal = new SNetTSignalsSecF8();
 
 
 
@@ -29,10 +29,10 @@ namespace SensingNet.v0_1.TriggerDiagram
 
 
 
-        public void Input(object sender, SNetTdSignalSecSetF8EventArg e)
+        public void Input(object sender, SNetTdSignalsSecF8EventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetTdSignalSecSetF8EventArg;
+            var ea = e as SNetTdSignalsSecF8EventArg;
             if (ea == null) throw new SNetException("尚無法處理此類資料: " + e.GetType().FullName);
 
 

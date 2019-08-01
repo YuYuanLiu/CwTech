@@ -13,9 +13,9 @@ namespace SensingNet.v0_1.TriggerDiagram
     public class SNetTdNodeStatistics : SNetTdNodeF8
     {
 
-        public SNetTdTSignalsSecF8 TSignalAvg = new SNetTdTSignalsSecF8();
-        public SNetTdTSignalsSecF8 TSignalMax = new SNetTdTSignalsSecF8();
-        public SNetTdTSignalsSecF8 TSignalMin = new SNetTdTSignalsSecF8();
+        public SNetTSignalsSecF8 TSignalAvg = new SNetTSignalsSecF8();
+        public SNetTSignalsSecF8 TSignalMax = new SNetTSignalsSecF8();
+        public SNetTSignalsSecF8 TSignalMin = new SNetTSignalsSecF8();
 
 
         ~SNetTdNodeStatistics() { this.Dispose(false); }
@@ -50,7 +50,7 @@ namespace SensingNet.v0_1.TriggerDiagram
 
             this.Purge();
 
-            this.OnDataChange(this, ea);
+            this.OnDataChange(ea);
 
             ea.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
