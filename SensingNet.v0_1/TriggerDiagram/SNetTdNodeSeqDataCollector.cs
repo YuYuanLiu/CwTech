@@ -1,7 +1,7 @@
 ﻿using CToolkit.v1_0;
 using CToolkit.v1_0.Timing;
 using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 using System;
 using System.Collections.Generic;
 
@@ -10,7 +10,7 @@ namespace SensingNet.v0_1.TriggerDiagram
 
     public class SNetTdNodeSeqDataCollector : SNetTdNodeF8
     {
-        public SNetTdTSignalSecSetF8 TSignal = new SNetTdTSignalSecSetF8();
+        public SNetTdTSignalsSecF8 TSignal = new SNetTdTSignalsSecF8();
 
         ~SNetTdNodeSeqDataCollector() { this.Dispose(false); }
 
@@ -22,7 +22,7 @@ namespace SensingNet.v0_1.TriggerDiagram
         /// </summary>
         /// <param name="vals"></param>
         /// <param name="dt"></param>
-        public void DoInput(object sender, SNetTdSignalSecSetF8EventArg ea)
+        public void Input(object sender, SNetTdSignalSecSetF8EventArg ea)
         {
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;

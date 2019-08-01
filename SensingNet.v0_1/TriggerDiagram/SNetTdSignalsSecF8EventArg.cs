@@ -1,5 +1,5 @@
 ﻿using CToolkit.v1_0.Timing;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +11,8 @@ namespace SensingNet.v0_1.TriggerDiagram
     {
         public CtkTimeSecond? Time;//當次時間
         public CtkTimeSecond? PrevTime;//前一次時間
-        public SNetTdTSignalSecSetF8 TSignalSource;//完整訊號來源
-        public SNetTdTSignalSecSetF8 TSignalNew = new SNetTdTSignalSecSetF8();//此次新增訊號
+        public SNetTdTSignalsSecF8 TSignalSource;//完整訊號來源
+        public SNetTdTSignalsSecF8 TSignalNew = new SNetTdTSignalsSecF8();//此次新增訊號
 
         public SNetTdTSignalSecF8 GetThisOrLast()
         {

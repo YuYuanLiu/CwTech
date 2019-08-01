@@ -1,7 +1,7 @@
 ﻿using CToolkit.v1_0;
 using CToolkit.v1_0.Timing;
 using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ namespace SensingNet.v0_1.TriggerDiagram
     public class SNetTdNodeStatistics : SNetTdNodeF8
     {
 
-        public SNetTdTSignalSecSetF8 TSignalAvg = new SNetTdTSignalSecSetF8();
-        public SNetTdTSignalSecSetF8 TSignalMax = new SNetTdTSignalSecSetF8();
-        public SNetTdTSignalSecSetF8 TSignalMin = new SNetTdTSignalSecSetF8();
+        public SNetTdTSignalsSecF8 TSignalAvg = new SNetTdTSignalsSecF8();
+        public SNetTdTSignalsSecF8 TSignalMax = new SNetTdTSignalsSecF8();
+        public SNetTdTSignalsSecF8 TSignalMin = new SNetTdTSignalsSecF8();
 
 
         ~SNetTdNodeStatistics() { this.Dispose(false); }
@@ -34,10 +34,10 @@ namespace SensingNet.v0_1.TriggerDiagram
         }
 
 
-        public void DoInput(object sender, SNetTdSignalEventArg e)
+        public void Input(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetTdSignalSecSetF8EventArg;
+            var ea = e as SNetTdSignalsSecF8EventArg;
             if (ea == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
@@ -49,6 +49,9 @@ namespace SensingNet.v0_1.TriggerDiagram
 
 
             this.Purge();
+
+            this.OnDataChange(this, ea);
+
             ea.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
 

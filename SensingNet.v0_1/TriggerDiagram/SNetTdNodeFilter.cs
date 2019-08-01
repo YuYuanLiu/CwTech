@@ -3,7 +3,7 @@ using CToolkit.v1_0.Numeric;
 using CToolkit.v1_0.Timing;
 using MathNet.Filtering.FIR;
 using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -24,9 +24,9 @@ namespace SensingNet.v0_1.TriggerDiagram
         };
 
         public CtkFftOnlineFilter PassFilter = new CtkFftOnlineFilter();
-        public SNetTdTSignalSecSetF8 TSignal = new SNetTdTSignalSecSetF8();
+        public SNetTdTSignalsSecF8 TSignal = new SNetTdTSignalsSecF8();
 
-        public void DoInput(object sender, SNetTdSignalEventArg e)
+        public void Input(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
             var tsSetSecondEa = e as SNetTdSignalSecSetF8EventArg;

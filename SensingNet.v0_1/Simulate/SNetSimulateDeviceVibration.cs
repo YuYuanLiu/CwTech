@@ -19,7 +19,7 @@ namespace SensingNet.v0_1.Simulate
         public void RunAsyn()
         {
 
-            CtkLog.RegisterAllLogger((ss, ea) =>
+            CtkLog.RegisterEveryLogWrite((ss, ea) =>
             {
                 var now = DateTime.Now;
                 var sb = new StringBuilder();

@@ -3,7 +3,7 @@ using CToolkit.v1_0.Numeric;
 using CToolkit.v1_0.Timing;
 using MathNet.Filtering.FIR;
 using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace SensingNet.v0_1.TriggerDiagram
         /// <summary>
         /// MathNet FFT 選 Matlab -> 算出來的結果可以加總後取平均, 仍是頻域圖
         /// </summary>
-        public SNetTdTSignalSecSetF8 TSignal = new SNetTdTSignalSecSetF8();
+        public SNetTdTSignalsSecF8 TSignal = new SNetTdTSignalsSecF8();
 
 
 
@@ -32,7 +32,7 @@ namespace SensingNet.v0_1.TriggerDiagram
             PurgeSignalByTime(this.TSignal, oldKey);
         }
 
-        public  void DoInput(object sender, SNetTdEventArg e)
+        public void Input(object sender, SNetTdEventArg e)
         {
             if (!this.IsEnalbed) return;
             var ea = e as SNetTdSignalSecSetF8EventArg;

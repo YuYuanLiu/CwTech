@@ -1,7 +1,7 @@
 ﻿using CToolkit.v1_0;
 using CToolkit.v1_0.Timing;
+using SensingNet.v0_1.TimeSignal;
 using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace SensingNet.v0_1.TriggerDiagram
         /// <summary>
         /// 多段時間同時輸入時, 請自行分段輸入, 
         /// </summary>
-        protected virtual void ProcDataInput(SNetTdTSignalSecSetF8 tSignal, SNetTdTSignalSecF8 newSignals)
+        protected virtual void ProcDataInput(SNetTdTSignalsSecF8 tSignal, SNetTdTSignalSecF8 newSignals)
         {
             var ea = new SNetTdSignalSecSetF8EventArg();
             ea.Sender = this;
@@ -76,13 +76,13 @@ namespace SensingNet.v0_1.TriggerDiagram
 
         #region Static
 
-        public static void PurgeSignalByCount(SNetTdTSignalSecSetF8 tSignal, int Count)
+        public static void PurgeSignalByCount(SNetTdTSignalsSecF8 tSignal, int Count)
         {
             var query = tSignal.Signals.Take(tSignal.Signals.Count - Count).ToList();
             foreach (var ok in query)
                 tSignal.Signals.Remove(ok.Key);
         }
-        public static void PurgeSignalByTime(SNetTdTSignalSecSetF8 tSignal, CtkTimeSecond time)
+        public static void PurgeSignalByTime(SNetTdTSignalsSecF8 tSignal, CtkTimeSecond time)
         {
             var now = DateTime.Now;
             var query = tSignal.Signals.Where(x => x.Key < time).ToList();

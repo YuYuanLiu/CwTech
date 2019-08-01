@@ -1,7 +1,6 @@
 ﻿using CToolkit.v1_0;
 using CToolkit.v1_0.Timing;
 using CToolkit.v1_0.TriggerDiagram;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

@@ -3,7 +3,7 @@ using CToolkit.v1_0.Net;
 using CToolkit.v1_0.Secs;
 using SensingNet.v0_1.QSecs;
 using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,19 +17,19 @@ namespace SensingNet.v0_1.TriggerDiagram
     {
         public SNetQSvidCfg cfg;
         public UInt64 QSvid { get { return this.cfg.QSvid; } }
-        public SNetTdTSignalSecSetF8 TSignal = new SNetTdTSignalSecSetF8();
+        public SNetTdTSignalsSecF8 TSignal = new SNetTdTSignalsSecF8();
 
 
 
 
-        #region Do
+        #region Input
         //Do Input 可以有2種做法來確保可以處理最多類型型的資料
         //  1. 使用父類別, 執行時判斷是否是可以處理
         //  2. 使用多型, 不同的資料類型用不同的function處理
 
 
 
-        public void DoInput(object sender, SNetTdSignalSecSetF8EventArg e)
+        public void Input(object sender, SNetTdSignalSecSetF8EventArg e)
         {
             if (!this.IsEnalbed) return;
             var ea = e as SNetTdSignalSecSetF8EventArg;

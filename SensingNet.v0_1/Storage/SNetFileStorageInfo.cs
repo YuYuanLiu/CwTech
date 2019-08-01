@@ -1,5 +1,5 @@
 using CToolkit.v1_0.Numeric;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +11,7 @@ namespace SensingNet.v0_1.Storage
     {
         public SNetFileStorageFormat fsFormat = new SNetFileStorageFormat_Csv0_2();
         //public SNetSignalCollector collector = new SNetSignalCollector();
-        public SNetTdTSignalSecSetF8 TSignal = new SNetTdTSignalSecSetF8();
+        public SNetTdTSignalsSecF8 TSignal = new SNetTdTSignalsSecF8();
 
 
 

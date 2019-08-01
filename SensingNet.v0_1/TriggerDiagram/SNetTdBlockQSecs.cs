@@ -102,12 +102,12 @@ namespace SensingNet.v0_1.TriggerDiagram
         }
 
 
-        #region Do
+        #region Input
 
-        public void DoInput(object sender, SNetTdSignalEventArg e)
+        public void Input(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetTdSignalSecSetF8EventArg;
+            var ea = e as SNetTdSignalsSecF8EventArg;
             if (ea == null) throw new SNetException("尚無法處理此類資料: " + e.GetType().FullName);
 
             ea.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
@@ -131,34 +131,9 @@ namespace SensingNet.v0_1.TriggerDiagram
 
 
         #region Dispose
-        bool disposed = false;
-        public void Dispose()
+        protected override void DisposeSelf()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        public void DisposeSelf()
-        {
-            if (this.hsmsConnector != null)
-            {
-                this.hsmsConnector.Dispose();
-            }
-
-        }
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-                return;
-
-            if (disposing)
-            {
-                // Free any managed objects here.
-            }
-
-            // Free any unmanaged objects here.
-            //
-            this.DisposeSelf();
-            disposed = true;
+            base.DisposeSelf();
         }
         #endregion
 

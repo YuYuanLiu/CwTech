@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_1.TriggerDiagram.TimeSignal
+namespace SensingNet.v0_1.TimeSignal
 {
-    public class SNetTdTSignalSecSetF8 : ISNetTdTSignalSet<CtkTimeSecond, double>
+    public class SNetTdTSignalsSecF8 : ISNetTdTSignalSet<CtkTimeSecond, double>
     {
         //1 Ticks是100奈秒, 0 tick={0001/1/1 上午 12:00:00}
         //請勿使用Datetime, 避免有人誤解 比對只進行 年月日時分秒, 事實會比較到tick
@@ -96,9 +96,9 @@ namespace SensingNet.v0_1.TriggerDiagram.TimeSignal
 
         #region Static Operator
 
-        public static implicit operator SNetTdTSignalSecSetF8(SNetTdTSignalSecF8 val)
+        public static implicit operator SNetTdTSignalsSecF8(SNetTdTSignalSecF8 val)
         {
-            var rs = new SNetTdTSignalSecSetF8();
+            var rs = new SNetTdTSignalsSecF8();
             if (!val.Time.HasValue) throw new ArgumentException("Time can not be null");
             rs.Signals[val.Time.Value] = val.Signals;
             return rs;

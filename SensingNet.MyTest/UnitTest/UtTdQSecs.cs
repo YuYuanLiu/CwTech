@@ -16,7 +16,7 @@ using SensingNet.v0_1.Device;
 using MathNet.Numerics.LinearAlgebra.Double;
 using SensingNet.v0_1.TriggerDiagram;
 using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 using System.Linq;
 
 namespace SensingNet.MyTest.UnitTest
@@ -38,7 +38,7 @@ namespace SensingNet.MyTest.UnitTest
             {
                 while (isRunning)
                 {
-                    node1.DoInput(this, new SNetTdSignalSecSetF8EventArg()
+                    node1.Input(this, new SNetTdSignalsSecF8EventArg()
                     {
 
                     });
@@ -69,7 +69,7 @@ namespace SensingNet.MyTest.UnitTest
                     input[idx] = rnd.NextDouble() * 0.2;
 
                 input += wave;
-                node1.DoInput(null, new SNetTdSignalSecSetF8EventArg()
+                node1.Input(null, new SNetTdSignalsSecF8EventArg()
                 {
                     TSignalNew = new SNetTdTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
                 });
