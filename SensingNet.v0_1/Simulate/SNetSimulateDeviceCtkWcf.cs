@@ -2,6 +2,7 @@ using CToolkit.v1_0;
 using CToolkit.v1_0.Logging;
 using CToolkit.v1_0.Net;
 using CToolkit.v1_0.Wcf;
+using CToolkit.v1_0.Wcf.DuplexTcp;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Double;
 using System;
@@ -15,7 +16,7 @@ namespace SensingNet.v0_1.Simulate
 {
     public class SNetSimulateDeviceCtkWcf : IDisposable
     {
-        CtkWcfDuplexTcpListener<ICtkWcfDuplexOpService> listener;
+        CtkWcfDuplexTcpNonStopListener<ICtkWcfDuplexTcpService> listener;
 
         public const string ServerUri = @"net.tcp://localhost:9000/";
 
@@ -25,7 +26,7 @@ namespace SensingNet.v0_1.Simulate
 
         public void RunAsyn()
         {
-            this.listener = CtkWcfDuplexTcpListenerInst.NewDefault();
+            this.listener = new CtkWcfDuplexTcpNonStopListener<ICtkWcfDuplexTcpService>(new CtkWcfDuplexTcpListenerInst());
             this.listener.evtDataReceive += (ss, ee) =>
             {
                 var ea = ee as CtkWcfDuplexEventArgs;

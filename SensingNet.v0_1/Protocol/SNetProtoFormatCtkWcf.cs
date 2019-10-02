@@ -1,6 +1,7 @@
 ﻿using CToolkit.v1_0.Protocol;
 using CToolkit.v1_0.Secs;
 using CToolkit.v1_0.Wcf;
+using CToolkit.v1_0.Wcf.DuplexTcp;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

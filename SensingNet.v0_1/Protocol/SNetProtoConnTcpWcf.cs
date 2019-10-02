@@ -4,6 +4,8 @@ using CToolkit.v1_0.Net;
 using CToolkit.v1_0.Protocol;
 using CToolkit.v1_0.Secs;
 using CToolkit.v1_0.Wcf;
+using CToolkit.v1_0.Wcf.DuplexTcp;
+using CToolkit.v1_0.Wcf.NonStop;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -23,8 +25,8 @@ namespace SensingNet.v0_1.Protocol
         public DateTime? timeOfBeginConnect;
         public string Uri;
         protected int m_IntervalTimeOfConnectCheck = 5000;
-        CtkWcfDuplexTcpClient<ICtkWcfDuplexOpService, CtkWcfDuplexTcpClientInst> client;
-        CtkWcfDuplexTcpListener<ICtkWcfDuplexOpService> listener;
+        CtkWcfDuplexTcpNonStopClient<ICtkWcfDuplexTcpService, CtkWcfDuplexTcpClientInst> client;
+        CtkWcfDuplexTcpNonStopListener<ICtkWcfDuplexTcpService> listener;
 
         public SNetProtoConnTcpWcf(string uri, bool isListener)
         {
@@ -42,7 +44,7 @@ namespace SensingNet.v0_1.Protocol
         void ReloadClient()
         {
             if (this.client != null) this.client.Disconnect();
-            this.client = CtkWcfDuplexTcpClientInst.NewDefault();
+            this.client = new CtkWcfDuplexTcpNonStopClient<ICtkWcfDuplexTcpService, CtkWcfDuplexTcpClientInst>(new CtkWcfDuplexTcpClientInst());
 
             this.client.evtFirstConnect += (ss, ee) => this.OnFirstConnect(ee);
             this.client.evtFailConnect += (ss, ee) => this.OnFailConnect(ee);
@@ -54,7 +56,7 @@ namespace SensingNet.v0_1.Protocol
         void ReloadListener()
         {
             if (this.listener != null) this.listener.Disconnect();
-            this.listener = CtkWcfDuplexTcpListenerInst.NewDefault();
+            this.listener = new CtkWcfDuplexTcpNonStopListener<ICtkWcfDuplexTcpService>(new CtkWcfDuplexTcpListenerInst());
             this.listener.Uri = this.Uri;
 
             this.listener.evtFirstConnect += (ss, ee) => this.OnFirstConnect(ee);

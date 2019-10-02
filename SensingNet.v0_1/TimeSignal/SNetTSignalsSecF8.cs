@@ -30,6 +30,11 @@ namespace SensingNet.v0_1.TimeSignal
             if (this.Signals.Count == 0) return null;
             return this.Signals.Last();
         }
+        public SNetTSignalSecF8 GetFirstOrDefault()
+        {
+            if (this.Signals.Count == 0) return null;
+            return this.Signals.First();
+        }
 
 
         public void Interpolation(int dataSize)
