@@ -1,5 +1,4 @@
-﻿using SensingNet.v0_1.Wcf.Simulate;
-using SensingNet.v0_1.Simulate;
+﻿using SensingNet.v0_2.Simulate;
 using System;
 using System.Collections.Generic;
 using System.Linq;

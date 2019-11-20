@@ -8,11 +8,11 @@ using System.Net;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using SensingNet.v0_1.Storage;
+using SensingNet.v0_2.Storage;
 using CToolkit.v1_0.Net;
 using System.Threading;
-using SensingNet.v0_1.Protocol;
-using SensingNet.v0_1.Device;
+using SensingNet.v0_2.Protocol;
+using SensingNet.v0_2.Device;
 
 namespace SensingNet.MyTest.UnitTest
 {
@@ -43,7 +43,7 @@ namespace SensingNet.MyTest.UnitTest
                 ProtoFormat = SNetEnumProtoFormat.SNetCmd,
                 IsActivelyConnect = false,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SNetSignalCfg()
+            deviceHdl.Config.SignalCfgList.Add(new v0_2.Signal.SNetSignalCfg()
             {
                 Svid = 0,
             });

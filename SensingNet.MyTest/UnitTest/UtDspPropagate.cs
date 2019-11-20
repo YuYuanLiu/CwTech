@@ -8,15 +8,15 @@ using System.Net;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using SensingNet.v0_1.Storage;
+using SensingNet.v0_2.Storage;
 using CToolkit.v1_0.Net;
 using System.Threading;
-using SensingNet.v0_1.Protocol;
-using SensingNet.v0_1.Device;
+using SensingNet.v0_2.Protocol;
+using SensingNet.v0_2.Device;
 using MathNet.Numerics.LinearAlgebra.Double;
-using SensingNet.v0_1.TriggerDiagram;
-using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TimeSignal;
+using SensingNet.v0_2.TriggerDiagram;
+using SensingNet.v0_2.TriggerDiagram.Basic;
+using SensingNet.v0_2.TimeSignal;
 using System.Linq;
 
 namespace SensingNet.MyTest.UnitTest

@@ -47,11 +47,11 @@
     <Reference Include="MathNet.Filtering, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Filtering.0.6.0\lib\net40\MathNet.Filtering.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.4.7.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=4.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\MathNet.Numerics.4.8.1\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,9 +85,13 @@
     <Content Include="Tools\CudafyViewer.exe" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SensingNet.v0_1\SensingNet.v0_1.csproj">
-      <Project>{c54643aa-065e-410d-ba32-318a7141c999}</Project>
-      <Name>SensingNet.v0_1</Name>
+    <ProjectReference Include="..\SensingNet.v0_2.Framework\SensingNet.v0_2.Framework.csproj">
+      <Project>{1f5ba0fe-0574-43d4-bf39-893a62a866a1}</Project>
+      <Name>SensingNet.v0_2.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SensingNet.v0_2\SensingNet.v0_2.csproj">
+      <Project>{c51d6cfd-4164-4ea0-b2f5-2dcc88f450e5}</Project>
+      <Name>SensingNet.v0_2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
