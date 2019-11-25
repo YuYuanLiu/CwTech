@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_2.Device.Simulate
+namespace SensingNet.v0_2.Device.Sample
 {
     public class SNetSimulateSensorDeviceClientVibration : IDisposable
     {
