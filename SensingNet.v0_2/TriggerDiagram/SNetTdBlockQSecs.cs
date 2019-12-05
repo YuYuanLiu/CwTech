@@ -1,6 +1,7 @@
 ﻿using CToolkit.v1_0;
 using CToolkit.v1_0.Net;
 using CToolkit.v1_0.Secs;
+using CToolkit.v1_0.Threading;
 using SensingNet.v0_2.QSecs;
 using SensingNet.v0_2.TriggerDiagram.Basic;
 using System;
@@ -81,7 +82,7 @@ namespace SensingNet.v0_2.TriggerDiagram
         public int CfRunAsyn()
         {
             this.CfIsRunning = true;
-            CtkUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
+            CtkThreadingUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
             {
                 this.CfRun();
             });

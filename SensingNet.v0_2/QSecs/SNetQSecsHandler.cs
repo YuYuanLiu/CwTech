@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using CToolkit.v1_0.Net;
+using CToolkit.v1_0.Threading;
 
 namespace SensingNet.v0_2.QSecs
 {
@@ -82,7 +83,7 @@ namespace SensingNet.v0_2.QSecs
         }
         public int CfLoad()
         {
-            CtkUtil.RunWorkerAsyn(delegate(object sender, DoWorkEventArgs e)
+            CtkThreadingUtil.RunWorkerAsyn(delegate(object sender, DoWorkEventArgs e)
             {
                 for (int idx = 0; !this.disposed; idx++)
                 {

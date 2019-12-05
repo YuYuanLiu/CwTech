@@ -17,9 +17,9 @@ using CToolkit.v1_0.Logging;
 
 namespace SensingNet.v0_2.Device
 {
-    public class SNetSensorDeviceHandler : ICtkContextFlowRun, IDisposable
+    public class SNetDvcSensorHandler : ICtkContextFlowRun, IDisposable
     {
-        public SNetSensorDeviceCfg Config;
+        public SNetDvcSensorCfg Config;
         public ISNetProtoConnectBase ProtoConn;//連線方式
         public ISNetProtoFormatBase ProtoFormat;//Protocol
         public ISNetProtoSessionBase ProtoSession;
@@ -30,8 +30,8 @@ namespace SensingNet.v0_2.Device
         AutoResetEvent areMsg = new AutoResetEvent(false);
         DateTime prevAckTime = DateTime.Now;
         CtkCancelTask taskRun;
-        public SNetSensorDeviceHandler() { }
-        ~SNetSensorDeviceHandler() { this.Dispose(false); }
+        public SNetDvcSensorHandler() { }
+        ~SNetDvcSensorHandler() { this.Dispose(false); }
 
 
         protected virtual int RealExec()
@@ -168,9 +168,11 @@ namespace SensingNet.v0_2.Device
         {
             if (this.Config == null) throw new SNetException("沒有設定參數");
 
-            var localIpAddr = CtkNetUtil.GetSuitableIp(this.Config.LocalIp, this.Config.RemoteIp);
-            var localEndPoint = new IPEndPoint(localIpAddr, this.Config.LocalPort);
-            var remoteEndPoint = new IPEndPoint(IPAddress.Parse(this.Config.RemoteIp), this.Config.RemotePort);
+            var remoteUri = new Uri(this.Config.RemoteUri);
+            var localUri = new Uri(this.Config.LocalUri);
+            var localIpAddr = CtkNetUtil.GetSuitableIp(localUri.Host, remoteUri.Host);
+            var localEndPoint = new IPEndPoint( IPAddress.Parse(localUri.Host), localUri.Port);
+            var remoteEndPoint = new IPEndPoint(IPAddress.Parse(remoteUri.Host), remoteUri.Port);
 
 
 

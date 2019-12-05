@@ -17,7 +17,7 @@ namespace SensingNet.v0_2.Device.Sample
 {
     public class SNetSimulateSensorDeviceClientVibration : IDisposable
     {
-        SNetSensorDeviceHandler device;
+        SNetDvcSensorHandler device;
         public volatile bool IsSendRequest = false;
 
         ~SNetSimulateSensorDeviceClientVibration() { this.Dispose(false); }
@@ -25,21 +25,19 @@ namespace SensingNet.v0_2.Device.Sample
         public void RunAsyn()
         {
 
-            this.device = new SNetSensorDeviceHandler();
-            this.device.Config = new SNetSensorDeviceCfg()
+            this.device = new SNetDvcSensorHandler();
+            this.device.Config = new SNetDvcSensorCfg()
             {
                 DeviceUid = null,
                 DeviceName = "Test127",
                 IntervalTimeOfConnectCheck = 1000,
                 IsActivelyConnect = false,
                 IsActivelyTx = true,
-                LocalIp = null,
-                LocalPort = 0,
+                LocalUri = null,
                 ProtoConnect = Protocol.SNetEnumProtoConnect.Tcp,
                 ProtoFormat = Protocol.SNetEnumProtoFormat.SNetCmd,
                 ProtoSession = Protocol.SNetEnumProtoSession.SNetCmd,
-                RemoteIp = "127.0.0.1",
-                RemotePort = 5003,
+                RemoteUri = "127.0.0.1:5003",
                 SerialPortConfig = null,
                 SignalCfgList = new SNetSignalCfg[]
                                {
@@ -51,7 +49,6 @@ namespace SensingNet.v0_2.Device.Sample
                 SignalTran = SNetEnumSignalTran.SNetCmd,
                 TimeoutResponse = 5000,
                 TxInterval = 0,
-                Uri = null,
             };
             this.device.evtSignalCapture += (ss, ee) =>
             {

@@ -107,11 +107,11 @@
     <Compile Include="QSecs\SNetQSecsHandler.cs" />
     <Compile Include="QSecs\SNetQSvidCfg.cs" />
     <Compile Include="SNetException.cs" />
-    <Compile Include="Device\SNetSensorDeviceCfg.cs" />
+    <Compile Include="Device\SNetDvcSensorCfg.cs" />
     <Compile Include="Signal\SNetEnumSignalTran.cs" />
     <Compile Include="Signal\ISNetSignalTranBase.cs" />
     <Compile Include="Signal\SNetSignalCfg.cs" />
-    <Compile Include="Device\SNetSensorDeviceHandler.cs" />
+    <Compile Include="Device\SNetDvcSensorHandler.cs" />
     <Compile Include="Signal\SNetSignalTranSecs001.cs" />
     <Compile Include="Signal\SNetSignalEventArgs.cs" />
     <Compile Include="Signal\SNetSignalTranSNetCmd.cs" />

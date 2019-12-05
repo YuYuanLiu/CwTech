@@ -32,11 +32,10 @@ namespace SensingNet.MyTest.UnitTest
 
 
 
-            var deviceHdl = new SNetSensorDeviceHandler();
-            deviceHdl.Config = new SNetSensorDeviceCfg()
+            var deviceHdl = new SNetDvcSensorHandler();
+            deviceHdl.Config = new SNetDvcSensorCfg()
             {
-                RemoteIp = "127.0.0.1",
-                RemotePort = 5003,
+                RemoteUri = "127.0.0.1:5003",
                 IsActivelyTx = true,
                 TxInterval = 0,
                 TimeoutResponse = 5000,

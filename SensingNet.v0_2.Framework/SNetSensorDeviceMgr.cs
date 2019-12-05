@@ -13,8 +13,8 @@ namespace SensingNet.v0_2.Framework
     {
 
         public String DefaultConfigsFilder = "Config/DeviceConfigs";
-        public CtkConfigCollector<SNetSensorDeviceCfg> configs = new CtkConfigCollector<SNetSensorDeviceCfg>();
-        Dictionary<String, SNetSensorDeviceHandler> handlers = new Dictionary<String, SNetSensorDeviceHandler>();
+        public CtkConfigCollector<SNetDvcSensorCfg> configs = new CtkConfigCollector<SNetDvcSensorCfg>();
+        Dictionary<String, SNetDvcSensorHandler> handlers = new Dictionary<String, SNetDvcSensorHandler>();
         Task<int> runTask;
 
 
@@ -97,10 +97,10 @@ namespace SensingNet.v0_2.Framework
             foreach (var dictcfg in this.configs)
                 foreach (var kvcfg in dictcfg.Value)
                 {
-                    SNetSensorDeviceHandler hdl = null;
+                    SNetDvcSensorHandler hdl = null;
                     if (!this.handlers.ContainsKey(kvcfg.Key))
                     {
-                        hdl = new SNetSensorDeviceHandler();
+                        hdl = new SNetDvcSensorHandler();
                         this.handlers.Add(kvcfg.Key, hdl);
                     }
                     else { hdl = this.handlers[kvcfg.Key]; }

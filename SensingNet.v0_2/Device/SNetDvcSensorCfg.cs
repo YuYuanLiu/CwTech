@@ -16,7 +16,7 @@ namespace SensingNet.v0_2.Device
 {
 
     [Serializable]
-    public class SNetSensorDeviceCfg
+    public class SNetDvcSensorCfg
     {
         public String DeviceUid;
         public String DeviceName;
@@ -24,17 +24,14 @@ namespace SensingNet.v0_2.Device
         //Device是否為主動連線
         public bool IsActivelyTx = false;
 
-        public String LocalIp;
-        public int LocalPort;
+        public String LocalUri;
         public SNetEnumProtoConnect ProtoConnect = SNetEnumProtoConnect.Tcp;
         public SNetEnumProtoFormat ProtoFormat = SNetEnumProtoFormat.Secs;
         public SNetEnumProtoSession ProtoSession = SNetEnumProtoSession.Secs;
-        public String RemoteIp = "192.168.123.101";
-        public int RemotePort = 5000;
+        public String RemoteUri = "192.168.123.101:5000";
         public int IntervalTimeOfConnectCheck = 1000;
 
         public CtkSerialPortCfg SerialPortConfig = new CtkSerialPortCfg();
-        public string Uri;
         public List<SNetSignalCfg> SignalCfgList = new List<SNetSignalCfg>();
         public SNetEnumSignalTran SignalTran = SNetEnumSignalTran.SNetCmd;
         public int TimeoutResponse = 1000;

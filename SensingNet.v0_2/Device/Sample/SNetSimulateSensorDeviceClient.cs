@@ -19,7 +19,7 @@ namespace SensingNet.v0_2.Device.Sample
 {
     public class SNetSimulateSensorDeviceClient : IDisposable
     {
-        SNetSensorDeviceHandler client;
+        SNetDvcSensorHandler client;
         public volatile bool IsSendRequest = false;
 
         ~SNetSimulateSensorDeviceClient() { this.Dispose(false); }
@@ -30,20 +30,18 @@ namespace SensingNet.v0_2.Device.Sample
             var signalConfigs = new List<SNetSignalCfg>();
             signalConfigs.Add(new SNetSignalCfg() { Svid = 0 });
 
-            this.client = new SNetSensorDeviceHandler();
-            this.client.Config = new SNetSensorDeviceCfg()
+            this.client = new SNetDvcSensorHandler();
+            this.client.Config = new SNetDvcSensorCfg()
             {
                 DeviceUid = null,
                 DeviceName = "Test",
                 IsActivelyConnect = false,
                 IsActivelyTx = false,
-                LocalIp = null,
-                LocalPort = 0,
+                LocalUri = null,
                 ProtoConnect = SNetEnumProtoConnect.Tcp,
                 ProtoFormat = SNetEnumProtoFormat.SNetCmd,
                 ProtoSession = SNetEnumProtoSession.SNetCmd,
-                RemoteIp = "127.0.0.1",
-                RemotePort = 5003,
+                RemoteUri = "127.0.0.1:5003",
                 SerialPortConfig = null,
                 SignalTran = SNetEnumSignalTran.SNetCmd,
                 TimeoutResponse = 5000,

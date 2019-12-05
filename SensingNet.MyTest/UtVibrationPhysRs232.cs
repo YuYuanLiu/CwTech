@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using SensingNet.v0_2.Storage;
 using SensingNet.v0_2.Protocol;
 using CToolkit.v1_0.DigitalPort;
+using SensingNet.v0_2.Device;
 
 namespace SensingNet.MyTest
 {
@@ -22,11 +23,10 @@ namespace SensingNet.MyTest
         [TestMethod]
         public void TestMethod()
         {
-            var deviceHdl = new v0_2.Device.SNetSensorDeviceHandler();
-            deviceHdl.Config = new v0_2.Device.SNetSensorDeviceCfg()
+            var deviceHdl = new SNetDvcSensorHandler();
+            deviceHdl.Config = new SNetDvcSensorCfg()
             {
-                RemoteIp = "192.168.123.201",
-                RemotePort = 5000,
+                RemoteUri = "192.168.123.201:5000",
                 SerialPortConfig = new CtkSerialPortCfg()
                 {
                     PortName = "COM4",

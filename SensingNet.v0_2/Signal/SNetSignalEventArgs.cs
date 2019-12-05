@@ -9,8 +9,7 @@ namespace SensingNet.v0_2.Signal
     public class SNetSignalEventArgs : EventArgs
     {
         public object Sender;
-        public string RemoteIp;
-        public int RemotePort;
+        public string DeviceUri;
         public string DeviceName;
 
         public UInt64? Svid;
