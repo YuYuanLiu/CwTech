@@ -171,7 +171,7 @@ namespace SensingNet.v0_2.Device
             var remoteUri = new Uri(this.Config.RemoteUri);
             var localUri = new Uri(this.Config.LocalUri);
             var localIpAddr = CtkNetUtil.GetSuitableIp(localUri.Host, remoteUri.Host);
-            var localEndPoint = new IPEndPoint( IPAddress.Parse(localUri.Host), localUri.Port);
+            var localEndPoint = new IPEndPoint(IPAddress.Parse(localUri.Host), localUri.Port);
             var remoteEndPoint = new IPEndPoint(IPAddress.Parse(remoteUri.Host), remoteUri.Port);
 
 
@@ -288,11 +288,16 @@ namespace SensingNet.v0_2.Device
 
             try
             {
+
                 //三個方法(三個保護)控管執行
-                while (!disposed && this.CfIsRunning && !this.taskRun.CancelToken.IsCancellationRequested)
+                while (!disposed && this.CfIsRunning)
                 {
-                    this.taskRun.CancelToken.ThrowIfCancellationRequested();//一般cancel task 在 while 和 第一行
-                    this.RealExec();
+                    if (taskRun != null)
+                    {
+                        if (!this.taskRun.CancelToken.IsCancellationRequested) break;
+                        this.taskRun.CancelToken.ThrowIfCancellationRequested();//一般cancel task 在 while 和 第一行
+                    }
+                    this.CfExec();
                 }
 
 
