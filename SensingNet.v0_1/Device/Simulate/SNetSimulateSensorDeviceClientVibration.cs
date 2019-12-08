@@ -60,7 +60,7 @@ namespace SensingNet.v0_1.Device.Simulate
                 {
                     sb.Append(val + ",");
                 }
-                this.Write(sb.ToString());
+                CtkLog.InfoNs(this, sb.ToString());
             };
 
             this.device.CfInit();
@@ -72,33 +72,16 @@ namespace SensingNet.v0_1.Device.Simulate
         }
 
 
-        public void Write(string msg, params object[] obj)
-        {
-            Console.WriteLine();
-            Console.WriteLine(msg, obj);
-            Console.Write(">");
-        }
 
-        public void CommandLine()
+
+        public void Command(string cmd)
         {
-            var cmd = "";
-            do
+            switch (cmd)
             {
-                Write(this.GetType().Name);
-                cmd = Console.ReadLine();
-
-                switch (cmd)
-                {
-                    case "send":
-                        this.Send();
-                        break;
-                }
-
-
-            } while (string.Compare(cmd, "exit", true) != 0);
-
-            this.Stop();
-
+                case "send":
+                    this.Send();
+                    break;
+            }
         }
 
 
@@ -145,12 +128,10 @@ namespace SensingNet.v0_1.Device.Simulate
             {
                 // Free any other managed objects here.
                 //
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnmanaged();
 
             this.DisposeSelf();
 
@@ -159,19 +140,15 @@ namespace SensingNet.v0_1.Device.Simulate
 
 
 
-        protected virtual void DisposeManaged()
-        {
-        }
+
 
         protected virtual void DisposeSelf()
         {
             this.Stop();
         }
 
-        protected virtual void DisposeUnmanaged()
-        {
 
-        }
+
         #endregion
 
 

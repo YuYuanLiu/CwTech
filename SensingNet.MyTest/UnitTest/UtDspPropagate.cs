@@ -8,15 +8,15 @@ using System.Net;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using SensingNet.v0_1.Storage;
+using SensingNet.v0_2.Storage;
 using CToolkit.v1_0.Net;
 using System.Threading;
-using SensingNet.v0_1.Protocol;
-using SensingNet.v0_1.Device;
+using SensingNet.v0_2.Protocol;
+using SensingNet.v0_2.Device;
 using MathNet.Numerics.LinearAlgebra.Double;
-using SensingNet.v0_1.TriggerDiagram;
-using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_2.TriggerDiagram;
+using SensingNet.v0_2.TriggerDiagram.Basic;
+using SensingNet.v0_2.TimeSignal;
 using System.Linq;
 
 namespace SensingNet.MyTest.UnitTest
@@ -34,8 +34,8 @@ namespace SensingNet.MyTest.UnitTest
             var node_filter = block.AddNode<SNetTdNodeFilter>();
             var node_statistics = block.AddNode<SNetTdNodeStatistics>();
 
-            node_seq.evtDataChange += node_filter.DoInput;
-            node_filter.evtDataChange += node_statistics.DoInput;
+            node_seq.evtDataChange += node_filter.Input;
+            node_filter.evtDataChange += node_statistics.Input;
 
 
 
@@ -59,9 +59,9 @@ namespace SensingNet.MyTest.UnitTest
                     input[idx] = rnd.NextDouble() * 0.2;
 
                 input += wave;
-                node_seq.DoInput(null, new SNetTdSignalSetSecF8EventArg()
+                node_seq.Input(null, new SNetTdSignalsSecF8EventArg()
                 {
-                    NewTSignal = new SNetTdTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
+                    TSignalNew = new SNetTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
                 });
 
                 Console.Write("Avg={0}; Max={1}; Min={2}",

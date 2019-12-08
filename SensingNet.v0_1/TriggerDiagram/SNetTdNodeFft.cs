@@ -3,7 +3,7 @@ using CToolkit.v1_0.Numeric;
 using CToolkit.v1_0.Timing;
 using MathNet.Filtering.FIR;
 using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -19,23 +19,23 @@ namespace SensingNet.v0_1.TriggerDiagram
         /// <summary>
         /// MathNet FFT 選 Matlab -> 算出來的結果可以加總後取平均, 仍是頻域圖
         /// </summary>
-        public SNetTdTSignalSetSecF8 TSignal = new SNetTdTSignalSetSecF8();
+        public SNetTSignalsSecF8 TSignal = new SNetTSignalsSecF8();
 
 
 
 
-        protected override void PurgeSignal()
+        protected override void Purge()
         {
             if (this.PurgeSeconds <= 0) return;
             var now = DateTime.Now;
             var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
-            this.PurgeSignalByTime(this.TSignal, oldKey);
+            PurgeSignalByTime(this.TSignal, oldKey);
         }
 
-        public  void DoInput(object sender, SNetTdEventArg e)
+        public void Input(object sender, SNetTdEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetTdSignalSetSecF8EventArg;
+            var ea = e as SNetTdSignalsSecF8EventArg;
             if (ea == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
@@ -46,7 +46,7 @@ namespace SensingNet.v0_1.TriggerDiagram
             var t = ea.PrevTime.Value;
 
             //取得時間變更前的時間資料
-            IList<double> signalData = ea.TSignal.GetOrCreate(t);
+            IList<double> signalData = ea.TSignalSource.GetOrCreate(t);
             signalData = CtkNumUtil.InterpolationForce(signalData, this.SampleRate);
 
             var ctkNumContext = CtkNumContext.GetOrCreate();
@@ -61,7 +61,7 @@ namespace SensingNet.v0_1.TriggerDiagram
             });
 
 
-            this.DoDataChange(this.TSignal, new SNetTdTSignalSecF8(t, signalData));
+            this.ProcDataInput(this.TSignal, new SNetTSignalSecF8(t, signalData));
             ea.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
 

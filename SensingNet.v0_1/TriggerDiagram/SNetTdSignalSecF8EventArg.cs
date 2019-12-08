@@ -1,5 +1,5 @@
 ﻿using CToolkit.v1_0.Timing;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +9,11 @@ namespace SensingNet.v0_1.TriggerDiagram
 {
     public class SNetTdSignalSecF8EventArg : SNetTdSignalEventArg
     {
-        public SNetTdTSignalSecF8 TSignal;
+        public SNetTSignalSecF8 TSignal;
 
 
 
-        public static implicit operator SNetTdSignalSecF8EventArg(SNetTdTSignalSecF8 val)
+        public static implicit operator SNetTdSignalSecF8EventArg(SNetTSignalSecF8 val)
         {
             var rs = new SNetTdSignalSecF8EventArg();
             rs.TSignal = val;

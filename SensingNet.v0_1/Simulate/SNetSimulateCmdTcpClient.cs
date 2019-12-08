@@ -53,37 +53,23 @@ namespace SensingNet.v0_1.Simulate
             Console.Write(">");
         }
 
-        public void CommandLine()
+        public void Command(string cmd)
         {
-            var cmd = "";
-            do
+            switch (cmd)
             {
-                Write(this.GetType().Name);
-                cmd = Console.ReadLine();
-
-                switch (cmd)
-                {
-                    case "send":
-                        this.Send();
-                        break;
-                    case "state":
-                        Console.WriteLine("State={0}", this.client.IsRemoteConnected);
-                        break;
-                }
-
-
-            } while (string.Compare(cmd, "exit", true) != 0);
-
-            this.Stop();
-
+                case "send":
+                    this.Send();
+                    break;
+                case "state":
+                    Console.WriteLine("State={0}", this.client.IsRemoteConnected);
+                    break;
+            }
         }
 
 
         public void Send()
         {
-
             this.client.WriteMsg("cmd\n");
-
         }
 
 
@@ -121,12 +107,10 @@ namespace SensingNet.v0_1.Simulate
             {
                 // Free any other managed objects here.
                 //
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnmanaged();
 
             this.DisposeSelf();
 
@@ -135,19 +119,16 @@ namespace SensingNet.v0_1.Simulate
 
 
 
-        protected virtual void DisposeManaged()
-        {
-        }
+
+
 
         protected virtual void DisposeSelf()
         {
             this.Stop();
         }
 
-        protected virtual void DisposeUnmanaged()
-        {
+  
 
-        }
         #endregion
 
 

@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C51D6CFD-4164-4EA0-B2F5-2DCC88F450E5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SensingNet.v0_2</RootNamespace>
+    <AssemblyName>SensingNet.v0_2</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CToolkit.v1_0, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\CToolkit.v1.0\CToolkit.v1_0.dll</HintPath>
+    </Reference>
+    <Reference Include="CToolkit.v1_0.Secs">
+      <HintPath>..\DLL\CToolkit.v1.0\CToolkit.v1_0.Secs.dll</HintPath>
+    </Reference>
+    <Reference Include="Cudafy.NET, Version=1.29.5576.13786, Culture=neutral, PublicKeyToken=63a4c9931616906b, processorArchitecture=MSIL">
+      <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\CUDAfy.NET.1.29.5576.13786\lib\net40\Cudafy.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Filtering, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\MathNet.Filtering.0.6.0\lib\net40\MathNet.Filtering.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=4.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\MathNet.Numerics.4.8.1\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\Newtonsoft.Json.12.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TriggerDiagram\SNetTdNodeQSecs.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNodeF8.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNodeFft.cs" />
+    <Compile Include="TriggerDiagram\SNetTdBlockQSecs.cs" />
+    <Compile Include="TriggerDiagram\SNetTdSignalSecF8EventArg.cs" />
+    <Compile Include="TriggerDiagram\SNetTdSignalsSecF8EventArg.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdDiagram.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdNode.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdEnumInvokeResult.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNodeFilter.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdEventArg.cs" />
+    <Compile Include="TimeSignal\ISNetTSignal.cs" />
+    <Compile Include="TimeSignal\ISNetTSignals.cs" />
+    <Compile Include="TriggerDiagram\Basic\SNetTdBlock.cs" />
+    <Compile Include="TriggerDiagram\SNetTdSignalEventArg.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNodeSeqDataCollector.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNodeStatistics.cs" />
+    <Compile Include="TimeSignal\SNetTSignalSecF8.cs" />
+    <Compile Include="TimeSignal\SNetTSignalsSecC.cs" />
+    <Compile Include="TimeSignal\SNetTSignalsSecF8.cs" />
+    <Compile Include="Protocol\SNetEnumProtoConnect.cs" />
+    <Compile Include="Protocol\SNetEnumProtoSession.cs" />
+    <Compile Include="Protocol\SNetEnumProtoFormat.cs" />
+    <Compile Include="Device\Sample\SNetSimulateSensorDeviceClientVibration.cs" />
+    <Compile Include="Simulate\SNetSimulateDeviceRandom.cs" />
+    <Compile Include="Device\Sample\SNetSimulateSensorDeviceClient.cs" />
+    <Compile Include="Simulate\SNetSimulateCmdTcpClient.cs" />
+    <Compile Include="SNetEnumHandlerStatus.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol\ISNetProtoConnectBase.cs" />
+    <Compile Include="Protocol\ISNetProtoSessionBase.cs" />
+    <Compile Include="Protocol\ISNetProtoFormatBase.cs" />
+    <Compile Include="Protocol\SNetProtoConnRs232.cs" />
+    <Compile Include="Protocol\SNetProtoConnTcp.cs" />
+    <Compile Include="Protocol\SNetProtoFormatSNetCmd.cs" />
+    <Compile Include="Protocol\SNetProtoFormatSecs.cs" />
+    <Compile Include="Protocol\SNetProtoSessionSNetCmd.cs" />
+    <Compile Include="Protocol\SNetProtoSessionSecs.cs" />
+    <Compile Include="QSecs\SNetEnumStatisticsMethod.cs" />
+    <Compile Include="QSecs\SNetQSecsRcvDataEventArgs.cs" />
+    <Compile Include="QSecs\SNetQSecsCfg.cs" />
+    <Compile Include="QSecs\SNetQSecsHandler.cs" />
+    <Compile Include="QSecs\SNetQSvidCfg.cs" />
+    <Compile Include="SNetException.cs" />
+    <Compile Include="Device\SNetDvcSensorCfg.cs" />
+    <Compile Include="Signal\SNetEnumSignalTran.cs" />
+    <Compile Include="Signal\ISNetSignalTranBase.cs" />
+    <Compile Include="Signal\SNetSignalCfg.cs" />
+    <Compile Include="Device\SNetDvcSensorHandler.cs" />
+    <Compile Include="Signal\SNetSignalTranSecs001.cs" />
+    <Compile Include="Signal\SNetSignalEventArgs.cs" />
+    <Compile Include="Signal\SNetSignalTranSNetCmd.cs" />
+    <Compile Include="SNetUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Compile Include="Simulate\SNetSimulateSecsClient.cs" />
+    <Compile Include="Simulate\SNetSimulateDeviceVibration.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Readme\CUDA.NET.Readme.txt" />
+    <Content Include="Readme\CUDAfy-License.txt" />
+    <Content Include="Readme\example_source_code.cs.txt" />
+    <Content Include="Readme\ILSpy-license.txt" />
+    <Content Include="Readme\README.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

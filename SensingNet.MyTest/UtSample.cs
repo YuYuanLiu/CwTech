@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using SensingNet.v0_1.Framework;
+using SensingNet.v0_2.Framework;
 
 namespace SensingNet.MyTest
 {

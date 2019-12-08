@@ -19,14 +19,14 @@ namespace SensingNet.v0_1.Simulate
         public void RunAsyn()
         {
 
-            CtkLog.RegisterAllLogger((ss, ea) =>
+            CtkLog.RegisterEveryLogWrite((ss, ea) =>
             {
                 var now = DateTime.Now;
                 var sb = new StringBuilder();
                 sb.AppendFormat("[{0}] ", now.ToString("yyyyMMdd HH:mm:ss"));
                 sb.AppendFormat("{0} ", ea.Message);
                 sb.AppendFormat("{0}", ea.Exception.StackTrace);
-                Write(sb.ToString());
+                CtkLog.InfoNs(this, sb.ToString());
             });
 
 
@@ -42,7 +42,7 @@ namespace SensingNet.v0_1.Simulate
                 var sb = new StringBuilder();
                 sb.Append("evtFirstConnect:\n");
                 sb.Append(this.CmdState());
-                this.Write(sb.ToString());
+                CtkLog.InfoNs(this, sb.ToString());
             };
             listener.evtDataReceive += (ss, ee) =>
             {
@@ -66,25 +66,14 @@ namespace SensingNet.v0_1.Simulate
 
         }
 
-        public void CommandLine()
+        public void Command(string cmd)
         {
-            var cmd = "";
-            do
+            switch (cmd)
             {
-                Write(this.GetType().Name);
-                cmd = Console.ReadLine();
-
-                switch (cmd)
-                {
-                    case "state":
-                        Write(this.CmdState());
-                        break;
-                }
-
-
-            } while (string.Compare(cmd, "exit", true) != 0);
-
-            this.Stop();
+                case "state":
+                    CtkLog.InfoNs(this, this.CmdState());
+                    break;
+            }
         }
 
         string CmdState()
@@ -96,12 +85,8 @@ namespace SensingNet.v0_1.Simulate
         }
 
 
-        void Write(string msg, params object[] arg)
-        {
-            Console.WriteLine();
-            Console.WriteLine(msg, arg);
-            Console.Write(">");
-        }
+
+
 
 
         public void Stop()
@@ -131,12 +116,10 @@ namespace SensingNet.v0_1.Simulate
             {
                 // Free any other managed objects here.
                 //
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnmanaged();
 
             this.DisposeSelf();
 
@@ -145,19 +128,13 @@ namespace SensingNet.v0_1.Simulate
 
 
 
-        protected virtual void DisposeManaged()
-        {
-        }
 
         protected virtual void DisposeSelf()
         {
             this.Stop();
         }
 
-        protected virtual void DisposeUnmanaged()
-        {
 
-        }
         #endregion
 
 

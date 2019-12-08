@@ -1,7 +1,7 @@
 ﻿using CToolkit.v1_0;
 using CToolkit.v1_0.Timing;
+using SensingNet.v0_1.TimeSignal;
 using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,52 +9,45 @@ using System.Text;
 
 namespace SensingNet.v0_1.TriggerDiagram
 {
-    public class SNetTdNodeF8: SNetTdNode
+
+    /// <summary>
+    /// 用在Double(F8)序列資料節點
+    /// </summary>
+    public class SNetTdNodeF8 : SNetTdNode
     {
 
         public CtkTimeSecond? PrevTime;
         public int PurgeSeconds = 60;
 
 
-        protected virtual void PurgeSignal()
+        protected virtual void Purge()
         {
             throw new NotImplementedException();
         }
-        protected virtual void PurgeSignalByCount(SNetTdTSignalSetSecF8 tSignal, int Count)
-        {
-            var query = tSignal.Signals.Take(tSignal.Signals.Count - Count).ToList();
-            foreach (var ok in query)
-                tSignal.Signals.Remove(ok.Key);
-        }
-        protected virtual void PurgeSignalByTime(SNetTdTSignalSetSecF8 tSignal, CtkTimeSecond time)
-        {
-            var now = DateTime.Now;
-            var query = tSignal.Signals.Where(x => x.Key < time).ToList();
-            foreach (var ok in query)
-                tSignal.Signals.Remove(ok.Key);
-        }
 
 
-
-        protected virtual void DoDataChange(SNetTdTSignalSetSecF8 tSignal, SNetTdSignalSecF8EventArg newSignals)
+        /// <summary>
+        /// 多段時間同時輸入時, 請自行分段輸入, 
+        /// </summary>
+        protected virtual void ProcDataInput(SNetTSignalsSecF8 tSignal, SNetTSignalSecF8 newSignals)
         {
-            var ea = new SNetTdSignalSetSecF8EventArg();
+            var ea = new SNetTdSignalsSecF8EventArg();
             ea.Sender = this;
-            var time = newSignals.TSignal.Time.HasValue ? newSignals.TSignal.Time.Value : DateTime.Now;
+            var time = newSignals.Time.HasValue ? newSignals.Time.Value : DateTime.Now;
             ea.Time = time;
-            ea.TSignal = tSignal;
+            ea.TSignalSource = tSignal;
             ea.PrevTime = this.PrevTime;
 
 
-            ea.NewTSignal.AddByKey(time, newSignals.TSignal.Signals);
-            tSignal.AddByKey(time, newSignals.TSignal.Signals);
+            ea.TSignalNew.AddByKey(time, newSignals.Signals);
+            tSignal.AddByKey(time, newSignals.Signals);
             this.OnDataChange(ea);
 
-            this.PurgeSignal();
+            this.Purge();
 
             this.PrevTime = time;
-
         }
+  
 
 
 
@@ -76,6 +69,25 @@ namespace SensingNet.v0_1.TriggerDiagram
         protected override void DisposeSelf()
         {
             base.DisposeSelf();
+        }
+
+        #endregion
+
+
+        #region Static
+
+        public static void PurgeSignalByCount(SNetTSignalsSecF8 tSignal, int Count)
+        {
+            var query = tSignal.Signals.Take(tSignal.Signals.Count - Count).ToList();
+            foreach (var ok in query)
+                tSignal.Signals.Remove(ok.Key);
+        }
+        public static void PurgeSignalByTime(SNetTSignalsSecF8 tSignal, CtkTimeSecond time)
+        {
+            var now = DateTime.Now;
+            var query = tSignal.Signals.Where(x => x.Key < time).ToList();
+            foreach (var ok in query)
+                tSignal.Signals.Remove(ok.Key);
         }
 
         #endregion

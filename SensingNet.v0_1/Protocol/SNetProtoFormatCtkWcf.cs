@@ -1,6 +1,7 @@
 ﻿using CToolkit.v1_0.Protocol;
 using CToolkit.v1_0.Secs;
 using CToolkit.v1_0.Wcf;
+using CToolkit.v1_0.Wcf.DuplexTcp;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -80,32 +81,25 @@ namespace SensingNet.v0_1.Protocol
             {
                 // Free any other managed objects here.
                 //
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnmanaged();
             this.DisposeSelf();
             disposed = true;
         }
 
 
 
-        void DisposeManaged()
-        {
 
-        }
+
 
         void DisposeSelf()
         {
 
         }
 
-        void DisposeUnmanaged()
-        {
 
-        }
 
 
         #endregion

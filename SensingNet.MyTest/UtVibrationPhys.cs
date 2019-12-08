@@ -8,9 +8,10 @@ using System.Net;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using SensingNet.v0_1.Storage;
-using SensingNet.v0_1.Protocol;
-using SensingNet.v0_1.Signal;
+using SensingNet.v0_2.Storage;
+using SensingNet.v0_2.Protocol;
+using SensingNet.v0_2.Signal;
+using SensingNet.v0_2.Device;
 
 namespace SensingNet.MyTest
 {
@@ -22,11 +23,10 @@ namespace SensingNet.MyTest
         [TestMethod]
         public void TestMethod()
         {
-            var deviceHdl = new v0_1.Device.SNetSensorDeviceHandler();
-            deviceHdl.Config = new v0_1.Device.SNetSensorDeviceCfg()
+            var deviceHdl = new SNetDvcSensorHandler();
+            deviceHdl.Config = new SNetDvcSensorCfg()
             {
-                RemoteIp = "192.168.123.201",
-                RemotePort = 5000,
+                RemoteUri = "tcp://192.168.123.201:5000",
                 TxInterval = 0,
                 TimeoutResponse = 5000,
                 ProtoConnect = SNetEnumProtoConnect.Tcp,
@@ -34,7 +34,7 @@ namespace SensingNet.MyTest
                 ProtoSession = SNetEnumProtoSession.SNetCmd,
                 SignalTran = SNetEnumSignalTran.SNetCmd,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SNetSignalCfg()
+            deviceHdl.Config.SignalCfgList.Add(new v0_2.Signal.SNetSignalCfg()
             {
                 Svid = 0,
             });

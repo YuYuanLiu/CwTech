@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using CToolkit.v1_0.Timing;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 
 namespace SensingNet.v0_1.Storage
 {
@@ -77,7 +77,7 @@ namespace SensingNet.v0_1.Storage
         }
 
 
-        public override void ReadTSignal(StreamReader sr, SNetTdTSignalSetSecF8 tSignal)
+        public override void ReadTSignal(StreamReader sr, SNetTSignalsSecF8 tSignal)
         {
             var signals = new List<double>();
             for (var line = sr.ReadLine(); line != null; line = sr.ReadLine())
@@ -91,7 +91,7 @@ namespace SensingNet.v0_1.Storage
                 if (!DateTime.TryParseExact(vals[0], TimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt)) continue;
 
                 var time = (CtkTimeSecond)dt;
-                tSignal.GetOrCreate(time);
+                signals = tSignal.GetOrCreate(time);
 
 
                 for (int idx = 1; idx < vals.Length; idx++)

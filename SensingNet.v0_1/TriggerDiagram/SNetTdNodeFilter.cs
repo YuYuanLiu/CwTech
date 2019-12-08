@@ -3,7 +3,7 @@ using CToolkit.v1_0.Numeric;
 using CToolkit.v1_0.Timing;
 using MathNet.Filtering.FIR;
 using SensingNet.v0_1.TriggerDiagram.Basic;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using SensingNet.v0_1.TimeSignal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -24,12 +24,12 @@ namespace SensingNet.v0_1.TriggerDiagram
         };
 
         public CtkFftOnlineFilter PassFilter = new CtkFftOnlineFilter();
-        public SNetTdTSignalSetSecF8 TSignal = new SNetTdTSignalSetSecF8();
+        public SNetTSignalsSecF8 TSignal = new SNetTSignalsSecF8();
 
-        public void DoInput(object sender, SNetTdSignalEventArg e)
+        public void Input(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var tsSetSecondEa = e as SNetTdSignalSetSecF8EventArg;
+            var tsSetSecondEa = e as SNetTdSignalsSecF8EventArg;
             if (tsSetSecondEa == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 
@@ -38,7 +38,7 @@ namespace SensingNet.v0_1.TriggerDiagram
             var t = tsSetSecondEa.PrevTime.Value;
 
             //取得時間變更前的時間資料
-            IList<double> signalData = tsSetSecondEa.TSignal.GetOrCreate(t);
+            IList<double> signalData = tsSetSecondEa.TSignalSource.GetOrCreate(t);
 
 
             if (this.FilterArgs.Mode != CtkEnumPassFilterMode.None)
@@ -48,16 +48,16 @@ namespace SensingNet.v0_1.TriggerDiagram
                 signalData = this.PassFilter.ProcessSamples(signalData);
             }
 
-            this.DoDataChange(this.TSignal, new SNetTdTSignalSecF8(t, signalData));
+            this.ProcDataInput(this.TSignal, new SNetTSignalSecF8(t, signalData));
             e.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
 
-        protected override void PurgeSignal()
+        protected override void Purge()
         {
             if (this.PurgeSeconds <= 0) return;
             var now = DateTime.Now;
             var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
-            this.PurgeSignalByTime(this.TSignal, oldKey);
+            PurgeSignalByTime(this.TSignal, oldKey);
         }
         #region IDisposable
 

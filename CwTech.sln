@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.MyTest", "SensingNet.MyTest\SensingNet.MyTest.csproj", "{86C649CC-824E-4DBB-8161-82DC67268E84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.v0_1", "SensingNet.v0_1\SensingNet.v0_1.csproj", "{C54643AA-065E-410D-BA32-318A7141C999}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.v0_2.Framework", "SensingNet.v0_2.Framework\SensingNet.v0_2.Framework.csproj", "{1F5BA0FE-0574-43D4-BF39-893A62A866A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.v0_2", "SensingNet.v0_2\SensingNet.v0_2.csproj", "{C51D6CFD-4164-4EA0-B2F5-2DCC88F450E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.CmdApp01", "SensingNet.CmdApp01\SensingNet.CmdApp01.csproj", "{47E56111-D02D-4D22-9698-BE1AA3CEFF04}"
 EndProject
@@ -21,10 +23,14 @@ Global
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C54643AA-065E-410D-BA32-318A7141C999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C54643AA-065E-410D-BA32-318A7141C999}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C54643AA-065E-410D-BA32-318A7141C999}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C54643AA-065E-410D-BA32-318A7141C999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F5BA0FE-0574-43D4-BF39-893A62A866A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F5BA0FE-0574-43D4-BF39-893A62A866A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F5BA0FE-0574-43D4-BF39-893A62A866A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F5BA0FE-0574-43D4-BF39-893A62A866A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C51D6CFD-4164-4EA0-B2F5-2DCC88F450E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C51D6CFD-4164-4EA0-B2F5-2DCC88F450E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C51D6CFD-4164-4EA0-B2F5-2DCC88F450E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C51D6CFD-4164-4EA0-B2F5-2DCC88F450E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{47E56111-D02D-4D22-9698-BE1AA3CEFF04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{47E56111-D02D-4D22-9698-BE1AA3CEFF04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47E56111-D02D-4D22-9698-BE1AA3CEFF04}.Release|Any CPU.ActiveCfg = Release|Any CPU

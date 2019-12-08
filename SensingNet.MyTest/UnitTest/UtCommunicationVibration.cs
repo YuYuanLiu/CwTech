@@ -8,11 +8,11 @@ using System.Net;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using SensingNet.v0_1.Storage;
+using SensingNet.v0_2.Storage;
 using CToolkit.v1_0.Net;
 using System.Threading;
-using SensingNet.v0_1.Protocol;
-using SensingNet.v0_1.Device;
+using SensingNet.v0_2.Protocol;
+using SensingNet.v0_2.Device;
 
 namespace SensingNet.MyTest.UnitTest
 {
@@ -32,18 +32,17 @@ namespace SensingNet.MyTest.UnitTest
 
 
 
-            var deviceHdl = new SNetSensorDeviceHandler();
-            deviceHdl.Config = new SNetSensorDeviceCfg()
+            var deviceHdl = new SNetDvcSensorHandler();
+            deviceHdl.Config = new SNetDvcSensorCfg()
             {
-                RemoteIp = "127.0.0.1",
-                RemotePort = 5003,
+                RemoteUri = "tcp://127.0.0.1:5003",
                 IsActivelyTx = true,
                 TxInterval = 0,
                 TimeoutResponse = 5000,
                 ProtoFormat = SNetEnumProtoFormat.SNetCmd,
                 IsActivelyConnect = false,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_1.Signal.SNetSignalCfg()
+            deviceHdl.Config.SignalCfgList.Add(new v0_2.Signal.SNetSignalCfg()
             {
                 Svid = 0,
             });

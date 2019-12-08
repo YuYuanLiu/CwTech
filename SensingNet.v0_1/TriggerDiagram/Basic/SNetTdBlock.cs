@@ -1,18 +1,18 @@
 ﻿using CToolkit.v1_0;
 using CToolkit.v1_0.Timing;
-using SensingNet.v0_1.TriggerDiagram.TimeSignal;
+using CToolkit.v1_0.TriggerDiagram;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace SensingNet.v0_1.TriggerDiagram.Basic
 {
-    public class SNetTdBlock : SNetTdNode, ISNetTdBlock
+    public class SNetTdBlock : SNetTdNode, ICtkTdBlock
     {
         public Dictionary<String, SNetTdNode> TdNodes = new Dictionary<string, SNetTdNode>();
-        public List<SNetTdWire> TdWires = new List<SNetTdWire>();
 
 
         //存放結構時:CtkTimeSecond, 仍可為null, 因此本身是物件形態
@@ -22,25 +22,20 @@ namespace SensingNet.v0_1.TriggerDiagram.Basic
         public T AddNode<T>() where T : SNetTdNode, new()
         {
             var node = new T();
-            this.TdNodes[node.SNetDspIdentifier] = node;
-            return node;
+            return this.AddNode(node);
         }
 
         public T AddNode<T>(T node) where T : SNetTdNode
         {
-            if (this.TdNodes.ContainsKey(node.SNetDspIdentifier)) throw new ArgumentException("Already exist identifier");
-            this.TdNodes[node.SNetDspIdentifier] = node;
-            return node;
-        }
-        public SNetDspWire<T> AddWire<T>( Delegate evt, EventHandler<T> destination)
-            where T : EventArgs
-        {
-            var wire = new SNetDspWire<T>();
-            //source += destination;
+            try
+            {
+                if (!Monitor.TryEnter(this.TdNodes, 30 * 1000)) throw new SNetException("Cannot add TdNodes in 30 seconds");
 
-            
-
-            return wire;
+                if (this.TdNodes.ContainsKey(node.CtkTdIdentifier)) throw new ArgumentException("Already exist identifier");
+                this.TdNodes[node.CtkTdIdentifier] = node;
+                return node;
+            }
+            finally { Monitor.Exit(this.TdNodes); }
         }
 
 
@@ -51,10 +46,10 @@ namespace SensingNet.v0_1.TriggerDiagram.Basic
             {
                 this.TdNodes.Clear();
                 foreach (var node in dspNodes)
-                    this.TdNodes[node.SNetDspIdentifier] = node;
+                    this.AddNode(node);
             }
         }
-   
+
 
 
         #region IDisposable

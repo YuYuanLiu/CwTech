@@ -147,10 +147,7 @@ namespace SensingNet.v0_1.QSecs
             GC.SuppressFinalize(this);
         }
 
-        public void DisposeManaged()
-        {
 
-        }
 
         public void DisposeSelf()
         {
@@ -161,9 +158,7 @@ namespace SensingNet.v0_1.QSecs
 
         }
 
-        public void DisposeUnManaged()
-        {
-        }
+
 
         protected virtual void Dispose(bool disposing)
         {
@@ -173,12 +168,10 @@ namespace SensingNet.v0_1.QSecs
             if (disposing)
             {
                 // Free any managed objects here.
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnManaged();
             this.DisposeSelf();
             disposed = true;
         }

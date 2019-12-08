@@ -2,6 +2,7 @@ using CToolkit.v1_0;
 using CToolkit.v1_0.Logging;
 using CToolkit.v1_0.Net;
 using CToolkit.v1_0.Wcf;
+using CToolkit.v1_0.Wcf.DuplexTcp;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Double;
 using System;
@@ -15,7 +16,7 @@ namespace SensingNet.v0_1.Simulate
 {
     public class SNetSimulateDeviceCtkWcf : IDisposable
     {
-        CtkWcfDuplexTcpListener<CtkWcfDuplexTcpListener> listener;
+        CtkWcfDuplexTcpNonStopListener<ICtkWcfDuplexTcpService> listener;
 
         public const string ServerUri = @"net.tcp://localhost:9000/";
 
@@ -25,11 +26,11 @@ namespace SensingNet.v0_1.Simulate
 
         public void RunAsyn()
         {
-            this.listener = CtkWcfDuplexTcpListener.CreateSingle();
+            this.listener = new CtkWcfDuplexTcpNonStopListener<ICtkWcfDuplexTcpService>(new CtkWcfDuplexTcpListenerInst());
             this.listener.evtDataReceive += (ss, ee) =>
             {
                 var ea = ee as CtkWcfDuplexEventArgs;
-                CmdWrite(ea.WcfMsg.TypeName + "");
+                CtkLog.InfoNs(this, ea.WcfMsg.TypeName + "");
 
             };
             this.listener.Uri = ServerUri;
@@ -40,36 +41,15 @@ namespace SensingNet.v0_1.Simulate
 
 
 
-
-        public void CmdWrite(string msg, params object[] obj)
+        public void Command(string cmd)
         {
-            if (msg != null)
+            switch (cmd)
             {
-                Console.WriteLine();
-                Console.WriteLine(msg, obj);
+                case "send":
+                    this.Send();
+                    break;
             }
-            Console.Write(">");
-        }
 
-        public void CommandLine()
-        {
-            var cmd = "";
-            do
-            {
-                CmdWrite(this.GetType().Name);
-                cmd = Console.ReadLine();
-
-                switch (cmd)
-                {
-                    case "send":
-                        this.Send();
-                        break;
-                }
-
-
-            } while (string.Compare(cmd, "exit", true) != 0);
-
-            this.Close();
 
         }
 
@@ -110,12 +90,10 @@ namespace SensingNet.v0_1.Simulate
             {
                 // Free any other managed objects here.
                 //
-                this.DisposeManaged();
             }
 
             // Free any unmanaged objects here.
             //
-            this.DisposeUnmanaged();
 
             this.DisposeSelf();
 
@@ -124,19 +102,15 @@ namespace SensingNet.v0_1.Simulate
 
 
 
-        protected virtual void DisposeManaged()
-        {
-        }
+
 
         protected virtual void DisposeSelf()
         {
             this.Close();
         }
 
-        protected virtual void DisposeUnmanaged()
-        {
 
-        }
+
         #endregion
 
 
