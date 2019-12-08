@@ -41,7 +41,7 @@ namespace SensingNet.v0_2.Device.Sample
                 ProtoConnect = SNetEnumProtoConnect.Tcp,
                 ProtoFormat = SNetEnumProtoFormat.SNetCmd,
                 ProtoSession = SNetEnumProtoSession.SNetCmd,
-                RemoteUri = "127.0.0.1:5003",
+                RemoteUri = "tcp://127.0.0.1:5003",
                 SerialPortConfig = null,
                 SignalTran = SNetEnumSignalTran.SNetCmd,
                 TimeoutResponse = 5000,

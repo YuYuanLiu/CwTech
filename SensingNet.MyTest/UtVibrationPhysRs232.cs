@@ -26,7 +26,7 @@ namespace SensingNet.MyTest
             var deviceHdl = new SNetDvcSensorHandler();
             deviceHdl.Config = new SNetDvcSensorCfg()
             {
-                RemoteUri = "192.168.123.201:5000",
+                RemoteUri = "tcp://192.168.123.201:5000",
                 SerialPortConfig = new CtkSerialPortCfg()
                 {
                     PortName = "COM4",

@@ -35,7 +35,7 @@ namespace SensingNet.MyTest.UnitTest
             var deviceHdl = new SNetDvcSensorHandler();
             deviceHdl.Config = new SNetDvcSensorCfg()
             {
-                RemoteUri = "127.0.0.1:5003",
+                RemoteUri = "tcp://127.0.0.1:5003",
                 IsActivelyTx = true,
                 TxInterval = 0,
                 TimeoutResponse = 5000,

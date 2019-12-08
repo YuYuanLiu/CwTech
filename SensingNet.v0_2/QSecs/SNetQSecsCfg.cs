@@ -11,10 +11,8 @@ namespace SensingNet.v0_2.QSecs
     /// </summary>
     public class SNetQSecsCfg
     {
-        public String LocalIp;
-        public int LocalPort = 5000;
-        public String RemoteIp;
-        public int RemotePort;
+        public String LocalUri;
+        public String RemoteUri;
 
         public List<SNetQSvidCfg> QSvidCfgList = new List<SNetQSvidCfg>();
 

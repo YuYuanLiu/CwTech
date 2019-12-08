@@ -28,7 +28,7 @@ namespace SensingNet.v0_2.Device
         public SNetEnumProtoConnect ProtoConnect = SNetEnumProtoConnect.Tcp;
         public SNetEnumProtoFormat ProtoFormat = SNetEnumProtoFormat.Secs;
         public SNetEnumProtoSession ProtoSession = SNetEnumProtoSession.Secs;
-        public String RemoteUri = "192.168.123.101:5000";
+        public String RemoteUri = "tcp://192.168.123.101:5000";
         public int IntervalTimeOfConnectCheck = 1000;
 
         public CtkSerialPortCfg SerialPortConfig = new CtkSerialPortCfg();

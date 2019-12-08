@@ -44,9 +44,13 @@ namespace SensingNet.v0_2.TriggerDiagram
         {
             hsmsConnector = new CtkHsmsConnector();
             //hsmsConnector.ctkConnSocket.isActively = true;
-            var localIp = CtkNetUtil.GetLikelyFirst127Ip(this.cfg.LocalIp, this.cfg.RemoteIp);
+
+            var localUri = new Uri(this.cfg.LocalUri);
+            var remoteUri = new Uri(this.cfg.RemoteUri);
+
+            var localIp = CtkNetUtil.GetLikelyFirst127Ip(localUri.Host, remoteUri.Host);
             if (localIp == null) throw new Exception("無法取得在地IP");
-            hsmsConnector.local = new IPEndPoint(localIp, this.cfg.LocalPort);
+            hsmsConnector.local = new IPEndPoint(localIp, localUri.Port);
             hsmsConnector.evtReceiveData += delegate (Object sen, CtkHsmsConnectorRcvDataEventArg evt)
             {
 

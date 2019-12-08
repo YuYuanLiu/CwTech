@@ -37,7 +37,7 @@ namespace SensingNet.v0_2.Device.Sample
                 ProtoConnect = Protocol.SNetEnumProtoConnect.Tcp,
                 ProtoFormat = Protocol.SNetEnumProtoFormat.SNetCmd,
                 ProtoSession = Protocol.SNetEnumProtoSession.SNetCmd,
-                RemoteUri = "127.0.0.1:5003",
+                RemoteUri = "tcp://127.0.0.1:5003",
                 SerialPortConfig = null,
                 SignalCfgList = new SNetSignalCfg[]
                                {

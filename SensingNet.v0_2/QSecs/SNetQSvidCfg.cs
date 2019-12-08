@@ -17,9 +17,8 @@ namespace SensingNet.v0_2.QSecs
         public int StatisticsSecond = 1;
 
 
-        public String DeviceIp;//可為空值
-        public int DevicePort;//可為零
-        public string DeviceName;//若DeviceIp/Port不存在, 以Device Name區分
+        public String DeviceUri;//可為空值
+        public string DeviceUid;//若DeviceIp/Port不存在, 以Device Name區分
         public UInt64 DeviceSvid;
 
         public String StoragePath;
