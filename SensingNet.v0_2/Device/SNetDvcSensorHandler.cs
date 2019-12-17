@@ -294,7 +294,7 @@ namespace SensingNet.v0_2.Device
                 {
                     if (taskRun != null)
                     {
-                        if (!this.taskRun.CancelToken.IsCancellationRequested) break;
+                        if (this.taskRun.CancelToken.IsCancellationRequested) break;
                         this.taskRun.CancelToken.ThrowIfCancellationRequested();//一般cancel task 在 while 和 第一行
                     }
                     this.CfExec();
