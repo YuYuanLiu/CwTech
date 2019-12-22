@@ -169,9 +169,9 @@ namespace SensingNet.v0_2.Device
             if (this.Config == null) throw new SNetException("沒有設定參數");
 
             var remoteUri = new Uri(this.Config.RemoteUri);
-            var localUri = new Uri(this.Config.LocalUri);
-            var localIpAddr = CtkNetUtil.GetSuitableIp(localUri.Host, remoteUri.Host);
-            var localEndPoint = new IPEndPoint(IPAddress.Parse(localUri.Host), localUri.Port);
+            var localUri = string.IsNullOrEmpty(this.Config.LocalUri) ? null : new Uri(this.Config.LocalUri);
+            var localIpAddr = CtkNetUtil.GetSuitableIp(localUri == null ? null : localUri.Host, remoteUri.Host);
+            var localEndPoint = new IPEndPoint(localIpAddr, localUri == null ? 0 : localUri.Port);
             var remoteEndPoint = new IPEndPoint(IPAddress.Parse(remoteUri.Host), remoteUri.Port);
 
 
