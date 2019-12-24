@@ -52,10 +52,10 @@ namespace SensingNet.v0_2.QSecs
             hsmsConnector = new CtkHsmsConnector();
             //hsmsConnector.ctkConnSocket.isActively = true;
 
-            var localUri = new Uri(this.cfg.LocalUri);
-            var remoteUri = new Uri(this.cfg.RemoteUri);
+            var localUri = string.IsNullOrEmpty(this.cfg.LocalUri) ? null : new Uri(this.cfg.LocalUri);
+            var remoteUri = string.IsNullOrEmpty(this.cfg.RemoteUri) ? null : new Uri(this.cfg.RemoteUri);
 
-            var localIp = CtkNetUtil.GetLikelyFirst127Ip(localUri.Host, remoteUri.Host);
+            var localIp = CtkNetUtil.GetLikelyFirst127Ip(localUri == null ? null : localUri.Host, remoteUri == null ? null : remoteUri.Host);
             if (localIp == null) throw new Exception("無法取得在地IP");
             hsmsConnector.local = new IPEndPoint(localIp, localUri.Port);
             hsmsConnector.evtReceiveData += delegate (Object sen, CtkHsmsConnectorRcvDataEventArg evt)
