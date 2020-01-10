@@ -8,11 +8,11 @@ using System.Collections.Generic;
 namespace SensingNet.v0_2.TriggerDiagram
 {
 
-    public class SNetTdNodeSeqDataCollector : SNetTdNodeF8
+    public class SNetTdNSeqDataCollector : SNetTdNodeF8
     {
-        public SNetTSignalsSecF8 TSignal = new SNetTSignalsSecF8();
+        public SNetTSignalSetSecF8 TSignal = new SNetTSignalSetSecF8();
 
-        ~SNetTdNodeSeqDataCollector() { this.Dispose(false); }
+        ~SNetTdNSeqDataCollector() { this.Dispose(false); }
 
 
 
@@ -22,13 +22,21 @@ namespace SensingNet.v0_2.TriggerDiagram
         /// </summary>
         /// <param name="vals"></param>
         /// <param name="dt"></param>
-        public void Input(object sender, SNetTdSignalsSecF8EventArg ea)
+        public void Input(object sender, SNetTdSignalSetSecF8EventArg ea)
         {
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;
             foreach (var kv in ea.TSignalNew.Signals)
                 this.DoInput(this.TSignal, kv);
         }
+        public void Input(object sender, SNetTdSignalEventArg ea)
+        {
+            var myea = ea as SNetTdSignalSetSecF8EventArg;
+            if (myea == null) throw new ArgumentException("不支援的參數類型");
+
+            this.Input(sender, myea);
+        }
+
 
         public void DoInput(object sender, SNetTdSignalSecF8EventArg ea)
         {
@@ -37,6 +45,13 @@ namespace SensingNet.v0_2.TriggerDiagram
             this.ProcDataInput(this.TSignal, ea.TSignal);
         }
 
+        public void DoInput(object sender, SNetTdSignalEventArg ea)
+        {
+            var myea = ea as SNetTdSignalSecF8EventArg;
+            if (myea == null) throw new ArgumentException("不支援的參數類型");
+
+            this.DoInput(sender, myea);
+        }
 
         protected override void Purge()
         {

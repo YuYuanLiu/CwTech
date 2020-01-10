@@ -13,11 +13,11 @@ using System.Text;
 
 namespace SensingNet.v0_2.TriggerDiagram
 {
-    public class SNetTdNodeQSecs : SNetTdNodeF8
+    public class SNetTdNQSecs : SNetTdNodeF8
     {
         public SNetQSvidCfg cfg;
         public UInt64 QSvid { get { return this.cfg.QSvid; } }
-        public SNetTSignalsSecF8 TSignal = new SNetTSignalsSecF8();
+        public SNetTSignalSetSecF8 TSignal = new SNetTSignalSetSecF8();
 
 
 
@@ -29,10 +29,10 @@ namespace SensingNet.v0_2.TriggerDiagram
 
 
 
-        public void Input(object sender, SNetTdSignalsSecF8EventArg e)
+        public void Input(object sender, SNetTdSignalSetSecF8EventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetTdSignalsSecF8EventArg;
+            var ea = e as SNetTdSignalSetSecF8EventArg;
             if (ea == null) throw new SNetException("尚無法處理此類資料: " + e.GetType().FullName);
 
 

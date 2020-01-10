@@ -30,9 +30,9 @@ namespace SensingNet.MyTest.UnitTest
         {
 
             var block = new SNetTdBlock();
-            var node_seq = block.AddNode<SNetTdNodeSeqDataCollector>();
-            var node_filter = block.AddNode<SNetTdNodeFilter>();
-            var node_statistics = block.AddNode<SNetTdNodeStatistics>();
+            var node_seq = block.AddNode<SNetTdNSeqDataCollector>();
+            var node_filter = block.AddNode<SNetTdNFilter>();
+            var node_statistics = block.AddNode<SNetTdNStatistics>();
 
             node_seq.evtDataChange += node_filter.Input;
             node_filter.evtDataChange += node_statistics.Input;
@@ -59,7 +59,7 @@ namespace SensingNet.MyTest.UnitTest
                     input[idx] = rnd.NextDouble() * 0.2;
 
                 input += wave;
-                node_seq.Input(null, new SNetTdSignalsSecF8EventArg()
+                node_seq.Input(null, new SNetTdSignalSetSecF8EventArg()
                 {
                     TSignalNew = new SNetTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
                 });

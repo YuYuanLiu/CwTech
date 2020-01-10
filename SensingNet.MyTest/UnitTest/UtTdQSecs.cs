@@ -29,8 +29,8 @@ namespace SensingNet.MyTest.UnitTest
         public void TestMethod()
         {
 
-            var block = new SNetTdBlockQSecs();
-            var node1 = block.AddNode<SNetTdNodeQSecs>();
+            var block = new SNetTdBQSecs();
+            var node1 = block.AddNode<SNetTdNQSecs>();
 
             var isRunning = true;
 
@@ -38,7 +38,7 @@ namespace SensingNet.MyTest.UnitTest
             {
                 while (isRunning)
                 {
-                    node1.Input(this, new SNetTdSignalsSecF8EventArg()
+                    node1.Input(this, new SNetTdSignalSetSecF8EventArg()
                     {
 
                     });
@@ -69,7 +69,7 @@ namespace SensingNet.MyTest.UnitTest
                     input[idx] = rnd.NextDouble() * 0.2;
 
                 input += wave;
-                node1.Input(null, new SNetTdSignalsSecF8EventArg()
+                node1.Input(null, new SNetTdSignalSetSecF8EventArg()
                 {
                     TSignalNew = new SNetTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
                 });

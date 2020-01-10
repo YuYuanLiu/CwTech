@@ -29,9 +29,9 @@ namespace SensingNet.v0_2.TriggerDiagram
         /// <summary>
         /// 多段時間同時輸入時, 請自行分段輸入, 
         /// </summary>
-        protected virtual void ProcDataInput(SNetTSignalsSecF8 tSignal, SNetTSignalSecF8 newSignals)
+        protected virtual void ProcDataInput(SNetTSignalSetSecF8 tSignal, SNetTSignalSecF8 newSignals)
         {
-            var ea = new SNetTdSignalsSecF8EventArg();
+            var ea = new SNetTdSignalSetSecF8EventArg();
             ea.Sender = this;
             var time = newSignals.Time.HasValue ? newSignals.Time.Value : DateTime.Now;
             ea.Time = time;
@@ -76,13 +76,13 @@ namespace SensingNet.v0_2.TriggerDiagram
 
         #region Static
 
-        public static void PurgeSignalByCount(SNetTSignalsSecF8 tSignal, int Count)
+        public static void PurgeSignalByCount(SNetTSignalSetSecF8 tSignal, int Count)
         {
             var query = tSignal.Signals.Take(tSignal.Signals.Count - Count).ToList();
             foreach (var ok in query)
                 tSignal.Signals.Remove(ok.Key);
         }
-        public static void PurgeSignalByTime(SNetTSignalsSecF8 tSignal, CtkTimeSecond time)
+        public static void PurgeSignalByTime(SNetTSignalSetSecF8 tSignal, CtkTimeSecond time)
         {
             var now = DateTime.Now;
             var query = tSignal.Signals.Where(x => x.Key < time).ToList();

@@ -12,7 +12,7 @@ using System.Text;
 
 namespace SensingNet.v0_2.TriggerDiagram
 {
-    public class SNetTdNodeFilter : SNetTdNodeF8
+    public class SNetTdNFilter : SNetTdNodeF8
     {
         //使用Struct傳入是傳值, 修改是無法帶出來的, 但你可以回傳同一個結構後接住它
         public CtkPassFilterStruct FilterArgs = new CtkPassFilterStruct()
@@ -24,12 +24,12 @@ namespace SensingNet.v0_2.TriggerDiagram
         };
 
         public CtkFftOnlineFilter PassFilter = new CtkFftOnlineFilter();
-        public SNetTSignalsSecF8 TSignal = new SNetTSignalsSecF8();
+        public SNetTSignalSetSecF8 TSignal = new SNetTSignalSetSecF8();
 
         public void Input(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var tsSetSecondEa = e as SNetTdSignalsSecF8EventArg;
+            var tsSetSecondEa = e as SNetTdSignalSetSecF8EventArg;
             if (tsSetSecondEa == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 

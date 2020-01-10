@@ -10,15 +10,15 @@ using System.Text;
 
 namespace SensingNet.v0_2.TriggerDiagram
 {
-    public class SNetTdNodeStatistics : SNetTdNodeF8
+    public class SNetTdNStatistics : SNetTdNodeF8
     {
 
-        public SNetTSignalsSecF8 TSignalAvg = new SNetTSignalsSecF8();
-        public SNetTSignalsSecF8 TSignalMax = new SNetTSignalsSecF8();
-        public SNetTSignalsSecF8 TSignalMin = new SNetTSignalsSecF8();
+        public SNetTSignalSetSecF8 TSignalAvg = new SNetTSignalSetSecF8();
+        public SNetTSignalSetSecF8 TSignalMax = new SNetTSignalSetSecF8();
+        public SNetTSignalSetSecF8 TSignalMin = new SNetTSignalSetSecF8();
 
 
-        ~SNetTdNodeStatistics() { this.Dispose(false); }
+        ~SNetTdNStatistics() { this.Dispose(false); }
 
 
 
@@ -37,7 +37,7 @@ namespace SensingNet.v0_2.TriggerDiagram
         public void Input(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetTdSignalsSecF8EventArg;
+            var ea = e as SNetTdSignalSetSecF8EventArg;
             if (ea == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 

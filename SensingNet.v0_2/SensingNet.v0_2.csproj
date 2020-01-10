@@ -64,26 +64,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TriggerDiagram\SNetTdNodeQSecs.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNQSecs.cs" />
     <Compile Include="TriggerDiagram\SNetTdNodeF8.cs" />
     <Compile Include="TriggerDiagram\SNetTdNodeFft.cs" />
-    <Compile Include="TriggerDiagram\SNetTdBlockQSecs.cs" />
+    <Compile Include="TriggerDiagram\SNetTdBQSecs.cs" />
     <Compile Include="TriggerDiagram\SNetTdSignalSecF8EventArg.cs" />
-    <Compile Include="TriggerDiagram\SNetTdSignalsSecF8EventArg.cs" />
+    <Compile Include="TriggerDiagram\SNetTdSignalSetSecF8EventArg.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdDiagram.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdNode.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdEnumInvokeResult.cs" />
-    <Compile Include="TriggerDiagram\SNetTdNodeFilter.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNFilter.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdEventArg.cs" />
     <Compile Include="TimeSignal\ISNetTSignal.cs" />
-    <Compile Include="TimeSignal\ISNetTSignals.cs" />
+    <Compile Include="TimeSignal\ISNetTSignalSet.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdBlock.cs" />
     <Compile Include="TriggerDiagram\SNetTdSignalEventArg.cs" />
-    <Compile Include="TriggerDiagram\SNetTdNodeSeqDataCollector.cs" />
-    <Compile Include="TriggerDiagram\SNetTdNodeStatistics.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNSeqDataCollector.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNStatistics.cs" />
     <Compile Include="TimeSignal\SNetTSignalSecF8.cs" />
-    <Compile Include="TimeSignal\SNetTSignalsSecC.cs" />
-    <Compile Include="TimeSignal\SNetTSignalsSecF8.cs" />
+    <Compile Include="TimeSignal\SNetTSignalSetSecC.cs" />
+    <Compile Include="TimeSignal\SNetTSignalSetSecF8.cs" />
     <Compile Include="Protocol\SNetEnumProtoConnect.cs" />
     <Compile Include="Protocol\SNetEnumProtoSession.cs" />
     <Compile Include="Protocol\SNetEnumProtoFormat.cs" />

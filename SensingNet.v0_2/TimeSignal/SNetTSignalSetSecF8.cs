@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SensingNet.v0_2.TimeSignal
 {
-    public class SNetTSignalsSecF8 : ISNetTdTSignalSet<CtkTimeSecond, double>
+    public class SNetTSignalSetSecF8 : ISNetTdTSignalSet<CtkTimeSecond, double>
     {
         //1 Ticks是100奈秒, 0 tick={0001/1/1 上午 12:00:00}
         //請勿使用Datetime, 避免有人誤解 比對只進行 年月日時分秒, 事實會比較到tick
@@ -101,9 +101,9 @@ namespace SensingNet.v0_2.TimeSignal
 
         #region Static Operator
 
-        public static implicit operator SNetTSignalsSecF8(SNetTSignalSecF8 val)
+        public static implicit operator SNetTSignalSetSecF8(SNetTSignalSecF8 val)
         {
-            var rs = new SNetTSignalsSecF8();
+            var rs = new SNetTSignalSetSecF8();
             if (!val.Time.HasValue) throw new ArgumentException("Time can not be null");
             rs.Signals[val.Time.Value] = val.Signals;
             return rs;

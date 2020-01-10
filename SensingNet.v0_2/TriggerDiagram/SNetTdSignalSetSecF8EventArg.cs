@@ -7,12 +7,12 @@ using System.Text;
 
 namespace SensingNet.v0_2.TriggerDiagram
 {
-    public class SNetTdSignalsSecF8EventArg : SNetTdSignalEventArg
+    public class SNetTdSignalSetSecF8EventArg : SNetTdSignalEventArg
     {
         public CtkTimeSecond? Time;//當次時間
         public CtkTimeSecond? PrevTime;//前一次時間
-        public SNetTSignalsSecF8 TSignalSource;//完整訊號來源
-        public SNetTSignalsSecF8 TSignalNew = new SNetTSignalsSecF8();//此次新增訊號
+        public SNetTSignalSetSecF8 TSignalSource;//完整訊號來源
+        public SNetTSignalSetSecF8 TSignalNew = new SNetTSignalSetSecF8();//此次新增訊號
 
         public SNetTSignalSecF8 GetThisOrLast()
         {

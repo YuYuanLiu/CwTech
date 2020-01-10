@@ -13,7 +13,7 @@ using System.Text;
 
 namespace SensingNet.v0_2.TriggerDiagram
 {
-    public class SNetTdBlockQSecs : SNetTdBlock, ICtkContextFlowRun
+    public class SNetTdBQSecs : SNetTdBlock, ICtkContextFlowRun
     {
         public SNetQSecsCfg cfg;
         public CtkHsmsConnector hsmsConnector;
@@ -112,7 +112,7 @@ namespace SensingNet.v0_2.TriggerDiagram
         public void Input(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetTdSignalsSecF8EventArg;
+            var ea = e as SNetTdSignalSetSecF8EventArg;
             if (ea == null) throw new SNetException("尚無法處理此類資料: " + e.GetType().FullName);
 
             ea.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
