@@ -127,7 +127,7 @@ namespace SensingNet.v0_2.Framework
                     if (hdl.status == SNetEnumHandlerStatus.None)
                     {
                         hdl.CfInit();
-                        hdl.evtReceiveData += delegate (object ss, CtkHsmsConnectorRcvDataEventArg ea)
+                        hdl.EhReceiveData += delegate (object ss, CtkHsmsConnectorRcvDataEventArg ea)
                         {
                             this.OnReceiveData(new SNetQSecsRcvDataEventArgs()
                             {
@@ -178,18 +178,18 @@ namespace SensingNet.v0_2.Framework
 
         #region Event
 
-        public event EventHandler<SNetQSecsRcvDataEventArgs> evtReceiveData;
+        public event EventHandler<SNetQSecsRcvDataEventArgs> EhReceiveData;
         public void OnReceiveData(SNetQSecsRcvDataEventArgs ea)
         {
-            if (this.evtReceiveData == null) return;
-            this.evtReceiveData(this, ea);
+            if (this.EhReceiveData == null) return;
+            this.EhReceiveData(this, ea);
         }
 
-        public event EventHandler evtAfterEachExec;
+        public event EventHandler EhAfterEachExec;
         public void OnAfterEachExec(EventArgs ea)
         {
-            if (this.evtAfterEachExec == null) return;
-            this.evtAfterEachExec(this, ea);
+            if (this.EhAfterEachExec == null) return;
+            this.EhAfterEachExec(this, ea);
         }
 
 

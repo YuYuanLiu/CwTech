@@ -43,7 +43,7 @@ namespace SensingNet.MyTest
             {
                 Svid = 0,
             });
-            deviceHdl.evtSignalCapture += (sender, ea) =>
+            deviceHdl.EhSignalCapture += (sender, ea) =>
             {
                 fs.Write(ea);
             };

@@ -55,7 +55,7 @@ namespace SensingNet.v0_2.Device.Sample
             this.client.CfInit();
             this.client.CfLoad();
 
-            this.client.evtSignalCapture += (ss, ee) =>
+            this.client.EhSignalCapture += (ss, ee) =>
             {
                 var sb = new StringBuilder();
                 sb.AppendFormat("Count= {0} ; Data= ", ee.CalibrateData.Count);
@@ -65,7 +65,7 @@ namespace SensingNet.v0_2.Device.Sample
                 }
                 CtkLog.InfoNs(this, sb.ToString());
             };
-            this.client.ProtoConn.evtDataReceive += (ss, ee) =>
+            this.client.ProtoConn.EhDataReceive += (ss, ee) =>
             {
                 var buffer = ee.TrxMessage.As<CtkProtocolBufferMessage>();
                 if (buffer == null) return;

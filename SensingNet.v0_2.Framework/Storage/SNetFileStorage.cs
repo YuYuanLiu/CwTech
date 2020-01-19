@@ -147,11 +147,11 @@ namespace SensingNet.v0_2.Storage
 
         #region Event
 
-        public event EventHandler<SNetFileStorageEventArgs> evtFileChanged;
+        public event EventHandler<SNetFileStorageEventArgs> EhFileChanged;
         public void OnFileChanged(SNetFileStorageEventArgs ea)
         {
-            if (evtFileChanged == null) return;
-            this.evtFileChanged(this, ea);
+            if (EhFileChanged == null) return;
+            this.EhFileChanged(this, ea);
         }
 
 

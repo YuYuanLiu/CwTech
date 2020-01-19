@@ -46,7 +46,7 @@ namespace SensingNet.MyTest.UnitTest
             {
                 Svid = 0,
             });
-            deviceHdl.evtSignalCapture += (sender, ea) =>
+            deviceHdl.EhSignalCapture += (sender, ea) =>
             {
                 fs.Write(ea);
             };
@@ -71,7 +71,7 @@ namespace SensingNet.MyTest.UnitTest
 
             var deviceListener = new CtkNonStopTcpListener("127.0.0.1", 5003);
             var seqval = 0.000000001;
-            deviceListener.evtDataReceive += (sender, ea) =>
+            deviceListener.EhDataReceive += (sender, ea) =>
             {
                 var state = ea as CtkNonStopTcpStateEventArgs;
                 var rnd = new Random((int)DateTime.Now.Ticks);

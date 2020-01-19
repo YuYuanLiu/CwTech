@@ -58,10 +58,10 @@ namespace SensingNet.v0_2.QSecs
             var localIp = CtkNetUtil.GetLikelyFirst127Ip(localUri == null ? null : localUri.Host, remoteUri == null ? null : remoteUri.Host);
             if (localIp == null) throw new Exception("無法取得在地IP");
             hsmsConnector.local = new IPEndPoint(localIp, localUri.Port);
-            hsmsConnector.evtReceiveData += delegate (Object sen, CtkHsmsConnectorRcvDataEventArg evt)
+            hsmsConnector.evtReceiveData += delegate (Object sen, CtkHsmsConnectorRcvDataEventArg ea)
             {
 
-                var myMsg = evt.msg;
+                var myMsg = ea.msg;
 
 
                 //System.Diagnostics.Debug.WriteLine("S{0}F{1}", myMsg.header.StreamId, myMsg.header.FunctionId);
@@ -128,13 +128,13 @@ namespace SensingNet.v0_2.QSecs
 
         #region Event
 
-        public event EventHandler<CtkHsmsConnectorRcvDataEventArg> evtReceiveData;
+        public event EventHandler<CtkHsmsConnectorRcvDataEventArg> EhReceiveData;
         public void OnReceiveData(CtkHsmsMessage msg)
         {
-            if (this.evtReceiveData == null)
+            if (this.EhReceiveData == null)
                 return;
 
-            this.evtReceiveData(this, new CtkHsmsConnectorRcvDataEventArg() { msg = msg });
+            this.EhReceiveData(this, new CtkHsmsConnectorRcvDataEventArg() { msg = msg });
         }
 
         #endregion

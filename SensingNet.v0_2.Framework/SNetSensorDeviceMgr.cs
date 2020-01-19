@@ -112,7 +112,7 @@ namespace SensingNet.v0_2.Framework
                     if (hdl.Status == SNetEnumHandlerStatus.None)
                     {
                         hdl.CfInit();
-                        hdl.evtSignalCapture += delegate (object sender, SNetSignalEventArgs e)
+                        hdl.EhSignalCapture += delegate (object sender, SNetSignalEventArgs e)
                         {
                             e.Sender = hdl;
                             this.OnSignalCapture(e);
@@ -167,11 +167,11 @@ namespace SensingNet.v0_2.Framework
 
 
         #region Event
-        public event EventHandler<SNetSignalEventArgs> evtSignalCapture;
+        public event EventHandler<SNetSignalEventArgs> EhSignalCapture;
         void OnSignalCapture(SNetSignalEventArgs e)
         {
-            if (evtSignalCapture == null) return;
-            this.evtSignalCapture(this, e);
+            if (EhSignalCapture == null) return;
+            this.EhSignalCapture(this, e);
         }
 
         #endregion

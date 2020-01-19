@@ -47,13 +47,13 @@ namespace SensingNet.v0_2.TriggerDiagram
 
         #region Event
 
-        public event EventHandler<CtkHsmsConnectorRcvDataEventArg> evtReceiveData;
+        public event EventHandler<CtkHsmsConnectorRcvDataEventArg> EhReceiveData;
         public void OnReceiveData(CtkHsmsMessage msg)
         {
-            if (this.evtReceiveData == null)
+            if (this.EhReceiveData == null)
                 return;
 
-            this.evtReceiveData(this, new CtkHsmsConnectorRcvDataEventArg() { msg = msg });
+            this.EhReceiveData(this, new CtkHsmsConnectorRcvDataEventArg() { msg = msg });
         }
 
         #endregion

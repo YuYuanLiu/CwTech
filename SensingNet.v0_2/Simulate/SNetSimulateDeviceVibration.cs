@@ -43,7 +43,7 @@ namespace SensingNet.v0_2.Simulate
             this.listener = new CtkNonStopTcpListener("127.0.0.1", 5003);
             listener.NonStopConnectAsyn();
 
-            listener.evtFirstConnect += (ss, ee) =>
+            listener.EhFirstConnect += (ss, ee) =>
             {
                 var myea = ee as CtkNonStopTcpStateEventArgs;
                 var sb = new StringBuilder();
@@ -51,7 +51,7 @@ namespace SensingNet.v0_2.Simulate
                 sb.Append(this.CmdState());
                 CtkLog.InfoNs(this, sb.ToString());
             };
-            listener.evtDataReceive += (ss, ee) =>
+            listener.EhDataReceive += (ss, ee) =>
             {
                 var myea = ee as CtkNonStopTcpStateEventArgs;
                 var ctkBuffer = myea.TrxMessageBuffer;

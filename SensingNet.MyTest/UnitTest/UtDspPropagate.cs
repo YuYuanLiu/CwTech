@@ -34,8 +34,8 @@ namespace SensingNet.MyTest.UnitTest
             var node_filter = block.AddNode<SNetTdNFilter>();
             var node_statistics = block.AddNode<SNetTdNStatistics>();
 
-            node_seq.evtDataChange += node_filter.Input;
-            node_filter.evtDataChange += node_statistics.Input;
+            node_seq.EhDataChange += node_filter.Input;
+            node_filter.EhDataChange += node_statistics.Input;
 
 
 

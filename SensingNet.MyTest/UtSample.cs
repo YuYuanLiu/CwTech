@@ -28,12 +28,12 @@ namespace SensingNet.MyTest
             var alarmMgr = new SNetAlarmMgr();
 
 
-            sensorDeviceMgr.evtSignalCapture += (sender, ea) =>
+            sensorDeviceMgr.EhSignalCapture += (sender, ea) =>
             {
                 //TODO: dspMgr
             };
 
-            qsecsMgr.evtReceiveData += (sender, ea) =>
+            qsecsMgr.EhReceiveData += (sender, ea) =>
             {
                 //TODO:
             };

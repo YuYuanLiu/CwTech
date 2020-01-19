@@ -50,7 +50,7 @@ namespace SensingNet.v0_2.Device.Sample
                 TimeoutResponse = 5000,
                 TxInterval = 0,
             };
-            this.device.evtSignalCapture += (ss, ee) =>
+            this.device.EhSignalCapture += (ss, ee) =>
             {
                 var sb = new StringBuilder();
                 foreach (var val in ee.CalibrateData)

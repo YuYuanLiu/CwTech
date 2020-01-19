@@ -53,11 +53,11 @@ namespace SensingNet.v0_2.TriggerDiagram
 
         #region Event
 
-        public event EventHandler<SNetTdSignalEventArg> evtDataChange;
+        public event EventHandler<SNetTdSignalEventArg> EhDataChange;
         protected void OnDataChange(SNetTdSignalEventArg ea)
         {
-            if (this.evtDataChange == null) return;
-            this.evtDataChange(this, ea);
+            if (this.EhDataChange == null) return;
+            this.EhDataChange(this, ea);
         }
 
         #endregion

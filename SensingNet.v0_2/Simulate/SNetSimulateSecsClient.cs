@@ -24,10 +24,10 @@ namespace SensingNet.v0_2.Simulate
         {
 
             client = new CtkNonStopTcpClient("127.0.0.1", 10002);
-            client.evtFirstConnect += (ss, ee) => { CtkLog.InfoNs(this, "evtFirstConnect"); };
-            client.evtFailConnect += (ss, ee) => { CtkLog.InfoNs(this, "evtFailConnect"); };
-            client.evtErrorReceive += (ss, ee) => { CtkLog.InfoNs(this, "evtErrorReceive"); };
-            client.evtDataReceive += (ss, ee) =>
+            client.EhFirstConnect += (ss, ee) => { CtkLog.InfoNs(this, "evtFirstConnect"); };
+            client.EhFailConnect += (ss, ee) => { CtkLog.InfoNs(this, "evtFailConnect"); };
+            client.EhErrorReceive += (ss, ee) => { CtkLog.InfoNs(this, "evtErrorReceive"); };
+            client.EhDataReceive += (ss, ee) =>
             {
                 CtkLog.InfoNs(this, "evtDataReceive");
             };

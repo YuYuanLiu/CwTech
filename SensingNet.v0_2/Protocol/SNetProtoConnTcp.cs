@@ -52,15 +52,15 @@ namespace SensingNet.v0_2.Protocol
             this.client = new CtkNonStopTcpClient();
             this.client.localEP = this.LocalEndPoint;
             this.client.remoteEP = this.RemoteEndPoint;
-            this.client.evtFirstConnect += (sender, e) =>
+            this.client.EhFirstConnect += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
                 this.ActiveWorkClient = ea.workClient;
                 this.OnFirstConnect(e);
             };
-            this.client.evtFailConnect += (sender, e) => this.OnFailConnect(e);
-            this.client.evtDisconnect += (sender, e) => this.OnDisconnect(e);
-            this.client.evtDataReceive += (sender, e) => this.OnDataReceive(e);
+            this.client.EhFailConnect += (sender, e) => this.OnFailConnect(e);
+            this.client.EhDisconnect += (sender, e) => this.OnDisconnect(e);
+            this.client.EhDataReceive += (sender, e) => this.OnDataReceive(e);
 
             this.client.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
         }
@@ -69,16 +69,16 @@ namespace SensingNet.v0_2.Protocol
             if (this.listener != null) this.listener.Disconnect();
             this.listener = new CtkNonStopTcpListener();
             this.listener.localEP = this.LocalEndPoint;
-            this.listener.evtFirstConnect += (sender, e) =>
+            this.listener.EhFirstConnect += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
                 this.ActiveWorkClient = ea.workClient;
                 //this.listener.CleanExclude(this.activeWorkTcpClient);   
                 this.OnFirstConnect(e);
             };
-            this.listener.evtFailConnect += (sender, e) => this.OnFailConnect(e);
-            this.listener.evtDisconnect += (sender, e) => this.OnDisconnect(e);
-            this.listener.evtDataReceive += (sender, e) => this.OnDataReceive(e);
+            this.listener.EhFailConnect += (sender, e) => this.OnFailConnect(e);
+            this.listener.EhDisconnect += (sender, e) => this.OnDisconnect(e);
+            this.listener.EhDataReceive += (sender, e) => this.OnDataReceive(e);
 
             this.listener.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
         }
@@ -180,35 +180,35 @@ namespace SensingNet.v0_2.Protocol
 
 
 
-        public event EventHandler<CtkProtocolEventArgs> evtFirstConnect;
+        public event EventHandler<CtkProtocolEventArgs> EhFirstConnect;
         void OnFirstConnect(CtkProtocolEventArgs ea)
         {
-            if (this.evtFirstConnect == null) return;
-            this.evtFirstConnect(this, ea);
+            if (this.EhFirstConnect == null) return;
+            this.EhFirstConnect(this, ea);
         }
-        public event EventHandler<CtkProtocolEventArgs> evtFailConnect;
+        public event EventHandler<CtkProtocolEventArgs> EhFailConnect;
         void OnFailConnect(CtkProtocolEventArgs ea)
         {
-            if (this.evtFailConnect == null) return;
-            this.evtFailConnect(this, ea);
+            if (this.EhFailConnect == null) return;
+            this.EhFailConnect(this, ea);
         }
-        public event EventHandler<CtkProtocolEventArgs> evtDisconnect;
+        public event EventHandler<CtkProtocolEventArgs> EhDisconnect;
         void OnDisconnect(CtkProtocolEventArgs ea)
         {
-            if (this.evtDisconnect == null) return;
-            this.evtDisconnect(this, ea);
+            if (this.EhDisconnect == null) return;
+            this.EhDisconnect(this, ea);
         }
-        public event EventHandler<CtkProtocolEventArgs> evtDataReceive;
+        public event EventHandler<CtkProtocolEventArgs> EhDataReceive;
         void OnDataReceive(CtkProtocolEventArgs ea)
         {
-            if (this.evtDataReceive == null) return;
-            this.evtDataReceive(this, ea);
+            if (this.EhDataReceive == null) return;
+            this.EhDataReceive(this, ea);
         }
-        public event EventHandler<CtkProtocolEventArgs> evtErrorReceive;
+        public event EventHandler<CtkProtocolEventArgs> EhErrorReceive;
         void OnErrorReceive(CtkProtocolEventArgs ea)
         {
-            if (this.evtErrorReceive == null) return;
-            this.evtErrorReceive(this, ea);
+            if (this.EhErrorReceive == null) return;
+            this.EhErrorReceive(this, ea);
         }
 
 

@@ -20,7 +20,7 @@ namespace SensingNet.MyTest
         {
             var remoteEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502);
             var nonStopTcpClient = new CtkNonStopTcpClient(remoteEp);
-            nonStopTcpClient.evtDataReceive += (ss, ee) =>
+            nonStopTcpClient.EhDataReceive += (ss, ee) =>
             {
                 var ea = ee as CtkNonStopTcpStateEventArgs;
                 var ctkBuffer = ea.TrxMessageBuffer;

@@ -24,16 +24,16 @@ namespace SensingNet.v0_2.Simulate
         {
 
             client = new CtkNonStopTcpClient("127.0.0.1", 5003);
-            client.evtFirstConnect += (ss, ee) => { Write("evtFirstConnect"); };
-            client.evtFailConnect += (ss, ee) =>
+            client.EhFirstConnect += (ss, ee) => { Write("evtFirstConnect"); };
+            client.EhFailConnect += (ss, ee) =>
             {
                 var sb = new StringBuilder();
                 sb.Append("evtFailConnect: ");
                 sb.Append(ee.Exception.StackTrace);
                 Write(sb.ToString());
             };
-            client.evtErrorReceive += (ss, ee) => { Write("evtErrorReceive"); };
-            client.evtDataReceive += (ss, ee) =>
+            client.EhErrorReceive += (ss, ee) => { Write("evtErrorReceive"); };
+            client.EhDataReceive += (ss, ee) =>
             {
                 var ea = ee as CtkNonStopTcpStateEventArgs;
                 var ctkBuffer = ea.TrxMessageBuffer;

@@ -123,11 +123,11 @@ namespace SensingNet.v0_2.Device
 
 
         #region Event
-        public event EventHandler<SNetSignalEventArgs> evtSignalCapture;
+        public event EventHandler<SNetSignalEventArgs> EhSignalCapture;
         void OnSignalCapture(SNetSignalEventArgs e)
         {
-            if (evtSignalCapture == null) return;
-            this.evtSignalCapture(this, e);
+            if (EhSignalCapture == null) return;
+            this.EhSignalCapture(this, e);
         }
         #endregion
 
@@ -191,7 +191,7 @@ namespace SensingNet.v0_2.Device
             }
 
             this.ProtoConn.IntervalTimeOfConnectCheck = this.Config.IntervalTimeOfConnectCheck;
-            this.ProtoConn.evtFirstConnect += (ss, ee) =>
+            this.ProtoConn.EhFirstConnect += (ss, ee) =>
             {
                 this.ProtoSession.FirstConnect(this.ProtoConn);
 
@@ -208,7 +208,7 @@ namespace SensingNet.v0_2.Device
                         this.ProtoConn.WriteMsg(reqDataMsg);
                 }
             };
-            this.ProtoConn.evtDataReceive += (ss, ee) =>
+            this.ProtoConn.EhDataReceive += (ss, ee) =>
             {
                 var ea = ee as CtkProtocolEventArgs;
                 this.ProtoFormat.ReceiveMsg(ea.TrxMessage);

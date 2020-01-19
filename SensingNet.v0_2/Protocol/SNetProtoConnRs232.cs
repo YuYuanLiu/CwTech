@@ -51,10 +51,10 @@ namespace SensingNet.v0_2.Protocol
             }
 
             this.nonStopSerialPort = new CtkNonStopSerialPort(this.Config);
-            this.nonStopSerialPort.evtFirstConnect += (sender, e) => { this.OnFirstConnect(e); };
-            this.nonStopSerialPort.evtFailConnect += (sender, e) => this.OnFailConnect(e);
-            this.nonStopSerialPort.evtDisconnect += (sender, e) => this.OnDisconnect(e);
-            this.nonStopSerialPort.evtDataReceive += (sender, e) => this.OnDataReceive(e);
+            this.nonStopSerialPort.EhFirstConnect += (sender, e) => { this.OnFirstConnect(e); };
+            this.nonStopSerialPort.EhFailConnect += (sender, e) => this.OnFailConnect(e);
+            this.nonStopSerialPort.EhDisconnect += (sender, e) => this.OnDisconnect(e);
+            this.nonStopSerialPort.EhDataReceive += (sender, e) => this.OnDataReceive(e);
         }
 
 
@@ -72,11 +72,11 @@ namespace SensingNet.v0_2.Protocol
 
         #region IProtoConnectBase
 
-        public event EventHandler<CtkProtocolEventArgs> evtDataReceive;
-        public event EventHandler<CtkProtocolEventArgs> evtDisconnect;
-        public event EventHandler<CtkProtocolEventArgs> evtErrorReceive;
-        public event EventHandler<CtkProtocolEventArgs> evtFailConnect;
-        public event EventHandler<CtkProtocolEventArgs> evtFirstConnect;
+        public event EventHandler<CtkProtocolEventArgs> EhDataReceive;
+        public event EventHandler<CtkProtocolEventArgs> EhDisconnect;
+        public event EventHandler<CtkProtocolEventArgs> EhErrorReceive;
+        public event EventHandler<CtkProtocolEventArgs> EhFailConnect;
+        public event EventHandler<CtkProtocolEventArgs> EhFirstConnect;
 
         public object ActiveWorkClient { get { return this.nonStopSerialPort.ActiveWorkClient; } set { this.nonStopSerialPort.ActiveWorkClient = value; } }
         public int IntervalTimeOfConnectCheck { get { return this.nonStopSerialPort.IntervalTimeOfConnectCheck; } set { this.nonStopSerialPort.IntervalTimeOfConnectCheck = value; } }
@@ -136,32 +136,32 @@ namespace SensingNet.v0_2.Protocol
         }
         void OnDataReceive(CtkProtocolEventArgs ea)
         {
-            if (this.evtDataReceive == null) return;
-            this.evtDataReceive(this, ea);
+            if (this.EhDataReceive == null) return;
+            this.EhDataReceive(this, ea);
         }
 
         void OnDisconnect(CtkProtocolEventArgs ea)
         {
-            if (this.evtDisconnect == null) return;
-            this.evtDisconnect(this, ea);
+            if (this.EhDisconnect == null) return;
+            this.EhDisconnect(this, ea);
         }
 
         void OnErrorReceive(CtkProtocolEventArgs ea)
         {
-            if (this.evtErrorReceive == null) return;
-            this.evtErrorReceive(this, ea);
+            if (this.EhErrorReceive == null) return;
+            this.EhErrorReceive(this, ea);
         }
 
         void OnFailConnect(CtkProtocolEventArgs ea)
         {
-            if (this.evtFailConnect == null) return;
-            this.evtFailConnect(this, ea);
+            if (this.EhFailConnect == null) return;
+            this.EhFailConnect(this, ea);
         }
 
         void OnFirstConnect(CtkProtocolEventArgs ea)
         {
-            if (this.evtFirstConnect == null) return;
-            this.evtFirstConnect(this, ea);
+            if (this.EhFirstConnect == null) return;
+            this.EhFirstConnect(this, ea);
         }
         #endregion
 
