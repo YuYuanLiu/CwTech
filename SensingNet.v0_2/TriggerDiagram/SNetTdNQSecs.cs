@@ -36,7 +36,7 @@ namespace SensingNet.v0_2.TriggerDiagram
             if (ea == null) throw new SNetException("尚無法處理此類資料: " + e.GetType().FullName);
 
 
-            this.ProcDataInput(this.TSignal, ea.GetThisOrLast());
+            this.ProcAndPushData(this.TSignal, ea.GetThisOrLast());
             ea.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
 

@@ -18,40 +18,53 @@ namespace SensingNet.v0_2.TriggerDiagram
 
 
         /// <summary>
-        /// 建議照時間序列(Seq)來input, 避免後續使用的Block認定是Sequence, 然而不是
+        /// 集合型, 建議照時間序列(Seq)來input, 避免後續使用的Block認定是Sequence, 然而不是
         /// </summary>
         /// <param name="vals"></param>
         /// <param name="dt"></param>
-        public void Input(object sender, SNetTdSignalSetSecF8EventArg ea)
+        public void TgInput(object sender, SNetTdSignalSetSecF8EventArg ea)
         {
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;
             foreach (var kv in ea.TSignalNew.Signals)
-                this.DoInput(this.TSignal, kv);
-        }
-        public void Input(object sender, SNetTdSignalEventArg ea)
-        {
-            var myea = ea as SNetTdSignalSetSecF8EventArg;
-            if (myea == null) throw new ArgumentException("不支援的參數類型");
-
-            this.Input(sender, myea);
+                this.TgInput(this.TSignal, kv);
         }
 
-
-        public void DoInput(object sender, SNetTdSignalSecF8EventArg ea)
+        /// <summary>
+        /// 基底類別, 自動判定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="ea"></param>
+        public void TgInput(object sender, SNetTdSignalEventArg ea)
         {
-            //IEnumerable<double> vals, DateTime? dt = null
+            //父類別進入, 先判斷有沒有支援
+            var eaSingle = ea as SNetTdSignalSecF8EventArg;
+            if (eaSingle != null)
+            {
+                this.TgInput(sender, eaSingle);
+                return;
+            }
+
+            var eaSet = ea as SNetTdSignalSetSecF8EventArg;
+            if (eaSet != null)
+            {
+                this.TgInput(sender, eaSet);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// 單一型, 直接執行
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="ea"></param>
+        public void TgInput(object sender, SNetTdSignalSecF8EventArg ea)
+        {
             if (!this.IsEnalbed) return;
-            this.ProcDataInput(this.TSignal, ea.TSignal);
+            this.ProcAndPushData(this.TSignal, ea.TSignal);
         }
 
-        public void DoInput(object sender, SNetTdSignalEventArg ea)
-        {
-            var myea = ea as SNetTdSignalSecF8EventArg;
-            if (myea == null) throw new ArgumentException("不支援的參數類型");
 
-            this.DoInput(sender, myea);
-        }
 
         protected override void Purge()
         {

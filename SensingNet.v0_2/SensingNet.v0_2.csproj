@@ -64,12 +64,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TriggerDiagram\SNetTdNPass.cs" />
     <Compile Include="TriggerDiagram\SNetTdNQSecs.cs" />
     <Compile Include="TriggerDiagram\SNetTdNodeF8.cs" />
-    <Compile Include="TriggerDiagram\SNetTdNodeFft.cs" />
+    <Compile Include="TriggerDiagram\SNetTdNFft.cs" />
     <Compile Include="TriggerDiagram\SNetTdBQSecs.cs" />
-    <Compile Include="TriggerDiagram\SNetTdSignalSecF8EventArg.cs" />
     <Compile Include="TriggerDiagram\SNetTdSignalSetSecF8EventArg.cs" />
+    <Compile Include="TriggerDiagram\SNetTdSignalSecF8EventArg.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdDiagram.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdNode.cs" />
     <Compile Include="TriggerDiagram\Basic\SNetTdEnumInvokeResult.cs" />

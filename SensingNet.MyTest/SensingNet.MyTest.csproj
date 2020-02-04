@@ -79,6 +79,7 @@
     <Compile Include="UnitTest\UtDspPropagate.cs" />
     <Compile Include="UnitTest\UtCommunicationVibration.cs" />
     <Compile Include="UtSample.cs" />
+    <Compile Include="UtHumidityPhys.cs" />
     <Compile Include="UtVibrationPhysRs232.cs" />
     <Compile Include="UtVibrationPhys.cs" />
     <Compile Include="UtTest.cs" />

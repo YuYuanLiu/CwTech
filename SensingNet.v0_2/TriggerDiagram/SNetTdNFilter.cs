@@ -48,7 +48,7 @@ namespace SensingNet.v0_2.TriggerDiagram
                 signalData = this.PassFilter.ProcessSamples(signalData);
             }
 
-            this.ProcDataInput(this.TSignal, new SNetTSignalSecF8(t, signalData));
+            this.ProcAndPushData(this.TSignal, new SNetTSignalSecF8(t, signalData));
             e.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
 

@@ -9,6 +9,11 @@ namespace SensingNet.v0_2.TriggerDiagram.Basic
     public class SNetTdDiagram : SNetTdBlock, ICtkTdDiagram
     {
 
+
+
+
+
+
         #region IDisposable
 
         protected override void DisposeSelf()

@@ -27,9 +27,11 @@ namespace SensingNet.v0_2.TriggerDiagram
 
 
         /// <summary>
-        /// 多段時間同時輸入時, 請自行分段輸入, 
+        /// 簡易處理方式, 多段時間同時輸入時, 請自行分段輸入.
         /// </summary>
-        protected virtual void ProcDataInput(SNetTSignalSetSecF8 tSignal, SNetTSignalSecF8 newSignals)
+        /// <param name="tSignal">原始訊號來源</param>
+        /// <param name="newSignals">本次要新增的訊號</param>
+        protected virtual void ProcAndPushData(SNetTSignalSetSecF8 tSignal, SNetTSignalSecF8 newSignals)
         {
             var ea = new SNetTdSignalSetSecF8EventArg();
             ea.Sender = this;

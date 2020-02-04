@@ -11,8 +11,6 @@ namespace SensingNet.v0_2.TriggerDiagram
     {
         public SNetTSignalSecF8 TSignal;
 
-
-
         public static implicit operator SNetTdSignalSecF8EventArg(SNetTSignalSecF8 val)
         {
             var rs = new SNetTdSignalSecF8EventArg();

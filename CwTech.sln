@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.CmdApp01", "Sens
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.CmdApp02", "SensingNet.CmdApp02\SensingNet.CmdApp02.csproj", "{6DD02306-F03E-48C3-96AC-C4979FD06DD9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.GuiCtrlPanel", "SensingNet.GuiCtrlPanel\SensingNet.GuiCtrlPanel.csproj", "{D050D4DF-8AEF-4075-A3ED-009E32298A64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{6DD02306-F03E-48C3-96AC-C4979FD06DD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DD02306-F03E-48C3-96AC-C4979FD06DD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DD02306-F03E-48C3-96AC-C4979FD06DD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D050D4DF-8AEF-4075-A3ED-009E32298A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D050D4DF-8AEF-4075-A3ED-009E32298A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D050D4DF-8AEF-4075-A3ED-009E32298A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D050D4DF-8AEF-4075-A3ED-009E32298A64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

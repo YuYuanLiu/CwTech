@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_2.TriggerDiagram
 {
-    public class SNetTdNodeFft : SNetTdNodeF8
+    public class SNetTdNFft : SNetTdNodeF8
     {
         public int SampleRate = 1024;
         /// <summary>
@@ -61,7 +61,7 @@ namespace SensingNet.v0_2.TriggerDiagram
             });
 
 
-            this.ProcDataInput(this.TSignal, new SNetTSignalSecF8(t, signalData));
+            this.ProcAndPushData(this.TSignal, new SNetTSignalSecF8(t, signalData));
             ea.InvokeResult = this.disposed ? SNetTdEnumInvokeResult.IsDisposed : SNetTdEnumInvokeResult.None;
         }
 
