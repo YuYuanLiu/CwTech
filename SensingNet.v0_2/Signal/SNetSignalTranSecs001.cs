@@ -1,7 +1,7 @@
-﻿using CToolkit;
+﻿using CodeExpress.v1_0.Secs;
+using CToolkit;
 using CToolkit.v1_0;
 using CToolkit.v1_0.Protocol;
-using CToolkit.v1_0.Secs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,18 +21,18 @@ namespace SensingNet.v0_2.Signal
         {
 
             var result = new List<SNetSignalEventArgs>();
-            var secsMsg = msg as CtkHsmsMessage;
+            var secsMsg = msg as CxHsmsMessage;
 
             try
             {
-                var list = secsMsg.rootNode as CToolkit.v1_0.Secs.CtkSecsIINodeList;
+                var list = secsMsg.rootNode as CxSecsIINodeList;
 
                 for (int idx = 0; idx < list.Data.Count; idx++)
                 {
 
                     var ea = new SNetSignalEventArgs();
                     ea.Sender = sender;
-                    var data = list.Data[idx] as CToolkit.v1_0.Secs.CtkSecsIINodeASCII;
+                    var data = list.Data[idx] as CxSecsIINodeASCII;
                     if (data.Data.Count <= 0) continue;
 
                     ea.Data = new List<double>();
@@ -55,16 +55,16 @@ namespace SensingNet.v0_2.Signal
             if (listInfo == null) throw new ArgumentException("未定義此型別的操作方式");
 
 
-            var txMsg = new CtkHsmsMessage();
+            var txMsg = new CxHsmsMessage();
             txMsg.header.StreamId = 1;
             txMsg.header.FunctionId = 3;
             txMsg.header.WBit = true;
-            var sList = new CtkSecsIINodeList();
+            var sList = new CxSecsIINodeList();
             //var sSvid = new CToolkit.v1_0.Secs.SecsIINodeInt64();
 
             foreach (var scfg in listInfo)
             {
-                var sSvid = new CtkSecsIINodeUInt64();
+                var sSvid = new CxSecsIINodeUInt64();
                 sSvid.Data.Add(scfg.Svid);
                 sList.Data.Add(sSvid);
             }

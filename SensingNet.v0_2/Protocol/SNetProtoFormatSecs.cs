@@ -1,5 +1,5 @@
-﻿using CToolkit.v1_0.Protocol;
-using CToolkit.v1_0.Secs;
+﻿using CodeExpress.v1_0.Secs;
+using CToolkit.v1_0.Protocol;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -17,9 +17,9 @@ namespace SensingNet.v0_2.Protocol
     public class SNetProtoFormatSecs : ISNetProtoFormatBase, IDisposable
     {
 
-        public ConcurrentQueue<CtkHsmsMessage> MsgQueue = new ConcurrentQueue<CtkHsmsMessage>();
+        public ConcurrentQueue<CxHsmsMessage> MsgQueue = new ConcurrentQueue<CxHsmsMessage>();
 
-        CtkHsmsMessageReceiver hsmsMsgRcv = new CtkHsmsMessageReceiver();
+        CxHsmsMessageReceiver hsmsMsgRcv = new CxHsmsMessageReceiver();
 
         ~SNetProtoFormatSecs() { this.Dispose(false); }
 
@@ -52,7 +52,7 @@ namespace SensingNet.v0_2.Protocol
         }
         public bool TryDequeueMsg(out object msg)
         {
-            CtkHsmsMessage mymsg = null;
+            CxHsmsMessage mymsg = null;
             var flag = this.MsgQueue.TryDequeue(out mymsg);
             msg = mymsg;
             return flag;

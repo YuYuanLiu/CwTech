@@ -1,6 +1,5 @@
 using CToolkit;
 using CToolkit.v1_0.Numeric;
-using CToolkit.v1_0.Secs;
 using CToolkit.v1_0;
 using SensingNet.v0_2.Signal;
 using System;
@@ -11,6 +10,7 @@ using System.Net;
 using System.Text;
 using CToolkit.v1_0.Net;
 using CToolkit.v1_0.Threading;
+using CodeExpress.v1_0.Secs;
 
 namespace SensingNet.v0_2.QSecs
 {
@@ -24,7 +24,7 @@ namespace SensingNet.v0_2.QSecs
     {
         public SNetQSecsCfg cfg;
 
-        public CtkHsmsConnector hsmsConnector;
+        public CxHsmsConnector hsmsConnector;
 
         /// <summary>
         /// 一個Secs Handler需要一組IP/Port
@@ -49,7 +49,7 @@ namespace SensingNet.v0_2.QSecs
 
         public int CfInit()
         {
-            hsmsConnector = new CtkHsmsConnector();
+            hsmsConnector = new CxHsmsConnector();
             //hsmsConnector.ctkConnSocket.isActively = true;
 
             var localUri = string.IsNullOrEmpty(this.cfg.LocalUri) ? null : new Uri(this.cfg.LocalUri);
@@ -58,7 +58,7 @@ namespace SensingNet.v0_2.QSecs
             var localIp = CtkNetUtil.GetLikelyFirst127Ip(localUri == null ? null : localUri.Host, remoteUri == null ? null : remoteUri.Host);
             if (localIp == null) throw new Exception("無法取得在地IP");
             hsmsConnector.local = new IPEndPoint(localIp, localUri.Port);
-            hsmsConnector.evtReceiveData += delegate (Object sen, CtkHsmsConnectorRcvDataEventArg ea)
+            hsmsConnector.EhReceiveData += delegate (Object sen, CxHsmsConnectorRcvDataEventArg ea)
             {
 
                 var myMsg = ea.msg;
@@ -70,10 +70,10 @@ namespace SensingNet.v0_2.QSecs
                 switch (myMsg.header.SType)
                 {
                     case 1:
-                        hsmsConnector.Send(CtkHsmsMessage.CtrlMsg_SelectRsp(0));
+                        hsmsConnector.Send(CxHsmsMessage.CtrlMsg_SelectRsp(0));
                         return;
                     case 5:
-                        hsmsConnector.Send(CtkHsmsMessage.CtrlMsg_LinktestRsp());
+                        hsmsConnector.Send(CxHsmsMessage.CtrlMsg_LinktestRsp());
                         return;
                 }
 
@@ -128,13 +128,13 @@ namespace SensingNet.v0_2.QSecs
 
         #region Event
 
-        public event EventHandler<CtkHsmsConnectorRcvDataEventArg> EhReceiveData;
-        public void OnReceiveData(CtkHsmsMessage msg)
+        public event EventHandler<CxHsmsConnectorRcvDataEventArg> EhReceiveData;
+        public void OnReceiveData(CxHsmsMessage msg)
         {
             if (this.EhReceiveData == null)
                 return;
 
-            this.EhReceiveData(this, new CtkHsmsConnectorRcvDataEventArg() { msg = msg });
+            this.EhReceiveData(this, new CxHsmsConnectorRcvDataEventArg() { msg = msg });
         }
 
         #endregion

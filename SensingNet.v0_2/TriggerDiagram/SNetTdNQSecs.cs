@@ -1,6 +1,5 @@
 ﻿using CToolkit.v1_0;
 using CToolkit.v1_0.Net;
-using CToolkit.v1_0.Secs;
 using SensingNet.v0_2.QSecs;
 using SensingNet.v0_2.TriggerDiagram.Basic;
 using SensingNet.v0_2.TimeSignal;
@@ -10,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Text;
+using CodeExpress.v1_0.Secs;
 
 namespace SensingNet.v0_2.TriggerDiagram
 {
@@ -47,13 +47,13 @@ namespace SensingNet.v0_2.TriggerDiagram
 
         #region Event
 
-        public event EventHandler<CtkHsmsConnectorRcvDataEventArg> EhReceiveData;
-        public void OnReceiveData(CtkHsmsMessage msg)
+        public event EventHandler<CxHsmsConnectorRcvDataEventArg> EhReceiveData;
+        public void OnReceiveData(CxHsmsMessage msg)
         {
             if (this.EhReceiveData == null)
                 return;
 
-            this.EhReceiveData(this, new CtkHsmsConnectorRcvDataEventArg() { msg = msg });
+            this.EhReceiveData(this, new CxHsmsConnectorRcvDataEventArg() { msg = msg });
         }
 
         #endregion

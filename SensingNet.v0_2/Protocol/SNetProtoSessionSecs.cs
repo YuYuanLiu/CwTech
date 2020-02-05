@@ -1,4 +1,4 @@
-﻿using CToolkit.v1_0.Secs;
+﻿using CodeExpress.v1_0.Secs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +11,18 @@ namespace SensingNet.v0_2.Protocol
 
         public bool ProcessSession(ISNetProtoConnectBase protoConn, object msg)
         {
-            var secsMsg = msg as CtkHsmsMessage;
+            var secsMsg = msg as CxHsmsMessage;
             if (secsMsg == null) throw new ArgumentException("不正確的msg型態");
 
             switch (secsMsg.header.SType)
             {
                 case 1:
-                    protoConn.WriteMsg(CtkHsmsMessage.CtrlMsg_SelectRsp(0));
+                    protoConn.WriteMsg(CxHsmsMessage.CtrlMsg_SelectRsp(0));
                     return true;
                 case 2:
                     return true;
                 case 5:
-                    protoConn.WriteMsg(CtkHsmsMessage.CtrlMsg_LinktestRsp());
+                    protoConn.WriteMsg(CxHsmsMessage.CtrlMsg_LinktestRsp());
                     return true;
                 case 6:
                     return true;
@@ -36,9 +36,9 @@ namespace SensingNet.v0_2.Protocol
         /// <param name="protoConn">並非所有通訊都是繼續自Stream, 因此請實作IProtoConnectBase</param>
         public void FirstConnect(ISNetProtoConnectBase protoConn)
         {
-            var txMsg = CtkHsmsMessage.CtrlMsg_SelectReq();
+            var txMsg = CxHsmsMessage.CtrlMsg_SelectReq();
             protoConn.WriteMsg(txMsg);
-            txMsg = CtkHsmsMessage.CtrlMsg_LinktestReq();
+            txMsg = CxHsmsMessage.CtrlMsg_LinktestReq();
             protoConn.WriteMsg(txMsg);
         }
 

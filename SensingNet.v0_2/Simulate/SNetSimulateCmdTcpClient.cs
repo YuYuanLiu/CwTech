@@ -1,7 +1,6 @@
 using CToolkit.v1_0;
 using CToolkit.v1_0.Logging;
 using CToolkit.v1_0.Net;
-using CToolkit.v1_0.Secs;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Double;
 using System;

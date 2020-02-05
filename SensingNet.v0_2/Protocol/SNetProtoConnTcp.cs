@@ -1,8 +1,8 @@
+using CodeExpress.v1_0.Secs;
 using CToolkit;
 using CToolkit.v1_0;
 using CToolkit.v1_0.Net;
 using CToolkit.v1_0.Protocol;
-using CToolkit.v1_0.Secs;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -163,9 +163,9 @@ namespace SensingNet.v0_2.Protocol
                 var buff = Encoding.UTF8.GetBytes(msg.As<string>());
                 this.WriteBytes(buff, 0, buff.Length);
             }
-            else if (msg.As<CtkHsmsMessage>() != null)
+            else if (msg.As<CxHsmsMessage>() != null)
             {
-                var secsMsg = msg.As<CtkHsmsMessage>();
+                var secsMsg = msg.As<CxHsmsMessage>();
                 var buffer = secsMsg.ToBytes();
                 this.WriteBytes(buffer, 0, buffer.Length);
             }

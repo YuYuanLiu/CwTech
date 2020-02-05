@@ -1,4 +1,4 @@
-﻿using CToolkit.v1_0.Secs;
+﻿using CodeExpress.v1_0.Secs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace SensingNet.v0_2.QSecs
     public class SNetQSecsRcvDataEventArgs : EventArgs
     {
         public SNetQSecsHandler handler;
-        public CtkHsmsMessage message;
+        public CxHsmsMessage message;
 
     }
 }

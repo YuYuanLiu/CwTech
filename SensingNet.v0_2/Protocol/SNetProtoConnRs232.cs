@@ -1,7 +1,6 @@
 using CToolkit;
 using CToolkit.v1_0.Net;
 using CToolkit.v1_0.Protocol;
-using CToolkit.v1_0.Secs;
 using CToolkit.v1_0.DigitalPort;
 using System;
 using System.IO.Ports;
@@ -10,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using CToolkit.v1_0;
+using CodeExpress.v1_0.Secs;
 
 namespace SensingNet.v0_2.Protocol
 {
@@ -123,9 +123,9 @@ namespace SensingNet.v0_2.Protocol
                 var buff = Encoding.UTF8.GetBytes(msg.As<string>());
                 this.WriteBytes(buff, 0, buff.Length);
             }
-            else if (msg.As<CtkHsmsMessage>() != null)
+            else if (msg.As<CxHsmsMessage>() != null)
             {
-                var secsMsg = msg.As<CtkHsmsMessage>();
+                var secsMsg = msg.As<CxHsmsMessage>();
                 var buffer = secsMsg.ToBytes();
                 this.WriteBytes(buffer, 0, buffer.Length);
             }
