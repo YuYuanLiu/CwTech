@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SensingNet.GuiCtrlPanel.SignalChart;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,13 @@ namespace SensingNet.GuiCtrlPanel
         public FmMain()
         {
             InitializeComponent();
+        }
+
+        private void tsmiChart_Click(object sender, EventArgs e)
+        {
+            var fm = new FmSignalChart();
+            fm.MdiParent = this;
+            fm.Show();
         }
     }
 }

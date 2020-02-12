@@ -49,7 +49,28 @@ namespace SensingNet.v0_2.TriggerDiagram
 
             this.PrevTime = time;
         }
-  
+        protected virtual void ProcAndPushData(SNetTSignalSetSecF8 tSignal, SNetTSignalSetSecF8 newSignals)
+        {
+            var ea = new SNetTdSignalSetSecF8EventArg();
+            ea.Sender = this;
+            ea.TSignalSource = tSignal;
+
+            foreach (var s in newSignals.Signals)
+            {
+                var time = s.Key.DateTime;
+                ea.TSignalNew.AddByKey(s.Key, s.Value);
+                tSignal.AddByKey(s.Key, s.Value);
+
+
+                ea.Time = time;
+                this.PrevTime = ea.PrevTime = this.PrevTime;
+            }
+
+            this.OnDataChange(ea);
+            this.Purge();
+
+        }
+
 
 
 
