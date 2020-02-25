@@ -33,7 +33,8 @@ namespace SensingNet.v0_2.Device
         public SNetDvcSensorHandler() { }
         ~SNetDvcSensorHandler() { this.Dispose(false); }
 
-
+        const string TestReqData = "cmd -reqData \r\n";
+         
         protected virtual int RealExec()
         {
             try
@@ -71,7 +72,9 @@ namespace SensingNet.v0_2.Device
                     prevAckTime = DateTime.Now;
 
                     var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
+                    //reqDataMsg.TrxMessage = TestReqData;
                     this.ProtoConn.WriteMsg(reqDataMsg);
+                   
                 }
 
 
@@ -142,7 +145,7 @@ namespace SensingNet.v0_2.Device
         public virtual int CfExec()
         {
             this.ProtoConn.ConnectIfNo();//內部會處理重複要求連線
-            RealExec();
+            this.RealExec();
             return 0;
         }
         public virtual int CfFree()
@@ -205,7 +208,10 @@ namespace SensingNet.v0_2.Device
                 {
                     var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
                     if (reqDataMsg != null)
+                    {
+                        //reqDataMsg.TrxMessage = TestReqData;
                         this.ProtoConn.WriteMsg(reqDataMsg);
+                    }
                 }
             };
             this.ProtoConn.EhDataReceive += (ss, ee) =>
@@ -282,10 +288,7 @@ namespace SensingNet.v0_2.Device
         }
         public virtual int CfRun()
         {
-            this.ProtoConn.NonStopConnectAsyn();
-
             this.CfIsRunning = true;
-
             try
             {
 
@@ -311,7 +314,8 @@ namespace SensingNet.v0_2.Device
             if (this.taskRun != null)
                 if (!this.taskRun.Wait(100)) return 0;//正在工作
 
-            this.taskRun = CtkCancelTask.Run((ct) => { this.CfRun(); });
+            //the CfRun is loop function
+            this.taskRun = CtkCancelTask.RunOnce((ct) => { this.CfRun(); });
             return 0;
         }
         public virtual int CfUnLoad()

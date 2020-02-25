@@ -12,6 +12,7 @@ using SensingNet.v0_2.Storage;
 using SensingNet.v0_2.Protocol;
 using SensingNet.v0_2.Signal;
 using SensingNet.v0_2.Device;
+using CToolkit.v1_0;
 
 namespace SensingNet.MyTest
 {
@@ -23,6 +24,12 @@ namespace SensingNet.MyTest
         [TestMethod]
         public void TestMethod()
         {
+
+            CtkLog.RegisterEveryLogWrite((ss, ee) =>
+            {
+                System.Diagnostics.Debug.WriteLine(ee.Message);
+            });
+
             var deviceHdl = new SNetDvcSensorHandler();
             deviceHdl.Config = new SNetDvcSensorCfg()
             {

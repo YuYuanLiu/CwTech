@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TdDevice\SNetTdDeviceSsClient.cs" />
     <Compile Include="TriggerDiagram\SNetTdNPass.cs" />
     <Compile Include="TriggerDiagram\SNetTdNQSecs.cs" />
     <Compile Include="TriggerDiagram\SNetTdNodeF8.cs" />

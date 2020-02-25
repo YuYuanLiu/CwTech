@@ -12,6 +12,7 @@ using SensingNet.v0_2.Storage;
 using SensingNet.v0_2.Protocol;
 using SensingNet.v0_2.Signal;
 using SensingNet.v0_2.Device;
+using CToolkit.v1_0;
 
 namespace SensingNet.MyTest
 {
@@ -23,6 +24,11 @@ namespace SensingNet.MyTest
         [TestMethod]
         public void TestMethod()
         {
+            CtkLog.RegisterEveryLogWrite((ss, ee) =>
+            {
+                System.Diagnostics.Debug.WriteLine(ee.Message);
+            });
+
             var deviceHdl = new SNetDvcSensorHandler();
             deviceHdl.Config = new SNetDvcSensorCfg()
             {
@@ -37,10 +43,14 @@ namespace SensingNet.MyTest
             deviceHdl.Config.SignalCfgList.Add(new v0_2.Signal.SNetSignalCfg()
             {
                 Svid = 0x00010000,
+                //Svid = 0x00000000,
+
             });
             deviceHdl.EhSignalCapture += (sender, ea) =>
             {
                 fs.Write(ea);
+                if (ea.Data.Count > 0)
+                    System.Diagnostics.Debug.WriteLine("Humidity={0}", ea.Data[0]);
             };
 
 

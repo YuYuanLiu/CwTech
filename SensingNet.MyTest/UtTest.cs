@@ -15,12 +15,10 @@ using Cudafy.Types;
 using System.Runtime.InteropServices;
 using CToolkit.v1_0;
 using System.Reflection;
+using CToolkit.v1_0.Net;
 
 namespace SensingNet.MyTest
 {
-
-
-
 
     [TestClass]
     public class UtTest
@@ -31,11 +29,13 @@ namespace SensingNet.MyTest
         {
 
 
+
+
+
+
+
         }
 
-
-
-
-
+  
     }
 }
