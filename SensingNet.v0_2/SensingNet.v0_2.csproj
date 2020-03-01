@@ -62,6 +62,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\SNetAlarmMgr.cs" />
+    <Compile Include="Framework\SNetDspMgr.cs" />
+    <Compile Include="Framework\SNetQSecsMgr.cs" />
+    <Compile Include="Framework\SNetSensorDeviceMgr.cs" />
+    <Compile Include="Framework\Storage\FileStorageFormat_Csv0_0.cs" />
+    <Compile Include="Framework\Storage\FileStorageFormat_Csv0_1.cs" />
+    <Compile Include="Framework\Storage\SNetFileStorage.cs" />
+    <Compile Include="Framework\Storage\SNetFileStorageCfg.cs" />
+    <Compile Include="Framework\Storage\SNetFileStorageEventArgs.cs" />
+    <Compile Include="Framework\Storage\SNetFileStorageFormat.cs" />
+    <Compile Include="Framework\Storage\SNetFileStorageFormat_Csv0_2.cs" />
+    <Compile Include="Framework\Storage\SNetFileStorageInfo.cs" />
+    <Compile Include="Framework\Storage\SNetSignalCollector.cs" />
+    <Compile Include="Framework\Storage\SNetSignalPerSec.cs" />
     <Compile Include="TdDevice\SNetTdDeviceSsClient.cs" />
     <Compile Include="TriggerDiagram\SNetTdNPass.cs" />
     <Compile Include="TriggerDiagram\SNetTdNQSecs.cs" />
@@ -119,11 +133,14 @@
     <Compile Include="SNetUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Framework\Tools\place_these_executables_in_same_folder_as_Cudafy.NET.dll_" />
     <None Include="packages.config" />
     <Compile Include="Simulate\SNetSimulateSecsClient.cs" />
     <Compile Include="Simulate\SNetSimulateDeviceVibration.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Framework\Tools\cudafycl.exe" />
+    <Content Include="Framework\Tools\CudafyViewer.exe" />
     <Content Include="Readme\CUDA.NET.Readme.txt" />
     <Content Include="Readme\CUDAfy-License.txt" />
     <Content Include="Readme\example_source_code.cs.txt" />

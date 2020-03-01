@@ -85,10 +85,6 @@
     <Content Include="Tools\CudafyViewer.exe" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SensingNet.v0_2.Framework\SensingNet.v0_2.Framework.csproj">
-      <Project>{1f5ba0fe-0574-43d4-bf39-893a62a866a1}</Project>
-      <Name>SensingNet.v0_2.Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SensingNet.v0_2\SensingNet.v0_2.csproj">
       <Project>{c51d6cfd-4164-4ea0-b2f5-2dcc88f450e5}</Project>
       <Name>SensingNet.v0_2</Name>
