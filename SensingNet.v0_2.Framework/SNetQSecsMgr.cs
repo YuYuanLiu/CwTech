@@ -1,8 +1,8 @@
 using CodeExpress.v1_0.Secs;
 using CToolkit;
-using CToolkit.v1_0;
-using CToolkit.v1_0.Config;
-using CToolkit.v1_0.Logging;
+using CToolkit.v1_1;
+using CToolkit.v1_1.Config;
+using CToolkit.v1_1.Logging;
 using SensingNet.v0_2.QSecs;
 using SensingNet.v0_2.Signal;
 using System;

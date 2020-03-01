@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SensingNet.v0_2.Storage;
 using SensingNet.v0_2.Protocol;
-using CToolkit.v1_0.DigitalPort;
+using CToolkit.v1_1.DigitalPort;
 using SensingNet.v0_2.Device;
 
 namespace SensingNet.MyTest

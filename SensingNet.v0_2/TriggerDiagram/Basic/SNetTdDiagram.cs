@@ -1,4 +1,4 @@
-﻿using CToolkit.v1_0.TriggerDiagram;
+﻿using CToolkit.v1_1.TriggerDiagram;
 using System;
 using System.Collections.Generic;
 using System.Linq;

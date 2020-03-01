@@ -1,5 +1,5 @@
-﻿using CToolkit.v1_0;
-using CToolkit.v1_0.Timing;
+﻿using CToolkit.v1_1;
+using CToolkit.v1_1.Timing;
 using SensingNet.v0_2.TriggerDiagram.Basic;
 using SensingNet.v0_2.TimeSignal;
 using System;

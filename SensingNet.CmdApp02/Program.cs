@@ -5,8 +5,6 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
-using CToolkit.v1_0.Wcf;
-using CToolkit.v1_0;
 
 namespace SensingNet.CmdApp02
 {

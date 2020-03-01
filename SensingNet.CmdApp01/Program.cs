@@ -7,9 +7,7 @@ using System.ServiceModel.Description;
 using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
-using CToolkit.v1_0.Wcf;
 using SensingNet.v0_2.Device.Sample;
-using CToolkit.v1_0;
 
 namespace SensingNet.CmdApp01
 {

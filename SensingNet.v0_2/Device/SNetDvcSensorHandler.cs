@@ -1,7 +1,7 @@
 using CToolkit;
-using CToolkit.v1_0.Net;
-using CToolkit.v1_0.Protocol;
-using CToolkit.v1_0;
+using CToolkit.v1_1.Net;
+using CToolkit.v1_1.Protocol;
+using CToolkit.v1_1;
 using SensingNet.v0_2.Protocol;
 using SensingNet.v0_2.Signal;
 using System;
@@ -12,8 +12,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using CToolkit.v1_0.Threading;
-using CToolkit.v1_0.Logging;
+using CToolkit.v1_1.Threading;
+using CToolkit.v1_1.Logging;
 
 namespace SensingNet.v0_2.Device
 {
@@ -33,8 +33,6 @@ namespace SensingNet.v0_2.Device
         public SNetDvcSensorHandler() { }
         ~SNetDvcSensorHandler() { this.Dispose(false); }
 
-        const string TestReqData = "cmd -reqData \r\n";
-         
         protected virtual int RealExec()
         {
             try
@@ -72,7 +70,6 @@ namespace SensingNet.v0_2.Device
                     prevAckTime = DateTime.Now;
 
                     var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
-                    //reqDataMsg.TrxMessage = TestReqData;
                     this.ProtoConn.WriteMsg(reqDataMsg);
                    
                 }
@@ -209,7 +206,6 @@ namespace SensingNet.v0_2.Device
                     var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
                     if (reqDataMsg != null)
                     {
-                        //reqDataMsg.TrxMessage = TestReqData;
                         this.ProtoConn.WriteMsg(reqDataMsg);
                     }
                 }

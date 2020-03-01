@@ -1,5 +1,5 @@
-﻿using CToolkit.v1_0;
-using CToolkit.v1_0.Numeric;
+﻿using CToolkit.v1_1;
+using CToolkit.v1_1.Numeric;
 using System;
 using System.Collections.Generic;
 using System.Linq;

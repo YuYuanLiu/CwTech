@@ -1,7 +1,7 @@
 ﻿using CodeExpress.v1_0.Secs;
-using CToolkit.v1_0;
-using CToolkit.v1_0.Net;
-using CToolkit.v1_0.Threading;
+using CToolkit.v1_1;
+using CToolkit.v1_1.Net;
+using CToolkit.v1_1.Threading;
 using SensingNet.v0_2.QSecs;
 using SensingNet.v0_2.TriggerDiagram.Basic;
 using System;

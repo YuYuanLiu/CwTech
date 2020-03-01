@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using CToolkit.v1_0.Timing;
+using CToolkit.v1_1.Timing;
 using SensingNet.v0_2.TimeSignal;
 
 namespace SensingNet.v0_2.Storage

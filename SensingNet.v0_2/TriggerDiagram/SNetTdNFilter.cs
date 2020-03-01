@@ -1,6 +1,6 @@
-using CToolkit.v1_0;
-using CToolkit.v1_0.Numeric;
-using CToolkit.v1_0.Timing;
+using CToolkit.v1_1;
+using CToolkit.v1_1.Numeric;
+using CToolkit.v1_1.Timing;
 using MathNet.Filtering.FIR;
 using SensingNet.v0_2.TriggerDiagram.Basic;
 using SensingNet.v0_2.TimeSignal;

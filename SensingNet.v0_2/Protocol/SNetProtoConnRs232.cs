@@ -1,14 +1,14 @@
 using CToolkit;
-using CToolkit.v1_0.Net;
-using CToolkit.v1_0.Protocol;
-using CToolkit.v1_0.DigitalPort;
+using CToolkit.v1_1.Net;
+using CToolkit.v1_1.Protocol;
+using CToolkit.v1_1.DigitalPort;
 using System;
 using System.IO.Ports;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using CToolkit.v1_0;
+using CToolkit.v1_1;
 using CodeExpress.v1_0.Secs;
 
 namespace SensingNet.v0_2.Protocol

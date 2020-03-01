@@ -12,7 +12,7 @@ using SensingNet.v0_2.Storage;
 using SensingNet.v0_2.Protocol;
 using SensingNet.v0_2.Signal;
 using SensingNet.v0_2.Device;
-using CToolkit.v1_0;
+using CToolkit.v1_1;
 
 namespace SensingNet.MyTest
 {

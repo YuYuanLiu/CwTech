@@ -1,6 +1,6 @@
-﻿using CToolkit.v1_0;
-using CToolkit.v1_0.Timing;
-using CToolkit.v1_0.TriggerDiagram;
+﻿using CToolkit.v1_1;
+using CToolkit.v1_1.Timing;
+using CToolkit.v1_1.TriggerDiagram;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

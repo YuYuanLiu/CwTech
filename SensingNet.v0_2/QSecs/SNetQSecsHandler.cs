@@ -1,6 +1,6 @@
 using CToolkit;
-using CToolkit.v1_0.Numeric;
-using CToolkit.v1_0;
+using CToolkit.v1_1.Numeric;
+using CToolkit.v1_1;
 using SensingNet.v0_2.Signal;
 using System;
 using System.Collections.Generic;
@@ -8,8 +8,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Text;
-using CToolkit.v1_0.Net;
-using CToolkit.v1_0.Threading;
+using CToolkit.v1_1.Net;
+using CToolkit.v1_1.Threading;
 using CodeExpress.v1_0.Secs;
 
 namespace SensingNet.v0_2.QSecs
