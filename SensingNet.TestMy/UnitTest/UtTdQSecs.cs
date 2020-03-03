@@ -19,7 +19,7 @@ using SensingNet.v0_2.TriggerDiagram.Basic;
 using SensingNet.v0_2.TimeSignal;
 using System.Linq;
 
-namespace SensingNet.MyTest.UnitTest
+namespace SensingNet.TestMy.UnitTest
 {
     [TestClass]
     public class UtTdQSecs

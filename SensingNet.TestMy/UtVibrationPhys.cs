@@ -14,7 +14,7 @@ using SensingNet.v0_2.Signal;
 using SensingNet.v0_2.Device;
 using CToolkit.v1_1;
 
-namespace SensingNet.MyTest
+namespace SensingNet.TestMy
 {
     [TestClass]
     public class UtVibrationPhys

@@ -6,8 +6,8 @@
     <ProjectGuid>{86C649CC-824E-4DBB-8161-82DC67268E84}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SensingNet.MyTest</RootNamespace>
-    <AssemblyName>SensingNet.MyTest</AssemblyName>
+    <RootNamespace>SensingNet.TestMy</RootNamespace>
+    <AssemblyName>SensingNet.TestMy</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -39,6 +39,9 @@
   <ItemGroup>
     <Reference Include="CodeExpress.v1_0.Secs">
       <HintPath>..\DLL\CodeExpress.v1.0\CodeExpress.v1_0.Secs.dll</HintPath>
+    </Reference>
+    <Reference Include="CToolkit.v1_1.Std">
+      <HintPath>..\DLL\CToolkit.v1.1\CToolkit.v1_1.Std.dll</HintPath>
     </Reference>
     <Reference Include="Cudafy.NET, Version=1.29.5576.13786, Culture=neutral, PublicKeyToken=63a4c9931616906b, processorArchitecture=MSIL">
       <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\CUDAfy.NET.1.29.5576.13786\lib\net40\Cudafy.NET.dll</HintPath>

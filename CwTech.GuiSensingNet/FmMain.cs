@@ -1,4 +1,4 @@
-﻿using SensingNet.GuiCtrlPanel.SignalChart;
+﻿using CwTech.GuiSensingNet.SignalChart;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SensingNet.GuiCtrlPanel
+namespace CwTech.GuiSensingNet
 {
     public partial class FmMain : Form
     {

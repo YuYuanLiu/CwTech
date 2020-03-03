@@ -1,4 +1,4 @@
-﻿namespace SensingNet.GuiCtrlPanel.SignalChart
+﻿namespace CwTech.GuiSensingNet.SignalChart
 {
     partial class FmSignalChart
     {

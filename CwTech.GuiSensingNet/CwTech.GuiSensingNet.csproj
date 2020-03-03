@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D050D4DF-8AEF-4075-A3ED-009E32298A64}</ProjectGuid>
+    <ProjectGuid>{19F58376-CBEC-4FB6-BA15-3BD84CA05E59}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SensingNet.GuiCtrlPanel</RootNamespace>
-    <AssemblyName>SensingNet.GuiCtrlPanel</AssemblyName>
+    <RootNamespace>CwTech.GuiSensingNet</RootNamespace>
+    <AssemblyName>CwTech.GuiSensingNet</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -125,7 +125,7 @@
     <Content Include="Tools\CudafyViewer.exe" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Ui\" />
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

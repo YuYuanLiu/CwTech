@@ -17,7 +17,7 @@ using CToolkit.v1_1;
 using System.Reflection;
 using CToolkit.v1_1.Net;
 
-namespace SensingNet.MyTest
+namespace SensingNet.TestMy
 {
 
     [TestClass]

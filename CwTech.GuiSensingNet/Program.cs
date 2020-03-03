@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SensingNet.GuiCtrlPanel
+namespace CwTech.GuiSensingNet
 {
     static class Program
     {
@@ -13,7 +13,7 @@ namespace SensingNet.GuiCtrlPanel
         /// </summary>
         [STAThread]
         static void Main()
-       {
+        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FmMain());

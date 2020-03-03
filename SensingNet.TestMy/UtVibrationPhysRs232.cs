@@ -13,7 +13,7 @@ using SensingNet.v0_2.Protocol;
 using CToolkit.v1_1.DigitalPort;
 using SensingNet.v0_2.Device;
 
-namespace SensingNet.MyTest
+namespace SensingNet.TestMy
 {
     [TestClass]
     public class UtVibrationPhysRs232

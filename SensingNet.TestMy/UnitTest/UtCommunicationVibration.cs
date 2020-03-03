@@ -14,7 +14,7 @@ using System.Threading;
 using SensingNet.v0_2.Protocol;
 using SensingNet.v0_2.Device;
 
-namespace SensingNet.MyTest.UnitTest
+namespace SensingNet.TestMy.UnitTest
 {
     [TestClass]
     public class UtCommunicationVibration

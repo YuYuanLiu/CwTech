@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SensingNet.GuiCtrlPanel.SignalChart
+namespace CwTech.GuiSampleSecs
 {
-    public partial class FmSignalChart : Form
+    public partial class Form1 : Form
     {
-        public FmSignalChart()
+        public Form1()
         {
             InitializeComponent();
         }

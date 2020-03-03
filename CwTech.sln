@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.MyTest", "SensingNet.MyTest\SensingNet.MyTest.csproj", "{86C649CC-824E-4DBB-8161-82DC67268E84}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.v0_2.Framework", "SensingNet.v0_2.Framework\SensingNet.v0_2.Framework.csproj", "{1F5BA0FE-0574-43D4-BF39-893A62A866A1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.v0_2", "SensingNet.v0_2\SensingNet.v0_2.csproj", "{C51D6CFD-4164-4EA0-B2F5-2DCC88F450E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.CmdApp01", "SensingNet.CmdApp01\SensingNet.CmdApp01.csproj", "{47E56111-D02D-4D22-9698-BE1AA3CEFF04}"
@@ -15,20 +11,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.CmdApp02", "Sens
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.GuiCtrlPanel", "SensingNet.GuiCtrlPanel\SensingNet.GuiCtrlPanel.csproj", "{D050D4DF-8AEF-4075-A3ED-009E32298A64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.TestMy", "SensingNet.TestMy\SensingNet.TestMy.csproj", "{86C649CC-824E-4DBB-8161-82DC67268E84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CwTech.GuiSensingNet", "CwTech.GuiSensingNet\CwTech.GuiSensingNet.csproj", "{19F58376-CBEC-4FB6-BA15-3BD84CA05E59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CwTech.GuiSampleSecs", "CwTech.GuiSampleSecs\CwTech.GuiSampleSecs.csproj", "{4E43AE66-5F73-480D-8EF9-9A4F4D5799F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{86C649CC-824E-4DBB-8161-82DC67268E84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{86C649CC-824E-4DBB-8161-82DC67268E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{86C649CC-824E-4DBB-8161-82DC67268E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{86C649CC-824E-4DBB-8161-82DC67268E84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F5BA0FE-0574-43D4-BF39-893A62A866A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F5BA0FE-0574-43D4-BF39-893A62A866A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F5BA0FE-0574-43D4-BF39-893A62A866A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F5BA0FE-0574-43D4-BF39-893A62A866A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C51D6CFD-4164-4EA0-B2F5-2DCC88F450E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C51D6CFD-4164-4EA0-B2F5-2DCC88F450E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C51D6CFD-4164-4EA0-B2F5-2DCC88F450E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +39,18 @@ Global
 		{D050D4DF-8AEF-4075-A3ED-009E32298A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D050D4DF-8AEF-4075-A3ED-009E32298A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D050D4DF-8AEF-4075-A3ED-009E32298A64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86C649CC-824E-4DBB-8161-82DC67268E84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86C649CC-824E-4DBB-8161-82DC67268E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86C649CC-824E-4DBB-8161-82DC67268E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86C649CC-824E-4DBB-8161-82DC67268E84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19F58376-CBEC-4FB6-BA15-3BD84CA05E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F58376-CBEC-4FB6-BA15-3BD84CA05E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F58376-CBEC-4FB6-BA15-3BD84CA05E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F58376-CBEC-4FB6-BA15-3BD84CA05E59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E43AE66-5F73-480D-8EF9-9A4F4D5799F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E43AE66-5F73-480D-8EF9-9A4F4D5799F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E43AE66-5F73-480D-8EF9-9A4F4D5799F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E43AE66-5F73-480D-8EF9-9A4F4D5799F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

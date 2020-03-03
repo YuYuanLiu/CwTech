@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using SensingNet.v0_2.Framework;
 
-namespace SensingNet.MyTest
+namespace SensingNet.TestMy
 {
     [TestClass]
     public class UtSample

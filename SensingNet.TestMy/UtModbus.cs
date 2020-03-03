@@ -8,7 +8,7 @@ using System.Net;
 using CToolkit.v1_1.Protocol;
 using CToolkit.v1_1.Net;
 
-namespace SensingNet.MyTest
+namespace SensingNet.TestMy
 {
     [TestClass]
     public class UtModbus

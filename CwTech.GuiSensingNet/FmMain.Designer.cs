@@ -1,4 +1,4 @@
-﻿namespace SensingNet.GuiCtrlPanel
+﻿namespace CwTech.GuiSensingNet
 {
     partial class FmMain
     {
