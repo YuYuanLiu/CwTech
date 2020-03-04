@@ -9,13 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.CmdApp01", "Sens
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.CmdApp02", "SensingNet.CmdApp02\SensingNet.CmdApp02.csproj", "{6DD02306-F03E-48C3-96AC-C4979FD06DD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.GuiCtrlPanel", "SensingNet.GuiCtrlPanel\SensingNet.GuiCtrlPanel.csproj", "{D050D4DF-8AEF-4075-A3ED-009E32298A64}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensingNet.TestMy", "SensingNet.TestMy\SensingNet.TestMy.csproj", "{86C649CC-824E-4DBB-8161-82DC67268E84}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CwTech.GuiSensingNet", "CwTech.GuiSensingNet\CwTech.GuiSensingNet.csproj", "{19F58376-CBEC-4FB6-BA15-3BD84CA05E59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CwTech.GuiSampleSecs", "CwTech.GuiSampleSecs\CwTech.GuiSampleSecs.csproj", "{4E43AE66-5F73-480D-8EF9-9A4F4D5799F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CwTech.GuiSampleSecs", "CwTech.GuiSampleSecs\CwTech.GuiSampleSecs.csproj", "{85182149-0F42-4924-949F-3F592AA72102}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{6DD02306-F03E-48C3-96AC-C4979FD06DD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DD02306-F03E-48C3-96AC-C4979FD06DD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DD02306-F03E-48C3-96AC-C4979FD06DD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D050D4DF-8AEF-4075-A3ED-009E32298A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D050D4DF-8AEF-4075-A3ED-009E32298A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D050D4DF-8AEF-4075-A3ED-009E32298A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D050D4DF-8AEF-4075-A3ED-009E32298A64}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86C649CC-824E-4DBB-8161-82DC67268E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,10 +41,10 @@ Global
 		{19F58376-CBEC-4FB6-BA15-3BD84CA05E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19F58376-CBEC-4FB6-BA15-3BD84CA05E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19F58376-CBEC-4FB6-BA15-3BD84CA05E59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E43AE66-5F73-480D-8EF9-9A4F4D5799F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E43AE66-5F73-480D-8EF9-9A4F4D5799F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E43AE66-5F73-480D-8EF9-9A4F4D5799F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E43AE66-5F73-480D-8EF9-9A4F4D5799F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85182149-0F42-4924-949F-3F592AA72102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85182149-0F42-4924-949F-3F592AA72102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85182149-0F42-4924-949F-3F592AA72102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85182149-0F42-4924-949F-3F592AA72102}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

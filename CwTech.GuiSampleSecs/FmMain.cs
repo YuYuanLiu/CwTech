@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace CwTech.GuiSampleSecs
 {
-    public partial class Form1 : Form
+    public partial class FmMain : Form
     {
-        public Form1()
+        public FmMain()
         {
             InitializeComponent();
         }

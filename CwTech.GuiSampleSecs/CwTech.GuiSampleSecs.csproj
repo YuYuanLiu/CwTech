@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4E43AE66-5F73-480D-8EF9-9A4F4D5799F2}</ProjectGuid>
+    <ProjectGuid>{85182149-0F42-4924-949F-3F592AA72102}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>CwTech.GuiSampleSecs</RootNamespace>
     <AssemblyName>CwTech.GuiSampleSecs</AssemblyName>
@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="FmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FmMain.Designer.cs">
+      <DependentUpon>FmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

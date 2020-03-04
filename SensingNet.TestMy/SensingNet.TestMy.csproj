@@ -85,9 +85,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit.v1_1\CToolkit.v1_1.csproj">
+    <ProjectReference Include="..\..\ctoolkit.csharp\CToolkit.v1_1\CToolkit.v1_1.Fw.csproj">
       <Project>{94a51f40-ea6d-41f5-9139-95b88d928d5d}</Project>
-      <Name>CToolkit.v1_1</Name>
+      <Name>CToolkit.v1_1.Fw</Name>
     </ProjectReference>
     <ProjectReference Include="..\SensingNet.v0_2\SensingNet.v0_2.csproj">
       <Project>{c51d6cfd-4164-4ea0-b2f5-2dcc88f450e5}</Project>
