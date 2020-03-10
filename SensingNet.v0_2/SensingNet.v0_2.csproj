@@ -34,14 +34,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CodeExpress.v1_0.Secs">
-      <HintPath>..\DLL\CodeExpress.v1.0\CodeExpress.v1_0.Secs.dll</HintPath>
+    <Reference Include="CodeExpress.v1_0">
+      <HintPath>..\DLL\CodeExpress.v1_0\CodeExpress.v1_0.dll</HintPath>
     </Reference>
-    <Reference Include="CToolkit.v1_1">
-      <HintPath>..\DLL\CToolkit.v1.1\CToolkit.v1_1.dll</HintPath>
+    <Reference Include="CToolkit.v1_1.Fw, Version=1.1.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\CToolkit.v1_1\CToolkit.v1_1.Fw.dll</HintPath>
     </Reference>
-    <Reference Include="CToolkit.v1_1.Std">
-      <HintPath>..\DLL\CToolkit.v1.1\CToolkit.v1_1.Std.dll</HintPath>
+    <Reference Include="CToolkit.v1_1.Std, Version=1.1.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\CToolkit.v1_1\CToolkit.v1_1.Std.dll</HintPath>
     </Reference>
     <Reference Include="Cudafy.NET, Version=1.29.5576.13786, Culture=neutral, PublicKeyToken=63a4c9931616906b, processorArchitecture=MSIL">
       <HintPath>..\..\..\gitnas001\chidev.csharp\ChiDev\packages\CUDAfy.NET.1.29.5576.13786\lib\net40\Cudafy.NET.dll</HintPath>
@@ -154,4 +156,8 @@
     <Content Include="Readme\README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>
