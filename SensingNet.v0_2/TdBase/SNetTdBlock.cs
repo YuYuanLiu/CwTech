@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace SensingNet.v0_2.TriggerDiagram.Basic
+namespace SensingNet.v0_2.TdBase
 {
     public class SNetTdBlock : SNetTdNode, ICtkTdBlock
     {

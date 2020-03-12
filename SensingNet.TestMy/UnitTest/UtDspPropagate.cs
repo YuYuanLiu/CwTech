@@ -14,8 +14,8 @@ using System.Threading;
 using SensingNet.v0_2.Protocol;
 using SensingNet.v0_2.Device;
 using MathNet.Numerics.LinearAlgebra.Double;
-using SensingNet.v0_2.TriggerDiagram;
-using SensingNet.v0_2.TriggerDiagram.Basic;
+using SensingNet.v0_2.TdSignalProc;
+using SensingNet.v0_2.TdSignalProc.TdBase;
 using SensingNet.v0_2.TimeSignal;
 using System.Linq;
 

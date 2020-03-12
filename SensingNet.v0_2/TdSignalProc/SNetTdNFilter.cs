@@ -2,7 +2,7 @@ using CToolkit.v1_1;
 using CToolkit.v1_1.Numeric;
 using CToolkit.v1_1.Timing;
 using MathNet.Filtering.FIR;
-using SensingNet.v0_2.TriggerDiagram.Basic;
+using SensingNet.v0_2.TdBase;
 using SensingNet.v0_2.TimeSignal;
 using System;
 using System.Collections.Concurrent;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_2.TriggerDiagram
+namespace SensingNet.v0_2.TdSignalProc
 {
     public class SNetTdNFilter : SNetTdNodeF8
     {

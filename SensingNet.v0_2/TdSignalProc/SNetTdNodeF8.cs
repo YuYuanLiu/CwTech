@@ -1,13 +1,13 @@
 ﻿using CToolkit.v1_1;
 using CToolkit.v1_1.Timing;
 using SensingNet.v0_2.TimeSignal;
-using SensingNet.v0_2.TriggerDiagram.Basic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SensingNet.v0_2.TdBase;
 
-namespace SensingNet.v0_2.TriggerDiagram
+namespace SensingNet.v0_2.TdSignalProc
 {
 
     /// <summary>
@@ -49,27 +49,27 @@ namespace SensingNet.v0_2.TriggerDiagram
 
             this.PrevTime = time;
         }
-        protected virtual void ProcAndPushData(SNetTSignalSetSecF8 tSignal, SNetTSignalSetSecF8 newSignals)
-        {
-            var ea = new SNetTdSignalSetSecF8EventArg();
-            ea.Sender = this;
-            ea.TSignalSource = tSignal;
+        //protected virtual void ProcAndPushData(SNetTSignalSetSecF8 tSignal, SNetTSignalSetSecF8 newSignals)
+        //{
+        //    var ea = new SNetTdSignalSetSecF8EventArg();
+        //    ea.Sender = this;
+        //    ea.TSignalSource = tSignal;
 
-            foreach (var s in newSignals.Signals)
-            {
-                var time = s.Key.DateTime;
-                ea.TSignalNew.AddByKey(s.Key, s.Value);
-                tSignal.AddByKey(s.Key, s.Value);
+        //    foreach (var s in newSignals.Signals)
+        //    {
+        //        var time = s.Key.DateTime;
+        //        ea.TSignalNew.AddByKey(s.Key, s.Value);
+        //        tSignal.AddByKey(s.Key, s.Value);
 
 
-                ea.Time = time;
-                this.PrevTime = ea.PrevTime = this.PrevTime;
-            }
+        //        ea.Time = time;
+        //        this.PrevTime = ea.PrevTime = this.PrevTime;
+        //    }
 
-            this.OnDataChange(ea);
-            this.Purge();
+        //    this.OnDataChange(ea);
+        //    this.Purge();
 
-        }
+        //}
 
 
 

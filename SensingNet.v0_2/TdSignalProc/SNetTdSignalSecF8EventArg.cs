@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_2.TriggerDiagram
+namespace SensingNet.v0_2.TdSignalProc
 {
     public class SNetTdSignalSecF8EventArg : SNetTdSignalEventArg
     {

@@ -1,11 +1,10 @@
 ﻿using CToolkit.v1_1;
 using CToolkit.v1_1.Timing;
-using SensingNet.v0_2.TriggerDiagram.Basic;
 using SensingNet.v0_2.TimeSignal;
 using System;
 using System.Collections.Generic;
 
-namespace SensingNet.v0_2.TriggerDiagram
+namespace SensingNet.v0_2.TdSignalProc
 {
 
     public class SNetTdNSeqDataCollector : SNetTdNodeF8

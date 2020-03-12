@@ -1,7 +1,6 @@
 ﻿using CToolkit.v1_1;
 using CToolkit.v1_1.Net;
 using SensingNet.v0_2.QSecs;
-using SensingNet.v0_2.TriggerDiagram.Basic;
 using SensingNet.v0_2.TimeSignal;
 using System;
 using System.Collections.Generic;
@@ -10,8 +9,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using CodeExpress.v1_0.Secs;
+using SensingNet.v0_2.TdBase;
+using SensingNet.v0_2.TdSignalProc;
 
-namespace SensingNet.v0_2.TriggerDiagram
+namespace SensingNet.v0_2.TdSecs
 {
     public class SNetTdNQSecs : SNetTdNodeF8
     {
