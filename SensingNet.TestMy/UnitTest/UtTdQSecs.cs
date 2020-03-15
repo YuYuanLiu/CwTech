@@ -15,9 +15,9 @@ using SensingNet.v0_2.Protocol;
 using SensingNet.v0_2.Device;
 using MathNet.Numerics.LinearAlgebra.Double;
 using SensingNet.v0_2.TdSignalProc;
-using SensingNet.v0_2.TdSignalProc.TdBase;
 using SensingNet.v0_2.TimeSignal;
 using System.Linq;
+using SensingNet.v0_2.TdSecs;
 
 namespace SensingNet.TestMy.UnitTest
 {
