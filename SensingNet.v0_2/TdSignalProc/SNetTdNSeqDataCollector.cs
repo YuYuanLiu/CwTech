@@ -9,7 +9,8 @@ namespace SensingNet.v0_2.TdSignalProc
 
     public class SNetTdNSeqDataCollector : SNetTdNodeF8
     {
-        public SNetTSignalSetSecF8 TSignal = new SNetTSignalSetSecF8();
+        public SNetTSignalSetSecF8 TSignalSet = new SNetTSignalSetSecF8();
+        public bool IsTriggeredPerSecond = false;
 
         ~SNetTdNSeqDataCollector() { this.Dispose(false); }
 
@@ -26,7 +27,7 @@ namespace SensingNet.v0_2.TdSignalProc
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;
             foreach (var kv in ea.TSignalNew.Signals)
-                this.TgInput(this.TSignal, kv);
+                this.TgInput(this.TSignalSet, kv);
         }
 
         /// <summary>
@@ -54,13 +55,50 @@ namespace SensingNet.v0_2.TdSignalProc
 
         /// <summary>
         /// 單一型, 直接執行
+        /// 最後都會執行這段
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="ea"></param>
         public void TgInput(object sender, SNetTdSignalSecF8EventArg ea)
         {
             if (!this.IsEnalbed) return;
-            this.ProcAndPushData(this.TSignal, ea.TSignal);
+
+            var tSignalSet = this.TSignalSet;
+            var newSignals = ea.TSignal;
+            var time = newSignals.Time.HasValue ? newSignals.Time.Value : DateTime.Now;
+
+
+            tSignalSet.AddByKey(time, newSignals.Signals);
+            var evtea = new SNetTdSignalSetSecF8EventArg()
+            {
+                Sender = this,
+                Time = time,
+                TSignalSource = tSignalSet,
+                PrevTime = this.PrevTime,
+            };
+
+            if (this.IsTriggeredPerSecond)
+            {
+                if (this.PrevTime.HasValue && this.PrevTime != time)
+                {
+                    var prevTime = this.PrevTime.HasValue ? this.PrevTime.Value : DateTime.Now;
+                    var prevSignal = this.TSignalSet.Get(prevTime);
+
+                    evtea.TSignalNew.AddByKey(time, newSignals.Signals);
+                    this.OnDataChange(evtea);
+                }
+            }
+            else
+            {
+                evtea.TSignalNew.AddByKey(time, newSignals.Signals);
+                this.OnDataChange(evtea);
+            }
+
+
+            this.Purge();
+            this.PrevTime = time;
+
+
         }
 
 
@@ -70,7 +108,7 @@ namespace SensingNet.v0_2.TdSignalProc
             if (this.PurgeSeconds <= 0) return;
             var now = DateTime.Now;
             var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
-            PurgeSignalByTime(this.TSignal, oldKey);
+            PurgeSignalByTime(this.TSignalSet, oldKey);
         }
 
 

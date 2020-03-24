@@ -37,9 +37,9 @@ namespace SensingNet.v0_2.Storage
             if (String.IsNullOrEmpty(headerStr)) return;
             var header = Newtonsoft.Json.JsonConvert.DeserializeObject<SNetFileStorageFormat>(headerStr);
 
-            if (header.FormatName == typeof(FileStorageFormat_Csv0_0).Name)
-                throw new SNetException("不再支援的檔案格式");//this.fsFormat = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageFormat_Csv0_0>(headerStr);
-            else if (header.FormatName == typeof(FileStorageFormat_Csv0_1).Name)
+            //if (header.FormatName == typeof(FileStorageFormat_Csv0_0).Name)
+            //    throw new SNetException("不再支援的檔案格式");//this.fsFormat = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageFormat_Csv0_0>(headerStr);
+            if (header.FormatName == typeof(FileStorageFormat_Csv0_1).Name)
                 this.fsFormat = Newtonsoft.Json.JsonConvert.DeserializeObject<FileStorageFormat_Csv0_1>(headerStr);
             else if (header.FormatName == typeof(SNetFileStorageFormat_Csv0_2).Name)
                 this.fsFormat = Newtonsoft.Json.JsonConvert.DeserializeObject<SNetFileStorageFormat_Csv0_2>(headerStr);

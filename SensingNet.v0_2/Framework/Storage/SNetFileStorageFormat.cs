@@ -20,10 +20,10 @@ namespace SensingNet.v0_2.Storage
         }
 
 
-        public virtual void ReadStream(StreamReader sr, SNetSignalCollector collector)
-        {
-            throw new NotImplementedException();
-        }
+        //public virtual void ReadStream(StreamReader sr, SNetSignalCollector collector)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public virtual void ReadTSignal(StreamReader sr, SNetTSignalSetSecF8 tSignal)
         {
