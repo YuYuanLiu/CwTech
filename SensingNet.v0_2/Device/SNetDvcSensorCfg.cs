@@ -38,6 +38,6 @@ namespace SensingNet.v0_2.Device
 
         //Device是否會主動發訊息
         public int TxInterval = 0; // ms, 0=即時
-        public void SaveToXmlFile(string fn) { CtkUtil.SaveToXmlFileT(this, fn); }
+        public void SaveToXmlFile(string fn) { CtkUtilFw.SaveToXmlFileT(this, fn); }
     }
 }
