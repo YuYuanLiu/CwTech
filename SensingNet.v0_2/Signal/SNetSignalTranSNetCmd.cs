@@ -88,7 +88,7 @@ namespace SensingNet.v0_2.Signal
                 result.AppendFormat(" {0} ", cfg.Svid);
 
 
-            result.AppendLine();
+            result.Append("\n");//.AppendLine();
 
             return result.ToString();
         }

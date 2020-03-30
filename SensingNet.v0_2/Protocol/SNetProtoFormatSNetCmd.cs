@@ -39,7 +39,6 @@ namespace SensingNet.v0_2.Protocol
         }
 
         #region ISNetProtoFormatBase
-
         int ISNetProtoFormatBase.Count() { return this.MsgQueue.Count; }
         public bool HasMessage() { return this.MsgQueue.Count > 0; }
 
