@@ -1,8 +1,8 @@
 using CToolkit;
 using CToolkit.v1_1;
 using CToolkit.v1_1.Config;
-using SensingNet.v0_2.Device;
-using SensingNet.v0_2.Signal;
+using SensingNet.v0_2.DvcSensor;
+using SensingNet.v0_2.SignalTrans;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

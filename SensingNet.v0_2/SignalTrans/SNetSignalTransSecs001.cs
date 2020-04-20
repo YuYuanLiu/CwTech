@@ -9,11 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_2.Signal
+namespace SensingNet.v0_2.SignalTrans
 {
 
 
-    public class SNetSignalTranSecs001 : ISNetSignalTranBase
+    public class SNetSignalTransSecs001 : ISNetSignalTranBase
     {
 
 

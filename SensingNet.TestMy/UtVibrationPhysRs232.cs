@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using SensingNet.v0_2.Storage;
 using SensingNet.v0_2.Protocol;
 using CToolkit.v1_1.DigitalPort;
-using SensingNet.v0_2.Device;
+using SensingNet.v0_2.DvcSensor;
 
 namespace SensingNet.TestMy
 {
@@ -27,11 +27,6 @@ namespace SensingNet.TestMy
             deviceHdl.Config = new SNetDvcSensorCfg()
             {
                 RemoteUri = "tcp://192.168.123.201:5000",
-                SerialPortConfig = new CtkSerialPortCfg()
-                {
-                    PortName = "COM4",
-                    BaudRate = 19200,
-                },
                 TxInterval = 0,
                 //IsActivelyTx = true,
                 TimeoutResponse = 5000,
@@ -39,7 +34,7 @@ namespace SensingNet.TestMy
                 ProtoFormat = SNetEnumProtoFormat.SNetCmd,
                 ProtoSession = SNetEnumProtoSession.SNetCmd,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_2.Signal.SNetSignalCfg()
+            deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalCfg()
             {
                 Svid = 0,
             });

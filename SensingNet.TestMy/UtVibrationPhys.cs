@@ -10,8 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using SensingNet.v0_2.Storage;
 using SensingNet.v0_2.Protocol;
-using SensingNet.v0_2.Signal;
-using SensingNet.v0_2.Device;
+using SensingNet.v0_2.SignalTrans;
+using SensingNet.v0_2.DvcSensor;
 using CToolkit.v1_1;
 
 namespace SensingNet.TestMy
@@ -39,9 +39,9 @@ namespace SensingNet.TestMy
                 ProtoConnect = SNetEnumProtoConnect.Tcp,
                 ProtoFormat = SNetEnumProtoFormat.SNetCmd,
                 ProtoSession = SNetEnumProtoSession.SNetCmd,
-                SignalTran = SNetEnumSignalTran.SNetCmd,
+                SignalTran = SNetEnumSignalTrans.SNetCmd,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_2.Signal.SNetSignalCfg()
+            deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalCfg()
             {
                 Svid = 0,
             });

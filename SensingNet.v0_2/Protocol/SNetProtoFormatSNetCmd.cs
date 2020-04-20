@@ -59,6 +59,9 @@ namespace SensingNet.v0_2.Protocol
             string line = null;
             var flag = this.MsgQueue.TryDequeue(out line);
             msg = line;
+
+            System.Diagnostics.Debug.WriteLine(msg);
+
             return flag;
         }
 

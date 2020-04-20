@@ -8,7 +8,12 @@ namespace SensingNet.v0_2.Protocol
 {
     public class SNetProtoSessionSecs : ISNetProtoSessionBase
     {
-
+        /// <summary>
+        /// 若是Session類訊息, 將由這個Method處理
+        /// </summary>
+        /// <param name="protoConn"></param>
+        /// <param name="msg"></param>
+        /// <returns>true代表己處理, 你不需再處理</returns>
         public bool ProcessSession(ISNetProtoConnectBase protoConn, object msg)
         {
             var secsMsg = msg as CxHsmsMessage;

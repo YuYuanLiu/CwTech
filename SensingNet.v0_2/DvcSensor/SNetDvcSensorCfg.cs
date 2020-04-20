@@ -1,7 +1,7 @@
 ﻿using CToolkit.v1_1;
 using CToolkit.v1_1.DigitalPort;
 using SensingNet.v0_2.Protocol;
-using SensingNet.v0_2.Signal;
+using SensingNet.v0_2.SignalTrans;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,16 +12,27 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_2.Device
+namespace SensingNet.v0_2.DvcSensor
 {
 
     [Serializable]
     public class SNetDvcSensorCfg
     {
+        /// <summary>
+        /// Device的唯一識別符
+        /// </summary>
         public String DeviceUid;
+        /// <summary>
+        /// Device的名稱
+        /// </summary>
         public String DeviceName;
+        /// <summary>
+        /// Device是否為主動連線
+        /// </summary>
         public bool IsActivelyConnect = false;
-        //Device是否為主動連線
+        /// <summary>
+        /// Device是否主動傳送訊號
+        /// </summary>
         public bool IsActivelyTx = false;
 
         public String LocalUri;
@@ -31,13 +42,15 @@ namespace SensingNet.v0_2.Device
         public String RemoteUri = "tcp://192.168.123.101:5000";
         public int IntervalTimeOfConnectCheck = 1000;
 
-        public CtkSerialPortCfg SerialPortConfig = new CtkSerialPortCfg();
         public List<SNetSignalCfg> SignalCfgList = new List<SNetSignalCfg>();
-        public SNetEnumSignalTran SignalTran = SNetEnumSignalTran.SNetCmd;
+        public SNetEnumSignalTrans SignalTran = SNetEnumSignalTrans.SNetCmd;
         public int TimeoutResponse = 1000;
 
-        //Device是否會主動發訊息
-        public int TxInterval = 0; // ms, 0=即時
+        /// <summary>
+        /// 訊息應間隔幾毫秒, 0=即時
+        /// </summary>
+        public int TxInterval = 0;
+
         public void SaveToXmlFile(string fn) { CtkUtilFw.SaveToXmlFileT(this, fn); }
     }
 }

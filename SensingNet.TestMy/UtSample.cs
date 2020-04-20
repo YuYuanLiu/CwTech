@@ -24,8 +24,6 @@ namespace SensingNet.TestMy
 
             var sensorDeviceMgr = new SNetSensorDeviceMgr();
             var qsecsMgr = new SNetQSecsMgr();
-            var dspMgr = new SNetDspMgr();
-            var alarmMgr = new SNetAlarmMgr();
 
 
             sensorDeviceMgr.EhSignalCapture += (sender, ea) =>

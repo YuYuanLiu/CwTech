@@ -12,7 +12,7 @@ using SensingNet.v0_2.Storage;
 using CToolkit.v1_1.Net;
 using System.Threading;
 using SensingNet.v0_2.Protocol;
-using SensingNet.v0_2.Device;
+using SensingNet.v0_2.DvcSensor;
 
 namespace SensingNet.TestMy.UnitTest
 {
@@ -42,7 +42,7 @@ namespace SensingNet.TestMy.UnitTest
                 ProtoFormat = SNetEnumProtoFormat.SNetCmd,
                 IsActivelyConnect = false,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_2.Signal.SNetSignalCfg()
+            deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalCfg()
             {
                 Svid = 0,
             });

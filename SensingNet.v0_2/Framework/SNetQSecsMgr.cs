@@ -4,7 +4,7 @@ using CToolkit.v1_1;
 using CToolkit.v1_1.Config;
 using CToolkit.v1_1.Logging;
 using SensingNet.v0_2.QSecs;
-using SensingNet.v0_2.Signal;
+using SensingNet.v0_2.SignalTrans;
 using System;
 using System.Collections.Generic;
 using System.Linq;

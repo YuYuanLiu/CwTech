@@ -10,8 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using SensingNet.v0_2.Storage;
 using SensingNet.v0_2.Protocol;
-using SensingNet.v0_2.Signal;
-using SensingNet.v0_2.Device;
+using SensingNet.v0_2.SignalTrans;
+using SensingNet.v0_2.DvcSensor;
 using CToolkit.v1_1;
 
 namespace SensingNet.TestMy
@@ -38,19 +38,30 @@ namespace SensingNet.TestMy
                 ProtoConnect = SNetEnumProtoConnect.Tcp,
                 ProtoFormat = SNetEnumProtoFormat.SNetCmd,
                 ProtoSession = SNetEnumProtoSession.SNetCmd,
-                SignalTran = SNetEnumSignalTran.SNetCmd,
+                SignalTran = SNetEnumSignalTrans.SNetCmd,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_2.Signal.SNetSignalCfg()
+            for (var idx = 0; idx < 8; idx++)
             {
-                Svid = 0x00010000,
-                //Svid = 0x00000000,
+                deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalCfg()
+                {
+                    Svid = 0x00010000 + 0x0100 * (ulong)idx,
+                    //Svid = 0x00000000,
+                });
+            }
+            for (var idx = 0; idx < 8; idx++)
+            {
+                deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalCfg()
+                {
+                    Svid = 0x00020000 + 0x0100 * (ulong)idx,
+                    //Svid = 0x00000000,
+                });
+            }
 
-            });
             deviceHdl.EhSignalCapture += (sender, ea) =>
             {
                 fs.Write(ea);
-                if (ea.Data.Count > 0)
-                    System.Diagnostics.Debug.WriteLine("Humidity={0}", ea.Data[0]);
+                //if (ea.Data.Count > 0)
+                    //System.Diagnostics.Debug.WriteLine("{0}={1}", ea.Svid, ea.Data[0]);
             };
 
 

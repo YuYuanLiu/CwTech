@@ -1,21 +1,13 @@
-using CToolkit.v1_1.Net;
-using CToolkit.v1_1.Protocol;
+﻿using CToolkit.v1_1.Protocol;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SensingNet.v0_2.Protocol
 {
-
-    public interface ISNetProtoConnectBase : ICtkProtocolNonStopConnect, IDisposable
+    public interface ISNetProtoConnectBase: ICtkProtocolNonStopConnect, IDisposable
     {
-
-
-
-
-
     }
 }

@@ -12,7 +12,7 @@ using SensingNet.v0_2.Storage;
 using CToolkit.v1_1.Net;
 using System.Threading;
 using SensingNet.v0_2.Protocol;
-using SensingNet.v0_2.Device;
+using SensingNet.v0_2.DvcSensor;
 using MathNet.Numerics.LinearAlgebra.Double;
 using SensingNet.v0_2.TdSignalProc;
 using SensingNet.v0_2.TimeSignal;

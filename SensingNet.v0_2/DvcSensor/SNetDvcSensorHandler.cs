@@ -3,7 +3,7 @@ using CToolkit.v1_1.Net;
 using CToolkit.v1_1.Protocol;
 using CToolkit.v1_1;
 using SensingNet.v0_2.Protocol;
-using SensingNet.v0_2.Signal;
+using SensingNet.v0_2.SignalTrans;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using CToolkit.v1_1.Threading;
 using CToolkit.v1_1.Logging;
 
-namespace SensingNet.v0_2.Device
+namespace SensingNet.v0_2.DvcSensor
 {
     public class SNetDvcSensorHandler : ICtkContextFlowRun, IDisposable
     {
@@ -181,9 +181,6 @@ namespace SensingNet.v0_2.Device
                 case SNetEnumProtoConnect.Tcp:
                     this.ProtoConn = new SNetProtoConnTcp(localEndPoint, remoteEndPoint, this.Config.IsActivelyConnect);
                     break;
-                case SNetEnumProtoConnect.Rs232:
-                    this.ProtoConn = new SNetProtoConnRs232(this.Config.SerialPortConfig);
-                    break;
                 case SNetEnumProtoConnect.Custom:
                     //由使用者自己實作
                     break;
@@ -256,13 +253,13 @@ namespace SensingNet.v0_2.Device
 
             switch (this.Config.SignalTran)
             {
-                case SNetEnumSignalTran.SNetCmd:
-                    this.SignalTran = new SNetSignalTranSNetCmd();
+                case SNetEnumSignalTrans.SNetCmd:
+                    this.SignalTran = new SNetSignalTransSNetCmd();
                     break;
-                case SNetEnumSignalTran.Secs001:
-                    this.SignalTran = new SNetSignalTranSecs001();
+                case SNetEnumSignalTrans.Secs001:
+                    this.SignalTran = new SNetSignalTransSecs001();
                     break;
-                case SNetEnumSignalTran.Custom:
+                case SNetEnumSignalTrans.Custom:
                     //由使用者自己實作
                     break;
                 default: throw new ArgumentException("必須指定ProtoFormat");
