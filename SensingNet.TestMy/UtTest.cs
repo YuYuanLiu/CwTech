@@ -16,7 +16,6 @@ using System.Runtime.InteropServices;
 using CToolkit.v1_1;
 using System.Reflection;
 using CToolkit.v1_1.Net;
-using CodeExpress.v1_0.Secs;
 
 namespace SensingNet.TestMy
 {
@@ -30,7 +29,6 @@ namespace SensingNet.TestMy
         {
 
 
-            var msg = new CxHsmsMessage();
 
 
 

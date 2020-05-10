@@ -42,7 +42,7 @@ namespace SensingNet.TestMy
             };
             for (var idx = 0; idx < 8; idx++)
             {
-                deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalCfg()
+                deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalTransCfg()
                 {
                     Svid = 0x00010000 + 0x0100 * (ulong)idx,
                     //Svid = 0x00000000,
@@ -50,7 +50,7 @@ namespace SensingNet.TestMy
             }
             for (var idx = 0; idx < 8; idx++)
             {
-                deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalCfg()
+                deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalTransCfg()
                 {
                     Svid = 0x00020000 + 0x0100 * (ulong)idx,
                     //Svid = 0x00000000,
@@ -72,7 +72,7 @@ namespace SensingNet.TestMy
             {
                 deviceHdl.CfInit();
                 deviceHdl.CfLoad();
-                deviceHdl.CfRun();
+                deviceHdl.CfRunLoop();
                 deviceHdl.CfUnLoad();
                 deviceHdl.CfFree();
                 System.Threading.Thread.Sleep(100);

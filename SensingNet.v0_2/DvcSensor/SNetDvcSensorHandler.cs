@@ -23,7 +23,7 @@ namespace SensingNet.v0_2.DvcSensor
         public ISNetProtoConnectBase ProtoConn;//連線方式
         public ISNetProtoFormatBase ProtoFormat;//Protocol
         public ISNetProtoSessionBase ProtoSession;
-        public ISNetSignalTranBase SignalTran;//解譯
+        public ISNetSignalTransBase SignalTran;//解譯
         public SNetEnumHandlerStatus Status = SNetEnumHandlerStatus.None;
 
 
@@ -123,8 +123,8 @@ namespace SensingNet.v0_2.DvcSensor
 
 
         #region Event
-        public event EventHandler<SNetSignalEventArgs> EhSignalCapture;
-        void OnSignalCapture(SNetSignalEventArgs e)
+        public event EventHandler<SNetSignalTransEventArgs> EhSignalCapture;
+        void OnSignalCapture(SNetSignalTransEventArgs e)
         {
             if (EhSignalCapture == null) return;
             this.EhSignalCapture(this, e);
@@ -139,7 +139,7 @@ namespace SensingNet.v0_2.DvcSensor
         /// 取得是否正在執行, 可由User設定為false
         /// </summary>
         public bool CfIsRunning { get; set; }
-        public virtual int CfExec()
+        public virtual int CfRunOnce()
         {
             this.ProtoConn.ConnectIfNo();//內部會處理重複要求連線
             this.RealExec();
@@ -279,7 +279,7 @@ namespace SensingNet.v0_2.DvcSensor
 
             return 0;
         }
-        public virtual int CfRun()
+        public virtual int CfRunLoop()
         {
             this.CfIsRunning = true;
             try
@@ -293,7 +293,7 @@ namespace SensingNet.v0_2.DvcSensor
                         if (this.taskRun.CancelToken.IsCancellationRequested) break;
                         this.taskRun.CancelToken.ThrowIfCancellationRequested();//一般cancel task 在 while 和 第一行
                     }
-                    this.CfExec();
+                    this.CfRunOnce();
                 }
 
 
@@ -302,13 +302,13 @@ namespace SensingNet.v0_2.DvcSensor
             catch (Exception ex) { CtkLog.Write(ex, CtkLoggerEnumLevel.Error); }
             return 0;
         }
-        public virtual int CfRunAsyn()
+        public virtual int CfRunLoopAsyn()
         {
             if (this.taskRun != null)
                 if (!this.taskRun.Wait(100)) return 0;//正在工作
 
             //the CfRun is loop function
-            this.taskRun = CtkCancelTask.RunOnce((ct) => { this.CfRun(); });
+            this.taskRun = CtkCancelTask.RunOnce((ct) => { this.CfRunLoop(); });
             return 0;
         }
         public virtual int CfUnLoad()

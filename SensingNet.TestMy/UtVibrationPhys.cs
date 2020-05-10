@@ -41,7 +41,7 @@ namespace SensingNet.TestMy
                 ProtoSession = SNetEnumProtoSession.SNetCmd,
                 SignalTran = SNetEnumSignalTrans.SNetCmd,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalCfg()
+            deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalTransCfg()
             {
                 Svid = 0,
             });
@@ -58,7 +58,7 @@ namespace SensingNet.TestMy
             {
                 deviceHdl.CfInit();
                 deviceHdl.CfLoad();
-                deviceHdl.CfRun();
+                deviceHdl.CfRunLoop();
                 deviceHdl.CfUnLoad();
                 deviceHdl.CfFree();
                 System.Threading.Thread.Sleep(100);

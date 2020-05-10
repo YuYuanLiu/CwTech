@@ -36,7 +36,7 @@ namespace SensingNet.v0_2.QSecs
         #region ICtkContextFlowRun
 
         public bool CfIsRunning { get; set; }
-        public int CfExec()
+        public int CfRunOnce()
         {
             return 0;
         }
@@ -105,8 +105,8 @@ namespace SensingNet.v0_2.QSecs
             });
             return 0;
         }
-        public int CfRun() { return 0; }
-        public int CfRunAsyn() { return 0; }
+        public int CfRunLoop() { return 0; }
+        public int CfRunLoopAsyn() { return 0; }
         public int CfUnLoad()
         {
             return 0;

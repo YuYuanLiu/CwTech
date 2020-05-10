@@ -21,7 +21,7 @@ namespace SensingNet.v0_2.TdSignalProc
         #region ICtkContextFlowRun
 
         public bool CfIsRunning { get; set; }
-        public int CfExec()
+        public int CfRunOnce()
         {
             try
             {
@@ -75,20 +75,20 @@ namespace SensingNet.v0_2.TdSignalProc
             return 0;
         }
         public int CfLoad() { return 0; }
-        public int CfRun()
+        public int CfRunLoop()
         {
             while (!this.disposed && this.CfIsRunning)
             {
-                this.CfExec();
+                this.CfRunOnce();
             }
             return 0;
         }
-        public int CfRunAsyn()
+        public int CfRunLoopAsyn()
         {
             this.CfIsRunning = true;
             CtkThreadingUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
             {
-                this.CfRun();
+                this.CfRunLoop();
             });
             return 0;
         }

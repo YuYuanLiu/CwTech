@@ -35,20 +35,20 @@ namespace SensingNet.v0_2.Framework
 
             return 0;
         }
-        public int CfExec()
+        public int CfRunOnce()
         {
             this.configs.UpdateIfTimeout();
             this.UpdateHandlerStatus();
             return 0;
         }
-        public int CfRun()
+        public int CfRunLoop()
         {
             this.CfIsRunning = true;
             while (!this.disposed && this.CfIsRunning)
             {
                 try
                 {
-                    this.CfExec();
+                    this.CfRunOnce();
                     System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception ex) { CtkLog.Write(ex); }
@@ -56,12 +56,12 @@ namespace SensingNet.v0_2.Framework
 
             return 0;
         }
-        public int CfRunAsyn()
+        public int CfRunLoopAsyn()
         {
             if (this.runTask != null)
                 if (!this.runTask.Wait(100)) return 0;//正在工作
 
-            this.runTask = Task.Factory.StartNew<int>(() => this.CfRun());
+            this.runTask = Task.Factory.StartNew<int>(() => this.CfRunLoop());
             return 0;
         }
         public int CfUnLoad()
@@ -112,7 +112,7 @@ namespace SensingNet.v0_2.Framework
                     if (hdl.Status == SNetEnumHandlerStatus.None)
                     {
                         hdl.CfInit();
-                        hdl.EhSignalCapture += delegate (object sender, SNetSignalEventArgs e)
+                        hdl.EhSignalCapture += delegate (object sender, SNetSignalTransEventArgs e)
                         {
                             e.Sender = hdl;
                             this.OnSignalCapture(e);
@@ -131,7 +131,7 @@ namespace SensingNet.v0_2.Framework
                     {
                         hdl.Status = SNetEnumHandlerStatus.Run;
                         if (!hdl.CfIsRunning)
-                            hdl.CfRunAsyn();
+                            hdl.CfRunLoopAsyn();
                     }
 
                 }
@@ -167,8 +167,8 @@ namespace SensingNet.v0_2.Framework
 
 
         #region Event
-        public event EventHandler<SNetSignalEventArgs> EhSignalCapture;
-        void OnSignalCapture(SNetSignalEventArgs e)
+        public event EventHandler<SNetSignalTransEventArgs> EhSignalCapture;
+        void OnSignalCapture(SNetSignalTransEventArgs e)
         {
             if (EhSignalCapture == null) return;
             this.EhSignalCapture(this, e);

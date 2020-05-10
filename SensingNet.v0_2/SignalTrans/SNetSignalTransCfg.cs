@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SensingNet.v0_2.SignalTrans
 {
-    public class SNetSignalCfg
+    public class SNetSignalTransCfg
     {
 
         public UInt64 Svid = 0;

@@ -42,7 +42,7 @@ namespace SensingNet.v0_2.DvcSensor
         public String RemoteUri = "tcp://192.168.123.101:5000";
         public int IntervalTimeOfConnectCheck = 1000;
 
-        public List<SNetSignalCfg> SignalCfgList = new List<SNetSignalCfg>();
+        public List<SNetSignalTransCfg> SignalCfgList = new List<SNetSignalTransCfg>();
         public SNetEnumSignalTrans SignalTran = SNetEnumSignalTrans.SNetCmd;
         public int TimeoutResponse = 1000;
 

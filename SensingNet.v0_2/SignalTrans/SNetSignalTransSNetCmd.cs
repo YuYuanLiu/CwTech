@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_2.SignalTrans
 {
-    public class SNetSignalTransSNetCmd : ISNetSignalTranBase
+    public class SNetSignalTransSNetCmd : ISNetSignalTransBase
     {
 
 
@@ -33,13 +33,13 @@ namespace SensingNet.v0_2.SignalTrans
 
             return idx - 1;
         }
-        public List<SNetSignalEventArgs> AnalysisSignal<T>(object sender, object msg, IList<T> infos)
+        public List<SNetSignalTransEventArgs> AnalysisSignal<T>(object sender, object msg, IList<T> infos)
         {
-            var result = new List<SNetSignalEventArgs>();
+            var result = new List<SNetSignalTransEventArgs>();
 
             var line = msg as string;
 
-            var ea = new SNetSignalEventArgs();
+            var ea = new SNetSignalTransEventArgs();
             ea.Sender = sender;
             var args = line.Split(new char[] { '\0', ' ' });
 
@@ -77,7 +77,7 @@ namespace SensingNet.v0_2.SignalTrans
 
         public CtkProtocolTrxMessage CreateDataReqMsg<T>(IList<T> reqInfos)
         {
-            var listInfo = reqInfos as IList<SNetSignalCfg>;
+            var listInfo = reqInfos as IList<SNetSignalTransCfg>;
             if (listInfo == null) throw new ArgumentException("未定義此型別的操作方式");
             //public static byte[] TxDataAck { get { return Encoding.UTF8.GetBytes("\n"); } }//減少處理量, 只以換行作為Ack
 
@@ -95,7 +95,7 @@ namespace SensingNet.v0_2.SignalTrans
 
         public CtkProtocolTrxMessage CreateAckMsg<T>(IList<T> reqInfos)
         {
-            var listInfo = reqInfos as IList<SNetSignalCfg>;
+            var listInfo = reqInfos as IList<SNetSignalTransCfg>;
             if (listInfo == null) throw new ArgumentException("未定義此型別的操作方式");
 
             var result = new StringBuilder();

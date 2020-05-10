@@ -28,7 +28,7 @@ namespace SensingNet.v0_2.Framework
 
         #region ICtkContextFlowRun
         public bool CfIsRunning { get; set; }
-        public int CfExec()
+        public int CfRunOnce()
         {
             try
             {
@@ -64,14 +64,14 @@ namespace SensingNet.v0_2.Framework
         {
             return 0;
         }
-        public int CfRun()
+        public int CfRunLoop()
         {
             this.CfIsRunning = true;
             while (!this.disposed && this.CfIsRunning)
             {
                 try
                 {
-                    this.CfExec();
+                    this.CfRunOnce();
                     Thread.Sleep(1000);
                 }
                 catch (Exception ex) { CtkLog.Write(ex); }
@@ -79,12 +79,12 @@ namespace SensingNet.v0_2.Framework
 
             return 0;
         }
-        public int CfRunAsyn()
+        public int CfRunLoopAsyn()
         {
             if (this.runTask != null)
                 if (!this.runTask.Wait(100)) return 0;//正在工作
 
-            this.runTask = Task.Factory.StartNew<int>(() => this.CfRun());
+            this.runTask = Task.Factory.StartNew<int>(() => this.CfRunLoop());
             return 0;
         }
         public int CfUnLoad()
@@ -150,7 +150,7 @@ namespace SensingNet.v0_2.Framework
                     {
 
                         hdl.status = SNetEnumHandlerStatus.Run;
-                        hdl.CfRun();
+                        hdl.CfRunLoop();
                     }
 
                 }

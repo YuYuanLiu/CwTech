@@ -34,8 +34,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CodeExpress.v1_0">
-      <HintPath>..\DLL\CodeExpress.v1_0\CodeExpress.v1_0.dll</HintPath>
+    <Reference Include="CodeExpress.v1_0.Fw">
+      <HintPath>..\DLL\CodeExpress.v1_0\CodeExpress.v1_0.Fw.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeExpress.v1_0.Std">
+      <HintPath>..\DLL\CodeExpress.v1_0\CodeExpress.v1_0.Std.dll</HintPath>
     </Reference>
     <Reference Include="CToolkit.v1_1.Fw, Version=1.1.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -124,11 +127,11 @@
     <Compile Include="SNetException.cs" />
     <Compile Include="DvcSensor\SNetDvcSensorCfg.cs" />
     <Compile Include="SignalTrans\SNetEnumSignalTrans.cs" />
-    <Compile Include="SignalTrans\ISNetSignalTranBase.cs" />
-    <Compile Include="SignalTrans\SNetSignalCfg.cs" />
+    <Compile Include="SignalTrans\ISNetSignalTransBase.cs" />
+    <Compile Include="SignalTrans\SNetSignalTransCfg.cs" />
     <Compile Include="DvcSensor\SNetDvcSensorHandler.cs" />
     <Compile Include="SignalTrans\SNetSignalTransSecs001.cs" />
-    <Compile Include="SignalTrans\SNetSignalEventArgs.cs" />
+    <Compile Include="SignalTrans\SNetSignalTransEventArgs.cs" />
     <Compile Include="SignalTrans\SNetSignalTransSNetCmd.cs" />
     <Compile Include="SNetUtil.cs" />
   </ItemGroup>

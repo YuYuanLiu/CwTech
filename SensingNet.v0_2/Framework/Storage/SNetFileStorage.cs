@@ -30,7 +30,7 @@ namespace SensingNet.v0_2.Storage
         ~SNetFileStorage() { this.Dispose(false); }
 
 
-        public void Write(SNetSignalEventArgs ea)
+        public void Write(SNetSignalTransEventArgs ea)
         {
             if (ea.CalibrateData.Count <= 0) return;
             var now = DateTime.Now;

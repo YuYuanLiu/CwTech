@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_2.SignalTrans
 {
-    public class SNetSignalEventArgs : EventArgs
+    public class SNetSignalTransEventArgs : EventArgs
     {
         public object Sender;
         public string DeviceUri;
@@ -16,7 +16,7 @@ namespace SensingNet.v0_2.SignalTrans
         public List<double> Data = new List<double>();
         public List<double> CalibrateData = new List<double>();
         public DateTime RcvDateTime;
-        public SNetSignalCfg SignalConfig;
+        public SNetSignalTransCfg SignalConfig;
 
     }
 }
