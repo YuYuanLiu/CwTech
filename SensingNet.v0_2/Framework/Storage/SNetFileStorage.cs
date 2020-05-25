@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_2.Storage
+namespace SensingNet.v0_2.Framework.Storage
 {
 
     /// <summary>
@@ -198,7 +198,7 @@ namespace SensingNet.v0_2.Storage
         {
             this.CloseStream(ref this.fwriter);
 
-            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
+            CtkEventUtil.RemoveEventHandlersOfOwnerByFilter(this, (dlgt) => true);
         }
 
         #endregion

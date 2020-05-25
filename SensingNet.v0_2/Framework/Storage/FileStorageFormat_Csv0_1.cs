@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_2.Storage
+namespace SensingNet.v0_2.Framework.Storage
 {
     /// <summary>
     /// DateTime(yyyy/MM/dd HH:mm:ss+08),UTC timestamp, data1, data2, ...

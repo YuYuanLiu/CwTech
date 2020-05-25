@@ -136,14 +136,11 @@
     <Compile Include="SNetUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Framework\Tools\place_these_executables_in_same_folder_as_Cudafy.NET.dll_" />
     <None Include="packages.config" />
     <Compile Include="Simulate\SNetSimulateSecsClient.cs" />
     <Compile Include="Simulate\SNetSimulateDeviceVibration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Framework\Tools\cudafycl.exe" />
-    <Content Include="Framework\Tools\CudafyViewer.exe" />
     <Content Include="Readme\CUDA.NET.Readme.txt" />
     <Content Include="Readme\CUDAfy-License.txt" />
     <Content Include="Readme\example_source_code.cs.txt" />

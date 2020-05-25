@@ -7,7 +7,7 @@ using System.Text;
 using CToolkit.v1_1.Timing;
 using SensingNet.v0_2.TimeSignal;
 
-namespace SensingNet.v0_2.Storage
+namespace SensingNet.v0_2.Framework.Storage
 {
     /// <summary>
     /// DateTime(yyyy/MM/dd HH:mm:ss+08),UTC timestamp, data1, data2, ...

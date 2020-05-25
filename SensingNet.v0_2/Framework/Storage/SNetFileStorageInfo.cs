@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace SensingNet.v0_2.Storage
+namespace SensingNet.v0_2.Framework.Storage
 {
     public class SNetFileStorageInfo
     {

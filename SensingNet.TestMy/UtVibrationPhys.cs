@@ -1,18 +1,9 @@
-﻿using System;
+﻿using CToolkit.v1_1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.ComponentModel;
-using MathNet.Numerics;
-using System.IO;
-using System.Collections.Generic;
-using System.Net;
-using System.Globalization;
-using System.Text;
-using System.Threading.Tasks;
-using SensingNet.v0_2.Storage;
+using SensingNet.v0_2.DvcSensor;
+using SensingNet.v0_2.Framework.Storage;
 using SensingNet.v0_2.Protocol;
 using SensingNet.v0_2.SignalTrans;
-using SensingNet.v0_2.DvcSensor;
-using CToolkit.v1_1;
 
 namespace SensingNet.TestMy
 {

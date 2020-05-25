@@ -17,7 +17,7 @@ namespace SensingNet.v0_2.TdBase
         public string CtkTdName { get; set; }
         public virtual void Close()
         {
-            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);//移除自己的Event Delegate
+            CtkEventUtil.RemoveEventHandlersOfOwnerByFilter(this, (dlgt) => true);//移除自己的Event Delegate
         }
 
 

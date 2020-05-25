@@ -204,7 +204,7 @@ namespace SensingNet.v0_2.Protocol
         void DisposeSelf()
         {
             this.Disconnect();
-            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
+            CtkEventUtil.RemoveEventHandlersOfOwnerByFilter(this, (dlgt) => true);
         }
 
         #endregion

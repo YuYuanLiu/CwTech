@@ -362,7 +362,7 @@ namespace SensingNet.v0_2.DvcSensor
         {
             this.CfUnLoad();
             this.CfFree();
-            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
+            CtkEventUtil.RemoveEventHandlersOfOwnerByFilter(this, (dlgt) => true);
         }
         #endregion
 
