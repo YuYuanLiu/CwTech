@@ -13,6 +13,7 @@ using SensingNet.v0_2.SignalTrans;
 using SensingNet.v0_2.DvcSensor;
 using CToolkit.v1_1;
 using SensingNet.v0_2.Framework.Storage;
+using SensingNet.v0_2.Storage;
 
 namespace SensingNet.TestMy
 {

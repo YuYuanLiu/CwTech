@@ -13,6 +13,7 @@ using System.Threading;
 using SensingNet.v0_2.Protocol;
 using SensingNet.v0_2.DvcSensor;
 using SensingNet.v0_2.Framework.Storage;
+using SensingNet.v0_2.Storage;
 
 namespace SensingNet.TestMy.UnitTest
 {

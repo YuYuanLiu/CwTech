@@ -1,5 +1,6 @@
 using CToolkit;
 using CToolkit.v1_1;
+using SensingNet.v0_2.Framework.Storage;
 using SensingNet.v0_2.SignalTrans;
 using System;
 using System.Collections.Generic;
@@ -207,7 +208,7 @@ namespace SensingNet.v0_2.Storage
         {
             this.CloseStream(ref this.fwriter);
 
-            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
+            CtkEventUtil.RemoveEventHandlersOfOwnerByFilter(this, (dlgt) => true);
         }
 
         #endregion

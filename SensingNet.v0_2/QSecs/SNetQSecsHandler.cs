@@ -57,7 +57,7 @@ namespace SensingNet.v0_2.QSecs
 
             var localIp = CtkNetUtil.GetLikelyFirst127Ip(localUri == null ? null : localUri.Host, remoteUri == null ? null : remoteUri.Host);
             if (localIp == null) throw new Exception("無法取得在地IP");
-            hsmsConnector.Locallocal = new IPEndPoint(localIp, localUri.Port);
+            hsmsConnector.Local = new IPEndPoint(localIp, localUri.Port);
             hsmsConnector.EhReceiveData += delegate (Object sen, CxHsmsConnectorRcvDataEventArg ea)
             {
 
@@ -93,7 +93,7 @@ namespace SensingNet.v0_2.QSecs
                 {
                     try
                     {
-                        hsmsConnector.Connect();
+                        hsmsConnector.ConnectIfNo();
                         hsmsConnector.ReceiveRepeat();
                     }
                     catch (Exception ex)
