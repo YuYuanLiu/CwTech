@@ -50,7 +50,7 @@ namespace SensingNet.v0_2.TdSignalProc
 
             var localIp = CtkNetUtil.GetLikelyFirst127Ip(localUri.Host, remoteUri.Host);
             if (localIp == null) throw new Exception("無法取得在地IP");
-            hsmsConnector.local = new IPEndPoint(localIp, localUri.Port);
+            hsmsConnector.Locallocal = new IPEndPoint(localIp, localUri.Port);
             hsmsConnector.EhReceiveData += delegate (Object sen, CxHsmsConnectorRcvDataEventArg ea)
             {
 
