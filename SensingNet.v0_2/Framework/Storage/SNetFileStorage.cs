@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_2.Framework.Storage
+namespace SensingNet.v0_2.Storage
 {
 
     /// <summary>
@@ -30,11 +30,20 @@ namespace SensingNet.v0_2.Framework.Storage
         ~SNetFileStorage() { this.Dispose(false); }
 
 
+
         public void Write(SNetSignalTransEventArgs ea)
         {
-            if (ea.CalibrateData.Count <= 0) return;
+            this.Write(ea.CalibrateData);
+        }
+
+
+
+        public void Write(List<double> dataList, DateTime? time = null)
+        {
+            if (dataList.Count <= 0) return;
             var now = DateTime.Now;
-            var nowUtc = now.ToUniversalTime();
+            if (time != null) now = time.Value;
+            var nowUtc = now.ToUniversalTime();//寫資料, 要求傳入Utc
 
             //每分鐘 -> 實際儲存
             var fn = string.Format("dt{0}.signal.lock", now.ToString("yyyyMMddHHmm"));
@@ -81,7 +90,7 @@ namespace SensingNet.v0_2.Framework.Storage
                     this.fsInfo.WriteHeader(this.fwriter);
                 }
                 //檔案是當前時區
-                this.fsInfo.WriteValues(this.fwriter, nowUtc, ea.CalibrateData);
+                this.fsInfo.WriteValues(this.fwriter, nowUtc, dataList);
 
                 this.fwriter.Flush();
             }
@@ -198,7 +207,7 @@ namespace SensingNet.v0_2.Framework.Storage
         {
             this.CloseStream(ref this.fwriter);
 
-            CtkEventUtil.RemoveEventHandlersOfOwnerByFilter(this, (dlgt) => true);
+            CtkEventUtil.RemoveEventHandlersFromOwningByFilter(this, (dlgt) => true);
         }
 
         #endregion
