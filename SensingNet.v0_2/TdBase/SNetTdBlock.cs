@@ -51,15 +51,18 @@ namespace SensingNet.v0_2.TdBase
         }
 
 
-
         #region IDisposable
 
         protected override void DisposeSelf()
         {
+            this.TdNodes.Clear();
             base.DisposeSelf();
         }
 
-
         #endregion
+
+
+
+
     }
 }

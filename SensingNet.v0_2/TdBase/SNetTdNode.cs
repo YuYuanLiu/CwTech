@@ -13,16 +13,14 @@ namespace SensingNet.v0_2.TdBase
     {
         public bool IsEnalbed = true;
         protected String _identifier = Guid.NewGuid().ToString();
+        ~SNetTdNode() { this.Dispose(false); }
+
         public string CtkTdIdentifier { get { return this._identifier; } set { this._identifier = value; } }
         public string CtkTdName { get; set; }
-        public virtual void Close()
-        {
-            CtkEventUtil.RemoveEventHandlersOfOwnerByFilter(this, (dlgt) => true);//移除自己的Event Delegate
-        }
-
-
+   
         
-
+        
+        
         #region IDisposable
         // Flag: Has Dispose already been called?
         protected bool disposed = false;
@@ -51,7 +49,7 @@ namespace SensingNet.v0_2.TdBase
         }
         protected virtual void DisposeSelf()
         {
-            this.Close();
+            CtkEventUtil.RemoveEventHandlersOfOwnerByFilter(this, (dlgt) => true);//移除自己的Event Delegate
         }
         #endregion
 

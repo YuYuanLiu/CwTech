@@ -10,18 +10,11 @@ namespace SensingNet.v0_2.TdBase
     {
 
 
+        ~SNetTdDiagram() { this.Dispose(false); }
 
 
 
 
-        #region IDisposable
 
-        protected override void DisposeSelf()
-        {
-            base.DisposeSelf();
-        }
-
-
-        #endregion
     }
 }

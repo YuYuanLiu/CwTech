@@ -18,6 +18,22 @@ namespace SensingNet.v0_2.TdSignalProc
         public SNetQSecsCfg cfg;
         public CxHsmsConnector hsmsConnector;
 
+        ~SNetTdBQSecs() { this.Dispose(false); }
+
+
+
+
+        public SNetQSvidCfg GetQSvidCfg(UInt32 svid)
+        {
+            var query = from row in this.cfg.QSvidCfgList
+                        where row.QSvid == svid
+                        select row;
+
+            return query.FirstOrDefault();
+        }
+
+
+
         #region ICtkContextFlowRun
 
         public bool CfIsRunning { get; set; }
@@ -92,19 +108,15 @@ namespace SensingNet.v0_2.TdSignalProc
             });
             return 0;
         }
-        public int CfUnLoad() { return 0; }
+        public int CfUnLoad()
+        {
+            return 0;
+        }
+
         #endregion
 
 
 
-        public SNetQSvidCfg GetQSvidCfg(UInt32 svid)
-        {
-            var query = from row in this.cfg.QSvidCfgList
-                        where row.QSvid == svid
-                        select row;
-
-            return query.FirstOrDefault();
-        }
 
 
         #region Input
@@ -135,12 +147,6 @@ namespace SensingNet.v0_2.TdSignalProc
         #endregion
 
 
-        #region Dispose
-        protected override void DisposeSelf()
-        {
-            base.DisposeSelf();
-        }
-        #endregion
 
 
 

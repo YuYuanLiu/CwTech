@@ -10,7 +10,7 @@ namespace SensingNet.v0_2
     {
 
         //test
-        
+
         public static int DoBgWorkerAsync(DoWorkEventHandler method)
         {
             var bg = new BackgroundWorker();
@@ -23,6 +23,12 @@ namespace SensingNet.v0_2
             return 0;
         }
 
+
+
+        public string MyNameIs()
+        {
+            return this.GetType().Namespace;
+        }
 
 
     }

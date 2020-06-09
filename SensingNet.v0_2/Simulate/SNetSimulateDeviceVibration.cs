@@ -14,6 +14,8 @@ namespace SensingNet.v0_2.Simulate
 {
     public class SNetSimulateDeviceVibration : IDisposable
     {
+
+        ~SNetSimulateDeviceVibration() { this.Dispose(false); }
         public CtkNonStopTcpListener listener;
 
         public void RunAsyn()

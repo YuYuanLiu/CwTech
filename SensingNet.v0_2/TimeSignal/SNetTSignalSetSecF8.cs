@@ -13,30 +13,38 @@ namespace SensingNet.v0_2.TimeSignal
         //1 Ticks是100奈秒, 0 tick={0001/1/1 上午 12:00:00}
         //請勿使用Datetime, 避免有人誤解 比對只進行 年月日時分秒, 事實會比較到tick
         public SortedDictionary<CtkTimeSecond, List<double>> Signals = new SortedDictionary<CtkTimeSecond, List<double>>();
+
+        ~SNetTSignalSetSecF8()
+        {
+            this.Signals.Clear();
+        }
+
+        public SNetTSignalSetSecF8() { }
+        public SNetTSignalSetSecF8(CtkTimeSecond time, IEnumerable<double> signals) { this.AddByKey(time, signals); }
+
+
         public List<double> this[CtkTimeSecond key] { get { return this.Signals[key]; } set { this.Signals[key] = value; } }
+
         public SNetTSignalSecF8 Get(CtkTimeSecond key)
         {
             var signals = this[key];
             return new SNetTSignalSecF8(key, signals);
-        }
-
-        public KeyValuePair<CtkTimeSecond, List<double>>? GetLastOrDefaultPair()
-        {
-            if (this.Signals.Count == 0) return null;
-            return this.Signals.Last();
-        }
-        public SNetTSignalSecF8 GetLastOrDefault()
-        {
-            if (this.Signals.Count == 0) return null;
-            return this.Signals.Last();
         }
         public SNetTSignalSecF8 GetFirstOrDefault()
         {
             if (this.Signals.Count == 0) return null;
             return this.Signals.First();
         }
-
-
+        public SNetTSignalSecF8 GetLastOrDefault()
+        {
+            if (this.Signals.Count == 0) return null;
+            return this.Signals.Last();
+        }
+        public KeyValuePair<CtkTimeSecond, List<double>>? GetLastOrDefaultPair()
+        {
+            if (this.Signals.Count == 0) return null;
+            return this.Signals.Last();
+        }
         public void Interpolation(int dataSize)
         {
 
@@ -49,6 +57,8 @@ namespace SensingNet.v0_2.TimeSignal
                 kv.Value.AddRange(list);
             }
         }
+
+
 
 
         #region ISNetDspTimeSignalSet
@@ -98,6 +108,8 @@ namespace SensingNet.v0_2.TimeSignal
         }
 
         #endregion
+
+
 
         #region Static Operator
 

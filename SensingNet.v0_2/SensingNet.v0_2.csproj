@@ -136,6 +136,7 @@
     <Compile Include="SNetUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CodeExpress.license" />
     <None Include="packages.config" />
     <Compile Include="Simulate\SNetSimulateSecsClient.cs" />
     <Compile Include="Simulate\SNetSimulateDeviceVibration.cs" />

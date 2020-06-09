@@ -71,7 +71,7 @@ namespace SensingNet.v0_2.DvcSensor
 
                     var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
                     this.ProtoConn.WriteMsg(reqDataMsg);
-                   
+
                 }
 
 
@@ -147,21 +147,7 @@ namespace SensingNet.v0_2.DvcSensor
         }
         public virtual int CfFree()
         {
-            this.CfIsRunning = false;
-            this.areMsg.Set();//若在等訊號也通知結束等待
-
-            if (this.taskRun != null)
-            {
-                this.taskRun.Cancel();//取消執行Task
-                this.taskRun.Wait(1000);
-                this.taskRun.Dispose();
-            }
-            if (this.ProtoConn != null)
-            {
-                this.ProtoConn.Disconnect();
-                this.ProtoConn.Dispose();
-            }
-
+            this.Close();
             return 0;
         }
         public virtual int CfInit()
@@ -313,15 +299,33 @@ namespace SensingNet.v0_2.DvcSensor
         }
         public virtual int CfUnLoad()
         {
-            this.CfIsRunning = false;
-            if (this.ProtoConn != null)
-            {
-                this.ProtoConn.Disconnect();
-            }
+            this.Close();
             return 0;
         }
 
         #endregion
+
+        public void Close()
+        {
+            this.CfIsRunning = false;
+            this.areMsg.Set();//若在等訊號也通知結束等待
+
+            if (this.taskRun != null)
+            {
+                this.taskRun.Cancel();//取消執行Task
+                this.taskRun.Wait(1000);
+                this.taskRun.Dispose();
+                this.taskRun = null;
+            }
+            if (this.ProtoConn != null)
+            {
+                this.ProtoConn.Disconnect();
+                this.ProtoConn.Dispose();
+                this.ProtoConn = null;
+            }
+            CtkEventUtil.RemoveEventHandlersOfOwnerByFilter(this, (dlgt) => true);
+
+        }
 
 
 
@@ -360,9 +364,7 @@ namespace SensingNet.v0_2.DvcSensor
 
         protected virtual void DisposeSelf()
         {
-            this.CfUnLoad();
-            this.CfFree();
-            CtkEventUtil.RemoveEventHandlersOfOwnerByFilter(this, (dlgt) => true);
+            this.Close();
         }
         #endregion
 

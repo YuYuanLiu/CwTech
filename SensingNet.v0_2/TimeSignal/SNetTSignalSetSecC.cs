@@ -1,11 +1,7 @@
-﻿using CToolkit.v1_1.Numeric;
-using CToolkit.v1_1.Timing;
-using System;
-using System.Collections;
+﻿using CToolkit.v1_1.Timing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
 
 namespace SensingNet.v0_2.TimeSignal
 {

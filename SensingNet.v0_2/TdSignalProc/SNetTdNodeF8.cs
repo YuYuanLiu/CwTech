@@ -15,17 +15,11 @@ namespace SensingNet.v0_2.TdSignalProc
     /// </summary>
     public class SNetTdNodeF8 : SNetTdNode
     {
-
         public CtkTimeSecond? PrevTime;
+
         public int PurgeSeconds = 60;
 
-
-        protected virtual void Purge()
-        {
-            throw new NotImplementedException();
-        }
-
-
+        ~SNetTdNodeF8() { this.Dispose(false); }
         /// <summary>
         /// 簡易處理方式, 多段時間同時輸入時, 請自行分段輸入.
         /// </summary>
@@ -48,6 +42,11 @@ namespace SensingNet.v0_2.TdSignalProc
             this.Purge();
 
             this.PrevTime = time;
+        }
+
+        protected virtual void Purge()
+        {
+            throw new NotImplementedException();
         }
         //protected virtual void ProcAndPushData(SNetTSignalSetSecF8 tSignal, SNetTSignalSetSecF8 newSignals)
         //{

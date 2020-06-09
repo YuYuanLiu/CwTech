@@ -14,6 +14,7 @@ namespace SensingNet.v0_2.Simulate
 {
     public class SNetSimulateDeviceRandom : IDisposable
     {
+        ~SNetSimulateDeviceRandom() { this.Dispose(false); }
         public CtkNonStopTcpListener listener;
 
         public void RunAsyn()

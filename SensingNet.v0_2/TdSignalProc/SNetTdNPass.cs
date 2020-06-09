@@ -7,6 +7,7 @@ namespace SensingNet.v0_2.TdSignalProc
 {
     public class SNetTdNPass: SNetTdNodeF8
     {
+        ~SNetTdNPass() { this.Dispose(false); }
 
         public void TgInput(object sender, SNetTdSignalSecF8EventArg ea)
         {

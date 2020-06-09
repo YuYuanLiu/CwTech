@@ -22,7 +22,7 @@ namespace SensingNet.v0_2.TdSignalProc
         public SNetTSignalSetSecF8 TSignal = new SNetTSignalSetSecF8();
 
 
-
+        ~SNetTdNFft() { this.Dispose(false); }
 
         protected override void Purge()
         {
