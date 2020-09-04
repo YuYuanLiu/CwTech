@@ -1,4 +1,4 @@
-﻿using CToolkit.v1_1;
+using CToolkit.v1_1;
 using CToolkit.v1_1.Timing;
 using SensingNet.v0_2.TimeSignal;
 using System;
@@ -82,10 +82,12 @@ namespace SensingNet.v0_2.TdSignalProc
                 if (this.PrevTime.HasValue && this.PrevTime != time)
                 {
                     var prevTime = this.PrevTime.HasValue ? this.PrevTime.Value : DateTime.Now;
-                    var prevSignal = this.TSignalSet.Get(prevTime);
-
-                    evtea.TSignalNew.AddByKey(time, newSignals.Signals);
-                    this.OnDataChange(evtea);
+                    if (this.TSignalSet.ContainKey(prevTime))
+                    {
+                        var prevSignal = this.TSignalSet.Get(prevTime);
+                        evtea.TSignalNew.AddByKey(time, newSignals.Signals);
+                        this.OnDataChange(evtea);
+                    }
                 }
             }
             else
