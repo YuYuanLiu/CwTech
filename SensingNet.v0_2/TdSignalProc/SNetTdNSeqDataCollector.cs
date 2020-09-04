@@ -109,8 +109,9 @@ namespace SensingNet.v0_2.TdSignalProc
         {
             if (this.PurgeSeconds <= 0) return;
             var now = DateTime.Now;
-            var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
-            PurgeSignalByTime(this.TSignalSet, oldKey);
+            //var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
+            //PurgeSignalByTime(this.TSignalSet, oldKey);
+            PurgeSignalByCount(this.TSignalSet, this.PurgeSeconds);
         }
 
 
