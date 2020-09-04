@@ -12,10 +12,10 @@ using System.Text;
 
 namespace SensingNet.v0_2.TdSignalProc
 {
-    public class SNetTdNFilter : SNetTdNodeF8
+    public class SNetTdnFilter : SNetTdNodeF8
     {
 
-        ~SNetTdNFilter() { this.Dispose(false); }
+        ~SNetTdnFilter() { this.Dispose(false); }
         //使用Struct傳入是傳值, 修改是無法帶出來的, 但你可以回傳同一個結構後接住它
         public CtkPassFilterStruct FilterArgs = new CtkPassFilterStruct()
         {

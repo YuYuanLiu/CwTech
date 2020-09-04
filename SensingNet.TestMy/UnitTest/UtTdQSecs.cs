@@ -28,8 +28,8 @@ namespace SensingNet.TestMy.UnitTest
         public void TestMethod()
         {
 
-            var block = new SNetTdBQSecs();
-            var node1 = block.AddNode<SNetTdNQSecs>();
+            var block = new SNetTdbQSecs();
+            var node1 = block.AddNode<SNetTdnQSecs>();
 
             var isRunning = true;
 

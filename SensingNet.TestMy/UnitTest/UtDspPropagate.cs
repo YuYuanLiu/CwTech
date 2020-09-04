@@ -29,9 +29,9 @@ namespace SensingNet.TestMy.UnitTest
         {
 
             var block = new SNetTdBlock();
-            var node_seq = block.AddNode<SNetTdNSeqDataCollector>();
-            var node_filter = block.AddNode<SNetTdNFilter>();
-            var node_statistics = block.AddNode<SNetTdNStatistics>();
+            var node_seq = block.AddNode<SNetTdnSeqDataCollector>();
+            var node_filter = block.AddNode<SNetTdnFilter>();
+            var node_statistics = block.AddNode<SNetTdnStatistics>();
 
             node_seq.EhDataChange += node_filter.Input;
             node_filter.EhDataChange += node_statistics.Input;

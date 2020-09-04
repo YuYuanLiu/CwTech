@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_2.TdSignalProc
 {
-    public class SNetTdNFft : SNetTdNodeF8
+    public class SNetTdnFft : SNetTdNodeF8
     {
         public int SampleRate = 1024;
         /// <summary>
@@ -22,7 +22,7 @@ namespace SensingNet.v0_2.TdSignalProc
         public SNetTSignalSetSecF8 TSignal = new SNetTSignalSetSecF8();
 
 
-        ~SNetTdNFft() { this.Dispose(false); }
+        ~SNetTdnFft() { this.Dispose(false); }
 
         protected override void Purge()
         {

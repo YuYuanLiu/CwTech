@@ -13,12 +13,12 @@ using System.Text;
 
 namespace SensingNet.v0_2.TdSignalProc
 {
-    public class SNetTdBQSecs : SNetTdBlock, ICtkContextFlowRun
+    public class SNetTdbQSecs : SNetTdBlock, ICtkContextFlowRun
     {
         public SNetQSecsCfg cfg;
         public CxHsmsConnector hsmsConnector;
 
-        ~SNetTdBQSecs() { this.Dispose(false); }
+        ~SNetTdbQSecs() { this.Dispose(false); }
 
 
 

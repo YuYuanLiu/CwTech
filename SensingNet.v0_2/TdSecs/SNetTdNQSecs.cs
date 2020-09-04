@@ -14,7 +14,7 @@ using SensingNet.v0_2.TdSignalProc;
 
 namespace SensingNet.v0_2.TdSecs
 {
-    public class SNetTdNQSecs : SNetTdNodeF8
+    public class SNetTdnQSecs : SNetTdNodeF8
     {
         public SNetQSvidCfg cfg;
         public UInt64 QSvid { get { return this.cfg.QSvid; } }

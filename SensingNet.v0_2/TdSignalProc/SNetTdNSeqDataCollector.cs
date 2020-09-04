@@ -7,12 +7,12 @@ using System.Collections.Generic;
 namespace SensingNet.v0_2.TdSignalProc
 {
 
-    public class SNetTdNSeqDataCollector : SNetTdNodeF8
+    public class SNetTdnSeqDataCollector : SNetTdNodeF8
     {
         public SNetTSignalSetSecF8 TSignalSet = new SNetTSignalSetSecF8();
         public bool IsTriggeredPerSecond = false;
 
-        ~SNetTdNSeqDataCollector() { this.Dispose(false); }
+        ~SNetTdnSeqDataCollector() { this.Dispose(false); }
 
 
 

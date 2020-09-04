@@ -10,7 +10,7 @@ using System.Text;
 
 namespace SensingNet.v0_2.TdSignalProc
 {
-    public class SNetTdNStatistics : SNetTdNodeF8
+    public class SNetTdnStatistics : SNetTdNodeF8
     {
 
         public SNetTSignalSetSecF8 TSignalAvg = new SNetTSignalSetSecF8();
@@ -18,7 +18,7 @@ namespace SensingNet.v0_2.TdSignalProc
         public SNetTSignalSetSecF8 TSignalMin = new SNetTSignalSetSecF8();
 
 
-        ~SNetTdNStatistics() { this.Dispose(false); }
+        ~SNetTdnStatistics() { this.Dispose(false); }
 
 
 
