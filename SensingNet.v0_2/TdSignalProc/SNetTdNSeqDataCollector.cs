@@ -68,7 +68,7 @@ namespace SensingNet.v0_2.TdSignalProc
             var time = newSignals.Time.HasValue ? newSignals.Time.Value : DateTime.Now;
 
 
-            tSignalSet.AddByKey(time, newSignals.Signals);
+            tSignalSet.Add(time, newSignals.Signals);
             var evtea = new SNetTdSignalSetSecF8EventArg()
             {
                 Sender = this,
@@ -85,14 +85,14 @@ namespace SensingNet.v0_2.TdSignalProc
                     if (this.TSignalSet.ContainKey(prevTime))
                     {
                         var prevSignal = this.TSignalSet.Get(prevTime);
-                        evtea.TSignalNew.AddByKey(time, newSignals.Signals);
+                        evtea.TSignalNew.Add(time, newSignals.Signals);
                         this.OnDataChange(evtea);
                     }
                 }
             }
             else
             {
-                evtea.TSignalNew.AddByKey(time, newSignals.Signals);
+                evtea.TSignalNew.Add(time, newSignals.Signals);
                 this.OnDataChange(evtea);
             }
 

@@ -22,7 +22,7 @@ namespace SensingNet.v0_2.TimeSignal
 
         #region ISNetDspTimeSignalSet
 
-        public void AddByKey(CtkTimeSecond key, IEnumerable<Complex> signals)
+        public void Add(CtkTimeSecond key, IEnumerable<Complex> signals)
         {
             var list = this.GetOrCreate(key);
             list.AddRange(signals);

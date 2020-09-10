@@ -35,8 +35,8 @@ namespace SensingNet.v0_2.TdSignalProc
             ea.PrevTime = this.PrevTime;
 
 
-            ea.TSignalNew.AddByKey(time, newSignals.Signals);
-            tSignal.AddByKey(time, newSignals.Signals);
+            ea.TSignalNew.Add(time, newSignals.Signals);
+            tSignal.Add(time, newSignals.Signals);
             this.OnDataChange(ea);
 
             this.Purge();
@@ -108,8 +108,18 @@ namespace SensingNet.v0_2.TdSignalProc
         {
             var now = DateTime.Now;
             var query = tSignal.Signals.Where(x => x.Key < time).ToList();
-            foreach (var ok in query)
-                tSignal.Signals.Remove(ok.Key);
+            foreach (var row in query)
+                tSignal.Signals.Remove(row.Key);
+        }
+
+        public static void PurgeSignalByTime(SNetTSignalSetSecF8 tSignal, CtkTimeSecond start, CtkTimeSecond end)
+        {
+            var now = DateTime.Now;
+            var query = (from row in tSignal.Signals
+                         where row.Key < start || row.Key > end
+                         select row).ToList();
+            foreach (var row in query)
+                tSignal.Signals.Remove(row.Key);
         }
 
         #endregion

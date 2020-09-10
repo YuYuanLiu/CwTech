@@ -7,7 +7,7 @@ namespace SensingNet.v0_2.TimeSignal
 {
     public interface ISNetTdTSignalSet<T, S>
     {
-        void AddByKey(T key, IEnumerable<S> signals);
+        void Add(T key, IEnumerable<S> signals);
         bool ContainKey(T key);
         List<S> GetOrCreate(T key);
         void Set(T key, List<S> signals);

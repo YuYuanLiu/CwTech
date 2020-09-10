@@ -20,7 +20,7 @@ namespace SensingNet.v0_2.TimeSignal
         }
 
         public SNetTSignalSetSecF8() { }
-        public SNetTSignalSetSecF8(CtkTimeSecond time, IEnumerable<double> signals) { this.AddByKey(time, signals); }
+        public SNetTSignalSetSecF8(CtkTimeSecond time, IEnumerable<double> signals) { this.Add(time, signals); }
 
 
         public List<double> this[CtkTimeSecond key] { get { return this.Signals[key]; } set { this.Signals[key] = value; } }
@@ -63,10 +63,15 @@ namespace SensingNet.v0_2.TimeSignal
 
         #region ISNetDspTimeSignalSet
 
-        public void AddByKey(CtkTimeSecond key, IEnumerable<double> signals)
+        public void Add(CtkTimeSecond key, IEnumerable<double> signals)
         {
             var list = this.GetOrCreate(key);
             list.AddRange(signals);
+        }
+        public void Add(CtkTimeSecond key, double signal)
+        {
+            var list = this.GetOrCreate(key);
+            list.Add(signal);
         }
         public bool ContainKey(CtkTimeSecond key) { return this.Signals.ContainsKey((CtkTimeSecond)key); }
         public List<double> GetOrCreate(CtkTimeSecond key)
