@@ -95,14 +95,22 @@ namespace SensingNet.v0_2.QSecs
                     {
                         hsmsConnector.ConnectIfNo();
                     }
-                    catch (Exception ex) { CtkLog.Write(ex); }
+                    catch (Exception ex)
+                    {
+                        CtkLog.Write(ex);
+                        System.Threading.Thread.Sleep(5000);//無法連線等待5秒
+                    }
 
 
                     try
                     {
                         hsmsConnector.ReceiveRepeat();
                     }
-                    catch (Exception ex) { CtkLog.Write(ex); }
+                    catch (Exception ex)
+                    {
+                        CtkLog.Write(ex);
+                        System.Threading.Thread.Sleep(5000);//無法連線等待5秒
+                    }
                     finally { System.Threading.Thread.Sleep(1000); }
                 }
             });
