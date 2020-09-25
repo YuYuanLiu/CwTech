@@ -57,11 +57,15 @@ namespace SensingNet.v0_2.TimeSignal
                 kv.Value.AddRange(list);
             }
         }
+        public void RemoveFirst()
+        {
+            var key = this.Signals.First().Key;
+            this.Signals.Remove(key);
+        }
 
 
 
-
-        #region ISNetDspTimeSignalSet
+        #region ISNetTdTSignalSet
 
         public void Add(CtkTimeSecond key, IEnumerable<double> signals)
         {

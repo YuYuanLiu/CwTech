@@ -100,9 +100,7 @@ namespace SensingNet.v0_2.TdSignalProc
 
         public static void PurgeSignalByCount(SNetTSignalSetSecF8 tSignal, int Count)
         {
-            var query = tSignal.Signals.Take(tSignal.Signals.Count - Count).ToList();
-            foreach (var ok in query)
-                tSignal.Signals.Remove(ok.Key);
+            while (tSignal.Signals.Count > Count) tSignal.RemoveFirst();
         }
         public static void PurgeSignalByTime(SNetTSignalSetSecF8 tSignal, CtkTimeSecond time)
         {
