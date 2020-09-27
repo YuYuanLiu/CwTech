@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace SensingNet.v0_2.QSecs
 {
@@ -11,8 +12,8 @@ namespace SensingNet.v0_2.QSecs
     /// </summary>
     public class SNetQSecsCfg
     {
-        public String LocalUri;
-        public String RemoteUri;
+        [XmlAttribute] public String LocalUri;
+        [XmlAttribute] public String RemoteUri;
 
         public List<SNetQSvidCfg> QSvidCfgList = new List<SNetQSvidCfg>();
 

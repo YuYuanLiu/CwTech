@@ -11,6 +11,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace SensingNet.v0_2.DvcSensor
 {
@@ -21,11 +22,11 @@ namespace SensingNet.v0_2.DvcSensor
         /// <summary>
         /// Device的唯一識別符
         /// </summary>
-        public String DeviceUid;
+        [XmlAttribute] public String DeviceUid;
         /// <summary>
         /// Device的名稱
         /// </summary>
-        public String DeviceName;
+        [XmlAttribute] public String DeviceName;
         /// <summary>
         /// Device是否為主動連線
         /// </summary>
@@ -45,7 +46,6 @@ namespace SensingNet.v0_2.DvcSensor
         public List<SNetSignalTransCfg> SignalCfgList = new List<SNetSignalTransCfg>();
         public SNetEnumSignalTrans SignalTran = SNetEnumSignalTrans.SNetCmd;
         public int TimeoutResponse = 1000;
-
         /// <summary>
         /// 訊息應間隔幾毫秒, 0=即時
         /// </summary>

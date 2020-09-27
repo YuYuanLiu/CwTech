@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace SensingNet.v0_2.QSecs
 {
@@ -12,13 +13,12 @@ namespace SensingNet.v0_2.QSecs
     /// </summary>
     public class SNetQSvidCfg
     {
-        public UInt64 QSvid;
-        public SNetEnumStatisticsMethod StatisticsMethod = SNetEnumStatisticsMethod.Average;
-        public int StatisticsSecond = 1;
+        [XmlAttribute] public UInt64 QSvid;
+        [XmlAttribute] public SNetEnumStatisticsMethod StatisticsMethod = SNetEnumStatisticsMethod.Average;
+        [XmlAttribute] public int StatisticsSecond = 1;
 
-
-        public String DeviceUri;//可為空值
         public string DeviceUid;//若DeviceIp/Port不存在, 以Device Name區分
+        public String DeviceUri;//可為空值
         public UInt64 DeviceSvid;
 
         public String StoragePath;

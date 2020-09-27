@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace SensingNet.v0_2.SignalTrans
 {
     public class SNetSignalTransCfg
     {
 
-        public UInt64 Svid = 0;
-        public String SignalName;
+        [XmlAttribute] public UInt64 Svid = 0;
+        [XmlAttribute] public String SignalName;
 
+        [XmlAttribute] public double CalibrateSysScale = 1.0;
+        [XmlAttribute] public double CalibrateSysOffset = 0.0;
 
-        public double CalibrateSysScale = 1.0;
-        public double CalibrateSysOffset = 0.0;
-
-        public double CalibrateUserScale = 1.0;
-        public double CalibrateUserOffset = 0.0;
+        [XmlAttribute] public double CalibrateUserScale = 1.0;
+        [XmlAttribute] public double CalibrateUserOffset = 0.0;
 
 
         //public String StorageDirectory = "Signals/toolid/svid";
