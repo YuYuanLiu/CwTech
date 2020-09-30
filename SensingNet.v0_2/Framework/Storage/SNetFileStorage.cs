@@ -1,7 +1,7 @@
 using CToolkit;
 using CToolkit.v1_1;
+using SensingNet.v0_2.DvcSensor.SignalTrans;
 using SensingNet.v0_2.Framework.Storage;
-using SensingNet.v0_2.SignalTrans;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_2.Storage
+namespace SensingNet.v0_2.Framework.Storage
 {
 
     /// <summary>

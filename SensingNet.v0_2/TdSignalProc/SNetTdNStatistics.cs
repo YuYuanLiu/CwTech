@@ -13,9 +13,9 @@ namespace SensingNet.v0_2.TdSignalProc
     public class SNetTdnStatistics : SNetTdNodeF8
     {
 
-        public SNetTSignalSetSecF8 TSignalAvg = new SNetTSignalSetSecF8();
-        public SNetTSignalSetSecF8 TSignalMax = new SNetTSignalSetSecF8();
-        public SNetTSignalSetSecF8 TSignalMin = new SNetTSignalSetSecF8();
+        public SNetTSignalSecSetF8 TSignalAvg = new SNetTSignalSecSetF8();
+        public SNetTSignalSecSetF8 TSignalMax = new SNetTSignalSecSetF8();
+        public SNetTSignalSecSetF8 TSignalMin = new SNetTSignalSecSetF8();
 
 
         ~SNetTdnStatistics() { this.Dispose(false); }
@@ -37,7 +37,7 @@ namespace SensingNet.v0_2.TdSignalProc
         public void Input(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetTdSignalSetSecF8EventArg;
+            var ea = e as SNetTdSignalSecSetF8EventArg;
             if (ea == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 

@@ -9,7 +9,7 @@ namespace SensingNet.v0_2.TdSignalProc
 
     public class SNetTdnSeqDataCollector : SNetTdNodeF8
     {
-        public SNetTSignalSetSecF8 TSignalSet = new SNetTSignalSetSecF8();
+        public SNetTSignalSecSetF8 TSignalSet = new SNetTSignalSecSetF8();
         public bool IsTriggeredPerSecond = false;
 
         ~SNetTdnSeqDataCollector() { this.Dispose(false); }
@@ -22,7 +22,7 @@ namespace SensingNet.v0_2.TdSignalProc
         /// </summary>
         /// <param name="vals"></param>
         /// <param name="dt"></param>
-        public void TgInput(object sender, SNetTdSignalSetSecF8EventArg ea)
+        public void TgInput(object sender, SNetTdSignalSecSetF8EventArg ea)
         {
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;
@@ -45,7 +45,7 @@ namespace SensingNet.v0_2.TdSignalProc
                 return;
             }
 
-            var eaSet = ea as SNetTdSignalSetSecF8EventArg;
+            var eaSet = ea as SNetTdSignalSecSetF8EventArg;
             if (eaSet != null)
             {
                 this.TgInput(sender, eaSet);
@@ -62,6 +62,7 @@ namespace SensingNet.v0_2.TdSignalProc
         public void TgInput(object sender, SNetTdSignalSecF8EventArg ea)
         {
             if (!this.IsEnalbed) return;
+            this.Purge();//先Purge, 避免Exception造成沒有Purge
 
             var tSignalSet = this.TSignalSet;
             var newSignals = ea.TSignal;
@@ -69,7 +70,7 @@ namespace SensingNet.v0_2.TdSignalProc
 
 
             tSignalSet.Add(time, newSignals.Signals);
-            var evtea = new SNetTdSignalSetSecF8EventArg()
+            var evtea = new SNetTdSignalSecSetF8EventArg()
             {
                 Sender = this,
                 Time = time,
@@ -97,10 +98,7 @@ namespace SensingNet.v0_2.TdSignalProc
             }
 
 
-            this.Purge();
             this.PrevTime = time;
-
-
         }
 
 
@@ -111,7 +109,7 @@ namespace SensingNet.v0_2.TdSignalProc
             var now = DateTime.Now;
             //var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
             //PurgeSignalByTime(this.TSignalSet, oldKey);
-            PurgeSignalByCount(this.TSignalSet, this.PurgeSeconds);
+            PurgeSignalByCount(this.TSignalSet, this.PurgeCounts);
         }
 
 

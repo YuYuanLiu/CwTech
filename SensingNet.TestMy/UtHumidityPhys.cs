@@ -8,12 +8,11 @@ using System.Net;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using SensingNet.v0_2.Protocol;
-using SensingNet.v0_2.SignalTrans;
 using SensingNet.v0_2.DvcSensor;
 using CToolkit.v1_1;
 using SensingNet.v0_2.Framework.Storage;
-using SensingNet.v0_2.Storage;
+using SensingNet.v0_2.DvcSensor.Protocol;
+using SensingNet.v0_2.DvcSensor.SignalTrans;
 
 namespace SensingNet.TestMy
 {
@@ -43,7 +42,7 @@ namespace SensingNet.TestMy
             };
             for (var idx = 0; idx < 8; idx++)
             {
-                deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalTransCfg()
+                deviceHdl.Config.SignalCfgList.Add(new SNetSignalTransCfg()
                 {
                     Svid = 0x00010000 + 0x0100 * (ulong)idx,
                     //Svid = 0x00000000,
@@ -51,7 +50,7 @@ namespace SensingNet.TestMy
             }
             for (var idx = 0; idx < 8; idx++)
             {
-                deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalTransCfg()
+                deviceHdl.Config.SignalCfgList.Add(new SNetSignalTransCfg()
                 {
                     Svid = 0x00020000 + 0x0100 * (ulong)idx,
                     //Svid = 0x00000000,

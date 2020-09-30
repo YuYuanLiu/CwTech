@@ -19,7 +19,7 @@ namespace SensingNet.v0_2.TdSignalProc
         /// <summary>
         /// MathNet FFT 選 Matlab -> 算出來的結果可以加總後取平均, 仍是頻域圖
         /// </summary>
-        public SNetTSignalSetSecF8 TSignal = new SNetTSignalSetSecF8();
+        public SNetTSignalSecSetF8 TSignal = new SNetTSignalSecSetF8();
 
 
         ~SNetTdnFft() { this.Dispose(false); }
@@ -35,7 +35,7 @@ namespace SensingNet.v0_2.TdSignalProc
         public void Input(object sender, SNetTdEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetTdSignalSetSecF8EventArg;
+            var ea = e as SNetTdSignalSecSetF8EventArg;
             if (ea == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 

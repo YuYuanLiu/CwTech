@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 
-namespace SensingNet.v0_2.Protocol
+namespace SensingNet.v0_2.DvcSensor.Protocol
 {
     /// <summary>
     /// 處理Protocol Format相關功能

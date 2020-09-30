@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensingNet.v0_2.Protocol
+namespace SensingNet.v0_2.DvcSensor.SignalTrans
 {
-    public enum SNetEnumProtoSession
+    public enum SNetEnumSignalTrans
     {
         SNetCmd,
-        Secs,
-        Modbus,
-        CtkWcf,
+        Secs001, //for 客戶需求
+        CtkWcf001,
         Custom,
     }
 }

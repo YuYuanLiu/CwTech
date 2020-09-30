@@ -1,48 +1,45 @@
-﻿using System;
+﻿using CodeExpress.v1_0.Secs;
+using CToolkit.v1_1.Protocol;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using CToolkit.v1_1.Protocol;
 
-namespace SensingNet.v0_2.Protocol
+namespace SensingNet.v0_2.DvcSensor.Protocol
 {
-    public class SNetProtoFormatSNetCmd : ISNetProtoFormatBase, IDisposable
+
+    /// <summary>
+    /// 客戶要求的Secs Format
+    /// </summary>
+    public class SNetProtoFormatSecs : ISNetProtoFormatBase, IDisposable
     {
-        public ConcurrentQueue<string> MsgQueue = new ConcurrentQueue<string>();
-        StringBuilder receivingString = new StringBuilder();
 
+        public ConcurrentQueue<CxHsmsMessage> MsgQueue = new ConcurrentQueue<CxHsmsMessage>();
 
+        CxHsmsMessageReceiver hsmsMsgRcv = new CxHsmsMessageReceiver();
+
+        ~SNetProtoFormatSecs() { this.Dispose(false); }
 
         void ReceiveBytes(byte[] buffer, int offset, int length)
         {
-            lock (this)
+            this.hsmsMsgRcv.Receive(buffer, offset, length);
+            while (this.hsmsMsgRcv.Count > 0)
             {
-                this.receivingString.Append(Encoding.UTF8.GetString(buffer, offset, length));
-                var content = this.receivingString.ToString();
-                for (var idx = content.IndexOf('\n'); idx >= 0; idx = content.IndexOf('\n'))
-                {
-                    var line = content.Substring(0, idx + 1);
-                    line = line.Replace("\r", "");
-                    line = line.Replace("\n", "");
-                    line = line.Trim();
-                    if (line.Contains("cmd"))
-                        this.MsgQueue.Enqueue(line);
-                    content = content.Remove(0, idx + 1);
-                }
-                this.receivingString.Clear();
-                this.receivingString.Append(content);
+                var msg = this.hsmsMsgRcv.Dequeue();
+                this.MsgQueue.Enqueue(msg);
             }
         }
 
         #region ISNetProtoFormatBase
+
         int ISNetProtoFormatBase.Count() { return this.MsgQueue.Count; }
+
         public bool HasMessage() { return this.MsgQueue.Count > 0; }
 
-        public bool IsReceiving() { return this.receivingString.Length > 0; }
+        public bool IsReceiving() { return this.hsmsMsgRcv.GetMsgBufferLength() > 0; }
 
         public void ReceiveMsg(CtkProtocolTrxMessage msg)
         {
@@ -53,22 +50,15 @@ namespace SensingNet.v0_2.Protocol
             }
             else throw new ArgumentException("Not support type");
         }
-
         public bool TryDequeueMsg(out object msg)
         {
-            string line = null;
-            var flag = this.MsgQueue.TryDequeue(out line);
-            msg = line;
-
-            System.Diagnostics.Debug.WriteLine(msg);
-
+            CxHsmsMessage mymsg = null;
+            var flag = this.MsgQueue.TryDequeue(out mymsg);
+            msg = mymsg;
             return flag;
         }
-
-
-
-
         #endregion
+
 
 
         #region IDisposable
@@ -106,6 +96,7 @@ namespace SensingNet.v0_2.Protocol
 
         void DisposeSelf()
         {
+
         }
 
 

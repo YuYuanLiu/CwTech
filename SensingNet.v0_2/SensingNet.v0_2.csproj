@@ -77,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Framework\SNetQSecsMgr.cs" />
-    <Compile Include="Framework\SNetSensorDeviceMgr.cs" />
+    <Compile Include="Framework\SNetDeviceSensorMgr.cs" />
     <Compile Include="Framework\Storage\FileStorageFormat_Csv0_1.cs" />
     <Compile Include="Framework\Storage\SNetFileStorage.cs" />
     <Compile Include="Framework\Storage\SNetFileStorageCfg.cs" />
@@ -85,13 +85,13 @@
     <Compile Include="Framework\Storage\SNetFileStorageFormat.cs" />
     <Compile Include="Framework\Storage\SNetFileStorageFormat_Csv0_2.cs" />
     <Compile Include="Framework\Storage\SNetFileStorageInfo.cs" />
-    <Compile Include="Protocol\ISNetProtoConnectBase.cs" />
+    <Compile Include="DvcSensor\Protocol\ISNetProtoConnectBase.cs" />
     <Compile Include="TdSignalProc\SNetTdnPass.cs" />
     <Compile Include="TdSecs\SNetTdnQSecs.cs" />
     <Compile Include="TdSignalProc\SNetTdNodeF8.cs" />
     <Compile Include="TdSignalProc\SNetTdnFft.cs" />
     <Compile Include="TdSignalProc\SNetTdbQSecs.cs" />
-    <Compile Include="TdSignalProc\SNetTdSignalSetSecF8EventArg.cs" />
+    <Compile Include="TdSignalProc\SNetTdSignalSecSetF8EventArg.cs" />
     <Compile Include="TdSignalProc\SNetTdSignalSecF8EventArg.cs" />
     <Compile Include="TdBase\SNetTdDiagram.cs" />
     <Compile Include="TdBase\SNetTdNode.cs" />
@@ -105,23 +105,23 @@
     <Compile Include="TdSignalProc\SNetTdnSeqDataCollector.cs" />
     <Compile Include="TdSignalProc\SNetTdnStatistics.cs" />
     <Compile Include="TimeSignal\SNetTSignalSecF8.cs" />
-    <Compile Include="TimeSignal\SNetTSignalSetSecC.cs" />
-    <Compile Include="TimeSignal\SNetTSignalSetSecF8.cs" />
-    <Compile Include="Protocol\SNetEnumProtoConnect.cs" />
-    <Compile Include="Protocol\SNetEnumProtoSession.cs" />
-    <Compile Include="Protocol\SNetEnumProtoFormat.cs" />
+    <Compile Include="TimeSignal\SNetTSignalSecSetC.cs" />
+    <Compile Include="TimeSignal\SNetTSignalSecSetF8.cs" />
+    <Compile Include="DvcSensor\Protocol\SNetEnumProtoConnect.cs" />
+    <Compile Include="DvcSensor\Protocol\SNetEnumProtoSession.cs" />
+    <Compile Include="DvcSensor\Protocol\SNetEnumProtoFormat.cs" />
     <Compile Include="Simulate\SNetSimulateDeviceRandom.cs" />
     <Compile Include="Simulate\SNetSimulateCmdTcpClient.cs" />
     <Compile Include="SNetEnumHandlerStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Protocol\ISNetProtoSessionBase.cs" />
-    <Compile Include="Protocol\ISNetProtoFormatBase.cs" />
-    <Compile Include="Protocol\SNetProtoConnRs232.cs" />
-    <Compile Include="Protocol\SNetProtoConnTcp.cs" />
-    <Compile Include="Protocol\SNetProtoFormatSNetCmd.cs" />
-    <Compile Include="Protocol\SNetProtoFormatSecs.cs" />
-    <Compile Include="Protocol\SNetProtoSessionSNetCmd.cs" />
-    <Compile Include="Protocol\SNetProtoSessionSecs.cs" />
+    <Compile Include="DvcSensor\Protocol\ISNetProtoSessionBase.cs" />
+    <Compile Include="DvcSensor\Protocol\ISNetProtoFormatBase.cs" />
+    <Compile Include="DvcSensor\Protocol\SNetProtoConnRs232.cs" />
+    <Compile Include="DvcSensor\Protocol\SNetProtoConnTcp.cs" />
+    <Compile Include="DvcSensor\Protocol\SNetProtoFormatSNetCmd.cs" />
+    <Compile Include="DvcSensor\Protocol\SNetProtoFormatSecs.cs" />
+    <Compile Include="DvcSensor\Protocol\SNetProtoSessionSNetCmd.cs" />
+    <Compile Include="DvcSensor\Protocol\SNetProtoSessionSecs.cs" />
     <Compile Include="QSecs\SNetEnumStatisticsMethod.cs" />
     <Compile Include="QSecs\SNetQSecsRcvDataEventArgs.cs" />
     <Compile Include="QSecs\SNetQSecsCfg.cs" />
@@ -129,13 +129,13 @@
     <Compile Include="QSecs\SNetQSvidCfg.cs" />
     <Compile Include="SNetException.cs" />
     <Compile Include="DvcSensor\SNetDvcSensorCfg.cs" />
-    <Compile Include="SignalTrans\SNetEnumSignalTrans.cs" />
-    <Compile Include="SignalTrans\ISNetSignalTransBase.cs" />
-    <Compile Include="SignalTrans\SNetSignalTransCfg.cs" />
+    <Compile Include="DvcSensor\SignalTrans\SNetEnumSignalTrans.cs" />
+    <Compile Include="DvcSensor\SignalTrans\ISNetSignalTransBase.cs" />
+    <Compile Include="DvcSensor\SignalTrans\SNetSignalTransCfg.cs" />
     <Compile Include="DvcSensor\SNetDvcSensorHandler.cs" />
-    <Compile Include="SignalTrans\SNetSignalTransSecs001.cs" />
-    <Compile Include="SignalTrans\SNetSignalTransEventArgs.cs" />
-    <Compile Include="SignalTrans\SNetSignalTransSNetCmd.cs" />
+    <Compile Include="DvcSensor\SignalTrans\SNetSignalTransSecs001.cs" />
+    <Compile Include="DvcSensor\SignalTrans\SNetSignalTransEventArgs.cs" />
+    <Compile Include="DvcSensor\SignalTrans\SNetSignalTransSNetCmd.cs" />
     <Compile Include="SNetUtil.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using CToolkit.v1_1;
 using CToolkit.v1_1.DigitalPort;
-using SensingNet.v0_2.Protocol;
-using SensingNet.v0_2.SignalTrans;
+using SensingNet.v0_2.DvcSensor.Protocol;
+using SensingNet.v0_2.DvcSensor.SignalTrans;
 using System;
 using System.Collections.Generic;
 using System.IO;

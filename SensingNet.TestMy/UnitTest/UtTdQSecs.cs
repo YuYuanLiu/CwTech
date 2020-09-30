@@ -10,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using CToolkit.v1_1.Net;
 using System.Threading;
-using SensingNet.v0_2.Protocol;
 using SensingNet.v0_2.DvcSensor;
 using MathNet.Numerics.LinearAlgebra.Double;
 using SensingNet.v0_2.TdSignalProc;
@@ -37,7 +36,7 @@ namespace SensingNet.TestMy.UnitTest
             {
                 while (isRunning)
                 {
-                    node1.Input(this, new SNetTdSignalSetSecF8EventArg()
+                    node1.Input(this, new SNetTdSignalSecSetF8EventArg()
                     {
 
                     });
@@ -68,7 +67,7 @@ namespace SensingNet.TestMy.UnitTest
                     input[idx] = rnd.NextDouble() * 0.2;
 
                 input += wave;
-                node1.Input(null, new SNetTdSignalSetSecF8EventArg()
+                node1.Input(null, new SNetTdSignalSecSetF8EventArg()
                 {
                     TSignalNew = new SNetTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
                 });

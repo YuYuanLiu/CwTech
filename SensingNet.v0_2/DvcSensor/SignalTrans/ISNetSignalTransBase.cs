@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_2.SignalTrans
+namespace SensingNet.v0_2.DvcSensor.SignalTrans
 {
     /// <summary>
     /// 資料的分析處理

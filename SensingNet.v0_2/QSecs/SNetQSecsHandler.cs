@@ -1,7 +1,6 @@
 using CToolkit;
 using CToolkit.v1_1.Numeric;
 using CToolkit.v1_1;
-using SensingNet.v0_2.SignalTrans;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

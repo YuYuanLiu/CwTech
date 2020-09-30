@@ -1,10 +1,9 @@
 ﻿using CToolkit.v1_1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SensingNet.v0_2.DvcSensor;
+using SensingNet.v0_2.DvcSensor.Protocol;
+using SensingNet.v0_2.DvcSensor.SignalTrans;
 using SensingNet.v0_2.Framework.Storage;
-using SensingNet.v0_2.Protocol;
-using SensingNet.v0_2.SignalTrans;
-using SensingNet.v0_2.Storage;
 
 namespace SensingNet.TestMy
 {
@@ -33,7 +32,7 @@ namespace SensingNet.TestMy
                 ProtoSession = SNetEnumProtoSession.SNetCmd,
                 SignalTran = SNetEnumSignalTrans.SNetCmd,
             };
-            deviceHdl.Config.SignalCfgList.Add(new v0_2.SignalTrans.SNetSignalTransCfg()
+            deviceHdl.Config.SignalCfgList.Add(new SNetSignalTransCfg()
             {
                 Svid = 0,
             });

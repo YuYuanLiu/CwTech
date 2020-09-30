@@ -2,8 +2,6 @@ using CToolkit;
 using CToolkit.v1_1.Net;
 using CToolkit.v1_1.Protocol;
 using CToolkit.v1_1;
-using SensingNet.v0_2.Protocol;
-using SensingNet.v0_2.SignalTrans;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +12,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using CToolkit.v1_1.Threading;
 using CToolkit.v1_1.Logging;
+using SensingNet.v0_2.DvcSensor.Protocol;
+using SensingNet.v0_2.DvcSensor.SignalTrans;
 
 namespace SensingNet.v0_2.DvcSensor
 {

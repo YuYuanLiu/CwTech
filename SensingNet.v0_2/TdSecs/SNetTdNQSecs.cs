@@ -18,7 +18,7 @@ namespace SensingNet.v0_2.TdSecs
     {
         public SNetQSvidCfg cfg;
         public UInt64 QSvid { get { return this.cfg.QSvid; } }
-        public SNetTSignalSetSecF8 TSignal = new SNetTSignalSetSecF8();
+        public SNetTSignalSecSetF8 TSignal = new SNetTSignalSecSetF8();
 
 
 
@@ -30,10 +30,10 @@ namespace SensingNet.v0_2.TdSecs
 
 
 
-        public void Input(object sender, SNetTdSignalSetSecF8EventArg e)
+        public void Input(object sender, SNetTdSignalSecSetF8EventArg e)
         {
             if (!this.IsEnalbed) return;
-            var ea = e as SNetTdSignalSetSecF8EventArg;
+            var ea = e as SNetTdSignalSecSetF8EventArg;
             if (ea == null) throw new SNetException("尚無法處理此類資料: " + e.GetType().FullName);
 
 

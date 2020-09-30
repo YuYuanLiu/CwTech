@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace SensingNet.v0_2.SignalTrans
+namespace SensingNet.v0_2.DvcSensor.SignalTrans
 {
     public class SNetSignalTransCfg
     {

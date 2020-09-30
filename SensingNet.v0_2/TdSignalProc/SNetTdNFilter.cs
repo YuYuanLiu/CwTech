@@ -26,12 +26,12 @@ namespace SensingNet.v0_2.TdSignalProc
         };
 
         public CtkFftOnlineFilter PassFilter = new CtkFftOnlineFilter();
-        public SNetTSignalSetSecF8 TSignal = new SNetTSignalSetSecF8();
+        public SNetTSignalSecSetF8 TSignal = new SNetTSignalSecSetF8();
 
         public void Input(object sender, SNetTdSignalEventArg e)
         {
             if (!this.IsEnalbed) return;
-            var tsSetSecondEa = e as SNetTdSignalSetSecF8EventArg;
+            var tsSetSecondEa = e as SNetTdSignalSecSetF8EventArg;
             if (tsSetSecondEa == null) throw new SNetException("尚未無法處理此類資料: " + e.GetType().FullName);
 
 

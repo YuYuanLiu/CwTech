@@ -11,7 +11,7 @@ using System.Threading;
 using CToolkit.v1_1;
 using CodeExpress.v1_0.Secs;
 
-namespace SensingNet.v0_2.Protocol
+namespace SensingNet.v0_2.DvcSensor.Protocol
 {
 
     /// <summary>

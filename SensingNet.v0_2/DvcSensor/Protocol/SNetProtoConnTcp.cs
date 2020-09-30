@@ -9,7 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace SensingNet.v0_2.Protocol
+namespace SensingNet.v0_2.DvcSensor.Protocol
 {
 
     /// <summary>

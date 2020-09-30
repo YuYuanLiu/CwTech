@@ -1,22 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.ComponentModel;
-using MathNet.Numerics;
-using System.IO;
-using System.Collections.Generic;
-using System.Net;
-using System.Globalization;
-using System.Text;
-using System.Threading.Tasks;
-using CToolkit.v1_1.Net;
-using System.Threading;
-using SensingNet.v0_2.Protocol;
-using SensingNet.v0_2.DvcSensor;
+﻿using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Double;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SensingNet.v0_2.TdBase;
 using SensingNet.v0_2.TdSignalProc;
 using SensingNet.v0_2.TimeSignal;
+using System;
 using System.Linq;
-using SensingNet.v0_2.TdBase;
 
 namespace SensingNet.TestMy.UnitTest
 {
@@ -58,7 +47,7 @@ namespace SensingNet.TestMy.UnitTest
                     input[idx] = rnd.NextDouble() * 0.2;
 
                 input += wave;
-                node_seq.TgInput(null, new SNetTdSignalSetSecF8EventArg()
+                node_seq.TgInput(null, new SNetTdSignalSecSetF8EventArg()
                 {
                     TSignalNew = new SNetTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
                 });

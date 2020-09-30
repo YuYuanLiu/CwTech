@@ -7,14 +7,14 @@ using System.Text;
 
 namespace SensingNet.v0_2.TdSignalProc
 {
-    public class SNetTdSignalSetSecF8EventArg : SNetTdSignalEventArg
+    public class SNetTdSignalSecSetF8EventArg : SNetTdSignalEventArg
     {
 
         public CtkTimeSecond? Time;//當次時間
         public CtkTimeSecond? PrevTime;//前一次時間
-        public SNetTSignalSetSecF8 TSignalSource;//完整訊號來源
+        public SNetTSignalSecSetF8 TSignalSource;//完整訊號來源
 
-        public SNetTSignalSetSecF8 TSignalNew = new SNetTSignalSetSecF8();//此次新增訊號
+        public SNetTSignalSecSetF8 TSignalNew = new SNetTSignalSecSetF8();//此次新增訊號
 
         public SNetTSignalSecF8 GetThisOrLast()
         {

@@ -2,14 +2,14 @@ using CToolkit;
 using CToolkit.v1_1;
 using CToolkit.v1_1.Config;
 using SensingNet.v0_2.DvcSensor;
-using SensingNet.v0_2.SignalTrans;
+using SensingNet.v0_2.DvcSensor.SignalTrans;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SensingNet.v0_2.Framework
 {
-    public class SNetSensorDeviceMgr : IDisposable, ICtkContextFlowRun
+    public class SNetDeviceSensorMgr : IDisposable, ICtkContextFlowRun
     {
 
         public String DefaultConfigsFilder = "Config/DeviceConfigs";
@@ -19,7 +19,7 @@ namespace SensingNet.v0_2.Framework
 
 
 
-        ~SNetSensorDeviceMgr() { this.Dispose(false); }
+        ~SNetDeviceSensorMgr() { this.Dispose(false); }
 
 
         public bool CfIsRunning { get; set; }

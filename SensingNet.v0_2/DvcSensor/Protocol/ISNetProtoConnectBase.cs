@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SensingNet.v0_2.Protocol
+namespace SensingNet.v0_2.DvcSensor.Protocol
 {
     public interface ISNetProtoConnectBase: ICtkProtocolNonStopConnect, IDisposable
     {

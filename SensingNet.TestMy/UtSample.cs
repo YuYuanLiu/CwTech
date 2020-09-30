@@ -22,7 +22,7 @@ namespace SensingNet.TestMy
         public void TestMethod()
         {
 
-            var sensorDeviceMgr = new SNetSensorDeviceMgr();
+            var sensorDeviceMgr = new SNetDeviceSensorMgr();
             var qsecsMgr = new SNetQSecsMgr();
 
 

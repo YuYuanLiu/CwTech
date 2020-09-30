@@ -1,11 +1,8 @@
-﻿using CToolkit.v1_1;
-using CToolkit.v1_1.Timing;
+﻿using CToolkit.v1_1.Timing;
+using SensingNet.v0_2.TdBase;
 using SensingNet.v0_2.TimeSignal;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SensingNet.v0_2.TdBase;
 
 namespace SensingNet.v0_2.TdSignalProc
 {
@@ -16,60 +13,41 @@ namespace SensingNet.v0_2.TdSignalProc
     public class SNetTdNodeF8 : SNetTdNode
     {
         public CtkTimeSecond? PrevTime;
-
+        public int PurgeCounts = 60;
         public int PurgeSeconds = 60;
 
         ~SNetTdNodeF8() { this.Dispose(false); }
+
         /// <summary>
         /// 簡易處理方式, 多段時間同時輸入時, 請自行分段輸入.
         /// </summary>
         /// <param name="tSignal">原始訊號來源</param>
         /// <param name="newSignals">本次要新增的訊號</param>
-        protected virtual void ProcAndPushData(SNetTSignalSetSecF8 tSignal, SNetTSignalSecF8 newSignals)
+        protected virtual void ProcAndPushData(SNetTSignalSecSetF8 tSignal, SNetTSignalSecF8 newSignals)
         {
-            var ea = new SNetTdSignalSetSecF8EventArg();
+            if (!this.IsEnalbed) return;
+            this.Purge();//先Purge, 避免Exception造成沒有Purge
+
+
+            var ea = new SNetTdSignalSecSetF8EventArg();
             ea.Sender = this;
             var time = newSignals.Time.HasValue ? newSignals.Time.Value : DateTime.Now;
             ea.Time = time;
             ea.TSignalSource = tSignal;
             ea.PrevTime = this.PrevTime;
 
-
             ea.TSignalNew.Add(time, newSignals.Signals);
             tSignal.Add(time, newSignals.Signals);
             this.OnDataChange(ea);
 
-            this.Purge();
-
             this.PrevTime = time;
+            this.Purge();
         }
 
         protected virtual void Purge()
         {
             throw new NotImplementedException();
         }
-        //protected virtual void ProcAndPushData(SNetTSignalSetSecF8 tSignal, SNetTSignalSetSecF8 newSignals)
-        //{
-        //    var ea = new SNetTdSignalSetSecF8EventArg();
-        //    ea.Sender = this;
-        //    ea.TSignalSource = tSignal;
-
-        //    foreach (var s in newSignals.Signals)
-        //    {
-        //        var time = s.Key.DateTime;
-        //        ea.TSignalNew.AddByKey(s.Key, s.Value);
-        //        tSignal.AddByKey(s.Key, s.Value);
-
-
-        //        ea.Time = time;
-        //        this.PrevTime = ea.PrevTime = this.PrevTime;
-        //    }
-
-        //    this.OnDataChange(ea);
-        //    this.Purge();
-
-        //}
-
 
 
 
@@ -98,11 +76,11 @@ namespace SensingNet.v0_2.TdSignalProc
 
         #region Static
 
-        public static void PurgeSignalByCount(SNetTSignalSetSecF8 tSignal, int Count)
+        public static void PurgeSignalByCount(SNetTSignalSecSetF8 tSignal, int Count)
         {
             while (tSignal.Signals.Count > Count) tSignal.RemoveFirst();
         }
-        public static void PurgeSignalByTime(SNetTSignalSetSecF8 tSignal, CtkTimeSecond time)
+        public static void PurgeSignalByTime(SNetTSignalSecSetF8 tSignal, CtkTimeSecond time)
         {
             var now = DateTime.Now;
             var query = tSignal.Signals.Where(x => x.Key < time).ToList();
@@ -110,7 +88,7 @@ namespace SensingNet.v0_2.TdSignalProc
                 tSignal.Signals.Remove(row.Key);
         }
 
-        public static void PurgeSignalByTime(SNetTSignalSetSecF8 tSignal, CtkTimeSecond start, CtkTimeSecond end)
+        public static void PurgeSignalByTime(SNetTSignalSecSetF8 tSignal, CtkTimeSecond start, CtkTimeSecond end)
         {
             var now = DateTime.Now;
             var query = (from row in tSignal.Signals
