@@ -1,10 +1,13 @@
 ﻿using CToolkit.v1_1.Timing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 
 namespace SensingNet.v0_2.TimeSignal
 {
+    [Serializable]
     public class SNetTSignalSecSetC : ISNetTdTSignalSet<CtkTimeSecond, Complex>
     {
         //1 Ticks是100奈秒, 0 tick={0001/1/1 上午 12:00:00}
@@ -15,7 +18,8 @@ namespace SensingNet.v0_2.TimeSignal
         public KeyValuePair<CtkTimeSecond, List<Complex>>? GetLastOrDefault()
         {
             if (this.Signals.Count == 0) return null;
-            return this.Signals.Last();
+            lock (this)
+                return this.Signals.Last();
         }
 
 

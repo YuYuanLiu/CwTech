@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace SensingNet.v0_2.TdSignalProc
 {
-
+    [Serializable]
     public class SNetTdnSeqDataCollector : SNetTdNodeF8
     {
         public SNetTSignalSecSetF8 TSignalSet = new SNetTSignalSecSetF8();

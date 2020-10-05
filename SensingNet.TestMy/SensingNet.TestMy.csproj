@@ -108,6 +108,12 @@
     <Content Include="Tools\cudafycl.exe" />
     <Content Include="Tools\CudafyViewer.exe" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SensingNet.v0_2\SensingNet.v0_2.csproj">
+      <Project>{c51d6cfd-4164-4ea0-b2f5-2dcc88f450e5}</Project>
+      <Name>SensingNet.v0_2</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -10,6 +10,7 @@ namespace SensingNet.v0_2.TdSignalProc
     /// <summary>
     /// 用在Double(F8)序列資料節點
     /// </summary>
+    [Serializable]
     public class SNetTdNodeF8 : SNetTdNode
     {
         public CtkTimeSecond? PrevTime;

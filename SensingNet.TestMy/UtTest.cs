@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using CToolkit.v1_1;
 using System.Reflection;
 using CToolkit.v1_1.Net;
+using SensingNet.v0_2.TdSignalProc;
 
 namespace SensingNet.TestMy
 {
@@ -28,8 +29,12 @@ namespace SensingNet.TestMy
         public void TestMethod()
         {
 
+            var tdnData = new SNetTdnSeqDataCollector();
 
+            tdnData.TSignalSet[DateTime.Now] = new List<double>();
 
+            var size = tdnData.GetMemorySizeJson();
+            Console.WriteLine(size);
 
 
 

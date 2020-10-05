@@ -10,6 +10,7 @@ using System.Text;
 
 namespace SensingNet.v0_2.TdSignalProc
 {
+    [Serializable]
     public class SNetTdnStatistics : SNetTdNodeF8
     {
 

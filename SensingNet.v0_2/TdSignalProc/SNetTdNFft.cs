@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace SensingNet.v0_2.TdSignalProc
 {
+    [Serializable]
     public class SNetTdnFft : SNetTdNodeF8
     {
         public int SampleRate = 1024;

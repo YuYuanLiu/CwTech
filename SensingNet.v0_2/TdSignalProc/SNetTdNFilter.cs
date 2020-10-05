@@ -12,6 +12,7 @@ using System.Text;
 
 namespace SensingNet.v0_2.TdSignalProc
 {
+    [Serializable]
     public class SNetTdnFilter : SNetTdNodeF8
     {
 

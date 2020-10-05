@@ -5,13 +5,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace SensingNet.v0_2.TimeSignal
 {
+    [Serializable]
     public class SNetTSignalSecSetF8 : ISNetTdTSignalSet<CtkTimeSecond, double>
     {
         //1 Ticks是100奈秒, 0 tick={0001/1/1 上午 12:00:00}
         //請勿使用Datetime, 避免有人誤解 比對只進行 年月日時分秒, 事實會比較到tick
+        /// <summary>
+        /// 存取務必注意多執行緒
+        /// </summary>
         public SortedDictionary<CtkTimeSecond, List<double>> Signals = new SortedDictionary<CtkTimeSecond, List<double>>();
 
         ~SNetTSignalSecSetF8()
@@ -27,40 +32,58 @@ namespace SensingNet.v0_2.TimeSignal
 
         public SNetTSignalSecF8 Get(CtkTimeSecond key)
         {
-            var signals = this[key];
-            return new SNetTSignalSecF8(key, signals);
+            //存取務必注意多執行緒
+            lock (this)
+            {
+                var signals = this[key];
+                return new SNetTSignalSecF8(key, signals);
+            }
         }
         public SNetTSignalSecF8 GetFirstOrDefault()
         {
             if (this.Signals.Count == 0) return null;
-            return this.Signals.First();
+            //存取務必注意多執行緒
+            lock (this)
+                return this.Signals.First();
         }
         public SNetTSignalSecF8 GetLastOrDefault()
         {
             if (this.Signals.Count == 0) return null;
-            return this.Signals.Last();
+            //存取務必注意多執行緒
+            lock (this)
+                return this.Signals.Last();
         }
         public KeyValuePair<CtkTimeSecond, List<double>>? GetLastOrDefaultPair()
         {
             if (this.Signals.Count == 0) return null;
-            return this.Signals.Last();
+            //存取務必注意多執行緒
+            lock (this)
+                return this.Signals.Last();
         }
         public void Interpolation(int dataSize)
         {
-
-            foreach (var kv in this.Signals)
+            //存取務必注意多執行緒
+            lock (this)
             {
-                var ss = kv.Value;
-                if (dataSize == ss.Count) continue;
-                var list = CtkNumUtil.InterpolationCanOneOrZero(ss, dataSize);
-                kv.Value.Clear();
-                kv.Value.AddRange(list);
+                foreach (var kv in this.Signals)
+                {
+                    var ss = kv.Value;
+                    if (dataSize == ss.Count) continue;
+                    var list = CtkNumUtil.InterpolationCanOneOrZero(ss, dataSize);
+                    kv.Value.Clear();
+                    kv.Value.AddRange(list);
+                }
             }
+
         }
         public void RemoveFirst()
         {
-            var key = this.Signals.First().Key;
-            this.Signals.Remove(key);
+            //存取務必注意多執行緒
+            lock (this)
+            {
+                var key = this.Signals.First().Key;
+                this.Signals.Remove(key);
+            }
         }
 
 

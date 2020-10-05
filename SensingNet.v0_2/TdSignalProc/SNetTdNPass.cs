@@ -6,6 +6,7 @@ using System.Text;
 
 namespace SensingNet.v0_2.TdSignalProc
 {
+    [Serializable]
     public class SNetTdnPass: SNetTdNodeF8
     {
         ~SNetTdnPass() { this.Dispose(false); }

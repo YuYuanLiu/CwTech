@@ -11,6 +11,7 @@ namespace SensingNet.v0_2.TimeSignal
     /// <summary>
     /// signal list at specified time
     /// </summary>
+    [Serializable]
     public class SNetTSignalSecF8 : ISNetTdTSignal<CtkTimeSecond, double>
     {
         //1 Ticks是100奈秒, 0 tick={0001/1/1 上午 12:00:00}
