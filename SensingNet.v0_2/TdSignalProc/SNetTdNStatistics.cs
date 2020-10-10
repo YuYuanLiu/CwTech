@@ -25,13 +25,14 @@ namespace SensingNet.v0_2.TdSignalProc
 
         protected override void Purge()
         {
-            if (this.PurgeSeconds <= 0) return;
-            var now = DateTime.Now;
-            var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
+            if (this.PurgeCounts < 0) return;
+            //var now = DateTime.Now;
+            //var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
+            this.TSignalAvg.RemoveByCount(this.PurgeCounts);
 
-            PurgeSignalByTime(this.TSignalAvg, oldKey);
-            PurgeSignalByTime(this.TSignalMax, oldKey);
-            PurgeSignalByTime(this.TSignalMin, oldKey);
+            //PurgeSignalByTime(this.TSignalAvg, oldKey);
+            //PurgeSignalByTime(this.TSignalMax, oldKey);
+            //PurgeSignalByTime(this.TSignalMin, oldKey);
         }
 
 

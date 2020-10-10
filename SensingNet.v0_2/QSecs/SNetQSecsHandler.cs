@@ -10,6 +10,7 @@ using System.Text;
 using CToolkit.v1_1.Net;
 using CToolkit.v1_1.Threading;
 using CodeExpress.v1_0.Secs;
+using Newtonsoft.Json;
 
 namespace SensingNet.v0_2.QSecs
 {
@@ -23,6 +24,7 @@ namespace SensingNet.v0_2.QSecs
     {
         public SNetQSecsCfg cfg;
 
+        [JsonIgnore]
         public CxHsmsConnector hsmsConnector;
 
         /// <summary>
@@ -54,10 +56,10 @@ namespace SensingNet.v0_2.QSecs
             var localUri = string.IsNullOrEmpty(this.cfg.LocalUri) ? null : new Uri(this.cfg.LocalUri);
             var remoteUri = string.IsNullOrEmpty(this.cfg.RemoteUri) ? null : new Uri(this.cfg.RemoteUri);
 
-            var localIp = CtkNetUtil.GetLikelyFirst127Ip(localUri == null ? null : localUri.Host, remoteUri == null ? null : remoteUri.Host);
+            var localIp = CtkNetUtil.GetIpAdr1stLikelyOr127(localUri == null ? null : localUri.Host, remoteUri == null ? null : remoteUri.Host);
             if (localIp == null) throw new Exception("無法取得在地IP");
-            hsmsConnector.Local = new IPEndPoint(localIp, localUri.Port);
-            hsmsConnector.EhReceiveData += delegate(Object sen, CxHsmsConnectorRcvDataEventArg ea)
+            hsmsConnector.LocalUri = CtkNetUtil.ToUri(localIp.ToString(), localUri.Port);
+            hsmsConnector.EhReceiveData += delegate (Object sen, CxHsmsConnectorRcvDataEventArg ea)
             {
 
                 var myMsg = ea.msg;
@@ -86,7 +88,7 @@ namespace SensingNet.v0_2.QSecs
         }
         public int CfLoad()
         {
-            CtkThreadingUtil.RunWorkerAsyn(delegate(object sender, DoWorkEventArgs e)
+            CtkThreadingUtil.RunWorkerAsyn(delegate (object sender, DoWorkEventArgs e)
             {
                 for (int idx = 0; !this.disposed; idx++)
                 {

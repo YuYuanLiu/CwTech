@@ -14,8 +14,14 @@ namespace SensingNet.v0_2.TdSignalProc
     public class SNetTdNodeF8 : SNetTdNode
     {
         public CtkTimeSecond? PrevTime;
+
+        /// <summary>
+        /// -1 = unlimit
+        /// 0 = no storage
+        /// >0 = remain count
+        /// </summary>
         public int PurgeCounts = 60;
-        public int PurgeSeconds = 60;
+        //public int PurgeSeconds = 60;
 
         ~SNetTdNodeF8() { this.Dispose(false); }
 
@@ -75,31 +81,7 @@ namespace SensingNet.v0_2.TdSignalProc
         #endregion
 
 
-        #region Static
 
-        public static void PurgeSignalByCount(SNetTSignalSecSetF8 tSignal, int Count)
-        {
-            while (tSignal.Signals.Count > Count) tSignal.RemoveFirst();
-        }
-        public static void PurgeSignalByTime(SNetTSignalSecSetF8 tSignal, CtkTimeSecond time)
-        {
-            var now = DateTime.Now;
-            var query = tSignal.Signals.Where(x => x.Key < time).ToList();
-            foreach (var row in query)
-                tSignal.Signals.Remove(row.Key);
-        }
-
-        public static void PurgeSignalByTime(SNetTSignalSecSetF8 tSignal, CtkTimeSecond start, CtkTimeSecond end)
-        {
-            var now = DateTime.Now;
-            var query = (from row in tSignal.Signals
-                         where row.Key < start || row.Key > end
-                         select row).ToList();
-            foreach (var row in query)
-                tSignal.Signals.Remove(row.Key);
-        }
-
-        #endregion
 
     }
 }

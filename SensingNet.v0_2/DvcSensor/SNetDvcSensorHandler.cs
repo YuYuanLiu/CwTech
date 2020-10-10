@@ -157,15 +157,13 @@ namespace SensingNet.v0_2.DvcSensor
             var remoteUri = new Uri(this.Config.RemoteUri);
             var localUri = string.IsNullOrEmpty(this.Config.LocalUri) ? null : new Uri(this.Config.LocalUri);
             var localIpAddr = CtkNetUtil.GetSuitableIp(localUri == null ? null : localUri.Host, remoteUri.Host);
-            var localEndPoint = new IPEndPoint(localIpAddr, localUri == null ? 0 : localUri.Port);
-            var remoteEndPoint = new IPEndPoint(IPAddress.Parse(remoteUri.Host), remoteUri.Port);
-
+            localUri = CtkNetUtil.ToUri(localIpAddr.ToString(), localUri.Port);
 
 
             switch (this.Config.ProtoConnect)
             {
                 case SNetEnumProtoConnect.Tcp:
-                    this.ProtoConn = new SNetProtoConnTcp(localEndPoint, remoteEndPoint, this.Config.IsActivelyConnect);
+                    this.ProtoConn = new SNetProtoConnTcp(localUri, remoteUri, this.Config.IsActivelyConnect);
                     break;
                 case SNetEnumProtoConnect.Custom:
                     //由使用者自己實作

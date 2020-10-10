@@ -3,6 +3,7 @@ using CToolkit;
 using CToolkit.v1_1;
 using CToolkit.v1_1.Net;
 using CToolkit.v1_1.Protocol;
+using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -19,22 +20,23 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
     {
 
         public bool isListener = true;
-        public IPEndPoint LocalEndPoint;
-        public IPEndPoint RemoteEndPoint;
+        public Uri LocalUri;
+        public Uri RemoteUri;
         public DateTime? timeOfBeginConnect;
         CtkNonStopTcpClient client;
         CtkNonStopTcpListener listener;
         ManualResetEvent mreHasMsg = new ManualResetEvent(false);
 
-        public SNetProtoConnTcp(IPEndPoint l, IPEndPoint r, bool isListener)
+        public SNetProtoConnTcp(Uri l, Uri r, bool isListener)
         {
-            this.LocalEndPoint = l;
-            this.RemoteEndPoint = r;
+            this.LocalUri = l;
+            this.RemoteUri = r;
 
             this.isListener = isListener;
         }
         ~SNetProtoConnTcp() { this.Dispose(false); }
 
+        [JsonIgnore]
         public NetworkStream ActiveWorkStream { get { return this.activeWorkTcpClient == null ? null : this.activeWorkTcpClient.GetStream(); } }
         TcpClient activeWorkTcpClient { get { return this.client == null ? null : this.client.ActiveWorkClient as TcpClient; } }
         ICtkProtocolNonStopConnect ctkProtoConnect { get { return this.client == null ? this.listener : this.client as ICtkProtocolNonStopConnect; } }
@@ -42,8 +44,8 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
         {
             if (this.client != null) this.client.Disconnect();
             this.client = new CtkNonStopTcpClient();
-            this.client.localEP = this.LocalEndPoint;
-            this.client.remoteEP = this.RemoteEndPoint;
+            this.client.LocalUri = this.LocalUri;
+            this.client.RemoteUri = this.RemoteUri;
             this.client.EhFirstConnect += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
@@ -60,7 +62,7 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
         {
             if (this.listener != null) this.listener.Disconnect();
             this.listener = new CtkNonStopTcpListener();
-            this.listener.localEP = this.LocalEndPoint;
+            this.listener.LocalUri = this.LocalUri;
             this.listener.EhFirstConnect += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
@@ -87,6 +89,7 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
 
         #region IProtoConnectBase
 
+        [JsonIgnore]
         public object ActiveWorkClient { get { return this.ctkProtoConnect.ActiveWorkClient; } set { this.ctkProtoConnect.ActiveWorkClient = value; } }
         public int IntervalTimeOfConnectCheck { get; set; }
         public bool IsLocalReadyConnect { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsLocalReadyConnect; } }//Local連線成功=遠端連線成功

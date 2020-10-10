@@ -27,10 +27,10 @@ namespace SensingNet.v0_2.TdSignalProc
 
         protected override void Purge()
         {
-            if (this.PurgeSeconds <= 0) return;
+            if (this.PurgeCounts < 0) return;
             var now = DateTime.Now;
-            var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
-            PurgeSignalByTime(this.TSignal, oldKey);
+            //var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
+            this.TSignal.RemoveByCount(this.PurgeCounts);
         }
 
         public void Input(object sender, SNetTdEventArg e)

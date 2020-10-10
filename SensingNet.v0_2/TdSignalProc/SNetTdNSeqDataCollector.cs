@@ -26,7 +26,9 @@ namespace SensingNet.v0_2.TdSignalProc
         {
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;
-            foreach (var kv in ea.TSignalNew.Signals)
+
+            var list = ea.TSignalNew.ToList();
+            foreach (var kv in list)
                 this.TgInput(this.TSignalSet, kv);
         }
 
@@ -105,11 +107,9 @@ namespace SensingNet.v0_2.TdSignalProc
 
         protected override void Purge()
         {
-            if (this.PurgeSeconds <= 0) return;
+            if (this.PurgeCounts < 0) return;
             var now = DateTime.Now;
-            //var oldKey = new CtkTimeSecond(now.AddSeconds(-this.PurgeSeconds));
-            //PurgeSignalByTime(this.TSignalSet, oldKey);
-            PurgeSignalByCount(this.TSignalSet, this.PurgeCounts);
+            this.TSignalSet.RemoveByCount(this.PurgeCounts);
         }
 
 

@@ -17,18 +17,18 @@ namespace SensingNet.v0_2.TimeSignal
         /// <summary>
         /// 存取務必注意多執行緒
         /// </summary>
-        public SortedDictionary<CtkTimeSecond, List<double>> Signals = new SortedDictionary<CtkTimeSecond, List<double>>();
+        SortedDictionary<CtkTimeSecond, List<double>> Signals = new SortedDictionary<CtkTimeSecond, List<double>>();
 
         ~SNetTSignalSecSetF8()
         {
-            this.Signals.Clear();
+            lock (this) this.Signals.Clear();
         }
 
         public SNetTSignalSecSetF8() { }
         public SNetTSignalSecSetF8(CtkTimeSecond time, IEnumerable<double> signals) { this.Add(time, signals); }
 
 
-        public List<double> this[CtkTimeSecond key] { get { return this.Signals[key]; } set { this.Signals[key] = value; } }
+        public List<double> this[CtkTimeSecond key] { get { lock (this) return this.Signals[key]; } set { lock (this) this.Signals[key] = value; } }
 
         public SNetTSignalSecF8 Get(CtkTimeSecond key)
         {
@@ -41,24 +41,31 @@ namespace SensingNet.v0_2.TimeSignal
         }
         public SNetTSignalSecF8 GetFirstOrDefault()
         {
-            if (this.Signals.Count == 0) return null;
             //存取務必注意多執行緒
             lock (this)
+            {
+                if (this.Signals.Count == 0) return null;
                 return this.Signals.First();
+            }
         }
         public SNetTSignalSecF8 GetLastOrDefault()
         {
-            if (this.Signals.Count == 0) return null;
             //存取務必注意多執行緒
             lock (this)
+            {
+                if (this.Signals.Count == 0) return null;
                 return this.Signals.Last();
+            }
         }
         public KeyValuePair<CtkTimeSecond, List<double>>? GetLastOrDefaultPair()
         {
-            if (this.Signals.Count == 0) return null;
+
             //存取務必注意多執行緒
             lock (this)
+            {
+                if (this.Signals.Count == 0) return null;
                 return this.Signals.Last();
+            }
         }
         public void Interpolation(int dataSize)
         {
@@ -85,7 +92,50 @@ namespace SensingNet.v0_2.TimeSignal
                 this.Signals.Remove(key);
             }
         }
+        public void RemoveByCount(int count)
+        {
+            //存取務必注意多執行緒
+            lock (this)
+            {
+                while (this.Signals.Count > count)
+                    this.Signals.Remove(this.Signals.First().Key);//不能呼叫其它方法, 會deadlock
+            }
+        }
+        public void RemoveByTime(CtkTimeSecond time)
+        {
+            //存取務必注意多執行緒
+            lock (this)
+            {
+                var query = this.Signals.Where(x => x.Key < time).ToList();
+                foreach (var row in query)
+                    this.Signals.Remove(row.Key);
+            }
 
+        }
+        public void RemoveByTime(CtkTimeSecond start, CtkTimeSecond end)
+        {
+            //存取務必注意多執行緒
+            lock (this)
+            {
+                var query = (from row in this.Signals
+                             where row.Key < start || row.Key > end
+                             select row).ToList();
+                foreach (var row in query)
+                    this.Signals.Remove(row.Key);
+            }
+        }
+
+        public List<KeyValuePair<CtkTimeSecond, List<double>>> ToList()
+        {
+            var list = new List<KeyValuePair<CtkTimeSecond, List<double>>>();
+            lock (this)
+            {
+                foreach (var kv in this.Signals)
+                    list.Add(new KeyValuePair<CtkTimeSecond, List<double>>(kv.Key, kv.Value));
+            }
+            return list;
+
+        }
 
 
         #region ISNetTdTSignalSet
