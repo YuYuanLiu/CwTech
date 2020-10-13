@@ -139,6 +139,10 @@ namespace SensingNet.v0_2.TimeSignal
 
         }
 
+        public double Max() { lock (this) { return this.Signals.Max(x => x.Value.Max()); } }
+        public double Min() { lock (this) { return this.Signals.Min(x => x.Value.Min()); } }
+        public double Count() { lock (this) { return this.Signals.Count; } }
+
 
         #region ISNetTdTSignalSet
 

@@ -37,6 +37,11 @@ namespace SensingNet.v0_2.TimeSignal
             }
             return list;
         }
+        public double Max() { lock (this) { return this.Signals.Max(); } }
+        public double Min() { lock (this) { return this.Signals.Min(); } }
+        public double Count() { lock (this) { return this.Signals.Count; } }
+
+
 
 
         #region Static Operator

@@ -37,6 +37,9 @@ namespace SensingNet.v0_2.TimeSignal
             return list;
 
         }
+        public double Max() { lock (this) { return this.Signals.Max(x => x.Value.Max(r => r.Magnitude)); } }
+        public double Min() { lock (this) { return this.Signals.Min(x => x.Value.Min(r => r.Magnitude)); } }
+        public double Count() { lock (this) { return this.Signals.Count; } }
 
 
 
