@@ -49,7 +49,7 @@ namespace SensingNet.TestMy.UnitTest
                 input += wave;
                 node_seq.TgInput(null, new SNetTdSignalSecSetF8EventArg()
                 {
-                    TSignalNew = new SNetTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
+                    TSignalNew = new SNetTSignalSecF8(DateTime.Now, input.ToList())
                 });
 
                 Console.Write("Avg={0}; Max={1}; Min={2}",

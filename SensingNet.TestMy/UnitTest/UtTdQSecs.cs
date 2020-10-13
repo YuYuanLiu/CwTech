@@ -69,7 +69,7 @@ namespace SensingNet.TestMy.UnitTest
                 input += wave;
                 node1.Input(null, new SNetTdSignalSecSetF8EventArg()
                 {
-                    TSignalNew = new SNetTSignalSecF8() { Time = DateTime.Now, Signals = input.ToList() }
+                    TSignalNew = new SNetTSignalSecF8(DateTime.Now, input.ToList())
                 });
 
 

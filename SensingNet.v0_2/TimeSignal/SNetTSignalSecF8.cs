@@ -17,7 +17,9 @@ namespace SensingNet.v0_2.TimeSignal
         //1 Ticks是100奈秒, 0 tick={0001/1/1 上午 12:00:00}
         //請勿使用Datetime, 避免有人誤解 比對只進行 年月日時分秒, 事實會比較到tick
         public CtkTimeSecond? Time;
-        public List<double> Signals = new List<double>();
+        List<double> Signals = new List<double>();
+        public List<double> SignalsShot { get { return this.ToShotList(); } }
+
 
         public SNetTSignalSecF8() { }
         public SNetTSignalSecF8(CtkTimeSecond? time, IEnumerable<double> signals)
@@ -26,7 +28,15 @@ namespace SensingNet.v0_2.TimeSignal
             this.Signals.AddRange(signals);
         }
 
-
+        public List<double> ToShotList()
+        {
+            var list = new List<double>();
+            lock (this)
+            {
+                list.AddRange(this.Signals);
+            }
+            return list;
+        }
 
 
         #region Static Operator

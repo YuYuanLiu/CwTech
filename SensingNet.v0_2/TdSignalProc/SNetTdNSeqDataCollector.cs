@@ -27,7 +27,7 @@ namespace SensingNet.v0_2.TdSignalProc
             //IEnumerable<double> vals, DateTime? dt = null
             if (!this.IsEnalbed) return;
 
-            var list = ea.TSignalNew.ToList();
+            var list = ea.TSignalNew.ToShotList();
             foreach (var kv in list)
                 this.TgInput(this.TSignalSet, kv);
         }
@@ -71,7 +71,7 @@ namespace SensingNet.v0_2.TdSignalProc
             var time = newSignals.Time.HasValue ? newSignals.Time.Value : DateTime.Now;
 
 
-            tSignalSet.Add(time, newSignals.Signals);
+            tSignalSet.AddRange(time, newSignals.SignalsShot);
             var evtea = new SNetTdSignalSecSetF8EventArg()
             {
                 Sender = this,
@@ -88,14 +88,14 @@ namespace SensingNet.v0_2.TdSignalProc
                     if (this.TSignalSet.ContainKey(prevTime))
                     {
                         var prevSignal = this.TSignalSet.Get(prevTime);
-                        evtea.TSignalNew.Add(time, newSignals.Signals);
+                        evtea.TSignalNew.AddRange(time, newSignals.SignalsShot);
                         this.OnDataChange(evtea);
                     }
                 }
             }
             else
             {
-                evtea.TSignalNew.Add(time, newSignals.Signals);
+                evtea.TSignalNew.AddRange(time, newSignals.SignalsShot);
                 this.OnDataChange(evtea);
             }
 

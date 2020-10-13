@@ -13,6 +13,8 @@ namespace SensingNet.v0_2.TimeSignal
         //1 Ticks是100奈秒, 0 tick={0001/1/1 上午 12:00:00}
         //請勿使用Datetime, 避免有人誤解 比對只進行 年月日時分秒, 事實會比較到tick
         SortedDictionary<CtkTimeSecond, List<Complex>> Signals = new SortedDictionary<CtkTimeSecond, List<Complex>>();
+        public List<KeyValuePair<CtkTimeSecond, List<Complex>>> SignalsShot { get { return this.ToShotList(); } }
+
         public List<Complex> this[CtkTimeSecond key] { get { lock (this) return this.Signals[key]; } set { lock (this) this.Signals[key] = value; } }
 
         public KeyValuePair<CtkTimeSecond, List<Complex>>? GetLastOrDefault()
@@ -24,11 +26,24 @@ namespace SensingNet.v0_2.TimeSignal
             }
         }
 
+        public List<KeyValuePair<CtkTimeSecond, List<Complex>>> ToShotList()
+        {
+            var list = new List<KeyValuePair<CtkTimeSecond, List<Complex>>>();
+            lock (this)
+            {
+                foreach (var kv in this.Signals)
+                    list.Add(new KeyValuePair<CtkTimeSecond, List<Complex>>(kv.Key, kv.Value));
+            }
+            return list;
+
+        }
+
+
 
 
         #region ISNetDspTimeSignalSet
 
-        public void Add(CtkTimeSecond key, IEnumerable<Complex> signals)
+        public void AddRange(CtkTimeSecond key, IEnumerable<Complex> signals)
         {
             var list = this.GetOrCreate(key);
             lock (this) list.AddRange(signals);

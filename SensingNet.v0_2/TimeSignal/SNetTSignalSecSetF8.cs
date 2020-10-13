@@ -18,6 +18,8 @@ namespace SensingNet.v0_2.TimeSignal
         /// 存取務必注意多執行緒
         /// </summary>
         SortedDictionary<CtkTimeSecond, List<double>> Signals = new SortedDictionary<CtkTimeSecond, List<double>>();
+        public List<KeyValuePair<CtkTimeSecond, List<double>>> SignalsShot { get { return this.ToShotList(); } }
+
 
         ~SNetTSignalSecSetF8()
         {
@@ -25,7 +27,7 @@ namespace SensingNet.v0_2.TimeSignal
         }
 
         public SNetTSignalSecSetF8() { }
-        public SNetTSignalSecSetF8(CtkTimeSecond time, IEnumerable<double> signals) { this.Add(time, signals); }
+        public SNetTSignalSecSetF8(CtkTimeSecond time, IEnumerable<double> signals) { this.AddRange(time, signals); }
 
 
         public List<double> this[CtkTimeSecond key] { get { lock (this) return this.Signals[key]; } set { lock (this) this.Signals[key] = value; } }
@@ -125,7 +127,7 @@ namespace SensingNet.v0_2.TimeSignal
             }
         }
 
-        public List<KeyValuePair<CtkTimeSecond, List<double>>> ToList()
+        public List<KeyValuePair<CtkTimeSecond, List<double>>> ToShotList()
         {
             var list = new List<KeyValuePair<CtkTimeSecond, List<double>>>();
             lock (this)
@@ -140,7 +142,7 @@ namespace SensingNet.v0_2.TimeSignal
 
         #region ISNetTdTSignalSet
 
-        public void Add(CtkTimeSecond key, IEnumerable<double> signals)
+        public void AddRange(CtkTimeSecond key, IEnumerable<double> signals)
         {
             var list = this.GetOrCreate(key);
             list.AddRange(signals);
@@ -199,7 +201,7 @@ namespace SensingNet.v0_2.TimeSignal
         {
             var rs = new SNetTSignalSecSetF8();
             if (!val.Time.HasValue) throw new ArgumentException("Time can not be null");
-            rs.Signals[val.Time.Value] = val.Signals;
+            rs.Signals[val.Time.Value] = val.SignalsShot;
             return rs;
         }
 

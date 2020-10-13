@@ -43,8 +43,8 @@ namespace SensingNet.v0_2.TdSignalProc
             ea.TSignalSource = tSignal;
             ea.PrevTime = this.PrevTime;
 
-            ea.TSignalNew.Add(time, newSignals.Signals);
-            tSignal.Add(time, newSignals.Signals);
+            ea.TSignalNew.AddRange(time, newSignals.SignalsShot);
+            tSignal.AddRange(time, newSignals.SignalsShot);
             this.OnDataChange(ea);
 
             this.PrevTime = time;
