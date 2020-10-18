@@ -157,7 +157,7 @@ namespace SensingNet.v0_2.DvcSensor
             var remoteUri = new Uri(this.Config.RemoteUri);
             var localUri = string.IsNullOrEmpty(this.Config.LocalUri) ? null : new Uri(this.Config.LocalUri);
             var localIpAddr = CtkNetUtil.GetSuitableIp(localUri == null ? null : localUri.Host, remoteUri.Host);
-            localUri = CtkNetUtil.ToUri(localIpAddr.ToString(), localUri.Port);
+            localUri = CtkNetUtil.ToUri(localIpAddr.ToString(), localUri == null ? 0 : localUri.Port);
 
 
             switch (this.Config.ProtoConnect)

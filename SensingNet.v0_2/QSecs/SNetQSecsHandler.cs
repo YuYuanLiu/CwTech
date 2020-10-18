@@ -25,7 +25,7 @@ namespace SensingNet.v0_2.QSecs
         public SNetQSecsCfg cfg;
 
         [JsonIgnore]
-        public CxHsmsConnector hsmsConnector;
+        public CxHsmsConnector HsmsConnector;
 
         /// <summary>
         /// 一個Secs Handler需要一組IP/Port
@@ -50,7 +50,7 @@ namespace SensingNet.v0_2.QSecs
 
         public int CfInit()
         {
-            hsmsConnector = new CxHsmsConnector();
+            HsmsConnector = new CxHsmsConnector();
             //hsmsConnector.ctkConnSocket.isActively = true;
 
             var localUri = string.IsNullOrEmpty(this.cfg.LocalUri) ? null : new Uri(this.cfg.LocalUri);
@@ -58,8 +58,8 @@ namespace SensingNet.v0_2.QSecs
 
             var localIp = CtkNetUtil.GetIpAdr1stLikelyOr127(localUri == null ? null : localUri.Host, remoteUri == null ? null : remoteUri.Host);
             if (localIp == null) throw new Exception("無法取得在地IP");
-            hsmsConnector.LocalUri = CtkNetUtil.ToUri(localIp.ToString(), localUri.Port);
-            hsmsConnector.EhReceiveData += delegate (Object sen, CxHsmsConnectorRcvDataEventArg ea)
+            HsmsConnector.LocalUri = CtkNetUtil.ToUri(localIp.ToString(), localUri == null ? 0 : localUri.Port);
+            HsmsConnector.EhReceiveData += delegate (Object sen, CxHsmsConnectorRcvDataEventArg ea)
             {
 
                 var myMsg = ea.msg;
@@ -71,10 +71,10 @@ namespace SensingNet.v0_2.QSecs
                 switch (myMsg.header.SType)
                 {
                     case 1:
-                        hsmsConnector.Send(CxHsmsMessage.CtrlMsg_SelectRsp(0));
+                        HsmsConnector.Send(CxHsmsMessage.CtrlMsg_SelectRsp(0));
                         return;
                     case 5:
-                        hsmsConnector.Send(CxHsmsMessage.CtrlMsg_LinktestRsp());
+                        HsmsConnector.Send(CxHsmsMessage.CtrlMsg_LinktestRsp());
                         return;
                 }
 
@@ -94,7 +94,7 @@ namespace SensingNet.v0_2.QSecs
                 {
                     try
                     {
-                        hsmsConnector.ConnectIfNo();
+                        HsmsConnector.ConnectIfNo();
                     }
                     catch (Exception ex)
                     {
@@ -105,7 +105,7 @@ namespace SensingNet.v0_2.QSecs
 
                     try
                     {
-                        hsmsConnector.ReceiveRepeat();
+                        HsmsConnector.ReceiveRepeat();
                     }
                     catch (Exception ex)
                     {
@@ -167,9 +167,9 @@ namespace SensingNet.v0_2.QSecs
 
         public void DisposeSelf()
         {
-            if (this.hsmsConnector != null)
+            if (this.HsmsConnector != null)
             {
-                this.hsmsConnector.Dispose();
+                this.HsmsConnector.Dispose();
             }
 
         }
