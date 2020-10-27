@@ -38,41 +38,51 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
 
         [JsonIgnore]
         public NetworkStream ActiveWorkStream { get { return this.activeWorkTcpClient == null ? null : this.activeWorkTcpClient.GetStream(); } }
-        TcpClient activeWorkTcpClient { get { return this.client == null ? null : this.client.ActiveWorkClient as TcpClient; } }
+        TcpClient activeWorkTcpClient { get { return this.client == null ?  null : this.client.ActiveWorkClient as TcpClient; } }
         ICtkProtocolNonStopConnect ctkProtoConnect { get { return this.client == null ? this.listener : this.client as ICtkProtocolNonStopConnect; } }
+
+
+
         public void ReloadClient()
         {
-            if (this.client != null) this.client.Disconnect();
+            if (this.client != null) using (var obj = this.client) obj.Disconnect();
             this.client = new CtkNonStopTcpClient();
             this.client.LocalUri = this.LocalUri;
             this.client.RemoteUri = this.RemoteUri;
+
             this.client.EhFirstConnect += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
-                this.ActiveWorkClient = ea.workClient;
+                //this.ActiveWorkClient = ea.workClient;
                 this.OnFirstConnect(e);
             };
             this.client.EhFailConnect += (sender, e) => this.OnFailConnect(e);
             this.client.EhDisconnect += (sender, e) => this.OnDisconnect(e);
             this.client.EhDataReceive += (sender, e) => this.OnDataReceive(e);
+            this.client.EhErrorReceive += (sender, e) => this.OnErrorReceive(e);
 
             this.client.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
         }
+
+     
+
         public void ReloadListener()
         {
-            if (this.listener != null) this.listener.Disconnect();
+            if (this.listener != null) using (var obj = this.listener) obj.Disconnect();
             this.listener = new CtkNonStopTcpListener();
             this.listener.LocalUri = this.LocalUri;
+
             this.listener.EhFirstConnect += (sender, e) =>
             {
                 var ea = e as CtkNonStopTcpStateEventArgs;
-                this.ActiveWorkClient = ea.workClient;
+                //this.ActiveWorkClient = ea.workClient;
                 //this.listener.CleanExclude(this.activeWorkTcpClient);   
                 this.OnFirstConnect(e);
             };
             this.listener.EhFailConnect += (sender, e) => this.OnFailConnect(e);
             this.listener.EhDisconnect += (sender, e) => this.OnDisconnect(e);
             this.listener.EhDataReceive += (sender, e) => this.OnDataReceive(e);
+            this.listener.EhErrorReceive += (sender, e) => this.OnErrorReceive(e);
 
             this.listener.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
         }
@@ -81,7 +91,7 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
         {
             var stream = this.ActiveWorkStream;
             stream.WriteTimeout = 10 * 1000;
-            this.client.WriteBytes(buff, offset, length);
+            stream.Write(buff, offset, length);
             stream.Flush();
         }
 
@@ -104,7 +114,9 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
             if (this.IsNonStopRunning) return;//NonStopConnect 己在進行中的話, 不需再用ConnectIfNo
             if (this.IsRemoteConnected || this.IsOpenRequesting) return;
 
+
             var now = DateTime.Now;
+            //超過10秒沒有連線, 會再連線
             if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
             this.timeOfBeginConnect = DateTime.Now;
 

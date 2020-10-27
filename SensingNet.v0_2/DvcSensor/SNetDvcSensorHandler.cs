@@ -78,7 +78,16 @@ namespace SensingNet.v0_2.DvcSensor
                 //收到資料 或 Timeout 就往下走
                 this.areMsg.WaitOne(this.Config.TimeoutResponse);
             }
-            catch (Exception ex) { CtkLog.Write(ex); }
+            catch (Exception ex)
+            {
+                CtkLog.WarnNs(this, ex);
+                if (this.Config != null)
+                {
+                    var mymsg = string.Format("Loca={0}, Remote={1}, DeviceUid={2}", this.Config.LocalUri, this.Config.RemoteUri, this.Config.DeviceUid);
+                    CtkLog.WarnNs(this, mymsg);
+                }
+                return -1;
+            }
             return 0;
         }
         protected virtual void SignalHandle()
@@ -142,7 +151,7 @@ namespace SensingNet.v0_2.DvcSensor
         public virtual int CfRunOnce()
         {
             this.ProtoConn.ConnectIfNo();//內部會處理重複要求連線
-            this.RealExec();
+            if (this.RealExec() != 0) Thread.Sleep(3000);//異常斷線後, 先等3秒
             return 0;
         }
         public virtual int CfFree()
