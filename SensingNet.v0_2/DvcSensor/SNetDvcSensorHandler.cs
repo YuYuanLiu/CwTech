@@ -35,59 +35,47 @@ namespace SensingNet.v0_2.DvcSensor
 
         protected virtual int RealExec()
         {
-            try
+
+            if (!SpinWait.SpinUntil(() => !this.CfIsRunning || this.ProtoConn.IsRemoteConnected, 100))
             {
-
-                if (!SpinWait.SpinUntil(() => !this.CfIsRunning || this.ProtoConn.IsRemoteConnected, 100))
-                {
-                    Thread.Sleep(1000);
-                    return 0;
-                }
-                if (!this.CfIsRunning) return 0;//若不再執行->return 0
+                Thread.Sleep(1000);
+                return 0;
+            }
+            if (!this.CfIsRunning) return 0;//若不再執行->return 0
 
 
-                if (this.Config.IsActivelyTx)
+            if (this.Config.IsActivelyTx)
+            {
+                var ackDataMsg = this.SignalTran.CreateAckMsg(this.Config.SignalCfgList);
+                if (ackDataMsg != null)
+                    this.ProtoConn.WriteMsg(ackDataMsg);
+            }
+            else
+            {
+                //等待下次要求資料的間隔
+                if (this.Config.TxInterval > 0)
                 {
-                    var ackDataMsg = this.SignalTran.CreateAckMsg(this.Config.SignalCfgList);
-                    if (ackDataMsg != null)
-                        this.ProtoConn.WriteMsg(ackDataMsg);
-                }
-                else
-                {
-                    //等待下次要求資料的間隔
-                    if (this.Config.TxInterval > 0)
+                    var interval = DateTime.Now - prevAckTime;
+                    while (interval.TotalMilliseconds < this.Config.TxInterval)
                     {
-                        var interval = DateTime.Now - prevAckTime;
-                        while (interval.TotalMilliseconds < this.Config.TxInterval)
-                        {
-                            if (!this.CfIsRunning) return 0;//若不再執行->直接return
-                            var sleep = this.Config.TxInterval - (int)interval.TotalMilliseconds;
-                            if (sleep > 0)
-                                Thread.Sleep(sleep);
-                            interval = DateTime.Now - prevAckTime;
-                        }
+                        if (!this.CfIsRunning) return 0;//若不再執行->直接return
+                        var sleep = this.Config.TxInterval - (int)interval.TotalMilliseconds;
+                        if (sleep > 0)
+                            Thread.Sleep(sleep);
+                        interval = DateTime.Now - prevAckTime;
                     }
-                    prevAckTime = DateTime.Now;
-
-                    var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
-                    this.ProtoConn.WriteMsg(reqDataMsg);
-
                 }
+                prevAckTime = DateTime.Now;
+
+                var reqDataMsg = this.SignalTran.CreateDataReqMsg(this.Config.SignalCfgList);
+                this.ProtoConn.WriteMsg(reqDataMsg);
+
+            }
 
 
-                //收到資料 或 Timeout 就往下走
-                this.areMsg.WaitOne(this.Config.TimeoutResponse);
-            }
-            catch (Exception ex)
-            {
-                CtkLog.WarnNs(this, ex);
-                if (this.Config != null)
-                {
-                    var mymsg = string.Format("Loca={0}, Remote={1}, DeviceUid={2}", this.Config.LocalUri, this.Config.RemoteUri, this.Config.DeviceUid);
-                    CtkLog.WarnNs(this, mymsg);
-                }
-                return -1;
-            }
+            //收到資料 或 Timeout 就往下走
+            this.areMsg.WaitOne(this.Config.TimeoutResponse);
+
             return 0;
         }
         protected virtual void SignalHandle()
@@ -150,8 +138,22 @@ namespace SensingNet.v0_2.DvcSensor
         public bool CfIsRunning { get; set; }
         public virtual int CfRunOnce()
         {
-            this.ProtoConn.ConnectIfNo();//內部會處理重複要求連線
-            if (this.RealExec() != 0) Thread.Sleep(3000);//異常斷線後, 先等3秒
+            try
+            {
+                this.ProtoConn.ConnectIfNo();//內部會處理重複要求連線
+                this.RealExec();
+
+            }
+            catch (Exception ex)
+            {
+                CtkLog.WarnNs(this, ex);
+                if (this.Config != null)
+                {
+                    var mymsg = string.Format("Loca={0}, Remote={1}, DeviceUid={2}", this.Config.LocalUri, this.Config.RemoteUri, this.Config.DeviceUid);
+                    CtkLog.WarnNs(this, mymsg);
+                }
+                Thread.Sleep(3000);//異常斷線後, 先等3秒再繼續
+            }
             return 0;
         }
         public virtual int CfFree()

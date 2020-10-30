@@ -38,7 +38,7 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
 
         [JsonIgnore]
         public NetworkStream ActiveWorkStream { get { return this.activeWorkTcpClient == null ? null : this.activeWorkTcpClient.GetStream(); } }
-        TcpClient activeWorkTcpClient { get { return this.client == null ?  null : this.client.ActiveWorkClient as TcpClient; } }
+        TcpClient activeWorkTcpClient { get { return this.client == null ? null : this.client.ActiveWorkClient as TcpClient; } }
         ICtkProtocolNonStopConnect ctkProtoConnect { get { return this.client == null ? this.listener : this.client as ICtkProtocolNonStopConnect; } }
 
 
@@ -64,7 +64,7 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
             this.client.IntervalTimeOfConnectCheck = this.IntervalTimeOfConnectCheck;
         }
 
-     
+
 
         public void ReloadListener()
         {
@@ -105,7 +105,7 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
         public bool IsLocalReadyConnect { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsLocalReadyConnect; } }//Local連線成功=遠端連線成功
         public bool IsNonStopRunning { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsNonStopRunning; } }
         public bool IsOpenRequesting { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsOpenRequesting; } }
-        public bool IsRemoteConnected { get { return this.ctkProtoConnect == null ? false : this.ctkProtoConnect.IsRemoteConnected; } }
+        public bool IsRemoteConnected { get { var obj = this.ctkProtoConnect; return obj == null ? false : obj.IsRemoteConnected; } }
         public void AbortNonStopConnect() { this.ctkProtoConnect.AbortNonStopConnect(); }
 
         //用途是避免重複要求連線
