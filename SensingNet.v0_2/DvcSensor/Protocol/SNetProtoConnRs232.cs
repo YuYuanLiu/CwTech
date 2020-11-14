@@ -87,17 +87,18 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
         public void AbortNonStopConnect() { this.nonStopSerialPort.AbortNonStopConnect(); }
 
         //用途是避免重複要求連線
-        public void ConnectIfNo()
+        public int ConnectIfNo()
         {
-            if (this.IsNonStopRunning) return;//NonStopConnect 己在進行中的話, 不需再用ConnectIfNo
-            if (this.IsRemoteConnected || this.IsOpenRequesting) return;
+            if (this.IsNonStopRunning) return 0;//NonStopConnect 己在進行中的話, 不需再用ConnectIfNo
+            if (this.IsRemoteConnected || this.IsOpenRequesting) return 0;
 
             var now = DateTime.Now;
-            if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
+            if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return 0;
             this.timeOfBeginConnect = DateTime.Now;
 
             this.ReloadComPort();
             this.nonStopSerialPort.ConnectIfNo();
+            return 0;
         }
         public void Disconnect()
         {

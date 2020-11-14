@@ -109,15 +109,15 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
         public void AbortNonStopConnect() { this.ctkProtoConnect.AbortNonStopConnect(); }
 
         //用途是避免重複要求連線
-        public void ConnectIfNo()
+        public int ConnectIfNo()
         {
-            if (this.IsNonStopRunning) return;//NonStopConnect 己在進行中的話, 不需再用ConnectIfNo
-            if (this.IsRemoteConnected || this.IsOpenRequesting) return;
+            if (this.IsNonStopRunning) return 0;//NonStopConnect 己在進行中的話, 不需再用ConnectIfNo
+            if (this.IsRemoteConnected || this.IsOpenRequesting) return 0;
 
 
             var now = DateTime.Now;
             //超過10秒沒有連線, 會再連線
-            if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return;
+            if (this.timeOfBeginConnect.HasValue && (now - this.timeOfBeginConnect.Value).TotalSeconds < 10) return 0;
             this.timeOfBeginConnect = DateTime.Now;
 
             if (this.isListener)
@@ -131,7 +131,7 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
                 this.client.ConnectIfNo();
             }
 
-
+            return 0;
         }
         public void Disconnect()
         {
