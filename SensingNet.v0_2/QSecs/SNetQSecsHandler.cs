@@ -95,16 +95,6 @@ namespace SensingNet.v0_2.QSecs
                     try
                     {
                         HsmsConnector.ConnectIfNo();
-                    }
-                    catch (Exception ex)
-                    {
-                        CtkLog.Write(ex);
-                        System.Threading.Thread.Sleep(5000);//無法連線等待5秒
-                    }
-
-
-                    try
-                    {
                         HsmsConnector.ReceiveRepeat();
                     }
                     catch (Exception ex)
@@ -112,7 +102,6 @@ namespace SensingNet.v0_2.QSecs
                         CtkLog.Write(ex);
                         System.Threading.Thread.Sleep(5000);//無法連線等待5秒
                     }
-                    finally { System.Threading.Thread.Sleep(1000); }
                 }
             });
             return 0;
