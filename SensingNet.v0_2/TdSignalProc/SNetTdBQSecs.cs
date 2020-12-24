@@ -43,7 +43,7 @@ namespace SensingNet.v0_2.TdSignalProc
             try
             {
                 hsmsConnector.ConnectIfNo();
-                hsmsConnector.ReceiveRepeat();
+                hsmsConnector.ReceiveLoop();
             }
             catch (Exception ex)
             {

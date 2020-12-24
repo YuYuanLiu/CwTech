@@ -95,7 +95,7 @@ namespace SensingNet.v0_2.QSecs
                     try
                     {
                         HsmsConnector.ConnectIfNo();
-                        HsmsConnector.ReceiveRepeat();
+                        HsmsConnector.ReceiveLoop();
                     }
                     catch (Exception ex)
                     {
