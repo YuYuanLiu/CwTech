@@ -18,14 +18,14 @@ namespace SensingNet.TestMy
         [TestMethod]
         public void TestMethod()
         {
-            var nonStopTcpClient = new CtkNonStopTcpClient("127.0.0.1", 502);
+            var nonStopTcpClient = new CtkTcpClient("127.0.0.1", 502);
             nonStopTcpClient.EhDataReceive += (ss, ee) =>
             {
                 var ea = ee as CtkNonStopTcpStateEventArgs;
                 var ctkBuffer = ea.TrxMessageBuffer;
                 System.Diagnostics.Debug.WriteLine(ctkBuffer.Length);
             };
-            nonStopTcpClient.NonStopConnectAsyn();
+            nonStopTcpClient.NonStopRunAsyn();
 
 
             System.Threading.Thread.Sleep(1000);

@@ -129,7 +129,7 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
 
         public int IntervalTimeOfConnectCheck { get { return this.nonStopSerialPort.IntervalTimeOfConnectCheck; } set { this.nonStopSerialPort.IntervalTimeOfConnectCheck = value; } }
         public bool IsNonStopRunning { get { return this.nonStopSerialPort == null ? false : this.nonStopSerialPort.IsNonStopRunning; } }
-        public void AbortNonStopRun() { this.nonStopSerialPort.AbortNonStopConnect(); }
+        public void AbortNonStopRun() { this.nonStopSerialPort.AbortNonStopRun(); }
         public void NonStopRunAsyn()
         {
             if (this.IsRemoteConnected || this.IsOpenRequesting) return;
@@ -139,7 +139,7 @@ namespace SensingNet.v0_2.DvcSensor.Protocol
             this.timeOfBeginConnect = now;
 
             this.ReloadComPort();
-            this.nonStopSerialPort.NonStopConnectAsyn();
+            this.nonStopSerialPort.NonStopRunAsyn();
         }
 
         #endregion

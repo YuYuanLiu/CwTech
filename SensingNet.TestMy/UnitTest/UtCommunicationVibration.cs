@@ -70,7 +70,7 @@ namespace SensingNet.TestMy.UnitTest
 
 
 
-            var deviceListener = new CtkNonStopTcpListener("127.0.0.1", 5003);
+            var deviceListener = new CtkTcpListener("127.0.0.1", 5003);
             var seqval = 0.000000001;
             deviceListener.EhDataReceive += (sender, ea) =>
             {
@@ -85,7 +85,7 @@ namespace SensingNet.TestMy.UnitTest
                     , rnd.NextDouble()
                     ));
             };
-            deviceListener.NonStopConnectAsyn();
+            deviceListener.NonStopRunAsyn();
 
 
 
